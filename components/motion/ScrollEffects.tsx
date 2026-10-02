@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePathname } from 'next/navigation'
+import { heroProgress } from '@/components/three/heroProgress'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -14,6 +15,9 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 //   data-draw              SVG strokes draw themselves
 //   data-countup           numbers count up ("20+", "100 m/min", "30%")
 //   data-tilt              3D tilt with a light sheen that follows the pointer
+//   data-words             words light up one by one as you scroll through
+//   data-hero              pinned hero; drives the 3D cable via heroProgress
+//   data-hscroll           pinned horizontal-scroll story (desktop)
 // Content is fully visible without JavaScript, and nothing moves for visitors
 // who prefer reduced motion.
 export function ScrollEffects() {
@@ -46,6 +50,14 @@ export function ScrollEffects() {
           gsap.from(el, { scale: 0, transformOrigin: '50% 50%', duration: 0.6, delay: i * 0.08, ease: 'back.out(2)', scrollTrigger: once(el, 'top 90%') })
         })
 
+        gsap.utils.toArray<HTMLElement>('[data-words]').forEach((el) => {
+          gsap.fromTo(
+            el.querySelectorAll('[data-word]'),
+            { opacity: 0.16 },
+            { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } },
+          )
+        })
+
         const restore: Array<() => void> = []
         gsap.utils.toArray<HTMLElement>('[data-countup]').forEach((el) => {
           const original = el.textContent ?? ''
@@ -63,6 +75,39 @@ export function ScrollEffects() {
           gsap.to(state, { v: target, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = fmt(state.v)), scrollTrigger: once(el, 'top bottom') })
         })
         return () => restore.forEach((r) => r())
+      })
+
+      // Pinned, scroll-scrubbed sequences: desktop only, never for reduced motion.
+      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+        const hero = document.querySelector<HTMLElement>('[data-hero]')
+        if (hero) {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: '+=90%',
+              pin: true,
+              scrub: 0.6,
+              onUpdate: (self) => (heroProgress.value = self.progress),
+            },
+          })
+          tl.to(hero.querySelectorAll('[data-hero-fade]'), { y: -80, autoAlpha: 0, ease: 'power1.in', duration: 1 }, 0)
+          tl.from(hero.querySelectorAll('[data-hero-label]'), { y: 30, autoAlpha: 0, stagger: 0.25, duration: 0.6, ease: 'power2.out' }, 0.25)
+        }
+
+        gsap.utils.toArray<HTMLElement>('[data-hscroll]').forEach((wrap) => {
+          const track = wrap.querySelector<HTMLElement>('[data-hscroll-track]')
+          if (!track) return
+          const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + 64)
+          gsap.to(track, {
+            x: () => -distance(),
+            ease: 'none',
+            scrollTrigger: { trigger: wrap, start: 'top top', end: () => `+=${distance()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
+          })
+        })
+        return () => {
+          heroProgress.value = 0
+        }
       })
 
       mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {

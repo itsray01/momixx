@@ -1,14 +1,16 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Manrope Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
 
-  /* Ink: near-black navy used for the hero, footer and body text */
-  --color-ink-950: #060a10;
-  --color-ink-900: #0b121c;
-  --color-ink-800: #142030;
-  --color-ink-700: #22324a;
+  /* Surfaces: near-black with a hint of blue */
+  --color-ink-950: #05070a;
+  --color-ink-900: #0a0e14;
+  --color-ink-850: #0e131b;
+  --color-ink-800: #141b26;
+  --color-ink-700: #222c3b;
 
   /* Brand accent: "silicone teal", one hue light → dark */
   --color-brand-50: #eefbf9;
@@ -22,65 +24,155 @@
   --color-brand-800: #0e514e;
   --color-brand-900: #0f4341;
 
-  /* Copper, used only in cable illustrations */
   --color-copper: #c98a55;
 
   --animate-spin-slow: spin 60s linear infinite;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    background: var(--color-ink-950);
+    color-scheme: dark;
   }
   body {
-    @apply bg-white font-sans text-slate-700 antialiased;
+    @apply bg-ink-950 font-sans text-slate-400 antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: 'ss01', 'cv11';
   }
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display text-slate-900;
+    @apply font-display font-semibold text-white;
     text-wrap: balance;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.035em;
   }
   p {
     text-wrap: pretty;
   }
   ::selection {
-    @apply bg-brand-200 text-ink-900;
+    @apply bg-brand-400 text-ink-950;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-500;
+    @apply outline-2 outline-offset-2 outline-brand-300;
   }
 }
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Layout & type ─────────────────────────────────────────── */
 
 @utility container-page {
   @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
+
+/* Small pill label above headings: "● Silicone 101" */
 @utility eyebrow {
-  @apply font-display text-xs font-bold tracking-[0.18em] text-brand-600 uppercase;
+  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium tracking-wide text-slate-300;
+  &::before {
+    content: '';
+    @apply h-1.5 w-1.5 rounded-full bg-brand-300;
+    box-shadow: 0 0 10px var(--color-brand-300);
+  }
 }
+
+/* Editorial serif italic accent inside headings, with a teal gradient. */
+@utility accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding-right: 0.06em;
+  background: linear-gradient(100deg, #a7f3e9 0%, var(--color-brand-300) 45%, var(--color-brand-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility display-xl {
+  font-size: clamp(3rem, 7.4vw, 7.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+@utility display-lg {
+  font-size: clamp(2.25rem, 4.6vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+@utility display-md {
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+/* ── Buttons ─────────────────────────────────────────── */
+
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors;
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300;
 }
 @utility btn-primary {
-  @apply btn bg-brand-500 text-white hover:bg-brand-600;
+  @apply btn bg-white text-ink-950 hover:bg-brand-100;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 10px 30px -10px rgb(109 213 201 / 0.5);
 }
 @utility btn-ghost-dark {
-  @apply btn border border-white/25 text-white hover:border-white/60 hover:bg-white/5;
+  @apply btn border border-white/15 bg-white/[0.03] text-white backdrop-blur hover:border-white/40 hover:bg-white/[0.08];
 }
 @utility btn-ghost {
-  @apply btn border border-slate-300 text-slate-900 hover:border-slate-900;
+  @apply btn-ghost-dark;
 }
+
+/* ── Surfaces ─────────────────────────────────────────── */
+
+/* The standard panel: glassy, with a lit top edge and a pointer spotlight. */
 @utility card {
-  @apply rounded-2xl border border-slate-200 bg-white;
+  @apply relative rounded-3xl border border-white/[0.08];
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.015)),
+    var(--color-ink-900);
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.06);
 }
 
-/* ── Texture & depth ─────────────────────────────────────────── */
+@utility glass {
+  @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.08),
+    0 20px 40px -24px rgb(0 0 0 / 0.6);
+}
 
-/* Fine film grain for dark surfaces: adds material depth without colour. */
+@utility lift {
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+  &:hover {
+    border-color: rgb(109 213 201 / 0.35);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.08),
+      0 30px 60px -30px rgb(20 159 148 / 0.45);
+  }
+}
+
+/* Fine film grain: material depth without colour. */
 @utility grain {
   position: relative;
   isolation: isolate;
@@ -90,42 +182,25 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.09;
+    opacity: 0.08;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
-/* Faint dot matrix for light, muted sections. */
 @utility dots {
-  background-image: radial-gradient(circle, rgb(15 23 42 / 0.07) 1px, transparent 1.2px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(circle, rgb(255 255 255 / 0.06) 1px, transparent 1.2px);
+  background-size: 24px 24px;
 }
 
-/* Frosted glass panel for use on dark backgrounds. */
-@utility glass {
-  @apply border border-white/10 bg-white/[0.04] backdrop-blur-md;
-  box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.08),
-    0 20px 40px -24px rgb(0 0 0 / 0.6);
+/* Hairline divider that fades at both ends. */
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.12), transparent);
 }
 
-/* Soft, layered elevation for light cards. */
-@utility lift {
-  box-shadow:
-    0 1px 2px rgb(15 23 42 / 0.04),
-    0 8px 24px -12px rgb(15 23 42 / 0.12);
-  transition: box-shadow 0.4s ease;
-  &:hover {
-    box-shadow:
-      0 1px 2px rgb(15 23 42 / 0.04),
-      0 24px 48px -20px rgb(15 23 42 / 0.25);
-  }
-}
-
-/* Pointer-following sheen on tilt cards (position set by ScrollEffects). */
+/* Teal spotlight that follows the pointer on cards (position set by ScrollEffects). */
 [data-tilt] {
-  position: relative;
   will-change: transform;
 }
 [data-tilt]::after {
@@ -136,16 +211,13 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.22), transparent 45%);
+  background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgb(109 213 201 / 0.12), transparent 45%);
 }
 [data-tilt]:hover::after {
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {

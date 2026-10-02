@@ -34,9 +34,9 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="grain bg-ink-950 text-slate-400">
-      <div className="container-page grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr]">
-        <div className="space-y-5">
+    <footer className="grain relative overflow-hidden border-t border-white/[0.06] bg-ink-950 text-slate-400">
+      <div className="container-page grid gap-12 pt-20 pb-12 lg:grid-cols-[1.2fr_2fr]">
+        <div className="space-y-6">
           <Logo className="text-white" />
           <p className="max-w-sm text-sm leading-relaxed">{site.tagline}</p>
           <address className="space-y-1 text-sm not-italic">
@@ -44,8 +44,8 @@ export function Footer() {
             <p>
               {site.address.locality} {site.address.postalCode}
             </p>
-            <p>
-              <a href={`mailto:${site.email}`} className="text-slate-200 hover:text-white">
+            <p className="pt-2">
+              <a href={`mailto:${site.email}`} className="text-white underline decoration-white/20 underline-offset-4 hover:decoration-brand-300">
                 {site.email}
               </a>
             </p>
@@ -54,11 +54,11 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="font-display text-sm font-semibold text-white">{col.title}</h2>
-              <ul className="mt-4 space-y-2.5 text-sm">
+              <h2 className="text-xs font-medium tracking-[0.18em] text-slate-500 uppercase">{col.title}</h2>
+              <ul className="mt-5 space-y-3 text-sm">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="hover:text-white">
+                    <Link href={l.href} className="text-slate-300 transition-colors hover:text-white">
                       {l.label}
                     </Link>
                   </li>
@@ -68,8 +68,19 @@ export function Footer() {
           ))}
         </div>
       </div>
-      <div className="border-t border-white/10">
-        <div className="container-page flex flex-col gap-2 py-6 text-xs sm:flex-row sm:justify-between">
+
+      {/* Oversized wordmark */}
+      <div aria-hidden="true" className="pointer-events-none select-none">
+        <p
+          className="container-page -mb-[0.2em] text-center font-display text-[22vw] leading-none font-semibold tracking-[-0.06em] text-transparent lg:text-[17rem]"
+          style={{ backgroundImage: 'linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
+        >
+          MoMixx
+        </p>
+      </div>
+
+      <div className="relative border-t border-white/[0.06]">
+        <div className="container-page flex flex-col gap-2 py-6 text-xs text-slate-500 sm:flex-row sm:justify-between">
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>

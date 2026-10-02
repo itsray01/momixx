@@ -25,29 +25,29 @@ export function ContactForm({ email }: { email: string }) {
   }
 
   const input =
-    'mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none'
+    'mt-1.5 block w-full rounded-lg border border-white/15 bg-ink-900 px-3.5 py-2.5 text-white shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none'
 
   return (
     <form onSubmit={onSubmit} className="card space-y-5 p-6 sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Name
           <input name="name" required autoComplete="name" className={input} />
         </label>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Company
           <input name="company" autoComplete="organization" className={input} />
         </label>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Email
           <input name="email" type="email" required autoComplete="email" className={input} />
         </label>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Contact number
           <input name="phone" type="tel" autoComplete="tel" className={input} />
         </label>
       </div>
-      <label className="block text-sm font-medium text-slate-700">
+      <label className="block text-sm font-medium text-slate-200">
         I’m interested in
         <select name="topic" className={input} defaultValue="Silicone materials">
           <option>Silicone materials</option>
@@ -59,7 +59,7 @@ export function ContactForm({ email }: { email: string }) {
           <option>Something else</option>
         </select>
       </label>
-      <label className="block text-sm font-medium text-slate-700">
+      <label className="block text-sm font-medium text-slate-200">
         Message
         <textarea name="message" required rows={5} className={input} />
       </label>

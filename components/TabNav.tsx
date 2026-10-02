@@ -22,23 +22,23 @@ export function TabNav({ tabs, label }: { tabs: Tab[]; label: string }) {
   }, [pathname])
 
   return (
-    <nav aria-label={label} className="sticky top-16 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="container-page">
-        <ul ref={listRef} className="relative -mb-px flex gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <nav aria-label={label} className="sticky top-[84px] z-40 -mt-7 mb-0 px-3 sm:px-4">
+      <div className="glass mx-auto max-w-6xl overflow-hidden rounded-full">
+        <ul ref={listRef} className="relative flex items-center gap-1 overflow-x-auto px-2 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {tabs.map((t, i) => {
             const active = pathname === t.href
             const showGroup = t.group && t.group !== tabs[i - 1]?.group
             return (
               <li key={t.href} className="flex shrink-0 items-center">
                 {showGroup && (
-                  <span className="mr-1 ml-3 hidden text-[10px] font-bold tracking-widest text-slate-400 uppercase first:ml-0 md:inline">{t.group}</span>
+                  <span className="mr-1 ml-3 hidden text-[10px] font-medium tracking-[0.18em] text-slate-500 uppercase md:inline">{t.group}</span>
                 )}
                 <Link
                   ref={active ? activeRef : undefined}
                   href={t.href}
                   aria-current={active ? 'page' : undefined}
-                  className={`block border-b-2 px-3 py-3.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                    active ? 'border-brand-500 text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-900'
+                  className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
+                    active ? 'bg-white text-ink-950' : 'text-slate-300 hover:bg-white/[0.06] hover:text-white'
                   }`}
                 >
                   {t.label}

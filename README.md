@@ -93,7 +93,7 @@ You need Node.js 20.9 or newer.
   - `/llms.txt` is a plain-text summary of the company, products, applications, certifications and sourced market data, generated from the same content files.
   - `robots.txt` allows AI crawlers.
 - **Social sharing.** Every page has a 1200×630 social image.
-- **Performance.** Pages are static and fonts are self-hosted. 3D code loads lazily, and only on pages that use it (see "3D and motion").
+- **Performance.** Pages are static and fonts are self-hosted. Live 3D code loads lazily, and only on pages that use it. Cards use small pre-rendered images (see "Design, 3D and motion").
 
 **After launch:**
 
@@ -101,29 +101,25 @@ You need Node.js 20.9 or newer.
 2. Submit `https://www.momixx.com/sitemap.xml`.
 3. Check the structured data with Google's Rich Results Test.
 
-## 3D and motion
+## Design, 3D and motion
 
-The site uses real-time 3D (Three.js via React Three Fiber) and GSAP. Both are kept deliberately calm for an investor audience.
+The site uses a dark, premium design aimed at an investor audience. It is built on four pieces:
 
-- **3D scenes** are in `components/three/scenes.tsx`. There are six:
-  - a cable with a stripped end (teal, or orange for EV)
-  - a vertical extrusion line
-  - colour-matched silicone samples
-  - a recycling ring
-  - a silicone molecule
-- **Which page gets which scene.** Product and application pages choose a scene from their illustration (`components/three/sceneFor.ts`). Other pages choose one in their `PageHeader` `aside`.
-- **Performance and accessibility.** Every scene has a static SVG fallback, which is what search engines, screen readers, older devices and slow connections see.
-  - Three.js only downloads once a scene scrolls near the screen.
-  - Rendering pauses when a scene is off-screen.
-  - Pages without a scene load no 3D code at all.
-- **Motion** is in `components/motion/ScrollEffects.tsx` and is controlled with attributes on elements:
-  - `data-reveal` fades content in on scroll
-  - `data-countup` counts numbers up
-  - `data-grow` makes chart bars grow
-  - `data-draw` draws lines
-  - `data-tilt` adds a subtle 3D hover tilt to cards
-  - All content stays visible without JavaScript.
-- **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and the 3D scenes stay still.
+- **Type.** Geist for text, with *Instrument Serif* italics as an accent. In any heading, wrap words in `*asterisks*` to accent them, for example `title="Silicone that *comes back*"`.
+- **3D models.** Every product, application and process is a real 3D model, built in code in `components/three/models.tsx`. They are shown two ways:
+  - **Live 3D** (Three.js via React Three Fiber) in page headers, the home hero, the recycling ring and the extrusion line. Live scenes follow the mouse, and the home cable turns towards you as you scroll.
+  - **Pre-rendered images** (`public/renders/*.webp`, about 40 KB each) on cards, so pages with many cards stay fast. They are also the fallback shown while live 3D loads, and to search engines, screen readers and devices without WebGL.
+- **Motion** (GSAP and Lenis): smooth scrolling, a pinned hero, a horizontal-scroll "sand to silicone" story, text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt. It is all controlled by attributes such as `data-reveal` and `data-countup` (see `components/motion/ScrollEffects.tsx`).
+- **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and their 3D scenes stay still.
+
+**Re-rendering the card images** after changing a model:
+
+```bash
+npm run dev                                   # in one terminal
+node scripts/render-models.mjs                # all models, or list some: … cable seal
+```
+
+The script needs Playwright with Chromium. Models are listed in `components/three/modelNames.ts`. To show a model on a product or application, set its `illustration` field to the model's name.
 
 ## Contact form
 

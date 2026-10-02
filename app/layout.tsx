@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import '@fontsource-variable/inter'
-import '@fontsource-variable/manrope'
+import '@fontsource-variable/geist'
+import '@fontsource/instrument-serif/400-italic.css'
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
+import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { absoluteUrl, site } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <ScrollEffects />
+        <SmoothScroll />
       </body>
     </html>
   )

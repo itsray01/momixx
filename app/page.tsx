@@ -1,14 +1,12 @@
 import Link from 'next/link'
-import { HeroVisual } from '@/components/HeroVisual'
-import { Scene3D } from '@/components/three/Scene3D'
-import { Illustration } from '@/components/Illustration'
-import { RecycleCycle } from '@/components/infographics'
 import { MarketCard } from '@/components/charts'
-import { ArrowLink, CtaBand, Glow, GridBackdrop, Section, StatTiles } from '@/components/ui'
+import { JourneyScroll, RecycleSteps } from '@/components/infographics'
+import { Render } from '@/components/Render'
+import { Scene3D } from '@/components/three/Scene3D'
+import { Arrow, ArrowLink, CtaBand, Glow, GridBackdrop, Marquee, Section, SectionHeading, StatTiles, rich } from '@/components/ui'
 import { applications } from '@/content/applications'
-import { certifications, companyStats } from '@/content/company'
-import { getMarket } from '@/content/markets'
-import { categoryIntros, categoryLabels, productsByCategory, type ProductCategory } from '@/content/products'
+import { certifications } from '@/content/company'
+import { getMarket, marketDisclaimer } from '@/content/markets'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = {
@@ -22,101 +20,157 @@ export const metadata = {
 
 const featuredMarkets = ['silicone', 'ev-cables', 'humanoid-robots'].map((id) => getMarket(id)!)
 
-function HeroLabels() {
-  const chip = 'glass absolute rounded-xl px-3.5 py-2.5 text-left'
-  return (
-    <>
-      <div className={`${chip} top-[8%] right-[2%]`}>
-        <p className="text-sm font-semibold text-white">Momixx silicone jacket</p>
-        <p className="text-xs text-slate-400">Fire-retardant · UL VW-1</p>
-      </div>
-      <div className={`${chip} top-[30%] left-[2%] hidden sm:block`}>
-        <p className="text-sm font-semibold text-white">10,000 twist cycles</p>
-        <p className="text-xs text-slate-400">2× high-grade TPE</p>
-      </div>
-      <div className={`${chip} right-[4%] bottom-[4%]`}>
-        <p className="text-sm font-semibold text-white">−60 °C to 250 °C</p>
-        <p className="text-xs text-slate-400">Stays flexible, won’t melt</p>
-      </div>
-    </>
-  )
-}
+const statement =
+  'Silicone is the quiet material inside modern technology. It survives heat that melts plastic, bends again and again without cracking, keeps water out, and is gentle enough for medicine. We make it better, cleaner and at scale.'
+
+const heroLabels = [
+  { title: 'Momixx silicone jacket', sub: 'Fire-retardant · UL VW-1', pos: 'top-[18%] right-[4%]' },
+  { title: '10,000 twist cycles', sub: '2× a high-grade TPE cable', pos: 'top-[30%] left-[8%]' },
+  { title: '−60 °C to 250 °C', sub: 'Stays flexible, won’t melt', pos: 'bottom-[16%] right-[8%]' },
+]
 
 export default function HomePage() {
   return (
     <>
-      {/* ── Hero ── */}
-      <section className="grain relative overflow-hidden bg-ink-950 text-white">
+      {/* ── Hero: pinned on desktop; scrolling turns the cable towards you ── */}
+      <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[720px]">
         <GridBackdrop />
-        <Glow className="top-[40%] right-[12%] -translate-y-1/2 scale-125" />
-        <div className="container-page relative grid items-center gap-8 pt-14 pb-16 sm:pt-20 lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pb-24">
-          <div>
-            <p className="eyebrow text-brand-300">Silicone materials · Recycling · Machines</p>
-            <h1 className="mt-5 text-5xl leading-[1.05] font-extrabold text-white sm:text-6xl lg:text-7xl">
-              Silicone, engineered for <span className="text-brand-300">what’s next.</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
-              We develop, recycle and process high-performance silicone for the things the world now runs on: phone and laptop cables, electric
-              vehicles, medical devices, AI data centres and robots.
+        <Glow className="top-[10%] right-[-8%]" size={1100} />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_7_10)_30%,transparent)]" aria-hidden="true" />
+
+        <div className="relative order-2 lg:absolute lg:inset-0">
+          <Scene3D
+            variant="hero"
+            className="mx-auto aspect-square w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none"
+            fallback={
+              <div className="flex h-full w-full items-center lg:justify-end lg:pr-[6%]">
+                <Render name="cable" priority className="h-auto w-full object-contain lg:w-[58%]" sizes="(min-width: 1024px) 58vw, 100vw" />
+              </div>
+            }
+          />
+        </div>
+
+        <div className="container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
+          <div data-hero-fade className="max-w-3xl">
+            <p className="eyebrow">Silicone materials · Recycling · Machines</p>
+            <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*')}</h1>
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">
+              We develop, recycle and process high-performance silicone for the things the world now runs on: phone cables, electric vehicles, medical
+              devices, AI data centres and robots.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/products" className="btn-primary px-6 py-3 text-base">
-                Explore products
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link href="/products" className="group btn-primary px-6 py-3 text-base">
+                Explore products <Arrow />
               </Link>
               <Link href="/silicone" className="btn-ghost-dark px-6 py-3 text-base">
                 What is silicone?
               </Link>
             </div>
           </div>
-          <Scene3D
-            variant="cable"
-            className="mx-auto aspect-[560/520] w-full max-w-[600px]"
-            fallback={<HeroVisual className="h-full w-full" />}
-            overlay={<HeroLabels />}
-          />
         </div>
-        <div className="relative border-t border-white/10">
-          <ul className="container-page flex flex-wrap items-center gap-x-8 gap-y-3 py-5 text-sm text-slate-400">
-            <li className="font-semibold text-slate-200">Certified</li>
-            {certifications.map((c) => (
-              <li key={c.id}>{c.short}</li>
-            ))}
-            <li className="ml-auto hidden md:block">Singapore · Penang · Dongguan</li>
-          </ul>
+
+        {heroLabels.map((l) => (
+          <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block ${l.pos}`}>
+            <p className="text-sm font-medium text-white">{l.title}</p>
+            <p className="text-xs text-slate-400">{l.sub}</p>
+          </div>
+        ))}
+
+        <div data-hero-fade aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-slate-500 uppercase lg:flex">
+          Scroll
+          <span className="h-10 w-px bg-gradient-to-b from-slate-500 to-transparent" />
         </div>
       </section>
 
-      {/* ── Proof ── */}
-      <Section>
-        <StatTiles stats={companyStats} />
+      {/* ── Ticker ── */}
+      <div className="border-y border-white/[0.06] bg-ink-950 py-6">
+        <Marquee
+          items={[
+            'USB-C cables',
+            'Electric vehicles',
+            'Medical devices',
+            'AI data centres',
+            'Humanoid robots',
+            'Semiconductors',
+            'Recycled silicone',
+            ...certifications.map((c) => c.short),
+          ].map((t) => (
+            <span key={t} className="text-lg font-medium tracking-[-0.01em] text-slate-400">
+              {t}
+            </span>
+          ))}
+        />
+      </div>
+
+      {/* ── Statement ── */}
+      <section className="bg-ink-950 py-28 sm:py-40">
+        <div className="container-page">
+          <p className="eyebrow">Why silicone</p>
+          <p data-words className="display-md mt-8 max-w-5xl text-white">
+            {statement.split(' ').map((w, i) => (
+              <span key={i} data-word>
+                {w}{' '}
+              </span>
+            ))}
+          </p>
+          <div className="mt-16">
+            <StatTiles
+              stats={[
+                { value: '2018', label: 'founded in Singapore and Malaysia' },
+                { value: '20+', label: 'patents granted or pending' },
+                { value: '3', label: 'sites: Singapore, Penang, Dongguan' },
+                { value: '4', label: 'international certifications' },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── What we do: bento ── */}
+      <Section tone="muted" eyebrow="What we do" title="Materials, machines and *manufacturing*" intro="Three businesses that reinforce each other: we formulate the silicone, build the machines that process it, and manufacture finished parts.">
+        <div data-reveal="stagger" className="grid gap-5 lg:grid-cols-6">
+          <BentoTile
+            href="/products#materials"
+            className="lg:col-span-4 lg:row-span-2"
+            model="samples"
+            kicker="Silicone materials"
+            title="Compounds tuned for the job"
+            body="Fire-retardant, PFAS-free, waterproof, self-bonding and colour-matched to within dE94 0.5."
+            big
+          />
+          <BentoTile href="/products/vertical-extruder" className="lg:col-span-2" model="extruder-vertical" kicker="Machines" title="A world-first extrusion line" stat="100 m/min" />
+          <BentoTile href="/recycled-silicone" className="lg:col-span-2" model="recycle" kicker="Recycling" title="Certified recycled silicone" stat="GRS · ISCC PLUS · SCS" />
+          <BentoTile href="/products/medical-precision-components" className="lg:col-span-3" model="medical" kicker="Medical & precision" title="ISO 13485 manufacturing" stat="Since 2026" />
+          <BentoTile href="/products/odm-oem" className="lg:col-span-3" model="oem" kicker="ODM / OEM" title="From formulation to finished part" stat="Malaysia & China" />
+        </div>
       </Section>
 
-      {/* ── Silicone everywhere ── */}
-      <Section
-        tone="muted"
-        eyebrow="Where silicone goes"
-        title="The quiet material inside modern technology"
-        intro={
-          <>
-            Silicone survives heat that melts plastic, bends again and again without cracking, keeps water out, and is gentle enough for medical
-            use. That makes it essential in the fastest-growing parts of the economy.{' '}
-            <ArrowLink href="/silicone">Silicone explained</ArrowLink>
-          </>
-        }
-      >
-        <ul data-reveal="stagger" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* ── Sand to silicone ── */}
+      <section className="bg-ink-950 pt-24 sm:pt-32">
+        <div className="container-page">
+          <SectionHeading eyebrow="From sand to silicone" title="Where *silicone* comes from" intro="Silicone starts as ordinary sand. Momixx works at step four, turning silicone into compounds engineered for a specific job." />
+        </div>
+        <div className="pb-24 sm:pb-32 lg:pb-0">
+          <JourneyScroll />
+        </div>
+      </section>
+
+      {/* ── Applications ── */}
+      <Section tone="muted" eyebrow="Where silicone goes" title="Inside the industries *shaping the future*" intro={<>From the cable in your pocket to the robots on tomorrow’s factory floor. <ArrowLink href="/applications">All applications</ArrowLink></>}>
+        <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
             <li key={a.slug}>
               <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full flex-col overflow-hidden">
-                <div className="bg-brand-50/60 px-6 pt-6">
-                  <Illustration name={a.illustration} className="h-32 w-full text-slate-800 transition-transform group-hover:scale-[1.03]" />
+                <div className="relative px-8 pt-6">
+                  <div aria-hidden="true" className="absolute inset-0 opacity-70 transition-opacity duration-500 group-hover:opacity-100" style={{ background: 'radial-gradient(55% 60% at 50% 55%, rgb(20 159 148 / 0.22), transparent)' }} />
+                  <Render name={a.illustration} className="relative mx-auto max-h-52 w-auto transition-transform duration-700 group-hover:scale-[1.04]" />
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <span className="text-xs font-semibold text-brand-700">{a.maturity}</span>
-                  <h3 className="mt-1.5 text-xl font-bold">{a.name}</h3>
-                  <p className="mt-2 flex-1 text-slate-600">{a.tagline}</p>
-                  <span className="mt-4 text-sm font-semibold text-brand-700">
-                    Learn more <span aria-hidden="true">→</span>
+                <div className="flex flex-1 flex-col p-7 pt-3">
+                  <span className="text-xs font-medium text-brand-300">{a.maturity}</span>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{a.name}</h3>
+                  <p className="mt-2 flex-1 text-slate-400">{a.tagline}</p>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white">
+                    Learn more <Arrow />
                   </span>
                 </div>
               </Link>
@@ -125,81 +179,51 @@ export default function HomePage() {
         </ul>
       </Section>
 
-      {/* ── What we do ── */}
-      <Section eyebrow="What we do" title="Materials, machines and manufacturing" intro="Three businesses that reinforce each other: we formulate the silicone, build the machines that process it, and manufacture finished parts.">
-        <div data-reveal="stagger" className="grid gap-6 lg:grid-cols-3">
-          {(['materials', 'equipment', 'services'] as ProductCategory[]).map((cat) => {
-            const items = productsByCategory(cat)
-            return (
-              <div key={cat} className="card lift flex flex-col p-6 sm:p-8">
-                <h3 className="text-xl font-bold">{categoryLabels[cat]}</h3>
-                <p className="mt-2 text-slate-600">{categoryIntros[cat]}</p>
-                <ul className="mt-6 flex-1 space-y-2 border-t border-slate-100 pt-5 text-sm">
-                  {items.slice(0, 6).map((p) => (
-                    <li key={p.slug}>
-                      <Link href={`/products/${p.slug}`} className="flex justify-between gap-4 text-slate-700 hover:text-brand-700">
-                        <span className="font-medium">{p.name}</span>
-                        <span aria-hidden="true" className="text-slate-300">
-                          →
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <ArrowLink href={`/products#${cat}`} className="mt-6 text-sm">
-                  All {categoryLabels[cat].toLowerCase()}
-                </ArrowLink>
-              </div>
-            )
-          })}
+      {/* ── Recycling ── */}
+      <Section eyebrow="Recycled silicone" title="Silicone that *comes back*">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="relative aspect-square">
+            <Glow className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" size={620} />
+            <Scene3D variant="recycle" className="h-full" fallback={<Render name="recycle" className="h-full w-full object-contain" />} />
+          </div>
+          <div>
+            <p className="text-lg leading-relaxed text-slate-300">
+              Most silicone waste ends up in landfill. We chemically break it down and rebuild it into new silicone with the same performance, certified and
+              traceable batch by batch.
+            </p>
+            <div className="mt-8">
+              <RecycleSteps compact />
+            </div>
+            <ArrowLink href="/recycled-silicone" className="mt-8">
+              See the process and certificates
+            </ArrowLink>
+          </div>
         </div>
       </Section>
 
-      {/* ── Recycling ── */}
-      <Section
-        tone="muted"
-        eyebrow="Recycled silicone"
-        title="Silicone that comes back"
-        intro={
-          <>
-            Most silicone waste ends up in landfill. We chemically break it down and rebuild it into new silicone with the same performance,
-            certified and traceable batch by batch. <ArrowLink href="/recycled-silicone">See the process and certificates</ArrowLink>
-          </>
-        }
-      >
-        <RecycleCycle />
-      </Section>
-
       {/* ── Markets ── */}
-      <Section
-        eyebrow="Growing markets"
-        title="Silicone sits under some of the biggest growth stories"
-        intro={
-          <>
-            Independent estimates for some of the markets our materials serve. <ArrowLink href="/markets">All markets and sources</ArrowLink>
-          </>
-        }
-      >
-        <div data-reveal="stagger" className="grid gap-6 md:grid-cols-3">
+      <Section tone="muted" eyebrow="Growing markets" title="Under some of the biggest *growth stories*" intro={<>Independent estimates for some of the markets our materials serve. <ArrowLink href="/markets">All markets and sources</ArrowLink></>}>
+        <div data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {featuredMarkets.map((m) => (
             <MarketCard key={m.id} market={m} compact />
           ))}
         </div>
-        <p className="mt-6 text-xs text-slate-400">Third-party estimates, not Momixx forecasts. See the markets page for scope and full sources.</p>
+        <p className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-500">{marketDisclaimer}</p>
       </Section>
 
       {/* ── Innovation ── */}
-      <Section tone="dark" eyebrow="Innovation" title="20+ patents, including a world first">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="space-y-4 text-lg leading-relaxed">
+      <Section eyebrow="Innovation" title="20+ patents, including a *world first*">
+        <div className="card grain relative grid items-center gap-10 overflow-hidden p-8 sm:p-12 lg:grid-cols-2">
+          <Glow className="top-1/2 right-[-10%] -translate-y-1/2" size={700} />
+          <div className="relative space-y-5 text-lg leading-relaxed text-slate-300">
             <p>
-              We invented the first vertical extrusion machine for high-speed silicone data cables. It coats cable at up to 100 metres a minute,
-              fully automated from mixing to inspection, and is supplied to customers including a Fortune Global 500 company.
+              We invented the first vertical extrusion machine for high-speed silicone data cables. It coats cable at up to 100 metres a minute, fully
+              automated from mixing to inspection, and is supplied to customers including a Fortune Global 500 company.
             </p>
             <p className="text-slate-400">Our patents cover machines, manufacturing processes and material recipes.</p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/products/vertical-extruder" className="btn-primary">
-                The vertical extruder
+            <div className="flex flex-wrap gap-3 pt-3">
+              <Link href="/products/vertical-extruder" className="group btn-primary">
+                The vertical extruder <Arrow />
               </Link>
               <Link href="/innovation" className="btn-ghost-dark">
                 Research & innovation
@@ -207,7 +231,6 @@ export default function HomePage() {
             </div>
             <div className="pt-6">
               <StatTiles
-                tone="dark"
                 cols={2}
                 stats={[
                   { value: '100 m/min', label: 'vertical line speed' },
@@ -218,14 +241,53 @@ export default function HomePage() {
               />
             </div>
           </div>
-          <div className="relative hidden h-[560px] lg:block">
-            <Glow className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            <Scene3D variant="extrusion" className="h-full" fallback={<Illustration name="extruder-vertical" className="h-full w-full text-slate-300" />} />
+          <div className="relative h-[420px] lg:h-[600px]">
+            <Scene3D variant="extrusion" className="h-full" fallback={<Render name="extruder-vertical" className="h-full w-full object-contain" />} />
           </div>
         </div>
       </Section>
 
       <CtaBand />
     </>
+  )
+}
+
+function BentoTile({
+  href,
+  className = '',
+  model,
+  kicker,
+  title,
+  body,
+  stat,
+  big = false,
+}: {
+  href: string
+  className?: string
+  model: Parameters<typeof Render>[0]['name']
+  kicker: string
+  title: string
+  body?: string
+  stat?: string
+  big?: boolean
+}) {
+  return (
+    <Link href={href} data-tilt className={`group card lift relative flex min-h-[320px] flex-col overflow-hidden p-7 sm:p-8 ${className}`}>
+      <div aria-hidden="true" className="absolute inset-0 opacity-60 transition-opacity duration-500 group-hover:opacity-100" style={{ background: 'radial-gradient(60% 60% at 70% 40%, rgb(20 159 148 / 0.2), transparent)' }} />
+      <div className={`relative flex flex-1 items-center justify-center ${big ? 'py-6' : ''}`}>
+        <Render name={model} className={`w-auto transition-transform duration-700 group-hover:scale-[1.05] ${big ? 'max-h-[380px]' : 'max-h-44'}`} sizes={big ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 30vw, 100vw'} />
+      </div>
+      <div className="relative flex items-end justify-between gap-6">
+        <div>
+          <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{kicker}</p>
+          <h3 className={`mt-2 font-semibold tracking-[-0.03em] ${big ? 'text-3xl sm:text-4xl' : 'text-xl'}`}>{title}</h3>
+          {body && <p className="mt-3 max-w-md text-slate-400">{body}</p>}
+          {stat && <p className="mt-2 text-sm text-slate-400">{stat}</p>}
+        </div>
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors group-hover:border-brand-300 group-hover:bg-brand-300 group-hover:text-ink-950">
+          <Arrow />
+        </span>
+      </div>
+    </Link>
   )
 }

@@ -3,13 +3,33 @@ import type { ReactNode } from 'react'
 import { absoluteUrl } from '@/lib/site'
 import { JsonLd } from './JsonLd'
 
+/**
+ * Headings support an editorial accent: wrap words in *asterisks* to set them
+ * in the serif italic with the teal gradient, e.g. "Silicone that *comes back*".
+ */
+export function rich(text: ReactNode): ReactNode {
+  if (typeof text !== 'string') return text
+  return text.split(/(\*[^*]+\*)/g).map((part, i) =>
+    part.startsWith('*') && part.endsWith('*') ? (
+      <em key={i} className="accent">
+        {part.slice(1, -1)}
+      </em>
+    ) : (
+      part
+    ),
+  )
+}
+
+/** Plain-text version of a heading for metadata and aria labels. */
+export const plain = (text: string) => text.replace(/\*/g, '')
+
 export type Crumb = { href: string; label: string }
 
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
   const all = [{ href: '/', label: 'Home' }, ...items]
   return (
     <>
-      <nav aria-label="Breadcrumb" className="text-xs text-slate-400">
+      <nav aria-label="Breadcrumb" className="text-xs text-slate-500">
         <ol className="flex flex-wrap items-center gap-1.5">
           {all.map((c, i) => (
             <li key={c.href} className="flex items-center gap-1.5">
@@ -19,7 +39,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
                   {c.label}
                 </span>
               ) : (
-                <Link href={c.href} className="hover:text-white">
+                <Link href={c.href} className="transition-colors hover:text-white">
                   {c.label}
                 </Link>
               )}
@@ -31,15 +51,35 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
         data={{
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
-          itemListElement: all.map((c, i) => ({
-            '@type': 'ListItem',
-            position: i + 1,
-            name: c.label,
-            item: absoluteUrl(c.href),
-          })),
+          itemListElement: all.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.label, item: absoluteUrl(c.href) })),
         }}
       />
     </>
+  )
+}
+
+/** A soft teal light source, so 3D objects read as lit rather than pasted on. */
+export function Glow({ className = '', size = 640 }: { className?: string; size?: number }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute rounded-full ${className}`}
+      style={{ width: size, height: size, background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.28), rgb(20 159 148 / 0.08) 55%, transparent)' }}
+    />
+  )
+}
+
+export function GridBackdrop({ className = '' }: { className?: string }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute inset-0 opacity-[0.06] ${className}`}
+      style={{
+        backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+        backgroundSize: '64px 64px',
+        maskImage: 'radial-gradient(ellipse 80% 70% at 60% 30%, black 10%, transparent 70%)',
+      }}
+    />
   )
 }
 
@@ -50,55 +90,46 @@ export function PageHeader({
   crumbs,
   children,
   aside,
+  mobileVisual,
 }: {
   eyebrow?: string
   title: string
   intro?: ReactNode
   crumbs?: Crumb[]
   children?: ReactNode
+  /** Desktop visual, usually a live 3D scene. */
   aside?: ReactNode
+  /** Lightweight visual for phones, usually a pre-rendered image. */
+  mobileVisual?: ReactNode
 }) {
   return (
-    <section className="grain relative overflow-hidden bg-ink-950 text-white">
+    <section className="grain relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
       <GridBackdrop />
-      {aside && <Glow className="top-1/2 right-[8%] hidden -translate-y-1/2 lg:block" />}
-      <div className="container-page relative grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.4fr_1fr]">
+      <Glow className="-top-40 right-[-10%]" size={900} />
+      <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
         <div>
           {crumbs && <Breadcrumbs items={crumbs} />}
-          {eyebrow && <p className="eyebrow mt-6 text-brand-300">{eyebrow}</p>}
-          <h1 className="mt-3 text-4xl font-extrabold text-white sm:text-5xl">{title}</h1>
-          {intro && <div className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
+          {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
+          <h1 className="display-lg mt-5">{rich(title)}</h1>
+          {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
           {children}
         </div>
-        {aside && <div className="hidden h-[380px] lg:block">{aside}</div>}
+        {aside && <div className="relative hidden h-[460px] lg:block">{aside}</div>}
+        {mobileVisual && <div className="relative -mb-6 lg:hidden">{mobileVisual}</div>}
       </div>
+      <div className="hairline absolute inset-x-0 bottom-0" />
     </section>
   )
 }
 
-/** A soft teal light source behind 3D objects, so they read as lit, not pasted on. */
-export function Glow({ className = '' }: { className?: string }) {
+export function SectionHeading({ eyebrow, title, intro, align = 'left' }: { eyebrow?: string; title?: string; intro?: ReactNode; align?: 'left' | 'center' }) {
+  if (!eyebrow && !title && !intro) return null
   return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute h-[520px] w-[520px] rounded-full opacity-60 ${className}`}
-      style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.35), transparent)' }}
-    />
-  )
-}
-
-export function GridBackdrop() {
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 opacity-[0.07]"
-      style={{
-        backgroundImage:
-          'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
-        backgroundSize: '48px 48px',
-        maskImage: 'radial-gradient(ellipse at 70% 40%, black 20%, transparent 75%)',
-      }}
-    />
+    <div data-reveal className={`mb-12 max-w-3xl sm:mb-16 ${align === 'center' ? 'mx-auto text-center' : ''}`}>
+      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      {title && <h2 className="display-lg mt-5">{rich(title)}</h2>}
+      {intro && <div className="mt-5 text-lg leading-relaxed text-slate-400">{intro}</div>}
+    </div>
   )
 }
 
@@ -109,6 +140,7 @@ export function Section({
   intro,
   children,
   tone = 'white',
+  align,
   className = '',
 }: {
   id?: string
@@ -116,20 +148,18 @@ export function Section({
   title?: string
   intro?: ReactNode
   children?: ReactNode
+  /** white = base surface, muted = slightly raised, dark = raised with grain */
   tone?: 'white' | 'muted' | 'dark'
+  align?: 'left' | 'center'
   className?: string
 }) {
-  const toneClass = tone === 'muted' ? 'dots bg-slate-50' : tone === 'dark' ? 'grain bg-ink-900 text-slate-300' : 'bg-white'
+  const toneClass = tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'bg-ink-900' : 'grain bg-ink-900'
   return (
-    <section id={id} className={`${toneClass} py-16 sm:py-24 ${className}`}>
-      <div className="container-page">
-        {(eyebrow || title || intro) && (
-          <div data-reveal className="mb-10 max-w-3xl sm:mb-14">
-            {eyebrow && <p className={`eyebrow ${tone === 'dark' ? 'text-brand-300' : ''}`}>{eyebrow}</p>}
-            {title && <h2 className={`mt-3 text-3xl font-extrabold sm:text-4xl ${tone === 'dark' ? 'text-white' : ''}`}>{title}</h2>}
-            {intro && <div className={`mt-4 text-lg leading-relaxed ${tone === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>{intro}</div>}
-          </div>
-        )}
+    // overflow-x-clip (not hidden) keeps decorative glows in bounds without breaking sticky children.
+    <section id={id} className={`relative overflow-x-clip ${toneClass} py-24 sm:py-32 ${className}`}>
+      {tone !== 'white' && <div className="hairline absolute inset-x-0 top-0" />}
+      <div className="container-page relative">
+        <SectionHeading eyebrow={eyebrow} title={title} intro={intro} align={align} />
         {children}
       </div>
     </section>
@@ -140,23 +170,22 @@ const lgCols = { 1: 'lg:grid-cols-1', 2: 'lg:grid-cols-2', 3: 'lg:grid-cols-3', 
 
 export function StatTiles({
   stats,
-  tone = 'light',
   cols,
 }: {
   stats: Array<{ value: string; label: string }>
+  /** Kept for compatibility; every tile is now dark glass. */
   tone?: 'light' | 'dark'
   cols?: keyof typeof lgCols
 }) {
   const n = cols ?? (Math.min(Math.max(stats.length, 1), 4) as keyof typeof lgCols)
   return (
-    <dl
-      data-reveal="stagger"
-      className={`grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden rounded-2xl ${tone === 'dark' ? 'glass' : 'lift bg-slate-200 ring-1 ring-slate-200'} sm:grid-cols-2 ${lgCols[n]}`}
-    >
+    <dl data-reveal="stagger" className={`card grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 ${lgCols[n]}`}>
       {stats.map((s) => (
-        <div key={s.label} className={`flex flex-col-reverse gap-1 p-6 ${tone === 'dark' ? '' : 'bg-white'}`}>
-          <dt className={`text-sm ${tone === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>{s.label}</dt>
-          <dd data-countup className={`font-display text-3xl font-extrabold tracking-tight ${tone === 'dark' ? 'text-white' : 'text-slate-900'}`}>{s.value}</dd>
+        <div key={s.label} className="flex flex-col-reverse gap-2 bg-ink-900 p-6 sm:p-7">
+          <dt className="text-sm text-slate-400">{s.label}</dt>
+          <dd data-countup className="font-display text-4xl font-semibold tracking-[-0.04em] text-white">
+            {s.value}
+          </dd>
         </div>
       ))}
     </dl>
@@ -165,12 +194,12 @@ export function StatTiles({
 
 export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string; body: string }>; cols?: 2 | 3 }) {
   return (
-    <div data-reveal="stagger" className={`grid gap-6 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+    <div data-reveal="stagger" className={`grid gap-5 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
-        <div key={it.title} data-tilt className="card lift p-6">
-          <span className="font-display text-sm font-bold text-brand-600">{String(i + 1).padStart(2, '0')}</span>
-          <h3 className="mt-3 text-lg font-bold">{it.title}</h3>
-          <p className="mt-2 leading-relaxed text-slate-600">{it.body}</p>
+        <div key={it.title} data-tilt className="card lift p-7">
+          <span className="font-mono text-xs text-brand-300">{String(i + 1).padStart(2, '0')}</span>
+          <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
+          <p className="mt-3 leading-relaxed text-slate-400">{it.body}</p>
         </div>
       ))}
     </div>
@@ -180,16 +209,19 @@ export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string;
 export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
   return (
     <>
-      <div className="divide-y divide-slate-200 border-y border-slate-200">
+      <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
         {faqs.map((f) => (
-          <details key={f.q} className="group py-5">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-display text-lg font-semibold text-slate-900">
-              <h3 className="text-lg font-semibold">{f.q}</h3>
-              <span aria-hidden="true" className="mt-1 text-brand-600 transition-transform group-open:rotate-45">
+          <details key={f.q} className="group py-6">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
+              <h3 className="text-lg font-medium tracking-[-0.02em] sm:text-xl">{f.q}</h3>
+              <span
+                aria-hidden="true"
+                className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/15 text-brand-300 transition-transform duration-300 group-open:rotate-45"
+              >
                 +
               </span>
             </summary>
-            <p className="mt-3 max-w-3xl leading-relaxed text-slate-600">{f.a}</p>
+            <p className="mt-4 max-w-3xl leading-relaxed text-slate-400">{f.a}</p>
           </details>
         ))}
       </div>
@@ -197,11 +229,7 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
         data={{
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
-          mainEntity: faqs.map((f) => ({
-            '@type': 'Question',
-            name: f.q,
-            acceptedAnswer: { '@type': 'Answer', text: f.a },
-          })),
+          mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
         }}
       />
     </>
@@ -209,26 +237,29 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
 }
 
 export function CtaBand({
-  title = 'Talk to our team',
+  title = 'Talk to *our team*',
   body = 'Whether you need a material, a machine or a manufacturing partner, we’ll help you find the right silicone solution.',
 }: {
   title?: string
   body?: string
 }) {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-ink-950 py-24 sm:py-32">
       <div className="container-page">
-        <div data-reveal className="grain relative overflow-hidden rounded-3xl bg-ink-900 px-6 py-12 text-white sm:px-12">
+        <div data-reveal className="grain card relative overflow-hidden px-6 py-16 text-center sm:px-16 sm:py-24">
           <GridBackdrop />
-          <Glow className="-top-64 -right-40" />
-          <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl font-extrabold text-white">{title}</h2>
-              <p className="mt-3 text-slate-300">{body}</p>
+          <Glow className="-bottom-[420px] left-1/2 -translate-x-1/2" size={900} />
+          <div className="relative mx-auto max-w-3xl">
+            <h2 className="display-lg">{rich(title)}</h2>
+            <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">{body}</p>
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <Link href="/contact" className="group btn-primary px-6 py-3 text-base">
+                Get in touch <Arrow />
+              </Link>
+              <Link href="/products" className="btn-ghost-dark px-6 py-3 text-base">
+                Explore products
+              </Link>
             </div>
-            <Link href="/contact" className="btn-primary px-6 py-3 text-base">
-              Get in touch
-            </Link>
           </div>
         </div>
       </div>
@@ -236,13 +267,41 @@ export function CtaBand({
   )
 }
 
+export function Arrow({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={`h-4 w-4 transition-transform group-hover:translate-x-0.5 ${className}`} aria-hidden="true">
+      <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export function ArrowLink({ href, children, className = '' }: { href: string; children: ReactNode; className?: string }) {
   return (
-    <Link href={href} className={`group inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:text-brand-800 ${className}`}>
+    <Link href={href} className={`group inline-flex items-center gap-1.5 font-medium text-brand-300 transition-colors hover:text-brand-200 ${className}`}>
       {children}
-      <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-        →
-      </span>
+      <Arrow />
     </Link>
+  )
+}
+
+/** Endless horizontal ticker. Pauses on hover; static for reduced motion. */
+export function Marquee({ items, className = '' }: { items: ReactNode[]; className?: string }) {
+  const row = (hidden: boolean) => (
+    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center gap-12 pr-12">
+      {items.map((it, i) => (
+        <li key={i} className="flex shrink-0 items-center gap-12 whitespace-nowrap">
+          {it}
+          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/25" />
+        </li>
+      ))}
+    </ul>
+  )
+  return (
+    <div className={`group relative flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)] ${className}`}>
+      <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
+        {row(false)}
+        {row(true)}
+      </div>
+    </div>
   )
 }

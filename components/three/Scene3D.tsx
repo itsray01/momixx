@@ -6,6 +6,7 @@ import type { SceneVariant } from './scenes'
 
 // Soft edges so long objects fade out instead of being cut off by the canvas.
 const masks: Partial<Record<SceneVariant, string>> = {
+  hero: 'radial-gradient(ellipse 70% 90% at 66% 45%, black 50%, transparent 88%)',
   cable: 'linear-gradient(to top right, transparent 4%, black 38%)',
   'ev-cable': 'linear-gradient(to top right, transparent 4%, black 38%)',
   extrusion: 'linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)',
@@ -24,7 +25,7 @@ function supportsWebGL() {
 }
 
 /**
- * A 3D scene with a static fallback. The fallback (an SVG) is server-rendered,
+ * A 3D scene with a static fallback. The fallback (a pre-rendered image) is server-rendered,
  * so it is what search engines, screen readers, no-WebGL browsers and slow
  * connections get; the 3D canvas fades in over it once ready. Rendering pauses
  * while off-screen and is frozen for visitors who prefer reduced motion.
@@ -76,7 +77,7 @@ export function Scene3D({
       {enabled && (
         <div
           aria-hidden="true"
-          className={`absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          className={`pointer-events-none absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}
           style={masks[variant] ? { maskImage: masks[variant], WebkitMaskImage: masks[variant] } : undefined}
         >
           <Scene variant={variant} animate={visible && !reduced} onReady={() => setReady(true)} />

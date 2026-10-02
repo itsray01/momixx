@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { Illustration } from '@/components/Illustration'
+import { Render } from '@/components/Render'
+import { RenderCard } from '@/components/RenderCard'
 import { TabNav } from '@/components/TabNav'
 import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
@@ -27,9 +27,9 @@ export default function ApplicationsPage() {
       <PageHeader
         crumbs={[{ href: '/applications', label: 'Applications' }]}
         eyebrow="Applications"
-        title="One material, many futures"
+        title="One material, *many futures*"
         intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where Momixx fits today, and where we are heading."
-        aside={<Scene3D variant="cable" className="h-full" fallback={<Illustration name="cable" className="h-full w-full text-slate-300" />} />}
+        aside={<Scene3D variant="cable" className="h-full" fallback={<Render name="cable" priority className="h-full w-full object-contain" />} />}
       />
       <TabNav tabs={applicationTabs} label="Applications" />
       <Section>
@@ -39,23 +39,14 @@ export default function ApplicationsPage() {
             if (!items.length) return null
             return (
               <div key={m}>
-                <div className="flex flex-col gap-1 border-b border-slate-200 pb-4 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h2 className="text-2xl font-extrabold">{m}</h2>
+                <div className="flex flex-col gap-1 border-b border-white/10 pb-4 sm:flex-row sm:items-baseline sm:justify-between">
+                  <h2 className="display-md">{m}</h2>
                   <p className="text-sm text-slate-500">{maturityText[m]}</p>
                 </div>
-                <ul data-reveal="stagger" className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <ul data-reveal="stagger" className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                   {items.map((a) => (
                     <li key={a.slug}>
-                      <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full flex-col overflow-hidden">
-                        <div className="bg-brand-50/60 px-6 pt-5">
-                          <Illustration name={a.illustration} className="h-28 w-full text-slate-800" />
-                        </div>
-                        <div className="flex flex-1 flex-col p-6">
-                          <h3 className="text-xl font-bold group-hover:text-brand-700">{a.name}</h3>
-                          <p className="mt-2 flex-1 text-slate-600">{a.tagline}</p>
-                          <p className="mt-4 text-xs text-slate-500">{a.maturityNote}</p>
-                        </div>
-                      </Link>
+                      <RenderCard href={`/applications/${a.slug}`} model={a.illustration} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
                     </li>
                   ))}
                 </ul>

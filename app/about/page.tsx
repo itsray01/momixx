@@ -1,4 +1,4 @@
-import { Illustration } from '@/components/Illustration'
+import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
@@ -17,14 +17,14 @@ export default function AboutPage() {
       <PageHeader
         crumbs={[{ href: '/about', label: 'About Us' }]}
         eyebrow="About us"
-        title="Precision silicone, since 2018"
+        title="Precision silicone, *since 2018*"
         intro="Momixx was founded in Singapore and Malaysia in 2018 to solve hard problems in silicone, from making cables safer to giving silicone waste a second life."
-        aside={<Scene3D variant="samples" className="h-full" fallback={<Illustration name="compound" className="h-full w-full text-slate-300" />} />}
+        aside={<Scene3D variant="oem" className="h-full" fallback={<Render name="oem" priority className="h-full w-full object-contain" />} />}
       />
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
-          <div className="space-y-5 text-lg leading-relaxed text-slate-700">
+          <div className="space-y-5 text-lg leading-relaxed text-slate-200">
             <p>
               We began by developing fire-retardant silicone for smartphone power cables, and within a year our material was qualified by one of the
               world’s leading smartphone brands. Since then we have grown into three connected businesses: silicone materials, the machines that
@@ -44,7 +44,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="muted" eyebrow="What we do" title="Three capabilities, one company">
+      <Section tone="muted" eyebrow="What we do" title="Three capabilities, *one company*">
         <FeatureGrid
           items={[
             { title: 'Develop & manufacture silicone compounds', body: 'Fire-retardant, high-density, self-bonding, waterproof and colour-matched silicone, in liquid (LSR) and solid (HCR) form.' },
@@ -54,13 +54,15 @@ export default function AboutPage() {
         />
       </Section>
 
-      <Section id="milestones" eyebrow="Our journey" title="Milestones">
-        <ol data-reveal="stagger" className="relative space-y-10 border-l-2 border-slate-200 pl-8 sm:pl-10">
+      <Section id="milestones" eyebrow="Our journey" title="*Milestones*">
+        <ol data-reveal="stagger" className="relative">
           {milestones.map((m) => (
-            <li key={m.year} className="relative">
-              <span aria-hidden="true" className="absolute top-1.5 -left-[2.6rem] h-4 w-4 rounded-full border-4 border-white bg-brand-500 ring-2 ring-brand-200 sm:-left-[3.1rem]" />
-              <h3 className="font-display text-2xl font-extrabold text-slate-900">{m.year}</h3>
-              <ul className="mt-2 space-y-1.5 text-slate-600">
+            <li key={m.year} className="grid gap-3 border-t border-white/[0.08] py-8 sm:grid-cols-[12rem_1fr] sm:gap-10">
+              <h3 className="display-md flex items-center gap-4 text-white">
+                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-300 shadow-[0_0_12px_var(--color-brand-300)]" />
+                {m.year}
+              </h3>
+              <ul className="space-y-2 text-lg text-slate-300">
                 {m.items.map((it) => (
                   <li key={it}>{it}</li>
                 ))}
@@ -70,13 +72,13 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      <Section tone="muted" id="locations" eyebrow="Where we are" title="Locations">
+      <Section tone="muted" id="locations" eyebrow="Where we are" title="Where we *are*">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {site.locations.map((l) => (
-            <li key={l.name} data-tilt className="card lift p-6">
-              <p className="text-xs font-bold tracking-widest text-brand-700 uppercase">{l.role}</p>
-              <h3 className="mt-2 text-xl font-bold">{l.name}</h3>
-              <p className="mt-2 text-sm text-slate-600">{l.detail}</p>
+            <li key={l.name} data-tilt className="card lift p-7">
+              <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{l.role}</p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{l.name}</h3>
+              <p className="mt-2 text-sm text-slate-400">{l.detail}</p>
             </li>
           ))}
         </ul>

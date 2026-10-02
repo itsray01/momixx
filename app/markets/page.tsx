@@ -22,16 +22,16 @@ export default function MarketsPage() {
       <PageHeader
         crumbs={[{ href: '/markets', label: 'Markets' }]}
         eyebrow="Markets"
-        title="The growth behind silicone"
+        title="The growth behind *silicone*"
         intro="Electrification, AI, healthcare and robotics all need materials that handle heat, movement and the human body. Here is how large those markets are expected to become, according to independent research firms."
       />
 
-      <Section eyebrow="At a glance" title="Expected growth">
+      <Section eyebrow="At a glance" title="Expected *growth*">
         <GrowthChart markets={addressable} />
         <p className="mt-4 text-xs text-slate-400">Humanoid robots are not shown: the source gives a 2035 total addressable market, not a growth rate.</p>
       </Section>
 
-      <Section tone="muted" eyebrow="Market by market" title="Market sizes and sources">
+      <Section tone="muted" eyebrow="Market by market" title="Market sizes and *sources*">
         <div data-reveal="stagger" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {addressable.map((m) => (
             <div key={m.id} className="flex flex-col gap-2">
@@ -42,7 +42,7 @@ export default function MarketsPage() {
                   {appsFor(m.id).map((a, i) => (
                     <span key={a.slug}>
                       {i > 0 && ', '}
-                      <Link href={`/applications/${a.slug}`} className="text-brand-700 hover:underline">
+                      <Link href={`/applications/${a.slug}`} className="text-brand-300 hover:underline">
                         {a.name}
                       </Link>
                     </span>
@@ -54,15 +54,15 @@ export default function MarketsPage() {
         </div>
       </Section>
 
-      <Section eyebrow="Context" title="Related industries">
+      <Section eyebrow="Context" title="Related *industries*">
         <div className="grid gap-6 md:grid-cols-2">
           {context.map((m) => (
             <MarketCard key={m.id} market={m} />
           ))}
           <article className="card flex flex-col p-6">
-            <h3 className="text-lg font-bold">Recycled silicone</h3>
+            <h3 className="text-lg font-semibold">Recycled silicone</h3>
             <p className="mt-1 text-sm text-slate-500">An early-stage market with no reliable published size yet.</p>
-            <p className="mt-5 text-sm leading-relaxed text-slate-600">{recyclingFacts.summary}</p>
+            <p className="mt-5 text-sm leading-relaxed text-slate-400">{recyclingFacts.summary}</p>
             <p className="mt-auto pt-5 text-xs text-slate-400">
               Source:{' '}
               <a href={recyclingFacts.source.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
@@ -74,11 +74,11 @@ export default function MarketsPage() {
         </div>
       </Section>
 
-      <Section tone="muted" eyebrow="Data" title="All figures in one table">
+      <Section tone="muted" eyebrow="Data" title="All figures in *one table*">
         <div className="card overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
             <caption className="sr-only">Market size estimates and sources</caption>
-            <thead className="border-b border-slate-200 bg-slate-50 text-xs tracking-wide text-slate-500 uppercase">
+            <thead className="border-b border-white/10 bg-white/[0.03] text-xs tracking-wide text-slate-500 uppercase">
               <tr>
                 <th scope="col" className="px-5 py-3 font-semibold">Market</th>
                 <th scope="col" className="px-5 py-3 text-right font-semibold">Current</th>
@@ -87,15 +87,15 @@ export default function MarketsPage() {
                 <th scope="col" className="px-5 py-3 font-semibold">Source</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 tabular-nums">
+            <tbody className="divide-y divide-white/[0.06] tabular-nums">
               {markets.map((m) => (
                 <tr key={m.id}>
-                  <th scope="row" className="px-5 py-3 font-semibold text-slate-900">{m.name}</th>
+                  <th scope="row" className="px-5 py-3 font-semibold text-white">{m.name}</th>
                   <td className="px-5 py-3 text-right">{m.current ? `${formatUsd(m.current.usdBn)} (${m.current.year})` : '—'}</td>
                   <td className="px-5 py-3 text-right">{`${formatUsd(m.forecast.usdBn)} (${m.forecast.year})`}</td>
                   <td className="px-5 py-3 text-right">{m.cagr ? `${m.cagr.pct}% (${m.cagr.period})` : '—'}</td>
                   <td className="px-5 py-3">
-                    <a href={m.source.url} target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">
+                    <a href={m.source.url} target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:underline">
                       {m.source.publisher}
                     </a>
                     <span className="text-slate-400">, {m.source.date}</span>

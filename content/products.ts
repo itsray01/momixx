@@ -4,7 +4,7 @@
 // To add a product: copy an entry, give it a unique slug, and fill in the
 // fields. Only `slug`, `name`, `category`, `tagline` and `summary` are required.
 
-import type { IllustrationName } from '@/components/Illustration'
+import type { ModelName } from '@/components/three/modelNames'
 
 export type ProductCategory = 'materials' | 'equipment' | 'services'
 
@@ -55,7 +55,8 @@ export type Product = {
   specs?: Array<{ label: string; value: string }>
   comparison?: Comparison
   applications?: string[]
-  illustration?: IllustrationName
+  /** Which 3D model represents this product (see components/three/models.tsx). */
+  illustration?: ModelName
   /** Path under /public, e.g. /images/products/vertical-extruder.jpg */
   image?: string
   recycledOption?: boolean

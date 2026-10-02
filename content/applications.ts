@@ -1,7 +1,7 @@
 // Where silicone is used, and where Momixx fits. Each entry becomes its own
 // page at /applications/<slug> with an addressable-market panel.
 
-import type { IllustrationName } from '@/components/Illustration'
+import type { ModelName } from '@/components/three/modelNames'
 
 export type Maturity = 'In mass production' | 'Certified & scaling' | 'Emerging opportunity'
 
@@ -20,7 +20,8 @@ export type Application = {
   /** ids from content/markets.ts */
   markets: string[]
   faqs: Array<{ q: string; a: string }>
-  illustration: IllustrationName
+  /** Which 3D model represents this application. */
+  illustration: ModelName
 }
 
 export const applications: Application[] = [

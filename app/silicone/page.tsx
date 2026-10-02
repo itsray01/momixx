@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { SiloxaneChain, SiliconeJourney, SiliconVsSilicone } from '@/components/infographics'
-import { Illustration } from '@/components/Illustration'
+import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
+import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
-import { CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
+import { Arrow, CtaBand, FaqList, PageHeader, Section, SectionHeading } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { siliconeFaqs } from '@/content/faqs'
 import { pageMetadata } from '@/lib/site'
@@ -29,49 +29,60 @@ export default function SiliconePage() {
       <PageHeader
         crumbs={[{ href: '/silicone', label: 'Silicone' }]}
         eyebrow="Silicone 101"
-        title="What is silicone, and why does it matter?"
+        title="What is silicone, and why does it *matter?*"
         intro="Silicone is a flexible, heat-resistant material built on a backbone of silicon and oxygen. You can’t see most of it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
-        aside={<Scene3D variant="molecule" className="h-full" fallback={<SiloxaneChain className="h-full w-full" />} />}
+        aside={<Scene3D variant="molecule" className="h-full" fallback={<Render name="molecule" priority className="h-full w-full object-contain" />} />}
       />
 
-      <Section eyebrow="Not the same thing" title="Silicon vs silicone" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
+      <Section eyebrow="Not the same thing" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
         <SiliconVsSilicone />
       </Section>
 
-      <Section tone="muted" eyebrow="From sand to product" title="How silicone is made" intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into compounds engineered for a specific job.">
-        <SiliconeJourney />
-      </Section>
+      <section className="relative bg-ink-900 pt-24 sm:pt-32">
+        <div className="hairline absolute inset-x-0 top-0" />
+        <div className="container-page">
+          <SectionHeading eyebrow="From sand to product" title="How silicone is *made*" intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into compounds engineered for a specific job." />
+        </div>
+        <div className="pb-24 sm:pb-32 lg:pb-0">
+          <JourneyScroll />
+        </div>
+      </section>
 
-      <Section eyebrow="Why engineers choose it" title="Six properties that make silicone essential">
-        <div data-reveal="stagger" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {properties.map((p) => (
-            <div key={p.title} className="border-l-2 border-brand-400 pl-5">
-              <h3 className="text-lg font-bold">{p.title}</h3>
-              <p className="mt-1.5 leading-relaxed text-slate-600">{p.body}</p>
+      <Section eyebrow="Why engineers choose it" title="Six properties that make silicone *essential*">
+        <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
+          {properties.map((p, i) => (
+            <div key={p.title} className="bg-ink-950 p-8">
+              <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+              <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">{p.title}</h3>
+              <p className="mt-2 leading-relaxed text-slate-400">{p.body}</p>
             </div>
           ))}
         </div>
       </Section>
 
-      <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries shaping the future">
-        <div data-reveal="stagger" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries *shaping the future*">
+        <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
-            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-start gap-4 p-5">
-              <Illustration name={a.illustration} className="h-16 w-24 shrink-0 text-slate-800" />
-              <div>
-                <h3 className="font-bold group-hover:text-brand-700">{a.name}</h3>
-                <p className="mt-1 text-sm text-slate-600">{a.examples.slice(0, 3).join(' · ')}</p>
+            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-center gap-5 overflow-hidden p-5">
+              <div className="relative w-28 shrink-0">
+                <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.25), transparent)' }} />
+                <Render name={a.illustration} className="relative" sizes="112px" />
               </div>
+              <div className="min-w-0">
+                <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
+                <p className="mt-1 text-sm text-slate-400">{a.examples.slice(0, 3).join(' · ')}</p>
+              </div>
+              <Arrow className="ml-auto shrink-0 text-slate-500 group-hover:text-brand-300" />
             </Link>
           ))}
         </div>
       </Section>
 
-      <Section eyebrow="Questions" title="Silicone FAQs">
+      <Section eyebrow="Questions" title="Silicone *FAQs*">
         <FaqList faqs={siliconeFaqs} />
       </Section>
 
-      <CtaBand title="Need silicone for a specific job?" body="Tell us what your product has to survive: heat, flexing, fire, water or the human body. We’ll recommend a grade or develop one." />
+      <CtaBand title="Need silicone for a *specific job?*" body="Tell us what your product has to survive: heat, flexing, fire, water or the human body. We’ll recommend a grade or develop one." />
     </>
   )
 }

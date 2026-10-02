@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { Illustration } from '@/components/Illustration'
+import { Render } from '@/components/Render'
+import { RenderCard } from '@/components/RenderCard'
 import { TabNav } from '@/components/TabNav'
 import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
@@ -22,9 +22,9 @@ export default function ProductsPage() {
       <PageHeader
         crumbs={[{ href: '/products', label: 'Products' }]}
         eyebrow="Products & services"
-        title="Everything we make"
+        title="Everything *we make*"
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
-        aside={<Scene3D variant="samples" className="h-full" fallback={<Illustration name="compound" className="h-full w-full text-slate-300" />} />}
+        aside={<Scene3D variant="samples" className="h-full" fallback={<Render name="samples" priority className="h-full w-full object-contain" />} />}
       />
       <TabNav tabs={productTabs} label="Products" />
       {order.map((cat, i) => (
@@ -32,27 +32,25 @@ export default function ProductsPage() {
           <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {productsByCategory(cat).map((p) => (
               <li key={p.slug}>
-                <Link href={`/products/${p.slug}`} data-tilt className="group card lift flex h-full flex-col overflow-hidden">
-                  <div className="bg-brand-50/60 px-6 pt-5">
-                    <Illustration name={p.illustration ?? 'compound'} className="h-28 w-full text-slate-800" />
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="text-lg font-bold group-hover:text-brand-700">{p.name}</h3>
-                    <p className="mt-1.5 flex-1 text-slate-600">{p.tagline}</p>
-                    {p.stats?.[0] && (
-                      <p className="mt-4 text-sm">
-                        <span className="font-display font-extrabold text-slate-900">{p.stats[0].value}</span>{' '}
-                        <span className="text-slate-500">{p.stats[0].label}</span>
-                      </p>
-                    )}
-                  </div>
-                </Link>
+                <RenderCard
+                  href={`/products/${p.slug}`}
+                  model={p.illustration ?? 'compound'}
+                  title={p.name}
+                  body={p.tagline}
+                  footer={
+                    p.stats?.[0] && (
+                      <>
+                        <span className="font-medium text-white">{p.stats[0].value}</span> {p.stats[0].label}
+                      </>
+                    )
+                  }
+                />
               </li>
             ))}
           </ul>
         </Section>
       ))}
-      <CtaBand title="Looking for something not listed?" body="Most of our work is custom. Tell us what you need and our R&D team will formulate it." />
+      <CtaBand title="Looking for something *not listed?*" body="Most of our work is custom. Tell us what you need and our R&D team will formulate it." />
     </>
   )
 }

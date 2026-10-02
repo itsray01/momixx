@@ -33,27 +33,27 @@ export default function TeamPage() {
           { href: '/team', label: 'Our Team' },
         ]}
         eyebrow="Leadership"
-        title="Our management team"
+        title="Our management *team*"
         intro="The people responsible for Momixx’s strategy, technology and operations."
       />
       <Section>
         <ul data-reveal="stagger" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <li key={`${m.role}-${i}`} className="flex flex-col">
-              <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100">
+              <div className="relative aspect-square overflow-hidden rounded-2xl bg-white/[0.06]">
                 {m.photo ? (
                   <Image src={m.photo} alt={`Portrait of ${m.name}`} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
                 ) : (
-                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-ink-800 to-ink-950 font-display text-5xl font-extrabold text-white/80">
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-ink-800 to-ink-950 font-display text-5xl font-semibold text-white/80">
                     {m.placeholder ? '?' : initials(m.name)}
                   </div>
                 )}
               </div>
-              <h2 className={`mt-5 text-xl font-bold ${m.placeholder ? 'text-slate-400' : ''}`}>{m.name}</h2>
-              <p className="text-sm font-semibold text-brand-700">{m.role}</p>
-              <p className={`mt-3 text-sm leading-relaxed ${m.placeholder ? 'text-slate-400 italic' : 'text-slate-600'}`}>{m.bio}</p>
+              <h2 className={`mt-5 text-xl font-semibold ${m.placeholder ? 'text-slate-400' : ''}`}>{m.name}</h2>
+              <p className="text-sm font-semibold text-brand-300">{m.role}</p>
+              <p className={`mt-3 text-sm leading-relaxed ${m.placeholder ? 'text-slate-400 italic' : 'text-slate-400'}`}>{m.bio}</p>
               {m.linkedin && (
-                <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm font-semibold text-brand-700 hover:underline">
+                <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm font-semibold text-brand-300 hover:underline">
                   LinkedIn
                 </a>
               )}

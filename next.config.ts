@@ -30,6 +30,7 @@ const legacyRedirects: Array<[string, string]> = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  devIndicators: false,
   async redirects() {
     return [
       ...redirectHosts.map((host) => ({
