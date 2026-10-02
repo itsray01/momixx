@@ -2,7 +2,7 @@ import { CertCard } from '@/components/CertCard'
 import { RecycleOrbit } from '@/components/infographics'
 import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
-import { CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
+import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { certifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
 import { pageMetadata } from '@/lib/site'
@@ -13,6 +13,30 @@ export const metadata = pageMetadata({
     'How Momixx chemically recycles silicone waste into new, high-performance silicone, certified under GRS, ISCC PLUS and SCS Global Services, with traceability for every batch.',
   path: '/recycled-silicone',
 })
+
+// Answer-first FAQs (also marked up as FAQPage) for search and AI answer engines.
+const recycledFaqs = [
+  {
+    q: 'What is recycled silicone?',
+    a: 'Recycled silicone is silicone made from silicone waste, such as factory offcuts (post-industrial) and used products (post-consumer), instead of only virgin raw materials. Momixx uses chemical recycling: the waste is broken down into cyclic siloxanes, purified, and rebuilt into new silicone.',
+  },
+  {
+    q: 'Is recycled silicone as good as virgin silicone?',
+    a: 'It depends on how it is recycled. Grinding silicone into powder and reusing it as filler lowers strength, which researchers describe as downcycling. Chemical recycling rebuilds silicone from its molecular building blocks, so it can perform like virgin material. Momixx uses the chemical route.',
+  },
+  {
+    q: 'What certifications does Momixx recycled silicone have?',
+    a: 'Momixx recycled silicone is certified under the Global Recycled Standard (GRS), ISCC PLUS and SCS Global Services recycled content certification. To our knowledge, Momixx is the only silicone company certified under both GRS and ISCC PLUS.',
+  },
+  {
+    q: 'What silicone waste can be recycled?',
+    a: 'Both post-industrial scrap, such as offcuts and rejects from moulding and extrusion, and post-consumer silicone products. Contact us to discuss the type and volume of scrap you have.',
+  },
+  {
+    q: 'Which Momixx grades are available with recycled content?',
+    a: 'Recycled content is available across Momixx grades on request, including recycled-content cable silicone. Tell us your specification and recycled-content target.',
+  },
+]
 
 const efficiency = [
   { value: '30%', label: 'less electricity in our curing ovens' },
@@ -29,7 +53,7 @@ export default function RecycledSiliconePage() {
         crumbs={[{ href: '/recycled-silicone', label: 'Recycled Silicone' }]}
         eyebrow="Sustainability"
         title="Recycled silicone, *certified and traceable*"
-        intro="Silicone lasts for decades, which also means it doesn’t break down in landfill. We turn silicone waste back into new silicone that performs like the original."
+        intro="Recycled silicone is new silicone made from silicone waste, such as factory offcuts and used products, instead of only virgin raw materials. We recycle chemically: breaking waste back into its molecular building blocks, then rebuilding silicone that performs like the original."
         aside={
           <Scene3D
             variant="recycle"
@@ -115,6 +139,15 @@ export default function RecycledSiliconePage() {
               { title: 'PFAS-free alternatives', body: 'High-density silicone replaces fluorinated rubbers that contain “forever chemicals”.' },
             ]}
           />
+        </div>
+      </Section>
+
+      <Section eyebrow="Questions" title="Recycled silicone *FAQs*">
+        <FaqList faqs={recycledFaqs} />
+        <div className="mt-10 flex flex-wrap gap-6">
+          <ArrowLink href="/insights/silicone-recycling-explained">Silicone recycling explained</ArrowLink>
+          <ArrowLink href="/insights/grs-vs-iscc-plus-vs-scs">GRS vs ISCC PLUS vs SCS</ArrowLink>
+          <ArrowLink href="/insights/silicone-carbon-footprint">Silicone’s carbon footprint</ArrowLink>
         </div>
       </Section>
 

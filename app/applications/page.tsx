@@ -1,3 +1,4 @@
+import { collectionPage, JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
 import { RenderCard } from '@/components/RenderCard'
 import { TabNav } from '@/components/TabNav'
@@ -56,6 +57,7 @@ export default function ApplicationsPage() {
         </div>
       </Section>
       <CtaBand />
+      <JsonLd data={collectionPage('Silicone applications', '/applications', applications.map((a) => ({ name: a.name, path: `/applications/${a.slug}` })))} />
     </>
   )
 }

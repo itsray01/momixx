@@ -49,6 +49,7 @@ export const mainNav: NavItem[] = [
       { href: '/about', label: 'About us' },
       { href: '/team', label: 'Our team' },
       { href: '/culture', label: 'Culture & careers' },
+      { href: '/locations', label: 'Locations' },
       { href: '/innovation', label: 'Research & innovation' },
       { href: '/markets', label: 'Markets' },
     ],

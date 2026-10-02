@@ -23,6 +23,7 @@ export const modelNames = [
   'sand',
   'molecule',
   'samples',
+  'globe',
 ] as const
 
 export type ModelName = (typeof modelNames)[number]

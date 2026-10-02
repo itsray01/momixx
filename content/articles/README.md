@@ -23,6 +23,9 @@ faqs:                     # real questions people ask; marked up for Google
 sources:                  # every fact or figure needs a credible source
   - title: …
     url: https://…
+author:                   # optional: a named expert byline builds trust with Google and AI engines
+  name: …
+  role: Head of Materials R&D
 ---
 ```
 

@@ -5,8 +5,10 @@
 // for cards (see scripts/render-models.mjs), so pages with many cards stay fast.
 
 import { Environment, Lightformer, RoundedBox } from '@react-three/drei'
-import { useMemo } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { landDots } from './landDots'
 import type { ModelName } from './modelNames'
 
 export const TEAL = '#149f94'
@@ -888,6 +890,95 @@ export function SamplesModel({ float }: { float?: (i: number, node: React.ReactN
 
 // ───────────────────────── Registry ─────────────────────────
 
+
+// ───────────────────────── Globe ─────────────────────────
+
+/** Where Momixx is today: Singapore HQ and Batu Kawan, Penang. */
+export const globeSites = [
+  { name: 'Singapore', lat: 1.29, lon: 103.85 },
+  { name: 'Batu Kawan, Penang', lat: 5.23, lon: 100.43 },
+]
+
+const GLOBE_R = 1.85
+const toRad = THREE.MathUtils.degToRad
+function latLon(lat: number, lon: number, r = GLOBE_R) {
+  const phi = toRad(lat)
+  const lambda = toRad(lon)
+  return new THREE.Vector3(r * Math.cos(phi) * Math.sin(lambda), r * Math.sin(phi), r * Math.cos(phi) * Math.cos(lambda))
+}
+
+const atmosphereShader = {
+  uniforms: { color: { value: new THREE.Color(TEAL_LIGHT) } },
+  vertexShader: 'varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: 'uniform vec3 color; varying vec3 vN; void main(){ float i = pow(0.72 - dot(vN, vec3(0.0, 0.0, 1.0)), 3.0); gl_FragColor = vec4(color, 1.0) * i; }',
+}
+
+/** Dotted globe (land from Natural Earth) turned to face Asia, with our sites lit up. */
+export function GlobeModel({ spin = false }: { spin?: boolean }) {
+  const dots = useRef<THREE.InstancedMesh>(null)
+  const turn = useRef<THREE.Group>(null)
+  const count = landDots.length / 2
+  useLayoutEffect(() => {
+    const m = dots.current
+    if (!m) return
+    const o = new THREE.Object3D()
+    for (let i = 0; i < count; i++) {
+      const p = latLon(landDots[i * 2], landDots[i * 2 + 1], GLOBE_R * 1.004)
+      o.position.copy(p)
+      o.lookAt(p.clone().multiplyScalar(2))
+      o.updateMatrix()
+      m.setMatrixAt(i, o.matrix)
+    }
+    m.instanceMatrix.needsUpdate = true
+  }, [count])
+  // Sway gently either side of Asia, so our sites stay in view.
+  const facing = -toRad(103) + 0.22
+  useFrame((state) => {
+    if (spin && turn.current) turn.current.rotation.y = facing + Math.sin(state.clock.elapsedTime * 0.12) * 0.6
+  })
+  return (
+    <group rotation={[0.14, 0, 0.06]}>
+      <group ref={turn} rotation={[0, facing, 0]}>
+        <mesh>
+          <sphereGeometry args={[GLOBE_R, 96, 96]} />
+          <meshStandardMaterial color="#0a1420" emissive="#04201d" roughness={0.55} metalness={0.35} />
+        </mesh>
+        <instancedMesh ref={dots} args={[undefined, undefined, count]}>
+          <circleGeometry args={[0.019, 8]} />
+          <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.9} />
+        </instancedMesh>
+        {globeSites.map((s) => {
+          const p = latLon(s.lat, s.lon, GLOBE_R * 1.01)
+          return (
+            <group key={s.name} position={p} onUpdate={(g) => g.lookAt(p.clone().multiplyScalar(2))}>
+              <mesh>
+                <sphereGeometry args={[0.045, 24, 24]} />
+                <meshBasicMaterial color="#ffffff" toneMapped={false} />
+              </mesh>
+              <mesh>
+                <ringGeometry args={[0.08, 0.1, 48]} />
+                <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} />
+              </mesh>
+              <mesh position={[0, 0, 0.18]} rotation={[Math.PI / 2, 0, 0]}>
+                <cylinderGeometry args={[0.006, 0.006, 0.36, 8]} />
+                <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} />
+              </mesh>
+            </group>
+          )
+        })}
+      </group>
+      <mesh scale={1.14}>
+        <sphereGeometry args={[GLOBE_R, 64, 64]} />
+        <shaderMaterial args={[atmosphereShader]} side={THREE.BackSide} blending={THREE.AdditiveBlending} transparent depthWrite={false} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2 - 0.28, 0.18, 0]}>
+        <torusGeometry args={[GLOBE_R * 1.32, 0.006, 8, 200]} />
+        <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.35} />
+      </mesh>
+    </group>
+  )
+}
+
 export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
   cable: () => <CableModel compact />,
   'ev-cable': () => <EvCableModel />,
@@ -911,4 +1002,5 @@ export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
   sand: () => <QuartzModel />,
   molecule: () => <MoleculeModel />,
   samples: () => <SamplesModel />,
+  globe: () => <GlobeModel />,
 }

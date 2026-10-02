@@ -6,7 +6,7 @@ import { teamReady } from '@/content/team'
 import { absoluteUrl } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = ['/', '/silicone', '/products', '/applications', '/sustainability', '/recycled-silicone', '/insights', '/insights/glossary', '/culture', '/markets', '/about', '/innovation', '/contact', ...(teamReady ? ['/team'] : [])]
+  const staticPages = ['/', '/silicone', '/products', '/applications', '/sustainability', '/recycled-silicone', '/insights', '/insights/glossary', '/culture', '/locations', '/markets', '/about', '/innovation', '/contact', ...(teamReady ? ['/team'] : [])]
   return [
     ...staticPages.map((p) => ({ url: absoluteUrl(p), changeFrequency: 'monthly' as const, priority: p === '/' ? 1 : 0.8 })),
     ...applications.map((a) => ({ url: absoluteUrl(`/applications/${a.slug}`), changeFrequency: 'monthly' as const, priority: 0.7 })),

@@ -20,15 +20,23 @@ export function CertCard({ cert, featured = false }: { cert: Certification; feat
       <p className="mt-1 text-xs text-slate-500">
         {cert.issuer}
         {cert.year ? ` · since ${cert.year}` : ''}
+        {cert.number ? ` · No. ${cert.number}` : ''}
       </p>
       <p className={`mt-4 flex-1 leading-relaxed text-slate-400 ${featured ? 'text-base' : 'text-sm'}`}>{cert.plain}</p>
-      {cert.file ? (
-        <a href={cert.file} target="_blank" rel="noopener" className="mt-6 text-sm font-medium text-brand-300 hover:text-brand-200">
-          View certificate (PDF) <span aria-hidden="true">→</span>
-        </a>
-      ) : (
-        <p className="mt-6 text-sm text-slate-500">Certificate available on request</p>
-      )}
+      <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
+        {cert.file ? (
+          <a href={cert.file} target="_blank" rel="noopener" className="text-brand-300 hover:text-brand-200">
+            View certificate (PDF) <span aria-hidden="true">→</span>
+          </a>
+        ) : (
+          <span className="font-normal text-slate-500">Certificate available on request</span>
+        )}
+        {cert.verifyUrl && (
+          <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:text-brand-200">
+            Verify with {cert.issuer} <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </div>
     </li>
   )
 }

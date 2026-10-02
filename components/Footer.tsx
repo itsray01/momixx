@@ -86,7 +86,11 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
-          <p>Singapore · Penang, Malaysia · Serving customers worldwide</p>
+          <p>
+            <Link href="/locations" className="hover:text-white">
+              Singapore · Penang, Malaysia · Serving customers worldwide
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

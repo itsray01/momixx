@@ -54,6 +54,10 @@ export type Certification = {
   file?: string
   /** Drop the logo into /public/images/certs and set e.g. '/images/certs/grs.png' */
   logo?: string
+  /** Certificate or licence number, shown on the card. */
+  number?: string
+  /** Link to the scheme's public certificate database entry, so anyone can verify it. */
+  verifyUrl?: string
 }
 
 export const certifications: Certification[] = [

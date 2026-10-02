@@ -1,4 +1,5 @@
 import { ArticleCard } from '@/components/ArticleCard'
+import { collectionPage, JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { getArticles } from '@/lib/articles'
@@ -16,7 +17,8 @@ export const metadata = {
 }
 
 export default function InsightsPage() {
-  const [featured, ...rest] = getArticles()
+  const all = getArticles()
+  const [featured, ...rest] = all
   return (
     <>
       <PageHeader
@@ -45,6 +47,7 @@ export default function InsightsPage() {
         </ul>
       </Section>
       <CtaBand title="Have a question about *silicone?*" body="Our engineers are happy to help with materials, recycling and manufacturing questions." />
+      <JsonLd data={collectionPage('Momixx Insights', '/insights', all.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))} />
     </>
   )
 }

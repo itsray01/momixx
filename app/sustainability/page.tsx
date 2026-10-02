@@ -54,7 +54,7 @@ export default function SustainabilityPage() {
       </Section>
 
       {/* Carbon footprint */}
-      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Measured, validated, *reducing*">
+      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Measured and *independently validated*">
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.3fr]">
           <div data-reveal className="card grain relative overflow-hidden p-8 sm:p-10">
             <Glow className="-top-48 -right-48" size={520} />

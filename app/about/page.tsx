@@ -83,6 +83,7 @@ export default function AboutPage() {
           ))}
         </ul>
         <div className="mt-10 flex flex-wrap gap-6">
+          <ArrowLink href="/locations">All locations</ArrowLink>
           <ArrowLink href="/team">Meet our management team</ArrowLink>
           <ArrowLink href="/innovation">Research & innovation</ArrowLink>
         </div>

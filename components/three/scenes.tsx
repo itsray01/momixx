@@ -9,7 +9,7 @@ import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { heroProgress } from './heroProgress'
 import type { ModelName } from './modelNames'
-import { CableModel, ExtrusionModel, LoopModel, modelRegistry, Studio } from './models'
+import { CableModel, ExtrusionModel, GlobeModel, LoopModel, modelRegistry, Studio } from './models'
 
 export type SceneVariant = 'hero' | 'extrusion' | ModelName
 
@@ -144,7 +144,12 @@ export default function Scene({ variant, animate, onReady }: { variant: SceneVar
           <LiveLoop />
         </Rig>
       )}
-      {Model && variant !== 'cable' && variant !== 'recycle' && (
+      {variant === 'globe' && (
+        <Rig strength={0.35}>
+          <GlobeModel spin />
+        </Rig>
+      )}
+      {Model && variant !== 'cable' && variant !== 'recycle' && variant !== 'globe' && (
         <Rig strength={0.8}>
           <Float speed={1.2} rotationIntensity={0.25} floatIntensity={0.6} floatingRange={[-0.08, 0.08]}>
             <Model />

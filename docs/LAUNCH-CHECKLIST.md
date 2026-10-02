@@ -18,6 +18,10 @@ Everything here needs a human decision or a file from the company before the new
 | 10 | **Carbon footprint figures and validation statement.** For example, kg CO₂e per kg, the boundary, the verifier and the year. | `content/sustainability.ts` → `carbonMetrics` / `carbonComparison`; PDF in `public/certificates/` | The figures block and the recycled-vs-virgin chart appear once real, validated numbers are added. Never estimate. |
 | 11 | **Careers contact.** Use a dedicated email (e.g. careers@) instead of enquiries@. | `app/culture/page.tsx` | CVs currently go to the general enquiries inbox. |
 | 12 | **Article review owner.** Who checks new Insights articles before they go live. | `content/articles/` | Keeps facts and claims accurate as the library grows. |
+| 13 | **Penang plant details.** Full street address, photos, floor area and headcount (if disclosable). | `app/locations/page.tsx`, `app/layout.tsx` (Organization `location`) | Site pages like Wacker's rank for "[company] [city]" and plant-capability searches. |
+| 14 | **Certificate numbers and public verification links** for GRS, ISCC PLUS and SCS. | `content/company.ts` → `number`, `verifyUrl` | A "Verify" link to each scheme's public database is the strongest proof of an "only" claim. |
+| 15 | **Named article authors.** One or two engineers or managers willing to be credited. | `author:` in each article's frontmatter | Named expert bylines are a trust signal for Google and AI answer engines. |
+| 16 | **Recycled vs virgin test data.** Tensile, tear, elongation and ageing results, with methods. | A new Insights article | AI answers currently repeat that recycled silicone "loses quality". Published data that shows otherwise is the page most likely to be cited. |
 
 ## 2. Assets to export from WordPress
 

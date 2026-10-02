@@ -54,7 +54,7 @@ export default async function ArticlePage({ params }: Props) {
               <h1 className="display-lg mt-5">{a.title}</h1>
               <p className="mt-6 max-w-2xl text-xl leading-relaxed text-slate-300">{a.description}</p>
               <p className="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
-                <span>By the {site.name} team</span>
+                <span>{a.author ? `By ${a.author.name}${a.author.role ? `, ${a.author.role}` : ''}` : `By the ${site.name} team`}</span>
                 <span aria-hidden="true">·</span>
                 <time dateTime={a.date}>Published {formatDate(a.date)}</time>
                 {a.updated && a.updated !== a.date && (
@@ -171,7 +171,9 @@ export default async function ArticlePage({ params }: Props) {
           keywords: a.tags.join(', '),
           inLanguage: 'en',
           mainEntityOfPage: absoluteUrl(`/insights/${a.slug}`),
-          author: { '@type': 'Organization', name: site.name, url: site.url },
+          author: a.author
+            ? { '@type': 'Person', name: a.author.name, ...(a.author.role ? { jobTitle: a.author.role } : {}), ...(a.author.url ? { url: a.author.url } : {}), worksFor: { '@id': absoluteUrl('/#organization') } }
+            : { '@type': 'Organization', name: site.name, url: site.url },
           publisher: { '@id': absoluteUrl('/#organization') },
           ...(a.sources.length ? { citation: a.sources.map((s) => ({ '@type': 'CreativeWork', name: s.title, url: s.url })) } : {}),
         }}

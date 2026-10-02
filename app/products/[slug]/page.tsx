@@ -221,6 +221,7 @@ export default async function ProductPage({ params }: Props) {
           name: p.name,
           description: p.summary,
           url: absoluteUrl(`/products/${p.slug}`),
+          image: absoluteUrl(p.image ?? `/renders/${p.illustration}.webp`),
           category: categoryLabels[p.category],
           ...(p.category === 'services'
             ? { provider: { '@id': absoluteUrl('/#organization') }, areaServed: 'Worldwide' }

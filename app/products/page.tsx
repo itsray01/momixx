@@ -1,9 +1,10 @@
+import { collectionPage, JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
 import { RenderCard } from '@/components/RenderCard'
 import { TabNav } from '@/components/TabNav'
 import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
-import { categoryIntros, categoryLabels, productsByCategory, type ProductCategory } from '@/content/products'
+import { categoryIntros, categoryLabels, products, productsByCategory, type ProductCategory } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
 import { productTabs } from './tabs'
 
@@ -51,6 +52,7 @@ export default function ProductsPage() {
         </Section>
       ))}
       <CtaBand title="Looking for something *not listed?*" body="Most of our work is custom. Tell us what you need and our R&D team will formulate it." />
+      <JsonLd data={collectionPage('Momixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
     </>
   )
 }

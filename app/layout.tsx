@@ -31,15 +31,34 @@ export const viewport: Viewport = {
 
 const organization = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'Corporation',
   '@id': absoluteUrl('/#organization'),
   name: site.name,
+  legalName: site.legalName,
   alternateName: [site.legalName, 'Orion Momixx'],
+  slogan: site.tagline,
   url: site.url,
   logo: absoluteUrl('/icon.svg'),
   description: site.description,
   foundingDate: String(site.foundingYear),
   email: site.email,
+  areaServed: 'Worldwide',
+  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: site.email, areaServed: 'Worldwide', availableLanguage: ['English'] },
+  // Sites, as on /locations.
+  location: [
+    {
+      '@type': 'Place',
+      name: `${site.name} headquarters, Singapore`,
+      url: absoluteUrl('/locations#singapore'),
+      address: { '@type': 'PostalAddress', streetAddress: site.address.street, addressLocality: site.address.locality, postalCode: site.address.postalCode, addressCountry: site.address.country },
+    },
+    {
+      '@type': 'Place',
+      name: `${site.name} R&D and manufacturing, Batu Kawan, Penang`,
+      url: absoluteUrl('/locations#penang'),
+      address: { '@type': 'PostalAddress', addressLocality: 'Batu Kawan', addressRegion: 'Penang', addressCountry: 'MY' },
+    },
+  ],
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.street,
