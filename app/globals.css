@@ -248,6 +248,16 @@ html.lenis body {
   & a {
     @apply underline decoration-brand-400/40 underline-offset-4 hover:decoration-brand-300;
   }
+  & .table-scroll {
+    @apply my-8 overflow-x-auto rounded-2xl border border-white/[0.08] bg-white/[0.02];
+  }
+  & .table-scroll table {
+    @apply my-0 min-w-[34rem] text-sm leading-snug sm:text-base;
+  }
+  & .table-scroll th,
+  & .table-scroll td {
+    @apply px-4 py-3 align-top first:pl-5;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

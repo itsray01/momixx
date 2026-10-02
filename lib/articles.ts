@@ -47,6 +47,18 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
+/** Plain text from inline HTML: strips tags and decodes the entities marked emits. */
+function plainText(html: string) {
+  return html
+    .replace(/<[^>]+>/g, '')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([\da-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+}
+
 function render(md: string) {
   const headings: Array<{ id: string; text: string }> = []
   const marked = new Marked({
@@ -54,8 +66,9 @@ function render(md: string) {
     renderer: {
       heading({ tokens, depth }) {
         const text = this.parser.parseInline(tokens)
-        const id = slugify(text)
-        if (depth === 2) headings.push({ id, text: text.replace(/<[^>]+>/g, '') })
+        const plain = plainText(text)
+        const id = slugify(plain.replace(/['’]/g, ''))
+        if (depth === 2) headings.push({ id, text: plain })
         return `<h${depth} id="${id}">${text}</h${depth}>\n`
       },
       link({ href, title, tokens }) {
@@ -65,7 +78,10 @@ function render(md: string) {
       },
     },
   })
-  const html = marked.parse(md, { async: false }) as string
+  // Wide tables scroll inside their own box instead of widening the page on phones.
+  const html = (marked.parse(md, { async: false }) as string)
+    .replace(/<table>/g, '<div class="table-scroll" role="region" aria-label="Table" tabindex="0"><table>')
+    .replace(/<\/table>/g, '</table></div>')
   return { html, headings }
 }
 
