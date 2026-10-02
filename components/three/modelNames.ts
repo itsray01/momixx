@@ -24,6 +24,7 @@ export const modelNames = [
   'molecule',
   'samples',
   'globe',
+  'extruder-line',
 ] as const
 
 export type ModelName = (typeof modelNames)[number]

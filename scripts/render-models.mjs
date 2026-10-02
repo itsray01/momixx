@@ -12,7 +12,7 @@ const base = process.argv[2] ?? 'http://localhost:3000'
 const all = [
   'cable', 'ev-cable', 'watchband', 'phone-case', 'seal', 'compound', 'recycle', 'bottle',
   'extruder-vertical', 'extruder-horizontal', 'mixer', 'winder', 'oven', 'coating', 'oem',
-  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe',
+  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line',
 ]
 const names = process.argv.length > 3 ? process.argv.slice(3) : all
 

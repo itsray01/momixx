@@ -68,7 +68,7 @@ export function ScrollEffects() {
           const target = Number(m[1].replace(/,/g, ''))
           const suffix = m[2] ?? ''
           const isYear = !suffix && target >= 1900 && target <= 2100
-          if (!target || isYear) return
+          if (target < 10 || isYear) return
           const fmt = (v: number) => (m[1].includes(',') ? Math.round(v).toLocaleString('en') : String(Math.round(v))) + suffix
           // The real value stays in the page until the number scrolls into
           // view, so crawlers and no-scroll visitors never see "0".
@@ -97,18 +97,34 @@ export function ScrollEffects() {
           tl.from(hero.querySelectorAll('[data-hero-label]'), { y: 30, autoAlpha: 0, stagger: 0.25, duration: 0.6, ease: 'power2.out' }, 0.25)
         }
 
-        gsap.utils.toArray<HTMLElement>('[data-hscroll]').forEach((wrap) => {
+        const hscrollCleanups = gsap.utils.toArray<HTMLElement>('[data-hscroll]').map((wrap) => {
           const track = wrap.querySelector<HTMLElement>('[data-hscroll-track]')
-          if (!track) return
-          const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + 64)
+          const viewport = wrap.querySelector<HTMLElement>('[data-hscroll-viewport]')
+          const bar = wrap.querySelector<HTMLElement>('[data-hscroll-progress]')
+          if (!track || !viewport) return () => {}
+          // While pinned, the row is moved by scrolling the page, not swiped.
+          viewport.style.overflowX = 'hidden'
+          const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
           gsap.to(track, {
             x: () => -distance(),
             ease: 'none',
-            scrollTrigger: { trigger: wrap, start: 'top top', end: () => `+=${distance()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
+            scrollTrigger: {
+              trigger: wrap,
+              start: 'top top',
+              end: () => `+=${distance()}`,
+              pin: true,
+              scrub: 0.6,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => bar && gsap.set(bar, { scaleX: self.progress }),
+            },
           })
+          return () => {
+            viewport.style.overflowX = ''
+          }
         })
         return () => {
           heroProgress.value = 0
+          hscrollCleanups.forEach((c) => c())
         }
       })
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CompareBars, MarketCard } from '@/components/charts'
 import { Render } from '@/components/Render'
+import { ExtruderSection } from '@/components/ExtruderSection'
 import { JsonLd } from '@/components/JsonLd'
 import { TabNav } from '@/components/TabNav'
 import { Scene3D } from '@/components/three/Scene3D'
@@ -114,7 +115,9 @@ export default async function ProductPage({ params }: Props) {
         </Section>
       )}
 
-      {(p.models || p.specs) && (
+      {p.slug === 'vertical-extruder' && <ExtruderSection tone="muted" />}
+
+      {(p.models || (p.specs && p.slug !== 'vertical-extruder')) && (
         <Section tone={p.comparison ? 'muted' : 'white'} eyebrow="Technical details" title={p.models ? 'Grades in this *series*' : '*Specifications*'}>
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
             {p.models && (

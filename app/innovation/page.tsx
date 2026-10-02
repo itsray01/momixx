@@ -92,7 +92,7 @@ export default function InnovationPage() {
             cols={1}
             stats={[
               { value: '20+', label: 'patents granted or pending' },
-              { value: 'World first', label: 'vertical silicone data-cable extrusion' },
+              { value: '1st', label: 'vertical silicone data-cable extrusion line in the world' },
             ]}
           />
         </div>

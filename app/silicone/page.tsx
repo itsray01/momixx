@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
 import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
-import { Arrow, CtaBand, FaqList, PageHeader, Section, SectionHeading } from '@/components/ui'
+import { Arrow, CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { siliconeFaqs } from '@/content/faqs'
 import { pageMetadata } from '@/lib/site'
@@ -38,15 +38,12 @@ export default function SiliconePage() {
         <SiliconVsSilicone />
       </Section>
 
-      <section className="relative bg-ink-900 pt-24 sm:pt-32">
-        <div className="hairline absolute inset-x-0 top-0" />
-        <div className="container-page">
-          <SectionHeading eyebrow="From sand to product" title="How silicone is *made*" intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into compounds engineered for a specific job." />
-        </div>
-        <div className="pb-24 sm:pb-32 lg:pb-0">
-          <JourneyScroll />
-        </div>
-      </section>
+      <JourneyScroll
+        tone="muted"
+        eyebrow="From sand to product"
+        title="How silicone is *made*"
+        intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into compounds engineered for a specific job."
+      />
 
       <Section eyebrow="Why engineers choose it" title="Six properties that make silicone *essential*">
         <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">

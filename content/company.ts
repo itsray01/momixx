@@ -114,7 +114,7 @@ export const certifications: Certification[] = [
 export const companyStats = [
   { value: '2018', label: 'founded in Singapore and Malaysia' },
   { value: '20+', label: 'patents granted or pending' },
-  { value: 'World first', label: 'vertical silicone data-cable extrusion line' },
+  { value: '1st', label: 'vertical silicone data-cable extrusion line in the world' },
   { value: '4', label: 'international certifications' },
 ]
 

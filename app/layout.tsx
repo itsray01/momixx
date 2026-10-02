@@ -6,6 +6,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
 import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { geist, instrumentSerif } from '@/lib/fonts'
+import { buildMenus } from '@/lib/nav'
 import { absoluteUrl, site } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -93,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geist.variable} ${instrumentSerif.variable}`}>
       <body>
         <JsonLd data={[organization, website]} />
-        <Header />
+        <Header menus={buildMenus()} />
         <main id="main">{children}</main>
         <Footer />
         <ScrollEffects />

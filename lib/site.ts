@@ -26,36 +26,6 @@ export const site = {
   sameAs: [] as string[],
 } as const
 
-export type NavItem = { href: string; label: string; children?: NavItem[] }
-
-export const mainNav: NavItem[] = [
-  { href: '/silicone', label: 'Silicone' },
-  { href: '/products', label: 'Products' },
-  { href: '/applications', label: 'Applications' },
-  {
-    href: '/sustainability',
-    label: 'Sustainability',
-    children: [
-      { href: '/sustainability', label: 'Sustainability overview' },
-      { href: '/recycled-silicone', label: 'Recycled silicone' },
-      { href: '/sustainability#carbon-footprint', label: 'Carbon footprint' },
-    ],
-  },
-  { href: '/insights', label: 'Insights' },
-  {
-    href: '/about',
-    label: 'Company',
-    children: [
-      { href: '/about', label: 'About us' },
-      { href: '/team', label: 'Our team' },
-      { href: '/culture', label: 'Culture & careers' },
-      { href: '/locations', label: 'Locations' },
-      { href: '/innovation', label: 'Research & innovation' },
-      { href: '/markets', label: 'Markets' },
-    ],
-  },
-]
-
 export function absoluteUrl(path = '/') {
   return new URL(path, site.url).toString()
 }

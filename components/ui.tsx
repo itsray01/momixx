@@ -179,16 +179,20 @@ export function StatTiles({
 }) {
   const n = cols ?? (Math.min(Math.max(stats.length, 1), 4) as keyof typeof lgCols)
   return (
-    <dl data-reveal="stagger" className={`card grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 ${lgCols[n]}`}>
+    <ul data-reveal="stagger" className={`card grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 ${lgCols[n]}`}>
       {stats.map((s) => (
-        <div key={s.label} className="flex flex-col-reverse gap-2 bg-ink-900 p-6 sm:p-7">
-          <dt className="text-sm text-slate-400">{s.label}</dt>
-          <dd data-countup className="font-display text-4xl font-semibold tracking-[-0.04em] text-white">
+        <li key={s.label} className="relative flex flex-col bg-ink-900 p-6 sm:p-7">
+          <span aria-hidden="true" className="mb-5 h-px w-8 bg-gradient-to-r from-brand-300 to-transparent" />
+          <p
+            data-countup
+            className={`font-display leading-none font-semibold tracking-[-0.04em] text-balance text-white ${s.value.length > 9 ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}
+          >
             {s.value}
-          </dd>
-        </div>
+          </p>
+          <p className="mt-3 text-sm leading-snug text-slate-400">{s.label}</p>
+        </li>
       ))}
-    </dl>
+    </ul>
   )
 }
 

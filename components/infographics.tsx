@@ -1,5 +1,6 @@
 import { Render } from './Render'
 import { Scene3D } from './three/Scene3D'
+import { rich } from './ui'
 import type { ModelName } from './three/modelNames'
 
 // ───────────────────────── Recycling ─────────────────────────
@@ -77,29 +78,53 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
   { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'cable' },
 ]
 
-/** Sand → product, as a pinned horizontal scroll on desktop and a list on mobile. */
-export function JourneyScroll() {
+/**
+ * Sand → product. On desktop the whole section pins and the cards scroll sideways
+ * with a progress bar; on phones (and with reduced motion) it is a swipeable row.
+ */
+export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebrow: string; title: string; intro: string; tone?: 'dark' | 'muted' }) {
   return (
-    <div data-hscroll className="relative overflow-hidden lg:flex lg:h-screen lg:items-center">
-      <div data-hscroll-track className="flex flex-col gap-5 px-4 sm:px-6 lg:w-max lg:flex-row lg:gap-6 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
-        {journey.map((step, i) => (
-          <article key={step.title} className="card relative flex w-full shrink-0 flex-col overflow-hidden lg:h-[70vh] lg:max-h-[640px] lg:w-[min(560px,42vw)]">
-            <div className="relative flex flex-1 items-center justify-center px-8 pt-8">
-              <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(60% 55% at 50% 45%, rgb(20 159 148 / 0.18), transparent)' }} />
-              <Render name={step.model} className="relative max-h-[300px] w-auto object-contain" sizes="(min-width: 1024px) 40vw, 100vw" />
-            </div>
-            <div className="relative p-8 pt-4">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm text-brand-300">Step 0{i + 1}</span>
-                {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">Momixx</span>}
-              </div>
-              <h3 className="display-md mt-3">{step.title}</h3>
-              <p className="mt-3 max-w-md leading-relaxed text-slate-400">{step.body}</p>
-            </div>
-          </article>
-        ))}
+    <section data-hscroll className={`relative overflow-hidden py-20 sm:py-24 lg:flex lg:h-screen lg:min-h-[640px] lg:flex-col lg:justify-center lg:py-0 ${tone === 'muted' ? 'bg-ink-900' : 'bg-ink-950'}`}>
+      <div className="container-page flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-2xl">
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 className="display-lg mt-5">{rich(title)}</h2>
+          <p className="mt-4 text-lg leading-relaxed text-slate-400">{intro}</p>
+        </div>
+        <div className="hidden w-64 shrink-0 lg:block" aria-hidden="true">
+          <div className="flex justify-between font-mono text-xs text-slate-500">
+            <span>01</span>
+            <span>0{journey.length}</span>
+          </div>
+          <div className="mt-2 h-px bg-white/10">
+            <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-brand-300 shadow-[0_0_10px_var(--color-brand-300)]" />
+          </div>
+        </div>
       </div>
-    </div>
+      <div data-hscroll-viewport className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
+        <ol data-hscroll-track className="flex w-max gap-4 px-4 sm:px-6 lg:gap-5 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
+          {journey.map((step, i) => (
+            <li
+              key={step.title}
+              className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(56vh,500px)] lg:w-[min(380px,28vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
+            >
+              <div className="relative flex h-52 items-center justify-center px-6 pt-6 lg:h-auto lg:flex-1">
+                <div aria-hidden="true" className="absolute inset-0" style={{ background: `radial-gradient(60% 55% at 50% 45%, rgb(20 159 148 / ${step.momixx ? 0.3 : 0.16}), transparent)` }} />
+                <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(30vh,280px)]" sizes="(min-width: 1024px) 28vw, 78vw" />
+              </div>
+              <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-brand-300">Step 0{i + 1}</span>
+                  {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">Momixx</span>}
+                </div>
+                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
   )
 }
 

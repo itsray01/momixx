@@ -8,6 +8,7 @@ import { Environment, Lightformer, RoundedBox } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { ExtruderLineModel } from './ExtruderLine'
 import { landDots } from './landDots'
 import type { ModelName } from './modelNames'
 
@@ -1003,4 +1004,5 @@ export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
   molecule: () => <MoleculeModel />,
   samples: () => <SamplesModel />,
   globe: () => <GlobeModel />,
+  'extruder-line': () => <ExtruderLineModel />,
 }

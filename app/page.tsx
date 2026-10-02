@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { ArticleCard } from '@/components/ArticleCard'
 import { MarketCard } from '@/components/charts'
+import { ExtruderSection } from '@/components/ExtruderSection'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
-import { Arrow, ArrowLink, CtaBand, Glow, GridBackdrop, Marquee, Section, SectionHeading, StatTiles, rich } from '@/components/ui'
+import { Arrow, ArrowLink, CtaBand, Glow, GridBackdrop, Marquee, Section, StatTiles, rich } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { certifications } from '@/content/company'
 import { getMarket, marketDisclaimer } from '@/content/markets'
@@ -121,7 +122,7 @@ export default function HomePage() {
               stats={[
                 { value: '2018', label: 'founded in Singapore and Malaysia' },
                 { value: '20+', label: 'patents granted or pending' },
-                { value: 'World first', label: 'vertical silicone data-cable extrusion line' },
+                { value: '1st', label: 'vertical silicone data-cable extrusion line in the world' },
                 { value: '4', label: 'international certifications' },
               ]}
             />
@@ -149,14 +150,11 @@ export default function HomePage() {
       </Section>
 
       {/* ── Sand to silicone ── */}
-      <section className="bg-ink-950 pt-24 sm:pt-32">
-        <div className="container-page">
-          <SectionHeading eyebrow="From sand to silicone" title="Where *silicone* comes from" intro="Silicone starts as ordinary sand. Momixx works at step four, turning silicone into compounds engineered for a specific job." />
-        </div>
-        <div className="pb-24 sm:pb-32 lg:pb-0">
-          <JourneyScroll />
-        </div>
-      </section>
+      <JourneyScroll
+        eyebrow="From sand to silicone"
+        title="Where *silicone* comes from"
+        intro="Silicone starts as ordinary sand. Momixx works at step four, turning silicone into compounds engineered for a specific job."
+      />
 
       {/* ── Applications ── */}
       <Section tone="muted" eyebrow="Where silicone goes" title="Inside the industries *shaping the future*" intro={<>From the cable in your pocket to the robots on tomorrow’s factory floor. <ArrowLink href="/applications">All applications</ArrowLink></>}>
@@ -219,41 +217,8 @@ export default function HomePage() {
         <p className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-500">{marketDisclaimer}</p>
       </Section>
 
-      {/* ── Innovation ── */}
-      <Section eyebrow="Innovation" title="20+ patents, including a *world first*">
-        <div className="card grain relative grid items-center gap-10 overflow-hidden p-8 sm:p-12 lg:grid-cols-2">
-          <Glow className="top-1/2 right-[-10%] -translate-y-1/2" size={700} />
-          <div className="relative space-y-5 text-lg leading-relaxed text-slate-300">
-            <p>
-              We invented the first vertical extrusion machine for high-speed silicone data cables. It coats cable at up to 100 metres a minute, fully
-              automated from mixing to inspection, and is supplied to customers including a Fortune Global 500 company.
-            </p>
-            <p className="text-slate-400">Our patents cover machines, manufacturing processes and material recipes.</p>
-            <div className="flex flex-wrap gap-3 pt-3">
-              <Link href="/products/vertical-extruder" className="group btn-primary">
-                The vertical extruder <Arrow />
-              </Link>
-              <Link href="/innovation" className="btn-ghost-dark">
-                Research & innovation
-              </Link>
-            </div>
-            <div className="pt-6">
-              <StatTiles
-                cols={2}
-                stats={[
-                  { value: '100 m/min', label: 'vertical line speed' },
-                  { value: '30%', label: 'less energy: our curing oven' },
-                  { value: '20×', label: 'lower VOCs: our dip coating' },
-                  { value: 'dE94 ≤ 0.5', label: 'colour-match precision' },
-                ]}
-              />
-            </div>
-          </div>
-          <div className="relative h-[420px] lg:h-[600px]">
-            <Scene3D variant="extrusion" className="h-full" fallback={<Render name="extruder-vertical" className="h-full w-full object-contain" />} />
-          </div>
-        </div>
-      </Section>
+      {/* ── Momixx Extruder: interactive 3D ── */}
+      <ExtruderSection links />
 
       {/* ── Latest insights ── */}
       {getArticles().length > 0 && (
