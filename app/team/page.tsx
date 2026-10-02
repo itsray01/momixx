@@ -37,7 +37,7 @@ export default function TeamPage() {
         intro="The people responsible for Momixx’s strategy, technology and operations."
       />
       <Section>
-        <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ul data-reveal="stagger" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <li key={`${m.role}-${i}`} className="flex flex-col">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100">

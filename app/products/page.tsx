@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Illustration } from '@/components/Illustration'
 import { TabNav } from '@/components/TabNav'
+import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { categoryIntros, categoryLabels, productsByCategory, type ProductCategory } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
@@ -23,14 +24,15 @@ export default function ProductsPage() {
         eyebrow="Products & services"
         title="Everything we make"
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
+        aside={<Scene3D variant="samples" className="h-full" fallback={<Illustration name="compound" className="h-full w-full text-slate-300" />} />}
       />
       <TabNav tabs={productTabs} label="Products" />
       {order.map((cat, i) => (
         <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {productsByCategory(cat).map((p) => (
               <li key={p.slug}>
-                <Link href={`/products/${p.slug}`} className="group card flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lg">
+                <Link href={`/products/${p.slug}`} data-tilt className="group card lift flex h-full flex-col overflow-hidden">
                   <div className="bg-brand-50/60 px-6 pt-5">
                     <Illustration name={p.illustration ?? 'compound'} className="h-28 w-full text-slate-800" />
                   </div>

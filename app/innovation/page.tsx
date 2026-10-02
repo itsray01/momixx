@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { Illustration } from '@/components/Illustration'
+import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section, StatTiles } from '@/components/ui'
 import { patentsSummary } from '@/content/company'
 import { pageMetadata } from '@/lib/site'
@@ -71,6 +73,7 @@ export default function InnovationPage() {
         eyebrow="Research & innovation"
         title="Setting new standards in silicone"
         intro="Our R&D covers the whole chain: what goes into the silicone, how its surface performs, and the machines that shape it."
+        aside={<Scene3D variant="extrusion" className="h-full" fallback={<Illustration name="extruder-vertical" className="h-full w-full text-slate-300" />} />}
       />
 
       <Section>
@@ -92,9 +95,9 @@ export default function InnovationPage() {
 
       {areas.map((area, i) => (
         <Section key={area.id} id={area.id} tone={i % 2 === 0 ? 'muted' : 'white'} eyebrow="Research area" title={area.title} className="scroll-mt-20">
-          <div className="grid gap-6 md:grid-cols-2">
+          <div data-reveal="stagger" className="grid gap-6 md:grid-cols-2">
             {area.items.map((it) => (
-              <div key={it.title} className="card p-6">
+              <div key={it.title} data-tilt className="card lift p-6">
                 <h3 className="text-lg font-bold">{it.title}</h3>
                 <p className="mt-2 leading-relaxed text-slate-600">{it.body}</p>
                 {'href' in it && it.href && (

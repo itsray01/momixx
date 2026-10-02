@@ -48,6 +48,7 @@ export function RecycleCycle() {
               stroke="var(--color-brand-500)"
               strokeWidth="2.5"
               markerEnd="url(#arrow)"
+              data-draw
             />
           )
         })}
@@ -65,7 +66,7 @@ export function RecycleCycle() {
           const l = labelPos[i]
           return (
             <g key={i}>
-              <circle cx={x} cy={y} r="30" fill="white" stroke="var(--color-brand-500)" strokeWidth="2.5" />
+              <circle data-pop cx={x} cy={y} r="30" fill="white" stroke="var(--color-brand-500)" strokeWidth="2.5" />
               <text x={x} y={y + 7} textAnchor="middle" fontSize="20" fontWeight="800" className="fill-brand-700 font-display">
                 {i + 1}
               </text>
@@ -76,9 +77,9 @@ export function RecycleCycle() {
           )
         })}
       </svg>
-      <ol className="grid gap-4 md:mt-10 md:grid-cols-5">
+      <ol data-reveal="stagger" className="grid gap-4 md:mt-10 md:grid-cols-5">
         {recycleSteps.map((s, i) => (
-          <li key={s.title} className="card p-5">
+          <li key={s.title} className="card lift p-5">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 font-display text-sm font-extrabold text-brand-700">{i + 1}</span>
             <h3 className="mt-3 font-bold">{s.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{s.body}</p>
@@ -101,10 +102,10 @@ const journey: Array<{ title: string; body: string; icon: IllustrationName }> = 
 
 export function SiliconeJourney() {
   return (
-    <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <ol data-reveal="stagger" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {journey.map((step, i) => (
         <li key={step.title} className="relative">
-          <div className="card h-full p-5">
+          <div data-tilt className="card lift h-full p-5">
             <div className="flex items-center justify-between">
               <span className="font-display text-sm font-bold text-brand-600">Step {i + 1}</span>
               {i === 3 && <span className="rounded-full bg-brand-600 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">Momixx</span>}

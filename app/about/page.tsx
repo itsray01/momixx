@@ -1,3 +1,5 @@
+import { Illustration } from '@/components/Illustration'
+import { Scene3D } from '@/components/three/Scene3D'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
 import { pageMetadata, site } from '@/lib/site'
@@ -17,6 +19,7 @@ export default function AboutPage() {
         eyebrow="About us"
         title="Precision silicone, since 2018"
         intro="Momixx was founded in Singapore and Malaysia in 2018 to solve hard problems in silicone, from making cables safer to giving silicone waste a second life."
+        aside={<Scene3D variant="samples" className="h-full" fallback={<Illustration name="compound" className="h-full w-full text-slate-300" />} />}
       />
 
       <Section>
@@ -52,7 +55,7 @@ export default function AboutPage() {
       </Section>
 
       <Section id="milestones" eyebrow="Our journey" title="Milestones">
-        <ol className="relative space-y-10 border-l-2 border-slate-200 pl-8 sm:pl-10">
+        <ol data-reveal="stagger" className="relative space-y-10 border-l-2 border-slate-200 pl-8 sm:pl-10">
           {milestones.map((m) => (
             <li key={m.year} className="relative">
               <span aria-hidden="true" className="absolute top-1.5 -left-[2.6rem] h-4 w-4 rounded-full border-4 border-white bg-brand-500 ring-2 ring-brand-200 sm:-left-[3.1rem]" />
@@ -68,9 +71,9 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="muted" id="locations" eyebrow="Where we are" title="Locations">
-        <ul className="grid gap-5 md:grid-cols-3">
+        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {site.locations.map((l) => (
-            <li key={l.name} className="card p-6">
+            <li key={l.name} data-tilt className="card lift p-6">
               <p className="text-xs font-bold tracking-widest text-brand-700 uppercase">{l.role}</p>
               <h3 className="mt-2 text-xl font-bold">{l.name}</h3>
               <p className="mt-2 text-sm text-slate-600">{l.detail}</p>

@@ -6,6 +6,8 @@ import { CompareBars, MarketCard } from '@/components/charts'
 import { Illustration } from '@/components/Illustration'
 import { JsonLd } from '@/components/JsonLd'
 import { TabNav } from '@/components/TabNav'
+import { Scene3D } from '@/components/three/Scene3D'
+import { sceneFor } from '@/components/three/sceneFor'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { getApplication } from '@/content/applications'
 import { getMarket } from '@/content/markets'
@@ -59,9 +61,15 @@ export default async function ProductPage({ params }: Props) {
           p.image ? (
             <Image src={p.image} alt={p.name} width={640} height={480} className="rounded-2xl object-cover" priority />
           ) : (
-            <div className="rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
-              <Illustration name={p.illustration ?? 'compound'} className="w-full text-slate-200" />
-            </div>
+            <Scene3D
+              variant={sceneFor(p.illustration)}
+              className="h-full"
+              fallback={
+                <div className="flex h-full items-center rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
+                  <Illustration name={p.illustration ?? 'compound'} className="w-full text-slate-200" />
+                </div>
+              }
+            />
           )
         }
       />
@@ -172,10 +180,10 @@ export default async function ProductPage({ params }: Props) {
       {apps.length > 0 && (
         <Section eyebrow="Applications" title="Where it’s used">
           <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-            <ul className="grid content-start gap-4 sm:grid-cols-2">
+            <ul data-reveal="stagger" className="grid content-start gap-4 sm:grid-cols-2">
               {apps.map((a) => (
                 <li key={a.slug}>
-                  <Link href={`/applications/${a.slug}`} className="group card flex h-full items-start gap-4 p-5 hover:shadow-md">
+                  <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full items-start gap-4 p-5">
                     <Illustration name={a.illustration} className="h-14 w-20 shrink-0 text-slate-800" />
                     <div>
                       <h3 className="font-bold group-hover:text-brand-700">{a.name}</h3>

@@ -59,8 +59,9 @@ export function PageHeader({
   aside?: ReactNode
 }) {
   return (
-    <section className="relative overflow-hidden bg-ink-950 text-white">
+    <section className="grain relative overflow-hidden bg-ink-950 text-white">
       <GridBackdrop />
+      {aside && <Glow className="top-1/2 right-[8%] hidden -translate-y-1/2 lg:block" />}
       <div className="container-page relative grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.4fr_1fr]">
         <div>
           {crumbs && <Breadcrumbs items={crumbs} />}
@@ -69,9 +70,20 @@ export function PageHeader({
           {intro && <div className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
           {children}
         </div>
-        {aside && <div className="hidden lg:block">{aside}</div>}
+        {aside && <div className="hidden h-[380px] lg:block">{aside}</div>}
       </div>
     </section>
+  )
+}
+
+/** A soft teal light source behind 3D objects, so they read as lit, not pasted on. */
+export function Glow({ className = '' }: { className?: string }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute h-[520px] w-[520px] rounded-full opacity-60 ${className}`}
+      style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.35), transparent)' }}
+    />
   )
 }
 
@@ -107,12 +119,12 @@ export function Section({
   tone?: 'white' | 'muted' | 'dark'
   className?: string
 }) {
-  const toneClass = tone === 'muted' ? 'bg-slate-50' : tone === 'dark' ? 'bg-ink-900 text-slate-300' : 'bg-white'
+  const toneClass = tone === 'muted' ? 'dots bg-slate-50' : tone === 'dark' ? 'grain bg-ink-900 text-slate-300' : 'bg-white'
   return (
     <section id={id} className={`${toneClass} py-16 sm:py-24 ${className}`}>
       <div className="container-page">
         {(eyebrow || title || intro) && (
-          <div className="mb-10 max-w-3xl sm:mb-14">
+          <div data-reveal className="mb-10 max-w-3xl sm:mb-14">
             {eyebrow && <p className={`eyebrow ${tone === 'dark' ? 'text-brand-300' : ''}`}>{eyebrow}</p>}
             {title && <h2 className={`mt-3 text-3xl font-extrabold sm:text-4xl ${tone === 'dark' ? 'text-white' : ''}`}>{title}</h2>}
             {intro && <div className={`mt-4 text-lg leading-relaxed ${tone === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>{intro}</div>}
@@ -137,11 +149,14 @@ export function StatTiles({
 }) {
   const n = cols ?? (Math.min(Math.max(stats.length, 1), 4) as keyof typeof lgCols)
   return (
-    <dl className={`grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden rounded-2xl ring-1 ${tone === 'dark' ? 'bg-white/10 ring-white/10' : 'bg-slate-200 ring-slate-200'} sm:grid-cols-2 ${lgCols[n]}`}>
+    <dl
+      data-reveal="stagger"
+      className={`grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden rounded-2xl ${tone === 'dark' ? 'glass' : 'lift bg-slate-200 ring-1 ring-slate-200'} sm:grid-cols-2 ${lgCols[n]}`}
+    >
       {stats.map((s) => (
-        <div key={s.label} className={`flex flex-col-reverse gap-1 p-6 ${tone === 'dark' ? 'bg-ink-900' : 'bg-white'}`}>
+        <div key={s.label} className={`flex flex-col-reverse gap-1 p-6 ${tone === 'dark' ? '' : 'bg-white'}`}>
           <dt className={`text-sm ${tone === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>{s.label}</dt>
-          <dd className={`font-display text-3xl font-extrabold tracking-tight ${tone === 'dark' ? 'text-white' : 'text-slate-900'}`}>{s.value}</dd>
+          <dd data-countup className={`font-display text-3xl font-extrabold tracking-tight ${tone === 'dark' ? 'text-white' : 'text-slate-900'}`}>{s.value}</dd>
         </div>
       ))}
     </dl>
@@ -150,9 +165,9 @@ export function StatTiles({
 
 export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string; body: string }>; cols?: 2 | 3 }) {
   return (
-    <div className={`grid gap-6 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+    <div data-reveal="stagger" className={`grid gap-6 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
-        <div key={it.title} className="card p-6">
+        <div key={it.title} data-tilt className="card lift p-6">
           <span className="font-display text-sm font-bold text-brand-600">{String(i + 1).padStart(2, '0')}</span>
           <h3 className="mt-3 text-lg font-bold">{it.title}</h3>
           <p className="mt-2 leading-relaxed text-slate-600">{it.body}</p>
@@ -203,8 +218,9 @@ export function CtaBand({
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="container-page">
-        <div className="relative overflow-hidden rounded-3xl bg-ink-900 px-6 py-12 text-white sm:px-12">
+        <div data-reveal className="grain relative overflow-hidden rounded-3xl bg-ink-900 px-6 py-12 text-white sm:px-12">
           <GridBackdrop />
+          <Glow className="-top-64 -right-40" />
           <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-extrabold text-white">{title}</h2>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { RecycleCycle } from '@/components/infographics'
 import { Illustration } from '@/components/Illustration'
+import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { certifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
@@ -30,9 +31,15 @@ export default function RecycledSiliconePage() {
         title="Recycled silicone, certified and traceable"
         intro="Silicone lasts for decades, which also means it doesn’t break down in landfill. We turn silicone waste back into new silicone that performs like the original."
         aside={
-          <div className="rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
-            <Illustration name="recycle" className="w-full text-slate-200" />
-          </div>
+          <Scene3D
+            variant="loop"
+            className="h-full"
+            fallback={
+              <div className="flex h-full items-center rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
+                <Illustration name="recycle" className="w-full text-slate-200" />
+              </div>
+            }
+          />
         }
       />
 
@@ -53,14 +60,14 @@ export default function RecycledSiliconePage() {
                   <span className="text-slate-600">Produced worldwide</span>
                   <span className="font-semibold text-slate-900">{recyclingFacts.producedTonnes}</span>
                 </div>
-                <div className="mt-2 h-6 w-full rounded-r-[4px] bg-slate-400" role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
+                <div data-grow className="mt-2 h-6 w-full rounded-r-[4px] bg-slate-400" role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
               </div>
               <div>
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-600">Chemically recycled</span>
                   <span className="font-semibold text-slate-900">{recyclingFacts.recycledTonnes}</span>
                 </div>
-                <div className="mt-2 h-6 w-[1.4%] min-w-[4px] rounded-r-[4px] bg-brand-600" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
+                <div data-grow className="mt-2 h-6 w-[1.4%] min-w-[4px] rounded-r-[4px] bg-brand-600" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
               </div>
             </div>
             <p className="mt-6 text-xs text-slate-400">
@@ -89,7 +96,7 @@ export default function RecycledSiliconePage() {
       </Section>
 
       <Section id="certificates" eyebrow="Proof" title="Certifications" intro="Independent bodies audit our recycling process and supply chain, so customers and their customers can trust every recycled-content claim.">
-        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {recyclingCerts.map((c) => (
             <CertCard key={c.id} cert={c} />
           ))}
@@ -122,7 +129,7 @@ export default function RecycledSiliconePage() {
 
 function CertCard({ cert }: { cert: (typeof certifications)[number] }) {
   return (
-    <li className="card flex flex-col p-6">
+    <li data-tilt className="card lift flex flex-col p-6">
       <div className="flex h-16 items-center">
         {cert.logo ? (
           <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="h-14 w-auto object-contain" />

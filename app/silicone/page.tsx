@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SiloxaneChain, SiliconeJourney, SiliconVsSilicone } from '@/components/infographics'
 import { Illustration } from '@/components/Illustration'
+import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { siliconeFaqs } from '@/content/faqs'
@@ -30,7 +31,7 @@ export default function SiliconePage() {
         eyebrow="Silicone 101"
         title="What is silicone, and why does it matter?"
         intro="Silicone is a flexible, heat-resistant material built on a backbone of silicon and oxygen. You can’t see most of it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
-        aside={<SiloxaneChain className="w-full" />}
+        aside={<Scene3D variant="molecule" className="h-full" fallback={<SiloxaneChain className="h-full w-full" />} />}
       />
 
       <Section eyebrow="Not the same thing" title="Silicon vs silicone" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
@@ -42,7 +43,7 @@ export default function SiliconePage() {
       </Section>
 
       <Section eyebrow="Why engineers choose it" title="Six properties that make silicone essential">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div data-reveal="stagger" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((p) => (
             <div key={p.title} className="border-l-2 border-brand-400 pl-5">
               <h3 className="text-lg font-bold">{p.title}</h3>
@@ -53,9 +54,9 @@ export default function SiliconePage() {
       </Section>
 
       <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries shaping the future">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div data-reveal="stagger" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
-            <Link key={a.slug} href={`/applications/${a.slug}`} className="group card flex items-start gap-4 p-5 transition-shadow hover:shadow-md">
+            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-start gap-4 p-5">
               <Illustration name={a.illustration} className="h-16 w-24 shrink-0 text-slate-800" />
               <div>
                 <h3 className="font-bold group-hover:text-brand-700">{a.name}</h3>

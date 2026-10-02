@@ -34,7 +34,7 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="bg-ink-950 text-slate-400">
+    <footer className="grain bg-ink-950 text-slate-400">
       <div className="container-page grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr]">
         <div className="space-y-5">
           <Logo className="text-white" />

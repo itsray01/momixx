@@ -93,13 +93,37 @@ You need Node.js 20.9 or newer.
   - `/llms.txt` is a plain-text summary of the company, products, applications, certifications and sourced market data, generated from the same content files.
   - `robots.txt` allows AI crawlers.
 - **Social sharing.** Every page has a 1200×630 social image.
-- **Performance.** Pages are static, fonts are self-hosted, there are no heavy libraries, and the illustrations are inline SVG.
+- **Performance.** Pages are static and fonts are self-hosted. 3D code loads lazily, and only on pages that use it (see "3D and motion").
 
 **After launch:**
 
 1. Verify the domain in Google Search Console and Bing Webmaster Tools.
 2. Submit `https://www.momixx.com/sitemap.xml`.
 3. Check the structured data with Google's Rich Results Test.
+
+## 3D and motion
+
+The site uses real-time 3D (Three.js via React Three Fiber) and GSAP. Both are kept deliberately calm for an investor audience.
+
+- **3D scenes** are in `components/three/scenes.tsx`. There are six:
+  - a cable with a stripped end (teal, or orange for EV)
+  - a vertical extrusion line
+  - colour-matched silicone samples
+  - a recycling ring
+  - a silicone molecule
+- **Which page gets which scene.** Product and application pages choose a scene from their illustration (`components/three/sceneFor.ts`). Other pages choose one in their `PageHeader` `aside`.
+- **Performance and accessibility.** Every scene has a static SVG fallback, which is what search engines, screen readers, older devices and slow connections see.
+  - Three.js only downloads once a scene scrolls near the screen.
+  - Rendering pauses when a scene is off-screen.
+  - Pages without a scene load no 3D code at all.
+- **Motion** is in `components/motion/ScrollEffects.tsx` and is controlled with attributes on elements:
+  - `data-reveal` fades content in on scroll
+  - `data-countup` counts numbers up
+  - `data-grow` makes chart bars grow
+  - `data-draw` draws lines
+  - `data-tilt` adds a subtle 3D hover tilt to cards
+  - All content stays visible without JavaScript.
+- **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and the 3D scenes stay still.
 
 ## Contact form
 

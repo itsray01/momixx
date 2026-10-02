@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { MarketCard } from '@/components/charts'
 import { Illustration } from '@/components/Illustration'
 import { TabNav } from '@/components/TabNav'
+import { Scene3D } from '@/components/three/Scene3D'
+import { sceneFor } from '@/components/three/sceneFor'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { applications, getApplication } from '@/content/applications'
 import { getMarket, marketDisclaimer } from '@/content/markets'
@@ -45,9 +47,15 @@ export default async function ApplicationPage({ params }: Props) {
         title={a.name}
         intro={a.tagline}
         aside={
-          <div className="rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
-            <Illustration name={a.illustration} className="w-full text-slate-200" />
-          </div>
+          <Scene3D
+            variant={sceneFor(a.illustration)}
+            className="h-full"
+            fallback={
+              <div className="flex h-full items-center rounded-3xl bg-white/[0.04] p-8 ring-1 ring-white/10">
+                <Illustration name={a.illustration} className="w-full text-slate-200" />
+              </div>
+            }
+          />
         }
       >
         <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-brand-400/40 bg-brand-400/10 px-3 py-1 text-xs font-semibold text-brand-200">
@@ -85,7 +93,7 @@ export default async function ApplicationPage({ params }: Props) {
       </Section>
 
       <Section eyebrow="Addressable market" title="The size of the opportunity" intro="Independent estimates of the market this application sits in.">
-        <div className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>
+        <div data-reveal="stagger" className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>
           {relatedMarkets.map((m) => (
             <MarketCard key={m.id} market={m} />
           ))}

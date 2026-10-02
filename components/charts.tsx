@@ -17,7 +17,7 @@ function advantage(row: Comparison['rows'][number], other: string) {
 /** Small multiples: one mini bar pair per metric, each on its own scale. */
 export function CompareBars({ comparison }: { comparison: Comparison }) {
   return (
-    <figure className="card p-6 sm:p-8">
+    <figure className="card lift p-6 sm:p-8">
       <figcaption className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="text-lg font-bold">{comparison.title}</h3>
         <ul className="flex gap-5 text-sm text-slate-600" aria-label="Legend">
@@ -48,6 +48,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
                   return (
                     <div key={b.label} className="flex items-center gap-2" title={`${b.label}: ${text} ${row.unit}`}>
                       <div
+                        data-grow
                         className="h-6 shrink-0 rounded-r-[4px]"
                         style={{ width: `${(b.v / max) * 75}%`, background: b.c }}
                         role="img"
@@ -73,7 +74,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
 export function MarketCard({ market, compact = false }: { market: Market; compact?: boolean }) {
   const max = market.forecast.usdBn
   return (
-    <article className="card flex h-full flex-col p-6">
+    <article data-tilt className="card lift flex h-full flex-col p-6">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-bold">{market.name}</h3>
         {market.kind === 'context' && (
@@ -86,11 +87,11 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
         {market.current && (
           <div className="flex h-28 items-end gap-3" aria-hidden="true">
             <div className="flex flex-col items-center gap-1.5">
-              <div className="w-10 rounded-t-[4px] bg-brand-200" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px` }} />
+              <div data-grow-y className="w-10 rounded-t-[4px] bg-brand-200" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px` }} />
               <span className="text-xs text-slate-500 tabular-nums">{market.current.year}</span>
             </div>
             <div className="flex flex-col items-center gap-1.5">
-              <div className="w-10 rounded-t-[4px] bg-brand-600" style={{ height: '100px' }} />
+              <div data-grow-y className="w-10 rounded-t-[4px] bg-brand-600" style={{ height: '100px' }} />
               <span className="text-xs text-slate-500 tabular-nums">{market.forecast.year}</span>
             </div>
           </div>
@@ -143,6 +144,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
             <div className="relative flex items-center gap-3">
               <div className="h-6 flex-1">
                 <div
+                  data-grow
                   className="h-full rounded-r-[4px] bg-brand-600 transition-colors group-hover:bg-brand-700"
                   style={{ width: `${(m.cagr!.pct / max) * 100}%` }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}

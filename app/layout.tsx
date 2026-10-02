@@ -5,6 +5,7 @@ import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
+import { ScrollEffects } from '@/components/motion/ScrollEffects'
 import { absoluteUrl, site } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <ScrollEffects />
       </body>
     </html>
   )
