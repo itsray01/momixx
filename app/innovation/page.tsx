@@ -76,7 +76,7 @@ export default function InnovationPage() {
         eyebrow="Research & innovation"
         title="Setting new standards *in silicone*"
         intro="Our R&D covers the whole chain: what goes into the silicone, how its surface performs, and the machines that shape it."
-        aside={<Scene3D variant="extrusion" className="h-full" fallback={<Render name="extruder-vertical" priority className="h-full w-full object-contain" />} />}
+        aside={<Scene3D variant="extruder-vertical" className="h-full" fallback={<Render name="extruder-vertical" priority className="h-full w-full object-contain" />} />}
       />
 
       <Section>

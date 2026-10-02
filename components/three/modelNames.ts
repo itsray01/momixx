@@ -25,6 +25,7 @@ export const modelNames = [
   'samples',
   'globe',
   'extruder-line',
+  'cable-anatomy',
 ] as const
 
 export type ModelName = (typeof modelNames)[number]

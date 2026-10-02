@@ -12,7 +12,7 @@ const base = process.argv[2] ?? 'http://localhost:3000'
 const all = [
   'cable', 'ev-cable', 'watchband', 'phone-case', 'seal', 'compound', 'recycle', 'bottle',
   'extruder-vertical', 'extruder-horizontal', 'mixer', 'winder', 'oven', 'coating', 'oem',
-  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line',
+  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line', 'cable-anatomy',
 ]
 const names = process.argv.length > 3 ? process.argv.slice(3) : all
 
@@ -24,7 +24,7 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1200, height: 900 } })
 for (const name of names) {
   await page.goto(`${base}/render/${name}`, { waitUntil: 'networkidle' })
-  await page.waitForFunction(() => window.__renderReady === true, null, { timeout: 60000 })
+  await page.waitForFunction(() => window.__renderReady === true, null, { timeout: 180000 })
   // Read the WebGL canvas directly: exact pixels with transparency, nothing overlapping.
   const dataUrl = await page.evaluate(() => document.querySelector('#stage canvas').toDataURL('image/png'))
   const png = Buffer.from(dataUrl.split(',')[1], 'base64')

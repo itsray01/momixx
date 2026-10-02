@@ -52,6 +52,10 @@ const curve = (pts: THREE.Vector3[]) => new THREE.CatmullRomCurve3(pts, false, '
 /** Bare copper wire, from the pay-off reel round the guide pulley into the crosshead. */
 export const wirePath = curve([v(-4.3, 1.0), v(-3.3, 1.0), v(-2.1, 1.0), v(-1.72, 1.0), v(-1.635, 1.035), v(-1.6, 1.12), v(-1.6, 1.6)])
 
+/** Shorter routes for the tower-only close-up. */
+const towerWirePath = curve([v(-2.9, 1.0), v(-2.1, 1.0), v(-1.72, 1.0), v(-1.635, 1.035), v(-1.6, 1.12), v(-1.6, 1.6)])
+const towerCablePath = curve([v(-1.6, 1.6), v(-1.6, 4.9), v(-1.55, 5.3), v(-1.25, 5.56), v(-0.95, 5.3), v(-0.95, 4.9), v(-0.95, 2.4)])
+
 /** The silicone-jacketed cable, from the crosshead to the take-up spool. */
 export const cablePath = curve([
   v(-1.6, 1.6),
@@ -203,13 +207,18 @@ export function ExtruderLineModel({
   onSelect,
   onHover,
   animate = false,
+  tower = false,
 }: {
   selected?: number | null
   hovered?: number | null
   onSelect?: (i: number) => void
   onHover?: (i: number | null) => void
   animate?: boolean
+  /** Only the mixer, extruder and vertical oven: a close-up of what makes the line vertical. */
+  tower?: boolean
 }) {
+  const show = (i: number) => !tower || (i >= 1 && i <= 3)
+  const path = tower ? towerCablePath : cablePath
   const st = (i: number): PartState => (selected === null ? (hovered === i ? 'hover' : 'idle') : selected === i ? 'selected' : hovered === i ? 'hover' : 'dim')
   const lineState: PartState = selected === null ? 'idle' : 'dim'
 
@@ -222,8 +231,8 @@ export function ExtruderLineModel({
   const marks = useRef<THREE.InstancedMesh>(null)
   const markCount = 42
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  const cableGeo = useMemo(() => new THREE.TubeGeometry(cablePath, 500, 0.034, 12, false), [])
-  const wireGeo = useMemo(() => new THREE.TubeGeometry(wirePath, 160, 0.014, 8, false), [])
+  const cableGeo = useMemo(() => new THREE.TubeGeometry(tower ? towerCablePath : cablePath, 500, 0.034, 12, false), [tower])
+  const wireGeo = useMemo(() => new THREE.TubeGeometry(tower ? towerWirePath : wirePath, 160, 0.014, 8, false), [tower])
   const coil = useMemo(() => {
     const pts: THREE.Vector3[] = []
     for (let k = 0; k <= 220; k++) {
@@ -252,8 +261,8 @@ export function ExtruderLineModel({
     if (!m) return
     for (let k = 0; k < markCount; k++) {
       const u = (k / markCount + (animate ? t * 0.035 : 0)) % 1
-      const p = cablePath.getPointAt(u)
-      const tan = cablePath.getTangentAt(u)
+      const p = path.getPointAt(u)
+      const tan = path.getTangentAt(u)
       dummy.position.copy(p)
       dummy.lookAt(p.clone().add(tan))
       dummy.updateMatrix()
@@ -265,12 +274,12 @@ export function ExtruderLineModel({
   return (
     <group>
       {/* Floor plinth */}
-      <mesh position={[0.35, -0.08, -0.35]} receiveShadow>
-        <boxGeometry args={[11.2, 0.16, 2.6]} />
+      <mesh position={tower ? [-1.75, -0.08, -0.4] : [0.35, -0.08, -0.35]} receiveShadow>
+        <boxGeometry args={tower ? [3.4, 0.16, 2.2] : [11.2, 0.16, 2.6]} />
         <meshStandardMaterial color="#0c1219" metalness={0.3} roughness={0.7} />
       </mesh>
-      <mesh position={[0.35, 0.002, 0.95]}>
-        <boxGeometry args={[11.2, 0.004, 0.02]} />
+      <mesh position={tower ? [-1.75, 0.002, 0.7] : [0.35, 0.002, 0.95]}>
+        <boxGeometry args={[tower ? 3.4 : 11.2, 0.004, 0.02]} />
         <meshStandardMaterial color={TEAL_LIGHT} emissive={TEAL_LIGHT} emissiveIntensity={0.8} toneMapped={false} />
       </mesh>
 
@@ -287,7 +296,8 @@ export function ExtruderLineModel({
       </instancedMesh>
 
       {/* 1 · Pay-off and preheat */}
-      <Part i={0} s={st(0)} onSelect={onSelect} onHover={onHover}>
+      {show(0) && (
+        <Part i={0} s={st(0)} onSelect={onSelect} onHover={onHover}>
         <Box p={[-4.3, 0.06, -0.05]} size={[1.05, 0.12, 1.0]} f="cabinet" s={st(0)} />
         <Spool p={[-4.3, 0.55, 0]} flange={0.48} core={0.12} wound={0.4} windFinish="copper" s={st(0)} spin={payoff} />
         <Box p={[-3.3, 1.0, 0]} size={[0.85, 0.42, 0.5]} f="panel" s={st(0)} />
@@ -297,6 +307,7 @@ export function ExtruderLineModel({
         </mesh>
         <Box p={[-3.3, 0.4, 0]} size={[0.12, 0.8, 0.12]} f="steel" s={st(0)} />
       </Part>
+      )}
 
       {/* 2 · LSR mixer: drums A and B, pump and feed hose */}
       <Part i={1} s={st(1)} onSelect={onSelect} onHover={onHover}>
@@ -391,7 +402,8 @@ export function ExtruderLineModel({
       </Part>
 
       {/* 5 · Horizontal oven, capstan and accumulator pulleys */}
-      <Part i={4} s={st(4)} onSelect={onSelect} onHover={onHover}>
+      {show(4) && (
+        <Part i={4} s={st(4)} onSelect={onSelect} onHover={onHover}>
         <mesh position={[0.55, 2.8, 0]} rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.22, 0.22, 2.1, 40, 1, true]} />
           <Glass s={st(4)} />
@@ -428,9 +440,11 @@ export function ExtruderLineModel({
           </group>
         ))}
       </Part>
+      )}
 
       {/* 6 · Inspection: diameter gauge, high-voltage tester, length counter */}
-      <Part i={5} s={st(5)} onSelect={onSelect} onHover={onHover}>
+      {show(5) && (
+        <Part i={5} s={st(5)} onSelect={onSelect} onHover={onHover}>
         <Box p={[4.3, 0.47, -0.1]} size={[1.05, 0.94, 0.7]} f="cabinet" s={st(5)} />
         <Box p={[4.1, 1.15, 0]} size={[0.5, 0.42, 0.5]} f="teal" s={st(5)} />
         <mesh position={[4.1, 1.27, 0.252]}>
@@ -450,9 +464,11 @@ export function ExtruderLineModel({
           <Box p={[0, 0, 0.035]} size={[0.2, 0.02, 0.01]} f="dark" s={st(5)} />
         </group>
       </Part>
+      )}
 
       {/* 7 · Autowinder with vision camera */}
-      <Part i={6} s={st(6)} onSelect={onSelect} onHover={onHover}>
+      {show(6) && (
+        <Part i={6} s={st(6)} onSelect={onSelect} onHover={onHover}>
         <Box p={[5.15, 0.06, -0.05]} size={[1.1, 0.12, 1.05]} f="cabinet" s={st(6)} />
         <Spool p={[5.15, 0.72, 0]} flange={0.48} core={0.14} wound={0.38} windFinish="teal" s={st(6)} spin={winder} />
         <Box p={[5.62, 1.15, -0.4]} size={[0.06, 1.6, 0.06]} f="brushed" s={st(6)} />
@@ -463,6 +479,7 @@ export function ExtruderLineModel({
           <Screen s={st(6)} />
         </mesh>
       </Part>
+      )}
     </group>
   )
 }

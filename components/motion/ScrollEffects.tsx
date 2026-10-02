@@ -74,7 +74,14 @@ export function ScrollEffects() {
           // view, so crawlers and no-scroll visitors never see "0".
           const state = { v: 0 }
           restore.push(() => (el.textContent = original))
-          gsap.to(state, { v: target, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = fmt(state.v)), scrollTrigger: once(el, 'top bottom') })
+          gsap.to(state, {
+            v: target,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: () => (el.textContent = fmt(state.v)),
+            onComplete: () => (el.textContent = original),
+            scrollTrigger: once(el, 'top bottom'),
+          })
         })
         return () => restore.forEach((r) => r())
       })

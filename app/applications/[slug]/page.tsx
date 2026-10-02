@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { CableAnatomy } from '@/components/CableAnatomy'
 import { MarketCard } from '@/components/charts'
 import { Render } from '@/components/Render'
 import { TabNav } from '@/components/TabNav'
+import { TemperatureRange } from '@/components/TemperatureRange'
 import { Scene3D } from '@/components/three/Scene3D'
 import { sceneFor } from '@/components/three/sceneFor'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
@@ -88,6 +90,17 @@ export default async function ApplicationPage({ params }: Props) {
       <Section tone="muted" eyebrow="Why silicone" title="Why this industry needs *silicone*">
         <FeatureGrid items={a.whySilicone} />
       </Section>
+
+      {a.slug === 'consumer-electronics' && (
+        <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable is five layers. Momixx makes the outer one: the soft, fire-safe silicone jacket you hold.">
+          <CableAnatomy />
+        </Section>
+      )}
+      {a.slug === 'electric-vehicles' && (
+        <Section eyebrow="Heat and cold" title="A wider *temperature range*" intro="Cables near batteries, motors and chargers run hot, and cars start in freezing weather. Silicone handles both.">
+          <TemperatureRange />
+        </Section>
+      )}
 
       <Section eyebrow="Addressable market" title="The size of the *opportunity*" intro="Independent estimates of the market this application sits in.">
         <div data-reveal="stagger" className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>

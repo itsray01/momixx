@@ -125,6 +125,17 @@ The site uses a dark, premium design aimed at an investor audience. It is built 
 - **Motion** (GSAP and Lenis): smooth scrolling, a pinned hero, a horizontal-scroll "sand to silicone" story, text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt. It is all controlled by attributes such as `data-reveal` and `data-countup` (see `components/motion/ScrollEffects.tsx`).
 - **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and their 3D scenes stay still.
 
+**Interactive 3D and infographics**
+
+| Piece | Where | Files |
+|---|---|---|
+| Vertical extrusion line explorer: click a part (or its number) to fly to it and read what it does; the machine specs link to their parts | Home, `/products/vertical-extruder` | `components/ExtruderExplorer.tsx`, `components/three/ExtruderLine.tsx`, part copy in `components/three/extruderParts.ts` |
+| Anatomy of a silicone cable: the layers pull apart as you scroll | `/silicone`, `/products/momixx-mm`, `/applications/consumer-electronics` | `components/CableAnatomy.tsx`, `components/three/CableAnatomy.tsx`, layer copy in `components/three/cableLayers.ts` |
+| Temperature range chart (silicone vs TPE vs PVC) | `/silicone`, `/products/momixx-move`, `/applications/electric-vehicles` | `components/TemperatureRange.tsx` |
+| Mega-menu navigation, built from the content files | Every page | `components/Header.tsx`, `lib/nav.ts` |
+
+Both 3D pieces work without WebGL: a pre-rendered image with the same numbered markers, which zooms into the chosen part. After moving a marker or a camera, run `node scripts/extruder-hotspots.mjs` so the image markers line up again, and re-render `extruder-line` and `cable-anatomy`.
+
 **Re-rendering the card images** after changing a model:
 
 ```bash

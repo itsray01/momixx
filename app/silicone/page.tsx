@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { CableAnatomy } from '@/components/CableAnatomy'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
+import { TemperatureRange } from '@/components/TemperatureRange'
 import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
@@ -55,6 +57,14 @@ export default function SiliconePage() {
             </div>
           ))}
         </div>
+      </Section>
+
+      <Section tone="muted" eyebrow="Heat and cold" title="Works where plastics *give up*" intro="Silicone stays flexible in deep cold and keeps its shape in heat that softens common cable plastics.">
+        <TemperatureRange />
+      </Section>
+
+      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone jacket outside is what you touch, and what protects everything inside.">
+        <CableAnatomy />
       </Section>
 
       <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries *shaping the future*">

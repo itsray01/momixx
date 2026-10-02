@@ -5,13 +5,13 @@
 
 import { Float } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { heroProgress } from './heroProgress'
 import type { ModelName } from './modelNames'
-import { CableModel, ExtrusionModel, GlobeModel, LoopModel, modelRegistry, Studio } from './models'
+import { CableModel, GlobeModel, LoopModel, modelRegistry, Studio } from './models'
 
-export type SceneVariant = 'hero' | 'extrusion' | ModelName
+export type SceneVariant = 'hero' | ModelName
 
 /** Follows the pointer gently and drifts on its own. */
 function Rig({ children, strength = 1, spin = 0 }: { children: React.ReactNode; strength?: number; spin?: number }) {
@@ -51,36 +51,6 @@ function HeroCable() {
   )
 }
 
-/** Extrusion line with cable markings moving through the dies. */
-function LiveExtrusion() {
-  const marks = useRef<THREE.InstancedMesh>(null)
-  const count = 14
-  const span = 12
-  const dummy = useMemo(() => new THREE.Object3D(), [])
-  useFrame((state) => {
-    const m = marks.current
-    if (!m) return
-    const t = state.clock.elapsedTime
-    for (let i = 0; i < count; i++) {
-      dummy.position.set(0, span / 2 - (((i / count) * span + t * 1.4) % span), 0)
-      dummy.rotation.set(Math.PI / 2, 0, 0)
-      dummy.updateMatrix()
-      m.setMatrixAt(i, dummy.matrix)
-    }
-    m.instanceMatrix.needsUpdate = true
-  })
-  return (
-    <ExtrusionModel
-      marks={
-        <instancedMesh ref={marks} args={[undefined, undefined, count]}>
-          <torusGeometry args={[0.345, 0.012, 8, 48]} />
-          <meshStandardMaterial color="#ffffff" transparent opacity={0.55} />
-        </instancedMesh>
-      }
-    />
-  )
-}
-
 /** Recycling ring that slowly turns, so the material appears to flow round it. */
 function LiveLoop() {
   const ref = useRef<THREE.Group>(null)
@@ -110,12 +80,11 @@ function Ready({ onReady }: { onReady?: () => void }) {
 
 function camera(variant: SceneVariant) {
   if (variant === 'hero' || variant === 'cable' || variant === 'ev-cable') return { position: [0, 0, 8.5] as [number, number, number], fov: 35 }
-  if (variant === 'extrusion') return { position: [0, 0, 9] as [number, number, number], fov: 38 }
   return { position: [0, 0.9, 10] as [number, number, number], fov: 30 }
 }
 
 export default function Scene({ variant, animate, onReady }: { variant: SceneVariant; animate: boolean; onReady?: () => void }) {
-  const Model = variant !== 'hero' && variant !== 'extrusion' ? modelRegistry[variant] : null
+  const Model = variant !== 'hero' ? modelRegistry[variant] : null
   return (
     <Canvas
       dpr={[1, 1.5]}
@@ -132,11 +101,6 @@ export default function Scene({ variant, animate, onReady }: { variant: SceneVar
       {variant === 'cable' && (
         <Rig>
           <CableModel />
-        </Rig>
-      )}
-      {variant === 'extrusion' && (
-        <Rig strength={0.6}>
-          <LiveExtrusion />
         </Rig>
       )}
       {variant === 'recycle' && (

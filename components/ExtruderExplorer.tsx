@@ -250,7 +250,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo?: { sr
         </div>
         {photo && (
           <figure className="card relative overflow-hidden">
-            <Image src={photo.src} alt={photo.alt} width={526} height={806} sizes="(min-width: 1024px) 22rem, 100vw" className="mx-auto h-64 w-auto object-contain lg:h-full lg:max-h-72" />
+            <Image src={photo.src} alt={photo.alt} width={526} height={806} sizes="(min-width: 1024px) 22rem, 100vw" className="mx-auto h-64 w-auto object-contain mix-blend-lighten [mask-image:radial-gradient(70%_70%_at_50%_50%,black_60%,transparent)] lg:h-full lg:max-h-72" />
             <figcaption className="absolute right-3 bottom-3 left-3 rounded-full border border-white/10 bg-ink-950/70 px-3 py-1.5 text-center text-xs text-slate-300 backdrop-blur">
               The real machine
             </figcaption>

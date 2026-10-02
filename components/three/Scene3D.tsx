@@ -10,7 +10,6 @@ const masks: Partial<Record<SceneVariant, string>> = {
   hero: 'radial-gradient(ellipse 70% 90% at 66% 45%, black 50%, transparent 88%)',
   cable: 'linear-gradient(to top right, transparent 4%, black 38%)',
   'ev-cable': 'linear-gradient(to top right, transparent 4%, black 38%)',
-  extrusion: 'linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)',
 }
 
 // Three.js is only downloaded when a scene scrolls near the viewport.

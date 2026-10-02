@@ -25,7 +25,9 @@ Everything here needs a human decision or a file from the company before the new
 
 ## 2. Assets to export from WordPress
 
-These are in the WordPress Media Library under `wp-content/uploads/`. They could not be downloaded automatically.
+These are in the WordPress Media Library under `wp-content/uploads/`. They could not be downloaded directly.
+
+Two photos have already been carried over from screenshots of the old pages, at the size they were displayed (about 500 px wide): the extruder (`public/images/products/vertical-extruder.webp`) and the white data cable (`public/images/products/momixx-mm-cable.webp`). Replace them with the original files for full resolution.
 
 | File on the current site | Put it in | Use |
 |---|---|---|

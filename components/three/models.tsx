@@ -8,7 +8,10 @@ import { Environment, Lightformer, RoundedBox } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { CableAnatomyModel } from './CableAnatomy'
+import { anatomyStillExplode } from './cableLayers'
 import { ExtruderLineModel } from './ExtruderLine'
+import { DuneModel, HumanoidModel, MedicalTubingModel, SwatchFanModel, WaferModel } from './modelsDetailed'
 import { landDots } from './landDots'
 import type { ModelName } from './modelNames'
 
@@ -48,19 +51,28 @@ const Clear = ({ tint = '#eef8f7', opacity = 0.5 }: { tint?: string; opacity?: n
 
 // ───────────────────────── Lighting ─────────────────────────
 
-/** Soft studio lighting with glossy reflections, generated locally (no HDR downloads). */
-export function Studio() {
+/**
+ * Studio lighting with glossy reflections, generated locally (no HDR downloads):
+ * a large overhead softbox, white strip lights for crisp edge highlights, a teal
+ * rim from behind and a soft floor bounce.
+ */
+export function Studio({ resolution = 256 }: { resolution?: number }) {
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[4, 6, 6]} intensity={2.2} />
-      <directionalLight position={[-6, 2, -4]} intensity={1.2} color={TEAL_LIGHT} />
-      <directionalLight position={[0, -4, 3]} intensity={0.35} />
-      <Environment resolution={256} frames={1}>
-        <Lightformer form="rect" intensity={3.2} position={[0, 6, 3]} scale={[12, 2.5, 1]} />
-        <Lightformer form="rect" intensity={1.8} position={[7, 1, 2]} scale={[2.5, 8, 1]} />
-        <Lightformer form="rect" intensity={1.2} position={[-7, 0, 3]} scale={[2, 6, 1]} />
-        <Lightformer form="ring" intensity={2.4} color={TEAL_LIGHT} position={[-5, 2, -3]} scale={3} />
+      <ambientLight intensity={0.22} />
+      <hemisphereLight args={['#e6faf7', '#06090d', 0.45]} />
+      <directionalLight position={[4, 7, 6]} intensity={2.3} />
+      <directionalLight position={[-6, 3, -5]} intensity={1.5} color={TEAL_LIGHT} />
+      <directionalLight position={[6, 2, -6]} intensity={0.9} />
+      <directionalLight position={[0, -4, 3]} intensity={0.3} />
+      <Environment resolution={resolution} frames={1}>
+        <Lightformer form="rect" intensity={3.4} position={[0, 7, 2]} rotation-x={Math.PI / 2} scale={[14, 6, 1]} />
+        <Lightformer form="rect" intensity={2.6} position={[8, 1.5, 2]} rotation-y={-Math.PI / 2} scale={[1.2, 9, 1]} />
+        <Lightformer form="rect" intensity={1.6} position={[-8, 1, 3]} rotation-y={Math.PI / 2} scale={[1.2, 7, 1]} />
+        <Lightformer form="rect" intensity={1.2} position={[0, 2, 9]} scale={[10, 3, 1]} />
+        <Lightformer form="ring" intensity={3} color={TEAL_LIGHT} position={[-5, 2.5, -4]} scale={3.5} />
+        <Lightformer form="rect" intensity={1.4} color={TEAL_LIGHT} position={[4, 3, -7]} scale={[6, 2, 1]} />
+        <Lightformer form="rect" intensity={0.5} position={[0, -6, 0]} rotation-x={-Math.PI / 2} scale={[14, 14, 1]} />
       </Environment>
     </>
   )
@@ -414,74 +426,6 @@ function BottleModel() {
   )
 }
 
-/** Vertical silicone cable extrusion line. */
-export function ExtrusionModel({ marks }: { marks?: React.ReactNode }) {
-  const span = 12
-  return (
-    <group rotation={[0.12, 0, 0.18]}>
-      <mesh>
-        <cylinderGeometry args={[0.34, 0.34, span, 48]} />
-        <Silicone />
-      </mesh>
-      {marks}
-      {[2.3, 0, -2.3].map((y, i) => (
-        <group key={y} position={[0, y, 0]}>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[1.05 - i * 0.08, 0.16, 32, 96]} />
-            <Steel />
-          </mesh>
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.62 - i * 0.04, 0.025, 16, 96]} />
-            <Glow />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  )
-}
-
-/** The vertical line as a machine: frame, dies, oven and take-up spool. */
-function VerticalExtruderModel() {
-  return (
-    <group rotation={[0.1, -0.55, 0]} position={[0, -0.15, 0]} scale={0.78}>
-      {[
-        [-1.1, -0.8],
-        [1.1, -0.8],
-        [-1.1, 0.8],
-        [1.1, 0.8],
-      ].map(([x, z], i) => (
-        <mesh key={i} position={[x, 0, z]}>
-          <boxGeometry args={[0.14, 4.4, 0.14]} />
-          <Steel color="#9aa7b6" />
-        </mesh>
-      ))}
-      <RoundedBox args={[2.5, 0.5, 1.9]} radius={0.08} position={[0, 2.25, 0]}>
-        <Graphite />
-      </RoundedBox>
-      <RoundedBox args={[1.3, 1.4, 1.1]} radius={0.08} position={[0, 0.2, 0]}>
-        <meshStandardMaterial color="#e8eef3" roughness={0.5} metalness={0.2} />
-      </RoundedBox>
-      <mesh position={[0, 0.2, 0.56]}>
-        <planeGeometry args={[0.9, 0.12]} />
-        <Glow />
-      </mesh>
-      <mesh>
-        <cylinderGeometry args={[0.12, 0.12, 4.4, 32]} />
-        <Silicone />
-      </mesh>
-      {[1.4, -1.0].map((y) => (
-        <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.42, 0.08, 24, 64]} />
-          <Steel />
-        </mesh>
-      ))}
-      <RoundedBox args={[2.6, 0.3, 2]} radius={0.06} position={[0, -2.3, 0]}>
-        <Graphite />
-      </RoundedBox>
-    </group>
-  )
-}
-
 /** Horizontal extruder: hopper, barrel, crosshead and the coated cable. */
 function HorizontalExtruderModel() {
   return (
@@ -658,41 +602,6 @@ function OemModel() {
   )
 }
 
-/** Coiled medical-grade silicone tubing with a connector. */
-function MedicalModel() {
-  const coil = useMemo(() => {
-    const pts: THREE.Vector3[] = []
-    for (let i = 0; i <= 200; i++) {
-      const t = i / 200
-      const a = t * Math.PI * 2 * 3.2
-      pts.push(v(Math.cos(a) * 1.4, -1.2 + t * 1.6, Math.sin(a) * 1.4))
-    }
-    pts.push(v(1.6, 0.9, -0.6), v(1.9, 1.6, 0.2))
-    return pts
-  }, [])
-  const curve = useMemo(() => new THREE.CatmullRomCurve3(coil), [coil])
-  const end = curve.getPoint(1)
-  const quat = new THREE.Quaternion().setFromUnitVectors(v(0, 1, 0), curve.getTangent(1).normalize())
-  return (
-    <group rotation={[0.35, 0.3, 0]} position={[-0.2, -0.1, 0]}>
-      <mesh>
-        <tubeGeometry args={[curve, 500, 0.16, 32, false]} />
-        <meshPhysicalMaterial color="#d8f3ef" roughness={0.15} clearcoat={1} transparent opacity={0.75} />
-      </mesh>
-      <group position={end} quaternion={quat}>
-        <mesh position={[0, 0.25, 0]}>
-          <cylinderGeometry args={[0.24, 0.2, 0.5, 32]} />
-          <Silicone color={TEAL} />
-        </mesh>
-        <mesh position={[0, 0.62, 0]}>
-          <cylinderGeometry args={[0.12, 0.16, 0.3, 32]} />
-          <meshStandardMaterial color="#f8fafc" roughness={0.3} />
-        </mesh>
-      </group>
-    </group>
-  )
-}
-
 /** Server rack with high-temperature silicone cabling. */
 function DatacentreModel() {
   return (
@@ -717,105 +626,6 @@ function DatacentreModel() {
       <Tube points={[v(0.95, 1.2, 0.5), v(1.6, 0.8, 0.9), v(1.8, -0.8, 1.2), v(2.3, -1.9, 0.6)]} radius={0.09} />
       <Tube points={[v(0.95, 0.4, 0.5), v(1.45, 0, 0.8), v(1.55, -1.2, 1.0), v(1.9, -2, 0.4)]} radius={0.09} color="#e8eef3" />
       <Tube points={[v(0.95, -0.4, 0.5), v(1.3, -0.8, 0.7), v(1.3, -1.6, 0.8), v(1.5, -2.1, 0.2)]} radius={0.09} color="#f97316" />
-    </group>
-  )
-}
-
-/** Humanoid robot head and shoulders with soft silicone surfaces. */
-function RobotModel() {
-  return (
-    <group rotation={[0.05, -0.45, 0]} position={[0, -0.35, 0]}>
-      <mesh position={[0, 1.15, 0]} scale={[1, 1.15, 1.05]}>
-        <sphereGeometry args={[0.95, 64, 64]} />
-        <meshPhysicalMaterial color="#f1f5f9" roughness={0.35} clearcoat={0.6} />
-      </mesh>
-      <mesh position={[0, 1.2, 0.42]} scale={[0.86, 0.42, 0.62]}>
-        <sphereGeometry args={[0.95, 64, 64]} />
-        <meshPhysicalMaterial color="#05070a" roughness={0.05} clearcoat={1} />
-      </mesh>
-      <mesh position={[0, 1.22, 0.99]} rotation={[0, 0, Math.PI / 2]} scale={[1, 1, 0.5]}>
-        <capsuleGeometry args={[0.04, 0.7, 8, 16]} />
-        <Glow />
-      </mesh>
-      {[-0.98, 0.98].map((x) => (
-        <mesh key={x} position={[x, 1.15, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.22, 0.22, 0.12, 32]} />
-          <Silicone color={TEAL} />
-        </mesh>
-      ))}
-      <mesh position={[0, 0.05, 0]}>
-        <cylinderGeometry args={[0.28, 0.34, 0.5, 32]} />
-        <Silicone color={TEAL_DARK} />
-      </mesh>
-      <mesh position={[0, -0.75, 0]} scale={[1, 0.6, 0.7]}>
-        <capsuleGeometry args={[0.7, 1.4, 16, 32]} />
-        <meshPhysicalMaterial color="#e2e8f0" roughness={0.4} clearcoat={0.5} />
-      </mesh>
-    </group>
-  )
-}
-
-/** Semiconductor package on a substrate, sealed with a silicone gasket. */
-function ChipModel() {
-  const pins = Array.from({ length: 8 }, (_, i) => -1.05 + i * 0.3)
-  return (
-    <group rotation={[0.75, -0.55, 0]} position={[0, -0.1, 0]}>
-      <RoundedBox args={[3.4, 0.16, 3.4]} radius={0.05} position={[0, -0.25, 0]}>
-        <meshStandardMaterial color="#0f3d2e" roughness={0.6} />
-      </RoundedBox>
-      <mesh position={[0, -0.12, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.45, 1.62, 64]} />
-        <Silicone />
-      </mesh>
-      <RoundedBox args={[2.2, 0.3, 2.2]} radius={0.06} position={[0, 0.02, 0]}>
-        <meshStandardMaterial color="#111827" roughness={0.5} metalness={0.3} />
-      </RoundedBox>
-      <RoundedBox args={[1.1, 0.06, 1.1]} radius={0.02} position={[0, 0.2, 0]}>
-        <Steel />
-      </RoundedBox>
-      {pins.map((p) =>
-        [
-          [p, 1.2],
-          [p, -1.2],
-          [1.2, p],
-          [-1.2, p],
-        ].map(([x, z], k) => (
-          <mesh key={`${p}-${k}`} position={[x, -0.08, z]}>
-            <boxGeometry args={[k > 1 ? 0.28 : 0.1, 0.05, k > 1 ? 0.1 : 0.28]} />
-            <meshStandardMaterial color="#e5c07b" metalness={1} roughness={0.25} />
-          </mesh>
-        )),
-      )}
-    </group>
-  )
-}
-
-/** Quartz crystals on a mound of sand: where silicone starts. */
-function QuartzModel() {
-  const crystals: Array<[number, number, number, number, number, number]> = [
-    [0, 0.2, 0, 0.42, 2.4, 0],
-    [-0.65, -0.1, 0.25, 0.3, 1.6, -0.35],
-    [0.6, -0.2, 0.2, 0.32, 1.5, 0.4],
-    [0.2, -0.3, 0.7, 0.24, 1.1, 0.2],
-  ]
-  return (
-    <group rotation={[0.15, -0.4, 0]} position={[0, -0.4, 0]}>
-      <mesh position={[0, -1.1, 0]} scale={[2.2, 0.55, 1.7]}>
-        <sphereGeometry args={[1, 48, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshStandardMaterial color="#d6c4a3" roughness={0.95} />
-      </mesh>
-      {crystals.map(([x, y, z, r, h, tilt], i) => (
-        <group key={i} position={[x, y - 0.6 + h / 2, z]} rotation={[0, i, tilt]}>
-          <mesh>
-            <cylinderGeometry args={[r, r, h, 6]} />
-            <meshPhysicalMaterial color="#f1f5f9" roughness={0.08} clearcoat={1} transparent opacity={0.72} />
-          </mesh>
-          <mesh position={[0, h / 2 + r * 0.6, 0]}>
-            <coneGeometry args={[r, r * 1.2, 6]} />
-            <meshPhysicalMaterial color="#f8fafc" roughness={0.08} clearcoat={1} transparent opacity={0.72} />
-          </mesh>
-        </group>
-      ))}
     </group>
   )
 }
@@ -989,20 +799,25 @@ export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
   compound: () => <CompoundModel />,
   recycle: () => <LoopModel />,
   bottle: () => <BottleModel />,
-  'extruder-vertical': () => <VerticalExtruderModel />,
+  'extruder-vertical': () => (
+    <group position={[1.6, -2.45, 0]} scale={0.85}>
+      <ExtruderLineModel tower />
+    </group>
+  ),
   'extruder-horizontal': () => <HorizontalExtruderModel />,
   mixer: () => <MixerModel />,
   winder: () => <WinderModel />,
   oven: () => <OvenModel />,
   coating: () => <CoatingModel />,
   oem: () => <OemModel />,
-  medical: () => <MedicalModel />,
+  medical: () => <MedicalTubingModel />,
   datacentre: () => <DatacentreModel />,
-  robot: () => <RobotModel />,
-  chip: () => <ChipModel />,
-  sand: () => <QuartzModel />,
+  robot: () => <HumanoidModel />,
+  chip: () => <WaferModel />,
+  sand: () => <DuneModel />,
   molecule: () => <MoleculeModel />,
-  samples: () => <SamplesModel />,
+  samples: () => <SwatchFanModel />,
   globe: () => <GlobeModel />,
   'extruder-line': () => <ExtruderLineModel />,
+  'cable-anatomy': () => <CableAnatomyModel explode={anatomyStillExplode} />,
 }

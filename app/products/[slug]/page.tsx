@@ -4,8 +4,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CompareBars, MarketCard } from '@/components/charts'
 import { Render } from '@/components/Render'
+import { CableAnatomy } from '@/components/CableAnatomy'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { JsonLd } from '@/components/JsonLd'
+import { TemperatureRange } from '@/components/TemperatureRange'
 import { TabNav } from '@/components/TabNav'
 import { Scene3D } from '@/components/three/Scene3D'
 import { sceneFor } from '@/components/three/sceneFor'
@@ -78,6 +80,13 @@ export default async function ProductPage({ params }: Props) {
           <div>
             <p className="eyebrow">Overview</p>
             <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{p.summary}</p>
+            {p.photo && (
+              <figure className="card relative mt-10 overflow-hidden">
+                <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_80%_at_80%_50%,rgb(20_159_148/0.16),transparent)]" />
+                <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
+                <figcaption className="absolute bottom-4 left-5 text-xs text-slate-400">{p.photo.caption}</figcaption>
+              </figure>
+            )}
             {p.recycledOption && (
               <p className="mt-8 rounded-2xl border border-brand-400/25 bg-brand-400/10 p-5 text-sm text-brand-100">
                 <strong>Also available with recycled content.</strong> <Link href="/recycled-silicone" className="underline underline-offset-2">How our recycled silicone works</Link>
@@ -116,6 +125,16 @@ export default async function ProductPage({ params }: Props) {
       )}
 
       {p.slug === 'vertical-extruder' && <ExtruderSection tone="muted" />}
+      {p.slug === 'momixx-mm' && (
+        <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *goes*" intro="A charging cable is five layers. MM silicone is the outer jacket: the part you hold, and the first line of defence against heat and fire.">
+          <CableAnatomy />
+        </Section>
+      )}
+      {p.slug === 'momixx-move' && (
+        <Section tone="muted" eyebrow="Heat and cold" title="Rated from *−60 °C to 250 °C*" intro="How MV silicone compares with common cable materials.">
+          <TemperatureRange />
+        </Section>
+      )}
 
       {(p.models || (p.specs && p.slug !== 'vertical-extruder')) && (
         <Section tone={p.comparison ? 'muted' : 'white'} eyebrow="Technical details" title={p.models ? 'Grades in this *series*' : '*Specifications*'}>
