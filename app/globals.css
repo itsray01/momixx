@@ -1,0 +1,92 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Manrope Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Ink: near-black navy used for the hero, footer and body text */
+  --color-ink-950: #060a10;
+  --color-ink-900: #0b121c;
+  --color-ink-800: #142030;
+  --color-ink-700: #22324a;
+
+  /* Brand accent: "silicone teal", one hue light → dark */
+  --color-brand-50: #eefbf9;
+  --color-brand-100: #d3f4ef;
+  --color-brand-200: #a7e8df;
+  --color-brand-300: #6dd5c9;
+  --color-brand-400: #34bdb0;
+  --color-brand-500: #149f94;
+  --color-brand-600: #0b8078;
+  --color-brand-700: #0c6661;
+  --color-brand-800: #0e514e;
+  --color-brand-900: #0f4341;
+
+  /* Copper, used only in cable illustrations */
+  --color-copper: #c98a55;
+
+  --animate-spin-slow: spin 60s linear infinite;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-slate-700 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-slate-900;
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    @apply bg-brand-200 text-ink-900;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility eyebrow {
+  @apply font-display text-xs font-bold tracking-[0.18em] text-brand-600 uppercase;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors;
+}
+@utility btn-primary {
+  @apply btn bg-brand-500 text-white hover:bg-brand-600;
+}
+@utility btn-ghost-dark {
+  @apply btn border border-white/25 text-white hover:border-white/60 hover:bg-white/5;
+}
+@utility btn-ghost {
+  @apply btn border border-slate-300 text-slate-900 hover:border-slate-900;
+}
+@utility card {
+  @apply rounded-2xl border border-slate-200 bg-white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
