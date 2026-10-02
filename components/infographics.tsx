@@ -1,16 +1,15 @@
 import { Render } from './Render'
-import { Scene3D } from './three/Scene3D'
 import { rich } from './ui'
 import type { ModelName } from './three/modelNames'
 
 // ───────────────────────── Recycling ─────────────────────────
 
 export const recycleSteps = [
-  { title: 'Collect scrap', body: 'Factory offcuts (post-industrial) and used products (post-consumer) that would otherwise go to landfill.' },
-  { title: 'Break it down', body: 'High-temperature depolymerisation splits the silicone back into its molecular building blocks.' },
-  { title: 'Recover DMC', body: 'The vapour is cooled into a liquid called DMC (dimethylcyclosiloxane), then filtered several times.' },
-  { title: 'Make silicone oil', body: 'Purified DMC is rebuilt into silicone oil, the same base used for virgin silicone.' },
-  { title: 'New silicone', body: 'We compound the oil into new, high-performance silicone, traceable batch by batch.' },
+  { title: 'Collect scrap', body: 'Factory offcuts and used products that would otherwise go to landfill.' },
+  { title: 'Break it down', body: 'Strong heat breaks the silicone back down into its basic building blocks, which rise as a vapour.' },
+  { title: 'Collect the liquid', body: 'The vapour cools into a clear liquid (called DMC), which is filtered several times.' },
+  { title: 'Make silicone oil', body: 'The clean liquid is rebuilt into silicone oil, the same starting point as brand-new silicone.' },
+  { title: 'New silicone', body: 'We turn the oil into new, high-quality silicone. Every batch can be traced.' },
 ]
 
 /** The five recycling steps as a numbered list. */
@@ -30,40 +29,22 @@ export function RecycleSteps({ compact = false }: { compact?: boolean }) {
   )
 }
 
-/** Live 3D recycling ring with the five steps placed around it. */
-export function RecycleOrbit() {
-  // Step chips sit on an ellipse around the ring (percent positions).
-  const spots = [
-    { left: '50%', top: '6%' },
-    { left: '90%', top: '36%' },
-    { left: '76%', top: '90%' },
-    { left: '24%', top: '90%' },
-    { left: '10%', top: '36%' },
-  ]
+/** The five recycling steps as a row of cards. */
+export function RecycleFlow() {
   return (
     <div>
-      <div className="relative mx-auto hidden aspect-[16/10] max-w-5xl md:block">
-        <div className="absolute inset-x-[22%] inset-y-[14%]">
-          <Scene3D variant="recycle" className="h-full" fallback={<Render name="recycle" className="h-full w-full object-contain" />} />
-        </div>
+      <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-5">
         {recycleSteps.map((s, i) => (
-          <div
-            key={s.title}
-            data-reveal
-            className="glass absolute w-56 -translate-x-1/2 -translate-y-1/2 rounded-2xl p-4"
-            style={{ left: spots[i].left, top: spots[i].top }}
-          >
-            <p className="font-mono text-xs text-brand-300">0{i + 1}</p>
-            <p className="mt-1 font-medium text-white">{s.title}</p>
-          </div>
+          <li key={s.title} className="bg-ink-950 p-7">
+            <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+            <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-white">{s.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.body}</p>
+          </li>
         ))}
-      </div>
-      <p className="mt-6 hidden text-center text-sm text-slate-400 md:block">
-        A closed loop for silicone, certified under <span className="text-white">GRS · ISCC PLUS · SCS</span>
+      </ol>
+      <p className="mt-6 text-sm text-slate-400">
+        Silicone that goes round and round, certified under <span className="text-white">GRS · ISCC PLUS · SCS</span>
       </p>
-      <div className="mt-12">
-        <RecycleSteps />
-      </div>
     </div>
   )
 }
@@ -71,10 +52,10 @@ export function RecycleOrbit() {
 // ───────────────────────── Sand to silicone ─────────────────────────
 
 export const journey: Array<{ title: string; body: string; model: ModelName; momixx?: boolean }> = [
-  { title: 'Sand', body: 'Quartz sand is silicon dioxide (SiO₂), one of the most abundant materials on Earth.', model: 'sand' },
-  { title: 'Silicon', body: 'Heated in a furnace, quartz becomes silicon: the element that also goes into computer chips.', model: 'chip' },
-  { title: 'Silicone', body: 'Silicon is combined with oxygen, carbon and hydrogen into long, flexible chains.', model: 'molecule' },
-  { title: 'Momixx compound', body: 'We blend silicone with additives for fire safety, colour, strength or feel.', model: 'samples', momixx: true },
+  { title: 'Sand', body: 'Ordinary quartz sand, one of the most common materials on Earth.', model: 'sand' },
+  { title: 'Silicon', body: 'Heated in a furnace, the sand becomes silicon: the same element that goes into computer chips.', model: 'chip' },
+  { title: 'Silicone', body: 'Silicon is joined with oxygen, carbon and hydrogen into long, bendy chains.', model: 'molecule' },
+  { title: 'Momixx silicone', body: 'We mix in ingredients that add fire safety, colour, strength or a particular feel.', model: 'samples', momixx: true },
   { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'cable' },
 ]
 
@@ -84,61 +65,61 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
  */
 export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebrow: string; title: string; intro: string; tone?: 'dark' | 'muted' }) {
   return (
-    <section data-hscroll className={`relative overflow-hidden py-20 sm:py-24 lg:flex lg:h-screen lg:min-h-[640px] lg:flex-col lg:justify-center lg:py-0 ${tone === 'muted' ? 'bg-ink-900' : 'bg-ink-950'}`}>
-      <div className="container-page flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-2xl">
-          <p className="eyebrow">{eyebrow}</p>
-          <h2 className="display-lg mt-5">{rich(title)}</h2>
-          <p className="mt-4 text-lg leading-relaxed text-slate-400">{intro}</p>
-        </div>
-        <div className="hidden w-64 shrink-0 lg:block" aria-hidden="true">
-          <div className="flex justify-between font-mono text-xs text-slate-500">
-            <span>01</span>
-            <span>0{journey.length}</span>
+    <div>
+      <section data-hscroll className={`relative overflow-hidden py-20 sm:py-24 lg:flex lg:h-screen lg:min-h-[640px] lg:flex-col lg:justify-center lg:py-0 ${tone === 'muted' ? 'bg-ink-900' : 'bg-ink-950'}`}>
+        <div className="container-page flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="display-lg mt-5">{rich(title)}</h2>
+            <p className="mt-4 text-lg leading-relaxed text-slate-400">{intro}</p>
           </div>
-          <div className="mt-2 h-px bg-white/10">
-            <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-brand-300 shadow-[0_0_10px_var(--color-brand-300)]" />
+          <div className="hidden w-64 shrink-0 lg:block" aria-hidden="true">
+            <div className="flex justify-between font-mono text-xs text-slate-500">
+              <span>01</span>
+              <span>0{journey.length}</span>
+            </div>
+            <div className="mt-2 h-px bg-white/10">
+              <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-brand-300" />
+            </div>
           </div>
         </div>
-      </div>
-      <div data-hscroll-viewport className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
-        <ol data-hscroll-track className="flex w-max gap-4 px-4 sm:px-6 lg:gap-5 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
-          {journey.map((step, i) => (
-            <li
-              key={step.title}
-              className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(56vh,500px)] lg:w-[min(380px,28vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
-            >
-              <div className="relative flex h-52 items-center justify-center px-6 pt-6 lg:h-auto lg:flex-1">
-                <div aria-hidden="true" className="absolute inset-0" style={{ background: `radial-gradient(60% 55% at 50% 45%, rgb(20 159 148 / ${step.momixx ? 0.3 : 0.16}), transparent)` }} />
-                <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(30vh,280px)]" sizes="(min-width: 1024px) 28vw, 78vw" />
-              </div>
-              <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-brand-300">Step 0{i + 1}</span>
-                  {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">Momixx</span>}
+        <div data-hscroll-viewport className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
+          <ol data-hscroll-track className="flex w-max gap-4 px-4 sm:px-6 lg:gap-5 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
+            {journey.map((step, i) => (
+              <li
+                key={step.title}
+                className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(56vh,500px)] lg:w-[min(380px,28vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
+              >
+                <div className="relative flex h-52 items-center justify-center px-6 pt-6 lg:h-auto lg:flex-1">
+                  <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(30vh,280px)]" sizes="(min-width: 1024px) 28vw, 78vw" />
                 </div>
-                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+                <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-brand-300">Step 0{i + 1}</span>
+                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">Momixx</span>}
+                  </div>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </div>
   )
 }
 
 // ───────────────────────── Silicon vs silicone ─────────────────────────
 
 export function SiliconVsSilicone() {
-  const cols: Array<{ name: string; formula: string; what: string; looks: string; uses: string; model: ModelName; highlight: boolean }> = [
+  const cols: Array<{ name: string; formula: string; what: string; looks: string; uses: string; highlight: boolean }> = [
     {
       name: 'Silicon',
       formula: 'Si',
       what: 'A chemical element, number 14 on the periodic table.',
       looks: 'Hard, brittle, grey and shiny.',
       uses: 'Computer chips, solar panels, aluminium alloys.',
-      model: 'chip',
       highlight: false,
     },
     {
@@ -147,7 +128,6 @@ export function SiliconVsSilicone() {
       what: 'A man-made material built from silicon, oxygen, carbon and hydrogen.',
       looks: 'Soft rubber, liquid, gel or resin; any colour.',
       uses: 'Cables, seals, medical devices, phone cases, cookware. This is what Momixx makes.',
-      model: 'samples',
       highlight: true,
     },
   ]
@@ -155,11 +135,7 @@ export function SiliconVsSilicone() {
     <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
       {cols.map((c) => (
         <div key={c.name} data-tilt className={`card lift overflow-hidden ${c.highlight ? 'border-brand-400/30' : ''}`}>
-          <div className="relative px-10 pt-6">
-            <div aria-hidden="true" className="absolute inset-0" style={{ background: `radial-gradient(60% 60% at 50% 50%, ${c.highlight ? 'rgb(20 159 148 / 0.22)' : 'rgb(148 163 184 / 0.1)'}, transparent)` }} />
-            <Render name={c.model} className="relative mx-auto max-h-56 w-auto" sizes="(min-width: 768px) 40vw, 100vw" />
-          </div>
-          <div className="p-8 pt-2">
+          <div className="p-8">
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="display-md">{c.name}</h3>
               <span className="font-serif text-2xl text-slate-400 italic">{c.formula}</span>

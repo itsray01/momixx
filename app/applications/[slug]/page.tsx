@@ -3,11 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CableAnatomy } from '@/components/CableAnatomy'
 import { MarketCard } from '@/components/charts'
-import { Render } from '@/components/Render'
 import { TabNav } from '@/components/TabNav'
 import { TemperatureRange } from '@/components/TemperatureRange'
-import { Scene3D } from '@/components/three/Scene3D'
-import { sceneFor } from '@/components/three/sceneFor'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { applications, getApplication } from '@/content/applications'
 import { getMarket, marketDisclaimer } from '@/content/markets'
@@ -48,17 +45,9 @@ export default async function ApplicationPage({ params }: Props) {
         eyebrow="Application"
         title={a.name}
         intro={a.tagline}
-        mobileVisual={<Render name={a.illustration} priority className="mx-auto max-w-sm" sizes="100vw" />}
-        aside={
-          <Scene3D
-            variant={sceneFor(a.illustration)}
-            className="h-full"
-            fallback={<Render name={a.illustration} priority className="h-full w-full object-contain" />}
-          />
-        }
       >
         <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-400/10 px-3.5 py-1.5 text-xs font-medium text-brand-200">
-          <span className="h-1.5 w-1.5 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" aria-hidden="true" />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-300" aria-hidden="true" />
           {a.maturity}
         </p>
       </PageHeader>
@@ -78,7 +67,7 @@ export default async function ApplicationPage({ params }: Props) {
             <ul className="mt-4 space-y-2.5 text-slate-300">
               {a.examples.map((e) => (
                 <li key={e} className="flex gap-2.5">
-                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" />
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
                   {e}
                 </li>
               ))}
@@ -92,7 +81,7 @@ export default async function ApplicationPage({ params }: Props) {
       </Section>
 
       {a.slug === 'consumer-electronics' && (
-        <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable is five layers. Momixx makes the outer one: the soft, fire-safe silicone jacket you hold.">
+        <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable has five layers. Momixx makes the outer one: the soft, fire-safe silicone you hold.">
           <CableAnatomy />
         </Section>
       )}
@@ -102,7 +91,7 @@ export default async function ApplicationPage({ params }: Props) {
         </Section>
       )}
 
-      <Section eyebrow="Addressable market" title="The size of the *opportunity*" intro="Independent estimates of the market this application sits in.">
+      <Section eyebrow="Market size" title="The size of the *opportunity*" intro="Independent estimates of how big this market is, and how fast it is growing.">
         <div data-reveal="stagger" className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>
           {relatedMarkets.map((m) => (
             <MarketCard key={m.id} market={m} />

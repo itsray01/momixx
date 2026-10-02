@@ -3,15 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CompareBars, MarketCard } from '@/components/charts'
-import { Render } from '@/components/Render'
 import { CableAnatomy } from '@/components/CableAnatomy'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { JsonLd } from '@/components/JsonLd'
 import { TemperatureRange } from '@/components/TemperatureRange'
 import { TabNav } from '@/components/TabNav'
-import { Scene3D } from '@/components/three/Scene3D'
-import { sceneFor } from '@/components/three/sceneFor'
-import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
+import { Arrow, ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { getApplication } from '@/content/applications'
 import { getMarket } from '@/content/markets'
 import { categoryLabels, getProduct, products } from '@/content/products'
@@ -33,9 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ title: p.name, description: `${p.tagline} ${p.summary}`.slice(0, 300), path: `/products/${p.slug}` })
 }
 
-const typeHelp: Record<string, string> = {
-  LSR: 'Liquid silicone rubber: pourable, for precise injection-moulded parts',
-  HCR: 'High-consistency rubber: dough-like solid, for extrusion and compression moulding',
+const types: Record<string, { name: string; help: string }> = {
+  LSR: { name: 'Liquid', help: 'pours like thick honey, for precise moulded parts' },
+  HCR: { name: 'Solid', help: 'firm like dough, for cables and pressed parts' },
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -60,18 +57,6 @@ export default async function ProductPage({ params }: Props) {
         eyebrow={categoryLabels[p.category]}
         title={p.name}
         intro={p.tagline}
-        mobileVisual={<Render name={p.illustration ?? 'compound'} priority className="mx-auto max-w-sm" sizes="100vw" />}
-        aside={
-          p.image ? (
-            <Image src={p.image} alt={p.name} width={640} height={480} className="rounded-2xl object-cover" priority />
-          ) : (
-            <Scene3D
-              variant={sceneFor(p.illustration)}
-              className="h-full"
-              fallback={<Render name={p.illustration ?? 'compound'} priority className="h-full w-full object-contain" />}
-            />
-          )
-        }
       />
       <TabNav tabs={productTabs} label="Products" />
 
@@ -82,7 +67,6 @@ export default async function ProductPage({ params }: Props) {
             <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{p.summary}</p>
             {p.photo && (
               <figure className="card relative mt-10 overflow-hidden">
-                <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_80%_at_80%_50%,rgb(20_159_148/0.16),transparent)]" />
                 <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
                 <figcaption className="absolute bottom-4 left-5 text-xs text-slate-400">{p.photo.caption}</figcaption>
               </figure>
@@ -101,7 +85,7 @@ export default async function ProductPage({ params }: Props) {
                 <ul className="mt-4 space-y-2.5 text-slate-300">
                   {p.uses.map((u) => (
                     <li key={u} className="flex gap-2.5">
-                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" />
+                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
                       {u}
                     </li>
                   ))}
@@ -126,7 +110,7 @@ export default async function ProductPage({ params }: Props) {
 
       {p.slug === 'vertical-extruder' && <ExtruderSection tone="muted" />}
       {p.slug === 'momixx-mm' && (
-        <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *goes*" intro="A charging cable is five layers. MM silicone is the outer jacket: the part you hold, and the first line of defence against heat and fire.">
+        <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *goes*" intro="A charging cable has five layers. MM silicone is the outer one: the part you hold, and the first protection against heat and fire.">
           <CableAnatomy />
         </Section>
       )}
@@ -137,16 +121,16 @@ export default async function ProductPage({ params }: Props) {
       )}
 
       {(p.models || (p.specs && p.slug !== 'vertical-extruder')) && (
-        <Section tone={p.comparison ? 'muted' : 'white'} eyebrow="Technical details" title={p.models ? 'Grades in this *series*' : '*Specifications*'}>
+        <Section tone={p.comparison ? 'muted' : 'white'} eyebrow="The details" title={p.models ? 'Versions in this *range*' : 'Key *numbers*'}>
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
             {p.models && (
               <div className="card overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead className="border-b border-white/10 text-xs tracking-[0.14em] text-slate-500 uppercase">
                     <tr>
-                      <th scope="col" className="px-6 py-4 font-medium">Grade</th>
-                      <th scope="col" className="px-6 py-4 font-medium">Type</th>
-                      <th scope="col" className="px-6 py-4 font-medium">Key properties</th>
+                      <th scope="col" className="px-6 py-4 font-medium">Version</th>
+                      <th scope="col" className="px-6 py-4 font-medium">Form</th>
+                      <th scope="col" className="px-6 py-4 font-medium">What it’s good at</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/[0.06]">
@@ -154,9 +138,9 @@ export default async function ProductPage({ params }: Props) {
                       <tr key={m.model}>
                         <th scope="row" className="px-6 py-4 font-mono font-medium text-white">{m.model}</th>
                         <td className="px-6 py-4">
-                          <abbr title={typeHelp[m.type]} className="rounded-full border border-brand-400/30 bg-brand-400/10 px-2.5 py-0.5 text-xs font-medium text-brand-200 no-underline">
-                            {m.type}
-                          </abbr>
+                          <span title={`${m.type}: ${types[m.type]?.help ?? ''}`} className="rounded-full border border-brand-400/30 bg-brand-400/10 px-2.5 py-0.5 text-xs font-medium text-brand-200">
+                            {types[m.type]?.name ?? m.type}
+                          </span>
                         </td>
                         <td className="px-6 py-4 text-slate-200">{m.properties}</td>
                       </tr>
@@ -179,17 +163,17 @@ export default async function ProductPage({ params }: Props) {
               <div className="space-y-4 text-sm text-slate-400">
                 {p.processing && (
                   <p>
-                    <span className="font-semibold text-white">Processing:</span> {p.processing}
+                    <span className="font-semibold text-white">How it’s used:</span> {p.processing}
                   </p>
                 )}
                 {modelTypes.map((t) =>
-                  typeHelp[t] ? (
+                  types[t] ? (
                     <p key={t}>
-                      <span className="font-semibold text-white">{t}</span>: {typeHelp[t].split(': ')[1]}.
+                      <span className="font-semibold text-white">{types[t].name}</span> ({t}): {types[t].help}.
                     </p>
                   ) : null,
                 )}
-                <p>Datasheets available on request.</p>
+                <p>Full technical datasheets are available on request.</p>
               </div>
             )}
           </div>
@@ -198,19 +182,18 @@ export default async function ProductPage({ params }: Props) {
 
       {apps.length > 0 && (
         <Section eyebrow="Applications" title="Where it’s *used*">
-          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-            <ul data-reveal="stagger" className="grid content-start gap-4 sm:grid-cols-2">
+          <div className={`grid gap-6 ${market ? 'lg:grid-cols-2' : ''}`}>
+            <ul data-reveal="stagger" className={`grid content-start gap-4 ${market ? '' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
               {apps.map((a) => (
                 <li key={a.slug}>
-                  <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full items-center gap-4 overflow-hidden p-5">
-                    <div className="relative w-24 shrink-0">
-                      <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.25), transparent)' }} />
-                      <Render name={a.illustration} className="relative" sizes="96px" />
-                    </div>
+                  <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full items-center justify-between gap-6 overflow-hidden p-6">
                     <div>
                       <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
                       <p className="mt-1 text-sm text-slate-400">{a.tagline}</p>
                     </div>
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors group-hover:border-brand-300 group-hover:bg-brand-300 group-hover:text-ink-950">
+                      <Arrow />
+                    </span>
                   </Link>
                 </li>
               ))}

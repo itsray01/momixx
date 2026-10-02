@@ -28,7 +28,7 @@ export default function MarketsPage() {
 
       <Section eyebrow="At a glance" title="Expected *growth*">
         <GrowthChart markets={addressable} />
-        <p className="mt-4 text-xs text-slate-400">Humanoid robots are not shown: the source gives a 2035 total addressable market, not a growth rate.</p>
+        <p className="mt-4 text-xs text-slate-400">Humanoid robots are not shown: the source gives a market size for 2035, not a growth rate.</p>
       </Section>
 
       <Section tone="muted" eyebrow="Market by market" title="Market sizes and *sources*">
@@ -83,7 +83,7 @@ export default function MarketsPage() {
                 <th scope="col" className="px-5 py-3 font-semibold">Market</th>
                 <th scope="col" className="px-5 py-3 text-right font-semibold">Current</th>
                 <th scope="col" className="px-5 py-3 text-right font-semibold">Forecast</th>
-                <th scope="col" className="px-5 py-3 text-right font-semibold">CAGR</th>
+                <th scope="col" className="px-5 py-3 text-right font-semibold">Growth a year</th>
                 <th scope="col" className="px-5 py-3 font-semibold">Source</th>
               </tr>
             </thead>

@@ -58,17 +58,6 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   )
 }
 
-/** A soft teal light source, so 3D objects read as lit rather than pasted on. */
-export function Glow({ className = '', size = 640 }: { className?: string; size?: number }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute rounded-full ${className}`}
-      style={{ width: size, height: size, background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.28), rgb(20 159 148 / 0.08) 55%, transparent)' }}
-    />
-  )
-}
-
 export function GridBackdrop({ className = '' }: { className?: string }) {
   return (
     <div
@@ -89,33 +78,24 @@ export function PageHeader({
   intro,
   crumbs,
   children,
-  aside,
-  mobileVisual,
 }: {
   eyebrow?: string
   title: string
   intro?: ReactNode
   crumbs?: Crumb[]
   children?: ReactNode
-  /** Desktop visual, usually a live 3D scene. */
-  aside?: ReactNode
-  /** Lightweight visual for phones, usually a pre-rendered image. */
-  mobileVisual?: ReactNode
 }) {
   return (
     <section className="grain relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
       <GridBackdrop />
-      <Glow className="-top-40 right-[-10%]" size={900} />
-      <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
-        <div>
+      <div className="container-page relative">
+        <div className="max-w-4xl">
           {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
           <h1 className="display-lg mt-5">{rich(title)}</h1>
           {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
           {children}
         </div>
-        {aside && <div className="relative hidden h-[460px] lg:block">{aside}</div>}
-        {mobileVisual && <div className="relative -mb-6 lg:hidden">{mobileVisual}</div>}
       </div>
       <div className="hairline absolute inset-x-0 bottom-0" />
     </section>
@@ -242,7 +222,7 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
 
 export function CtaBand({
   title = 'Talk to *our team*',
-  body = 'Whether you need a material, a machine or a manufacturing partner, we’ll help you find the right silicone solution.',
+  body = 'Whether you need a material, a machine or a manufacturing partner, we’ll help you find the right silicone for the job.',
 }: {
   title?: string
   body?: string
@@ -252,7 +232,6 @@ export function CtaBand({
       <div className="container-page">
         <div data-reveal className="grain card relative overflow-hidden px-6 py-16 text-center sm:px-16 sm:py-24">
           <GridBackdrop />
-          <Glow className="-bottom-[420px] left-1/2 -translate-x-1/2" size={900} />
           <div className="relative mx-auto max-w-3xl">
             <h2 className="display-lg">{rich(title)}</h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">{body}</p>

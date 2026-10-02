@@ -1,23 +1,24 @@
 ---
-title: "Medical-grade silicone: ISO 10993, ISO 13485 and the end of “USP Class VI”"
-description: What “medical-grade” silicone really means, how biocompatibility is evaluated under ISO 10993-1, what ISO 13485 certifies, and why the USP Class VI label is changing on 1 December 2026.
+title: "Medical-grade silicone explained: ISO 13485, ISO 10993 and the end of USP Class VI"
+description: "“Medical-grade” silicone isn't one certificate. What it really means, what ISO 10993 and ISO 13485 cover, and why USP Class VI is retired in December 2026."
 date: 2026-10-02
+updated: 2026-10-02
 topic: regulation
 model: medical
 tags: [medical silicone, ISO 10993, ISO 13485, USP Class VI, biocompatibility, FDA]
 takeaways:
-  - '"Medical-grade" is not a single certificate. It usually means a material has biocompatibility data and is made under controlled quality systems.'
-  - ISO 10993-1 (2025 edition) sets out how to evaluate the biological safety of a medical device within a risk-management process. ISO 13485 certifies a manufacturer's quality management system, not a material.
-  - A revised USP <88> becomes official on 1 December 2026. It removes the Class I–VI plastics classification for medical devices and refers them to FDA device guidance instead.
+  - '"Medical-grade" is not one certificate. It usually means safety test data for contact with the body, plus a strict quality system.'
+  - ISO 10993 checks that a device is safe for the body. ISO 13485 certifies a manufacturer's quality system, not a material.
+  - From 1 December 2026, "USP Class VI" no longer covers medical devices. Makers are pointed to FDA guidance instead.
 faqs:
   - q: What does medical-grade silicone mean?
-    a: There is no single legal definition. In practice it means silicone with biocompatibility data relevant to the intended use, typically evaluated under ISO 10993, that is made and controlled under quality systems such as ISO 13485. Biocompatibility is ultimately assessed for the finished device, not the raw material alone.
+    a: There is no legal definition. It usually means silicone with safety test data for its use, made under a quality system such as ISO 13485. Safety is finally judged for the finished device, not the raw material.
   - q: What is ISO 13485?
-    a: ISO 13485:2016 is the international quality management system standard for organisations that design, produce, install or service medical devices. It certifies a company's processes, not a specific material or product. Momixx's Penang Batu Kawan plant is certified to ISO 13485.
+    a: The international quality standard for medical-device makers. It certifies how a company works, not a material or product. Momixx's Penang Batu Kawan plant is certified to it.
   - q: Is USP Class VI still valid?
-    a: Until 30 November 2026, USP <88> describes Class I–VI tests for plastics. A revised USP <88>, official from 1 December 2026, keeps only the systemic injection test for drug packaging. It removes the Class I–VI classification and refers medical devices to FDA device guidance. After that date, "USP Class VI" refers to a superseded classification.
+    a: Only until 30 November 2026. The revised USP chapter <88> then keeps one test, for drug packaging, drops the Class I–VI system and points device makers to FDA guidance.
   - q: Does the FDA recognise ISO 13485?
-    a: Yes. FDA's Quality Management System Regulation (21 CFR 820), which took effect on 2 February 2026, incorporates ISO 13485:2016 by reference.
+    a: Yes. The FDA's quality rules for device makers, in force since 2 February 2026, build in ISO 13485:2016 directly.
 sources:
   - title: "ISO 10993-1:2025, Biological evaluation of medical devices, Part 1"
     url: https://www.iso.org/standard/84512.html
@@ -33,44 +34,40 @@ sources:
     url: https://doi.usp.org/USPNF/USPNF_M98834_02_01.html
 ---
 
-Silicone is one of the most widely used materials in medicine, in tubing, seals, masks, wearables and implant components. Its stability, flexibility and ease of sterilisation make it a natural fit. But **"medical-grade" is not a certificate you can buy**. It is shorthand for a set of evidence: biocompatibility data, controlled manufacturing and traceability. The rules behind it are also changing.
+Silicone is everywhere in medicine, from tubing and masks to wearables and implant parts. But **"medical-grade" is not a certificate you can buy.** It is shorthand for evidence that the material is safe, carefully made and traceable. And the rules behind it are changing.
 
 ## What does "medical-grade" actually mean?
 
-In practice, a medical-grade silicone is one that:
+There is no legal definition. In practice, medical-grade silicone:
 
-- has **biocompatibility data** relevant to how it will be used, typically evaluated under the **ISO 10993** series;
-- is **made under a controlled quality system**, often **ISO 13485**, with traceability and change control;
-- is **consistent** from batch to batch, so test results stay valid.
+- has **safety test data** for the way it will touch the body, usually under **ISO 10993**;
+- is **made under a strict quality system**, often **ISO 13485**, so every batch can be traced;
+- is **consistent from batch to batch**, so test results stay valid.
 
-Biocompatibility is ultimately judged for the **finished device** in its intended use, not for the raw material alone.
+Safety is finally judged for the **finished device**, not just the raw material.
 
-## What is ISO 10993-1?
+## What is ISO 10993?
 
-**ISO 10993-1** sets out how to evaluate the biological safety of a medical device. The **2025 edition** (sixth edition, published November 2025) replaces the 2018 version. It has been reorganised to align with **ISO 14971**, the medical-device risk-management standard. In other words, biological testing is now explicitly part of a risk-management process, not a checklist.
-
-In the US, FDA guidance on applying ISO 10993-1 was last updated in September 2023.
+**ISO 10993** is a family of international standards for checking that a medical device is safe for the body. Part 1, which sets out the overall approach, was updated in November 2025. It treats safety testing as part of managing a device's risks, not as a checklist.
 
 ## What does ISO 13485 certify?
 
-**ISO 13485:2016** is the quality management system standard for organisations that design, produce, install or service medical devices. It certifies **a company's processes**, not a material or product. It was reconfirmed in 2025.
+**ISO 13485** is the international quality standard for medical-device makers. It certifies **how a company works**, not a material or product. Since **2 February 2026**, the FDA's quality rules for device makers have built it in directly.
 
-It has also become the basis of US regulation. FDA's **Quality Management System Regulation** (21 CFR 820) took effect on **2 February 2026** and incorporates ISO 13485:2016 by reference.
+## What is changing with "USP Class VI"?
 
-## What is changing with USP Class VI?
+For decades, suppliers have called materials **"USP Class VI"**. The label comes from the US Pharmacopeia (USP), which sets standards for medicines in the US. Its chapter <88> sorted plastics into six classes using safety tests.
 
-For decades, suppliers have described materials as **"USP Class VI"**, a classification from USP chapter <88> based on systemic injection, intracutaneous and implantation tests.
+From **1 December 2026**, a revised chapter:
 
-That is changing. A revised **USP <88> becomes official on 1 December 2026**. The revised chapter:
+- keeps one test, for **drug packaging** only;
+- **drops the Class I–VI system** and the other tests;
+- points **medical-device** makers to FDA guidance instead.
 
-- keeps only the **systemic injection test**, for drug packaging;
-- **removes the Class I–VI classification** and the intracutaneous and implantation tests;
-- refers **medical devices** to FDA device guidance instead.
-
-After 1 December 2026, "USP Class VI" refers to a superseded classification. Device makers will increasingly expect ISO 10993-based evidence instead.
+After that, "USP Class VI" is an outdated label. Device makers will increasingly expect ISO 10993 evidence.
 
 ## What does Momixx do in medical?
 
-Momixx entered medical device OEM manufacturing in 2025. Our **Penang Batu Kawan plant is certified to ISO 13485**, for high-precision silicone components for medical and semiconductor customers. We also offer [PFAS-free high-density silicone](/products/momixx-high-density) for medical and food-contact parts.
+Momixx began making parts for medical-device companies in 2025. Our **Penang Batu Kawan plant is certified to ISO 13485**. It makes high-precision silicone parts for medical and semiconductor customers. We also offer [PFAS-free high-density silicone](/products/momixx-high-density) for medical and food-contact parts.
 
-See [Medical](/applications/medical) and [precision components](/products/medical-precision-components), or [contact us](/contact) about your device's requirements.
+See [Medical](/applications/medical) and [precision components](/products/medical-precision-components), or [contact us](/contact) about your device.

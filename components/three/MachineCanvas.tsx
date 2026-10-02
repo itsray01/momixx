@@ -1,16 +1,16 @@
 'use client'
 
-// The live, clickable 3D extrusion line. Loaded lazily by <ExtruderExplorer>.
+// The live 3D extruder you can turn around. Loaded lazily by <ExtruderExplorer>.
 
 import { CameraControls, ContactShadows } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
-import { ExtruderLineModel } from './ExtruderLine'
-import { extruderOverview, extruderParts } from './extruderParts'
+import { ExtruderMachineModel } from './ExtruderMachine'
+import { extruderParts, machineOverview } from './extruderParts'
 import { Studio } from './models'
 
-/** Flies the camera to the selected part, or back to the whole line. Drag to look around. */
+/** Flies the camera to the selected part, or back to the whole machine. Drag to turn it around. */
 function Rig({ selected }: { selected: number | null }) {
   const ref = useRef<CameraControls>(null)
   const aspect = useThree((s) => s.size.width / s.size.height)
@@ -18,14 +18,14 @@ function Rig({ selected }: { selected: number | null }) {
   useLayoutEffect(() => {
     const c = ref.current
     if (!c) return
-    // Only left-drag rotates: the mouse wheel and touch keep scrolling the page.
+    // Only left-drag turns the machine: the mouse wheel and touch keep scrolling the page.
     c.mouseButtons.wheel = 0
     c.mouseButtons.middle = 0
     c.mouseButtons.right = 0
     c.touches.one = 0
     c.touches.two = 0
     c.touches.three = 0
-    c.minPolarAngle = 0.75
+    c.minPolarAngle = 0.55
     c.maxPolarAngle = 1.62
     c.smoothTime = 0.6
   }, [])
@@ -33,9 +33,9 @@ function Rig({ selected }: { selected: number | null }) {
   useEffect(() => {
     const c = ref.current
     if (!c) return
-    const view = selected === null ? extruderOverview : extruderParts[selected].camera
-    // Narrow screens see the whole line from further back.
-    const k = selected === null ? Math.max(1, 1.33 / aspect) : Math.max(1, 1.1 / aspect)
+    const view = (selected !== null && extruderParts[selected].machine?.camera) || machineOverview
+    // Narrow screens see the machine from further back.
+    const k = selected === null ? Math.max(1, 0.95 / aspect) : Math.max(1, 0.8 / aspect)
     const [px, py, pz] = view.position
     const [tx, ty, tz] = view.target
     c.setLookAt(tx + (px - tx) * k, ty + (py - ty) * k, tz + (pz - tz) * k, tx, ty, tz, true)
@@ -44,16 +44,21 @@ function Rig({ selected }: { selected: number | null }) {
   return <CameraControls ref={ref} makeDefault />
 }
 
-/** Keeps the HTML markers (rendered outside the canvas) pinned to their parts. */
+/** Keeps the HTML markers (rendered outside the canvas) on their parts, hidden while a part faces away. */
 function Markers({ markers }: { markers: RefObject<Array<HTMLElement | null>> }) {
-  const anchors = useMemo(() => extruderParts.map((p) => new THREE.Vector3(...p.anchor)), [])
+  const spots = useMemo(
+    () => extruderParts.map((p) => p.machine && { anchor: new THREE.Vector3(...p.machine.anchor), normal: new THREE.Vector3(...p.machine.normal).normalize() }),
+    [],
+  )
   const v = useMemo(() => new THREE.Vector3(), [])
+  const toCamera = useMemo(() => new THREE.Vector3(), [])
   useFrame(({ camera, size }) => {
-    anchors.forEach((a, i) => {
+    spots.forEach((spot, i) => {
       const el = markers.current[i]
-      if (!el) return
-      v.copy(a).project(camera)
-      const off = v.z > 1 || Math.abs(v.x) > 1.05 || Math.abs(v.y) > 1.05
+      if (!el || !spot) return
+      const facing = toCamera.subVectors(camera.position, spot.anchor).dot(spot.normal) > 0
+      v.copy(spot.anchor).project(camera)
+      const off = !facing || v.z > 1 || Math.abs(v.x) > 1.05 || Math.abs(v.y) > 1.05
       el.style.transform = `translate(${((v.x + 1) / 2) * size.width}px, ${((1 - v.y) / 2) * size.height}px) translate(-50%, -50%)`
       el.style.visibility = off ? 'hidden' : 'visible'
     })
@@ -71,7 +76,7 @@ function Ready({ onReady }: { onReady: () => void }) {
   return null
 }
 
-export default function ExtruderCanvas({
+export default function MachineCanvas({
   selected,
   hovered,
   onSelect,
@@ -88,19 +93,19 @@ export default function ExtruderCanvas({
   onReady: () => void
   markers: RefObject<Array<HTMLElement | null>>
 }) {
-  const [x, y, z] = extruderOverview.position
+  const [x, y, z] = machineOverview.position
   return (
     <Canvas
       dpr={[1, 1.75]}
       frameloop={animate ? 'always' : 'demand'}
-      camera={{ position: [x, y, z * 1.25], fov: extruderOverview.fov }}
+      camera={{ position: [x * 1.2, y, z * 1.2], fov: machineOverview.fov }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       onPointerMissed={() => onHover(null)}
     >
       <Studio />
       <Rig selected={selected} />
-      <ExtruderLineModel selected={selected} hovered={hovered} onSelect={onSelect} onHover={onHover} animate={animate} />
-      <ContactShadows position={[0.35, 0.001, -0.35]} opacity={0.55} scale={14} blur={2.4} far={4} resolution={512} />
+      <ExtruderMachineModel selected={selected} hovered={hovered} onSelect={onSelect} onHover={onHover} animate={animate} />
+      <ContactShadows position={[0.05, 0.001, 0.1]} opacity={0.6} scale={4} blur={2.2} far={2.5} resolution={512} />
       <Markers markers={markers} />
       <Ready onReady={onReady} />
     </Canvas>

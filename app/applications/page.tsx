@@ -1,8 +1,6 @@
 import { collectionPage, JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
-import { RenderCard } from '@/components/RenderCard'
+import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
-import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { applications, type Maturity } from '@/content/applications'
 import { pageMetadata } from '@/lib/site'
@@ -17,10 +15,11 @@ export const metadata = pageMetadata({
 
 const maturityOrder: Maturity[] = ['In mass production', 'Certified & scaling', 'Emerging opportunity']
 const maturityText: Record<Maturity, string> = {
-  'In mass production': 'Established revenue markets with qualified customers.',
-  'Certified & scaling': 'Certifications and capacity in place; growing volumes.',
-  'Emerging opportunity': 'Where our existing materials fit fast-growing new demand.',
+  'In mass production': 'Markets where customers already buy from us in volume.',
+  'Certified & scaling': 'Certified and ready to make more, with sales growing.',
+  'Emerging opportunity': 'Fast-growing new markets where our existing materials fit.',
 }
+const columns: Record<number, string> = { 1: '', 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3' }
 
 export default function ApplicationsPage() {
   return (
@@ -30,7 +29,6 @@ export default function ApplicationsPage() {
         eyebrow="Applications"
         title="One material, *many futures*"
         intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where Momixx fits today, and where we are heading."
-        aside={<Scene3D variant="cable" className="h-full" fallback={<Render name="cable" priority className="h-full w-full object-contain" />} />}
       />
       <TabNav tabs={applicationTabs} label="Applications" />
       <Section>
@@ -39,15 +37,15 @@ export default function ApplicationsPage() {
             const items = applications.filter((a) => a.maturity === m)
             if (!items.length) return null
             return (
-              <div key={m}>
-                <div className="flex flex-col gap-1 border-b border-white/10 pb-4 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h2 className="display-md">{m}</h2>
-                  <p className="text-sm text-slate-500">{maturityText[m]}</p>
+              <div key={m} className="grid gap-6 border-t border-white/10 pt-8 lg:grid-cols-[15rem_1fr] lg:gap-12">
+                <div>
+                  <h2 className="text-2xl font-semibold tracking-[-0.03em]">{m}</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">{maturityText[m]}</p>
                 </div>
-                <ul data-reveal="stagger" className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <ul data-reveal="stagger" className={`grid gap-5 ${columns[Math.min(items.length, 3)]}`}>
                   {items.map((a) => (
                     <li key={a.slug}>
-                      <RenderCard href={`/applications/${a.slug}`} model={a.illustration} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
+                      <LinkCard href={`/applications/${a.slug}`} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
                     </li>
                   ))}
                 </ul>

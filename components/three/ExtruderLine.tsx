@@ -25,11 +25,14 @@ const finishes = {
   white: { color: '#f1f4f5', metalness: 0, roughness: 0.42 },
   copper: { color: '#d08a52', metalness: 0.6, roughness: 0.32 },
   rubber: { color: '#20262e', metalness: 0, roughness: 0.8 },
+  blue: { color: '#2569c4', metalness: 0.15, roughness: 0.42 },
+  hose: { color: '#4fb3ea', metalness: 0, roughness: 0.3 },
+  red: { color: '#d6312b', metalness: 0.1, roughness: 0.4 },
 }
-type Finish = keyof typeof finishes
+export type Finish = keyof typeof finishes
 
 /** A material that lights up when its part is hovered or selected, and fades when another part is. */
-function Mat({ f, s }: { f: Finish; s: PartState }) {
+export function Mat({ f, s }: { f: Finish; s: PartState }) {
   const glow = s === 'selected' ? 0.12 : s === 'hover' ? 0.1 : 0
   const dim = s === 'dim'
   // Keyed, because switching a material to transparent needs a new material.
@@ -87,7 +90,7 @@ type PartProps = {
   children: ReactNode
 }
 
-function Part({ i, onSelect, onHover, children }: PartProps) {
+export function Part({ i, onSelect, onHover, children }: PartProps) {
   const interactive = Boolean(onSelect)
   return (
     <group
@@ -122,7 +125,7 @@ function Part({ i, onSelect, onHover, children }: PartProps) {
   )
 }
 
-function Box({ p, size, f, s, r = 0 }: { p: [number, number, number]; size: [number, number, number]; f: Finish; s: PartState; r?: number }) {
+export function Box({ p, size, f, s, r = 0 }: { p: [number, number, number]; size: [number, number, number]; f: Finish; s: PartState; r?: number }) {
   const radius = Math.min(0.04, Math.min(...size) / 4)
   return (
     <RoundedBox args={size} radius={radius} smoothness={3} position={p} rotation={[0, r, 0]}>
@@ -132,7 +135,7 @@ function Box({ p, size, f, s, r = 0 }: { p: [number, number, number]; size: [num
 }
 
 /** A grooved pulley with its axle along z. */
-function Wheel({ p, radius, width, f, s, spin }: { p: [number, number, number]; radius: number; width: number; f: Finish; s: PartState; spin?: React.RefObject<THREE.Group | null> }) {
+export function Wheel({ p, radius, width, f, s, spin }: { p: [number, number, number]; radius: number; width: number; f: Finish; s: PartState; spin?: React.RefObject<THREE.Group | null> }) {
   return (
     <group position={p} ref={spin}>
       <mesh rotation={[Math.PI / 2, 0, 0]}>

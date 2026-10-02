@@ -5,9 +5,9 @@ import { Arrow, Section } from './ui'
 
 // Points carried over from the original site's extruder section.
 const points = [
-  { title: 'Designed in-house', body: 'We design the hardware and software ourselves, so each line can be built around your manufacturing requirements.' },
-  { title: 'Backed by our engineers', body: 'An experienced team supports installation, troubleshooting and maintenance.' },
-  { title: 'Pair it with recycled silicone', body: 'Run it with our certified recycled silicone, which performs like virgin material.' },
+  { title: 'Designed by us', body: 'We design the hardware and software ourselves, so each machine can be built around the way you work.' },
+  { title: 'Backed by our engineers', body: 'An experienced team sets it up, fixes problems and keeps it running.' },
+  { title: 'Pair it with recycled silicone', body: 'Run it with our certified recycled silicone, which works just like new.' },
 ]
 
 /** The interactive vertical extrusion line, with its specification and service points. */
@@ -17,9 +17,9 @@ export function ExtruderSection({ tone = 'white', links = false }: { tone?: 'whi
     <Section
       id="extruder"
       tone={tone}
-      eyebrow="Momixx Extruder"
-      title="Explore the world’s first *vertical extrusion line*"
-      intro="We invented the first vertical extrusion machine for high-speed silicone data cable, one of our 20+ patents. Fully automated from mixing to inspection, it runs at up to 100 metres a minute and is supplied to customers including a Fortune Global 500 company. Pick a part to see what it does."
+      eyebrow="Our cable machine"
+      title="Explore the world’s first *upright cable machine*"
+      intro="We invented the first machine that makes silicone data cable standing upright, one of our 20+ patents. It runs by itself from mixing the silicone to checking the finished cable, makes up to 100 metres a minute, and is used by customers including a Fortune Global 500 company. Pick a part to see what it does."
     >
       <ExtruderExplorer specs={line?.specs ?? []} photo={{ src: '/images/products/vertical-extruder.webp', alt: 'Photograph of a Momixx silicone cable extrusion machine' }} />
       <ul data-reveal="stagger" className="mt-5 grid gap-5 md:grid-cols-3">
@@ -34,7 +34,7 @@ export function ExtruderSection({ tone = 'white', links = false }: { tone?: 'whi
       {links && (
         <div className="mt-10 flex flex-wrap gap-3">
           <Link href="/products/vertical-extruder" className="group btn-primary">
-            The vertical extruder <Arrow />
+            About the machine <Arrow />
           </Link>
           <Link href="/innovation" className="btn-ghost-dark">
             Research & innovation

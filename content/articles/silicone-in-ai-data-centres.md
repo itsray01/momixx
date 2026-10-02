@@ -1,21 +1,22 @@
 ---
 title: "Silicone in AI data centres: heat, cooling and fire safety"
-description: AI is pushing data-centre power and heat to new levels. Here is where silicone materials fit, from thermal interface materials to immersion cooling, with the numbers behind the trend.
+description: AI is making data centres use more power and run hotter. Here is where silicone helps, from heat-transfer pads to cooling fluids.
 date: 2026-10-02
+updated: 2026-10-02
 topic: applications
 model: datacentre
 tags: [AI, data centres, thermal management, immersion cooling, PFAS-free, cables]
 takeaways:
-  - The IEA estimates data centres used about 415 TWh of electricity in 2024, around 1.5% of the world's total. Its base case roughly doubles that by 2030.
-  - More power means more heat. Silicone thermal interface materials and silicone-based immersion coolants are among the materials used to manage it.
-  - Silicone immersion coolants are being positioned as PFAS-free alternatives to fluorinated fluids.
+  - Data centres used about 1.5% of the world's electricity in 2024, says the International Energy Agency. It expects that to more than double by 2030.
+  - More power means more heat. Silicone heat-transfer pads and cooling fluids help manage it.
+  - Some silicone cooling fluids are PFAS-free, an alternative to fluids made with "forever chemicals".
 faqs:
   - q: How much electricity do data centres use?
-    a: The International Energy Agency estimates data centres used about 415 TWh in 2024, roughly 1.5% of global electricity. In its base case, consumption rises to around 945 TWh by 2030, driven largely by AI.
+    a: The International Energy Agency estimates about 415 terawatt-hours in 2024, roughly 1.5% of the world's electricity. In its main scenario, this rises to around 945 terawatt-hours by 2030, largely because of AI.
   - q: How is silicone used in data centres?
-    a: Silicone is used in thermal interface materials that move heat away from GPUs and optical modules, and in silicone-based fluids for immersion cooling. Its heat resistance and electrical insulation also make it a candidate for other components that run hot.
+    a: Soft silicone pads and gels carry heat from AI chips into their coolers. Silicone fluids are used for immersion cooling, where whole servers sit in liquid.
   - q: Are silicone immersion coolants PFAS-free?
-    a: Some are marketed that way. Wacker, for example, describes its silicone immersion coolant as PFAS-free, and notes that PFAS-based fluids are widely used as conventional immersion coolants.
+    a: Some are sold that way. Wacker, for example, describes its silicone coolant as PFAS-free, and notes that PFAS-based fluids are widely used today.
 sources:
   - title: "IEA (2025): Energy and AI, executive summary"
     url: https://www.iea.org/reports/energy-and-ai/executive-summary
@@ -25,26 +26,26 @@ sources:
     url: https://www.wacker.com/cms/en-us/products/insights/heat-transfer-fluids-data-center.html
 ---
 
-Training and running AI models takes enormous computing power, and computing power turns into **heat**. The International Energy Agency estimates that data centres used about **415 TWh of electricity in 2024**, roughly **1.5%** of global demand. In its base case, that rises to around **945 TWh by 2030**. Keeping that hardware cool, insulated and safe is one of the industry's biggest engineering problems.
+AI runs on huge amounts of computing power, and computing power turns into **heat**. The International Energy Agency (IEA) estimates data centres used about **1.5% of the world's electricity in 2024**. In its main scenario, that more than doubles by 2030.
 
-## Why is heat the bottleneck?
+## Why is heat such a problem?
 
-AI accelerators (GPUs) and high-speed optical modules pack more power into each rack than earlier servers. Air cooling is reaching its limits, so operators are adopting **liquid cooling**: cold plates on chips, and **immersion cooling**, where whole servers sit in a non-conductive fluid. Every interface between a hot chip and its cooler, and every fluid and seal, has to cope with sustained heat.
+AI chips (GPUs) and fast fibre-optic links draw far more power than older equipment, and more are packed into each cabinet. Air cooling is reaching its limits. So operators are moving to **liquid cooling**. Some fit cold plates onto the chips. Others use **immersion cooling**, where whole servers sit in a fluid that does not conduct electricity.
 
-## Where does silicone fit?
+## Where does silicone help?
 
-**Thermal interface materials.** Soft, thermally conductive silicone pads, gels and greases fill the microscopic gaps between chips and heat sinks so heat flows out efficiently. Dow, for example, markets silicone thermal interface materials designed for GPU and AI servers and for 400G/800G optical modules.
+**Heat-transfer pads.** Tiny air gaps between a chip and its cooler trap heat. Soft silicone pads, gels and pastes fill those gaps so heat flows away. Dow, for example, sells them for AI servers and fibre-optic parts.
 
-**Immersion cooling fluids.** Silicone fluids are electrically insulating and stable over a wide temperature range. Dow cites a 200 °C flash point for its silicone immersion fluid. Wacker's silicone immersion coolant is rated from −100 to +100 °C and is described as **PFAS-free**. Wacker notes that PFAS-based fluids are widely used as conventional immersion coolants, which matters as regulators move to restrict PFAS (see [PFAS-free silicone](/insights/pfas-free-silicone)).
+**Cooling fluids.** Silicone fluids do not conduct electricity and stay stable from cold to hot, so servers can sit in them. Wacker describes its silicone coolant as **PFAS-free**. That matters because PFAS-based fluids are widely used today, and regulators are moving to restrict these "forever chemicals" (see [PFAS-free silicone](/insights/pfas-free-silicone)).
 
-**Hot, dense cabling.** Racks are packed with power and data cables in a warm environment. Silicone's heat resistance and flame-retardant grades make it a candidate where conventional plastics run close to their limits.
+**Crowded cabling.** In warm, packed cabinets, heat-resistant and flame-retardant silicone is an option where ordinary plastics are near their limits.
 
 ## What is Momixx's role?
 
-AI data centres are an **emerging opportunity** for Momixx, not an established revenue line. We are applying materials we already make to this market:
+AI data centres are a **new opportunity** for Momixx, not yet an established business. We offer materials we already make:
 
-- **[MM fire-retardant silicone](/products/momixx-mm):** heat resistance up to 250 °C and VW-1 flame performance, already used in data and network cables.
+- **[MM fire-retardant silicone](/products/momixx-mm):** handles heat up to 250 °C, meets the VW-1 flame test for wires and is already used in data cables.
 - **[Momixx Seal](/products/momixx-seal):** waterproof sealing materials.
-- **Precision components** from our ISO 13485-certified plant in Penang.
+- **Precision parts** from our Penang plant, certified to ISO 13485, the international quality standard for medical-device makers.
 
 See [AI data centres](/applications/ai-data-centres) for market estimates and sources.

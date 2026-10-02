@@ -1,6 +1,5 @@
-// The parts of the Momixx vertical extrusion line shown in the interactive 3D
-// explorer, in the order the cable travels. Plain data (no Three.js), so the
-// server-rendered fallback and the part list can use it too.
+// The parts of the Momixx vertical extrusion line shown in the extruder
+// explorer, in the order the cable travels. Plain data (no Three.js).
 
 type Vec3 = [number, number, number]
 
@@ -11,84 +10,82 @@ export type ExtruderPart = {
   body: string
   /** Product page for this part, if it is sold on its own. */
   href?: string
-  /** Where the camera flies to, and what it looks at. */
-  camera: { position: Vec3; target: Vec3 }
-  /** Where the numbered marker sits in 3D. */
-  anchor: Vec3
+  /** Marker position on the machine photo, in percent. Omit for parts not in the photo. */
+  photo?: { x: number; y: number }
+  /**
+   * The part on the 3D model of the machine: where its marker sits, which way it
+   * faces (the marker hides when turned away), and where the camera flies to.
+   */
+  machine?: { anchor: Vec3; normal: Vec3; camera: { position: Vec3; target: Vec3 } }
 }
 
 export const extruderParts: ExtruderPart[] = [
   {
     id: 'payoff',
-    name: 'Pay-off and preheat',
-    short: 'Feeds and warms the wire',
-    body: 'Bare conductor unwinds from the pay-off reel at a steady tension, then passes through a preheat oven that conditions it before it is coated.',
-    camera: { position: [-2.7, 2.2, 4.6], target: [-3.7, 1.0, 0] },
-    anchor: [-4.25, 1.95, 0],
+    name: 'Wire feed',
+    short: 'Unwinds and warms the wire',
+    body: 'Bare wire unwinds from a reel at a steady pull, then passes through a small oven that warms it up before it is coated.',
   },
   {
     id: 'mixer',
-    name: 'LSR mixer',
-    short: 'Mixes liquid silicone 1:1',
-    body: 'Liquid silicone comes in two parts. The mixer blends parts A and B evenly at 1:1 and pumps the mix straight into the extruder, so there is no roll mill and no hand feeding. Precise level monitoring keeps pumping until the bucket is empty, avoiding the roughly 4% usually left behind.',
+    name: 'Silicone mixer',
+    short: 'Mixes the liquid silicone',
+    body: 'Liquid silicone comes in two parts that must be mixed half and half. The mixer blends them and pumps the mix straight into the machine, so nobody has to feed it by hand. It keeps pumping until the bucket is empty, saving the 4% or so that is usually left behind.',
     href: '/products/lsr-mixer',
-    camera: { position: [-1.2, 2.6, 3.6], target: [-2.75, 1.2, -0.9] },
-    anchor: [-2.75, 2.35, -0.9],
   },
   {
     id: 'extruder',
-    name: 'Extruder and crosshead',
-    short: 'Forms the silicone jacket',
-    body: 'A screw pushes the silicone into a high-precision crosshead die, where it flows evenly around the wire under vacuum to form the jacket. This is where thickness and concentricity are set.',
-    camera: { position: [-0.4, 2.3, 3.6], target: [-1.6, 1.55, 0] },
-    anchor: [-0.95, 1.75, 0.35],
+    name: 'Coating head',
+    short: 'Wraps silicone around the wire',
+    body: 'A turning screw pushes the silicone into the coating head. There it flows evenly around the wire to form the outer layer, with air sucked out so no bubbles get trapped. This is where the layer’s thickness, and how even it is all the way round, are set.',
+    photo: { x: 62, y: 45 },
+    machine: { anchor: [0.235, 1.36, 0.3], normal: [0.3, 0, 1], camera: { position: [0.85, 1.65, 1.95], target: [0.1, 1.38, 0.1] } },
   },
   {
     id: 'vertical-oven',
-    name: 'Vertical curing oven',
-    short: 'Cures the jacket on the way up',
-    body: 'The coated cable rises straight up through the curing oven, where heat sets the silicone into a permanent, flexible jacket. Running vertically is what makes this line different from conventional horizontal lines.',
+    name: 'Upright oven',
+    short: 'Sets the silicone on the way up',
+    body: 'The coated cable rises straight up through an oven, where heat sets the silicone into a tough, flexible layer. Running upright is what makes this machine different from the usual sideways ones.',
     href: '/products/energy-saving-oven',
-    camera: { position: [0.6, 3.9, 6.0], target: [-1.6, 3.4, 0] },
-    anchor: [-1.15, 4.3, 0.3],
   },
   {
     id: 'capstan',
-    name: 'Horizontal oven and capstan',
-    short: 'Completes curing, sets the speed',
-    body: 'A second, horizontal oven finishes the cure. The capstan then pulls the cable at a constant speed, and an accumulator buffers cable so the line keeps running smoothly.',
-    camera: { position: [1.8, 3.6, 6.2], target: [1.5, 2.8, 0] },
-    anchor: [2.75, 3.95, 0.3],
+    name: 'Second oven and pulleys',
+    short: 'Finishes setting, controls the speed',
+    body: 'A second oven finishes setting the silicone. Big pulleys then pull the cable through at a steady speed, and hold a little spare cable so the machine never has to stop.',
+    photo: { x: 45, y: 14 },
+    machine: { anchor: [-0.05, 2.12, 0.08], normal: [0, 0, 1], camera: { position: [0.55, 2.35, 2.0], target: [-0.05, 2.12, -0.03] } },
   },
   {
     id: 'inspection',
-    name: 'Inspection station',
+    name: 'Quality check',
     short: 'Checks every metre',
-    body: 'Inline gauges measure the outer diameter and test the insulation with high voltage, while a counter logs the length, so faults are caught as the cable is made, not after.',
-    camera: { position: [3.0, 2.1, 3.9], target: [3.45, 1.15, 0] },
-    anchor: [3.45, 1.95, 0.35],
+    body: 'Sensors measure the cable’s thickness and test it with high voltage to make sure the silicone has no weak spots. A counter records the length. Faults are caught while the cable is being made, not afterwards.',
+    photo: { x: 66, y: 69 },
+    machine: { anchor: [0.42, 0.86, 0.3], normal: [0, 0.6, 1], camera: { position: [0.95, 1.35, 1.9], target: [0.35, 0.75, 0.15] } },
   },
   {
     id: 'winder',
     name: 'Autowinder',
-    short: 'Spools finished cable',
-    body: 'Finished cable is wound onto the take-up spool. A camera vision system watches the cable position and corrects it automatically, so every layer is laid neatly.',
+    short: 'Winds the finished cable',
+    body: 'The finished cable is wound onto a spool. A camera watches where the cable lands and corrects it automatically, so every layer is wound neatly.',
     href: '/products/autowinder',
-    camera: { position: [3.7, 2.2, 4.3], target: [4.55, 1.05, 0] },
-    anchor: [4.55, 2.15, 0],
   },
 ]
 
-/** Camera for the whole line. */
+/** Camera for the whole machine in the 3D explorer. */
+export const machineOverview = { position: [-1.7, 1.95, 4.9] as Vec3, target: [0.05, 1.15, 0.12] as Vec3, fov: 34 }
+
+/** Camera for the pre-rendered image of the whole line. */
 export const extruderOverview = { position: [4.4, 5.9, 13.6] as Vec3, target: [0.55, 2.35, 0] as Vec3, fov: 34 }
 
 /** Which part each machine specification (from content/products.ts) belongs to. */
 export const specPart: Record<string, string> = {
   'Screw speed': 'extruder',
-  'Jacket thickness': 'extruder',
-  'Vacuum pressure': 'extruder',
-  'Line speed': 'capstan',
-  'Cable outer diameter': 'inspection',
-  'Cable concentricity': 'inspection',
-  'Material feed': 'mixer',
+  'Thinnest layer': 'extruder',
+  Vacuum: 'extruder',
+  Speed: 'capstan',
+  'Thickest cable': 'inspection',
+  Evenness: 'inspection',
+  'Silicone used': 'mixer',
 }

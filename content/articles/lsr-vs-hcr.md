@@ -1,21 +1,22 @@
 ---
 title: "LSR vs HCR: the two main types of silicone rubber, explained"
-description: Liquid silicone rubber (LSR) and high-consistency rubber (HCR) are the two workhorse forms of silicone rubber. Here is how they differ in chemistry, processing and use.
+description: "Silicone rubber reaches factories in two main forms: liquid (LSR) and solid (HCR). Here is how they differ and what each one is used for."
 date: 2026-10-02
+updated: 2026-10-02
 topic: technology
 model: samples
 tags: [LSR, HCR, silicone rubber, injection moulding, extrusion]
 takeaways:
-  - LSR is a pourable, two-part silicone that cures by a platinum-catalysed addition reaction. It suits automated, high-volume injection moulding.
-  - HCR is a thick, dough-like solid silicone, usually cured with peroxides (platinum-cure grades also exist). It is extruded, calendered or compression-moulded.
-  - Neither is "better". The right choice depends on part shape, volume, process and the properties you need.
+  - LSR (liquid silicone rubber) is runny enough to pump. It suits machines that mould large numbers of parts automatically.
+  - HCR (high-consistency rubber) is thick, like dough. It is mostly pushed out into long shapes such as tubes and cable jackets.
+  - Neither is "better". The right one depends on the part, how many you need and what it has to do.
 faqs:
   - q: What is the difference between LSR and HCR?
-    a: LSR (liquid silicone rubber) is a pourable two-part material that cures by platinum-catalysed addition and is mostly injection-moulded on automated machines. HCR (high-consistency rubber, also called solid or high-temperature-vulcanising silicone) is a stiff, dough-like material that is usually peroxide-cured and processed by extrusion, calendering, or compression and transfer moulding.
+    a: LSR (liquid silicone rubber) is runny and is mostly injected into moulds by automatic machines. HCR (high-consistency rubber, or solid silicone) is thick, like dough, and is usually pushed out into long shapes.
   - q: Is LSR or HCR better for cables?
-    a: Both are used. Cable jackets have traditionally been extruded from HCR. Momixx's vertical extrusion line is designed around fire-retardant LSR, which can be mixed and fed automatically. Momixx's MM series includes both HCR and LSR grades.
-  - q: Which is better for high-volume parts?
-    a: LSR is generally preferred for high-volume moulded parts, because it can be injection-moulded on fully automated machines with little or no secondary processing.
+    a: Both are used. Cable jackets have usually been made from HCR. Momixx's vertical line uses fire-retardant LSR, which can be fed in automatically, and its MM series includes both.
+  - q: Which is better for making large numbers of parts?
+    a: Usually LSR. Automatic machines can mould it, often with no finishing afterwards.
 sources:
   - title: "Wacker: Liquid silicone rubber (LSR)"
     url: https://www.wacker.com/cms/en-us/products/product-groups/silicone-rubber/liquid-silicone-rubber.html
@@ -29,46 +30,42 @@ sources:
     url: https://www.elkem.com/media/news-articles/mechanical-recycling-pathway-for-silicone-rubber/
 ---
 
-Most silicone rubber products are made from one of two raw forms: **liquid silicone rubber (LSR)** or **high-consistency rubber (HCR)**. They end up as the same kind of material, a flexible, heat-resistant elastomer. But they arrive at the factory in different states, cure in different ways and run on different machines.
+Most silicone rubber products start as **liquid silicone rubber (LSR)** or **high-consistency rubber (HCR)**. Both become the same soft, heat-resistant rubber. They differ in how they arrive at the factory, how they set and which machines shape them.
 
 ## What is LSR?
 
-Liquid silicone rubber is a **pourable, two-part material**. One component carries a platinum catalyst and the other a crosslinker. When the two are mixed and heated, they cure by an *addition* reaction (hydrosilylation) between vinyl groups and silicon–hydrogen groups.
+LSR is **runny enough to pour** and comes in two parts. Mixed and heated, they set into solid rubber.
 
-Because it flows, LSR can be pumped, metered and mixed in a closed system. That makes it well suited to **injection moulding on fully automated machines**, often with no secondary processing. Wacker describes it as ideal for high-volume manufacturing. Typical LSR parts include baby-bottle teats, gasket rings, two-component "hard–soft" parts and seals.
+Because it flows, LSR can be pumped and mixed in a sealed system. That suits **injection moulding**, where automatic machines squirt it into a closed mould. Parts often need no finishing. Wacker, a major silicone maker, calls LSR ideal for high volumes. Typical parts include baby-bottle teats, seals, and parts that join hard plastic and soft rubber.
 
 ## What is HCR?
 
-High-consistency rubber, also called solid silicone rubber, or HTV (high-temperature-vulcanising) silicone, is **thick and dough-like**. It is usually supplied as slabs or strips. Most grades are cured with peroxides through a free-radical reaction; platinum-cure HCR grades are also available.
+HCR, also called solid silicone rubber, is **thick, like dough**. It comes in slabs or strips and usually sets when heated with a curing agent mixed in.
 
-HCR is processed by **extrusion, calendering, and compression or transfer moulding**, and can also be injection-moulded. Extrusion turns it into continuous profiles: tubing, seals, flat tapes, cords and cable jackets. Depending on grade, HCR can be thermally stable from around −120 °C to beyond 300 °C, according to Elkem.
+It is mostly extruded, meaning pushed through a shaped opening to make tubes, seals, cords and cable jackets. It can also be pressed into moulds. Elkem, another silicone maker, says some grades stay stable from about −120 °C to over 300 °C.
 
-## LSR vs HCR at a glance
+## How do LSR and HCR compare?
 
-| Property | LSR | HCR |
+| | LSR (liquid) | HCR (solid) |
 |---|---|---|
-| Form | Pourable, two-part liquid | Stiff, dough-like solid |
-| Typical cure | Platinum-catalysed addition | Peroxide (platinum grades exist) |
-| Main processes | Injection moulding; also extrusion | Extrusion, calendering, compression and transfer moulding |
-| Strengths | Automation, high volumes, precise moulded parts | Long profiles, wide formulation range, established cable processes |
-| Examples | Seals, gaskets, teats, overmoulded parts | Tubing, profiles, cable jackets, high-voltage EV cable |
+| What it is like | Runny, two parts | Thick, like dough |
+| How it is shaped | Mostly injected into moulds | Mostly pushed out into long shapes |
+| Typical products | Seals, teats, moulded parts | Tubes, cable jackets, electric car cables |
 
-## Where does each show up in electric vehicles?
-
-Wacker lists HCR for **extruded high-voltage EV cables** rated to 180 °C. It lists both HCR and LSR for connector seals and battery coolant connectors. Cars use both materials, often side by side, so it is not a contest between them.
+In electric cars, Wacker lists HCR for high-voltage cables and both types for connector and battery seals. Cars often use both side by side.
 
 ## How does Momixx use LSR and HCR?
 
-We formulate both. Our **[MM series](/products/momixx-mm)** for data-cable jackets includes fire-retardant HCR grades (M3, M4) and LSR grades (M5 to M9). Our **[High Density (MHD)](/products/momixx-high-density)** PFAS-free silicone is available as LSR (M1) and HCR (M2).
+We make both. Our **[MM series](/products/momixx-mm)** for cable jackets has fire-retardant HCR grades (M3, M4) and LSR grades (M5 to M9). Our **[High Density (MHD)](/products/momixx-high-density)** silicone is [free of PFAS](/insights/pfas-free-silicone) and comes as LSR (M1) and HCR (M2).
 
-On the machine side, our patented **[vertical extrusion line](/products/vertical-extruder)** is built around LSR. Its automatic mixer combines the two parts 1:1 and feeds the extruder directly, with no roll mill and no manual feeding. Read [how silicone cable is made](/insights/how-silicone-cable-is-made) for the full process.
+Our patented **[vertical extrusion line](/products/vertical-extruder)** runs on LSR, mixed and fed in automatically. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
 
 ## How do you choose between LSR and HCR?
 
-Start with the part and the process, not the material:
+Start with the part and how you will make it:
 
-- **Moulded parts at high volume?** LSR is usually the first choice.
-- **Long continuous profiles such as tubes, cords or cable jackets?** HCR is the traditional route. LSR extrusion, like ours, adds automation and speed.
-- **Special properties (fire retardancy, density, colour, conductivity)?** Both can be compounded for these. The grade matters more than the type.
+- **Lots of moulded parts?** LSR is usually the first choice.
+- **Long lengths such as tubes or cable jackets?** HCR is the traditional route. Extruding LSR, as we do, adds automation and speed.
+- **Special features such as fire resistance or colour?** Both can deliver. The grade matters more than the type.
 
-If you are not sure which fits your product, [talk to our team](/contact). We can test both against your specification.
+Not sure which suits you? [Talk to our team](/contact) and we will test both.

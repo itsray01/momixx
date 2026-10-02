@@ -2,8 +2,6 @@ import Link from 'next/link'
 import { CableAnatomy } from '@/components/CableAnatomy'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
 import { TemperatureRange } from '@/components/TemperatureRange'
-import { Render } from '@/components/Render'
-import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { siliconeFaqs } from '@/content/faqs'
@@ -17,12 +15,12 @@ export const metadata = pageMetadata({
 })
 
 const properties = [
-  { title: 'Handles heat and cold', body: 'Stays flexible across a wide temperature range, typically about −40 °C to 150–200 °C, and further in specialised grades.' },
-  { title: 'Bends without breaking', body: 'Low hardness and high stretch mean it survives repeated twisting and flexing.' },
-  { title: 'Keeps water out', body: 'Naturally water-repellent, so it makes excellent seals and gaskets.' },
-  { title: 'Body-safe', body: 'Medical grades are biocompatible and can be sterilised again and again.' },
-  { title: 'Ages slowly', body: 'Resists sunlight, ozone and heat ageing far better than most plastics and rubbers.' },
-  { title: 'Can be made fire-safe', body: 'With the right additives it stops burning when the flame is removed.' },
+  { title: 'Handles heat and cold', body: 'Stays flexible from about −40 °C to 150–200 °C, and further in special types.' },
+  { title: 'Bends without breaking', body: 'It is soft and stretchy, so it survives being twisted and bent again and again.' },
+  { title: 'Keeps water out', body: 'Water runs off it, so it makes excellent seals.' },
+  { title: 'Body-safe', body: 'Medical-grade silicone is safe for the body and can be sterilised again and again.' },
+  { title: 'Lasts for years', body: 'Sunlight, weather and heat wear it down far more slowly than most plastics and rubbers.' },
+  { title: 'Can be made fire-safe', body: 'With the right ingredients, it stops burning once the flame is taken away.' },
 ]
 
 export default function SiliconePage() {
@@ -32,8 +30,7 @@ export default function SiliconePage() {
         crumbs={[{ href: '/silicone', label: 'Silicone' }]}
         eyebrow="Silicone 101"
         title="What is silicone, and why does it *matter?*"
-        intro="Silicone is a flexible, heat-resistant material built on a backbone of silicon and oxygen. You can’t see most of it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
-        aside={<Scene3D variant="molecule" className="h-full" fallback={<Render name="molecule" priority className="h-full w-full object-contain" />} />}
+        intro="Silicone is a flexible, heat-proof material made mostly from silicon and oxygen. You rarely notice it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
       />
 
       <Section eyebrow="Not the same thing" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
@@ -44,10 +41,10 @@ export default function SiliconePage() {
         tone="muted"
         eyebrow="From sand to product"
         title="How silicone is *made*"
-        intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into compounds engineered for a specific job."
+        intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into materials made for a specific job."
       />
 
-      <Section eyebrow="Why engineers choose it" title="Six properties that make silicone *essential*">
+      <Section eyebrow="Why people choose it" title="Six reasons silicone is *everywhere*">
         <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((p, i) => (
             <div key={p.title} className="bg-ink-950 p-8">
@@ -63,18 +60,14 @@ export default function SiliconePage() {
         <TemperatureRange />
       </Section>
 
-      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone jacket outside is what you touch, and what protects everything inside.">
+      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone on the outside is the part you touch, and it protects everything inside.">
         <CableAnatomy />
       </Section>
 
       <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries *shaping the future*">
         <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
-            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-center gap-5 overflow-hidden p-5">
-              <div className="relative w-28 shrink-0">
-                <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.25), transparent)' }} />
-                <Render name={a.illustration} className="relative" sizes="112px" />
-              </div>
+            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-center gap-5 overflow-hidden p-6">
               <div className="min-w-0">
                 <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
                 <p className="mt-1 text-sm text-slate-400">{a.examples.slice(0, 3).join(' · ')}</p>

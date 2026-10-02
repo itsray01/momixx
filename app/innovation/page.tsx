@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { Render } from '@/components/Render'
-import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section, StatTiles } from '@/components/ui'
 import { patentsSummary } from '@/content/company'
 import { pageMetadata } from '@/lib/site'
@@ -16,51 +14,48 @@ const areas = [
   {
     id: 'materials',
     title: 'Materials',
-    model: 'samples' as const,
     items: [
       {
         title: 'Exact colour matching',
-        body: 'Any colour, including vivid shades on transparent, translucent or opaque bases, held to within dE94 0.50 of the target (a difference too small for most people to see), without compromising fire retardancy or strength.',
+        body: 'Any colour, including bright shades and see-through silicone, matched so closely that most people cannot see the difference. It stays just as fire-safe and strong.',
       },
       {
-        title: 'Fire retardancy without weakness',
-        body: 'Flame-retardant additives normally weaken silicone. Our formulations meet UL 94 (material) and UL 2556 VW-1 (cable) burn standards and UL ageing tests while keeping their strength.',
+        title: 'Fire-safe without getting weaker',
+        body: 'The ingredients that make silicone fire-safe usually make it weaker. Ours pass the standard US fire tests for materials and cables (UL 94 and UL VW-1) and stay strong.',
       },
       {
-        title: 'PFAS-free high density',
-        body: 'A dense, silky silicone that matches fluororubber (FKM) watch straps in feel, strength and chemical resistance, without fluorine.',
+        title: 'Free of “forever chemicals”',
+        body: 'A dense, silky silicone that feels as good as premium fluorinated-rubber watch straps, and is as strong, without the PFAS.',
       },
       {
         title: 'Chemical recycling',
-        body: 'Turning silicone scrap into DMC, then silicone oil, then new silicone, with every batch traceable.',
+        body: 'Breaking silicone scrap down into a liquid building block, then rebuilding it into new silicone, with every batch traceable.',
       },
     ],
   },
   {
     id: 'surface-treatment',
-    title: 'Surface treatment',
-    model: 'coating' as const,
+    title: 'Surface finishes',
     items: [
       {
         title: 'Dust-free cables',
-        body: 'Silicone is naturally slightly tacky and attracts dust. Our dip-coating process leaves cables soft to the touch, stain-resistant and durable.',
+        body: 'Silicone is slightly sticky, so it picks up dust. Dipping cables in our coating leaves them soft to the touch, stain-resistant and long-lasting.',
       },
       {
         title: 'Tough phone-case finish',
-        body: 'A dipped finish with F-grade hardness that resists wear, at higher and more consistent yields than conventional UV coating.',
+        body: 'A dipped finish that resists scratches and wear, with fewer rejects than the usual UV-cured coating.',
       },
     ],
   },
   {
     id: 'equipment',
-    title: 'Equipment',
-    model: 'extruder-horizontal' as const,
+    title: 'Machines',
     items: [
-      { title: 'Vertical extrusion line', body: 'The world’s first vertical line for high-speed liquid-silicone data cables: up to 100 m/min.', href: '/products/vertical-extruder' },
-      { title: 'Energy-saving oven', body: '30% less electricity and ±5 °C temperature control.', href: '/products/energy-saving-oven' },
-      { title: 'Low-waste LSR mixer', body: 'Avoids leaving around 4% of each bucket of silicone unused.', href: '/products/lsr-mixer' },
-      { title: 'Vision-guided autowinder', body: 'Camera and closed-loop control for neatly wound spools.', href: '/products/autowinder' },
-      { title: 'Dip-coating machine', body: 'Up to 20× lower VOC emissions than spray coating.', href: '/products/dip-coating-machine' },
+      { title: 'Upright cable machine', body: 'The world’s first upright machine for making silicone data cables: up to 100 metres a minute.', href: '/products/vertical-extruder' },
+      { title: 'Energy-saving oven', body: 'Uses 30% less electricity and holds its temperature within 5 °C.', href: '/products/energy-saving-oven' },
+      { title: 'Low-waste mixer', body: 'Uses the 4% or so of silicone usually left in each bucket.', href: '/products/lsr-mixer' },
+      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/autowinder' },
+      { title: 'Dip-coating machine', body: 'Up to 20 times less polluting fumes than spray coating.', href: '/products/dip-coating-machine' },
     ],
   },
 ]
@@ -75,8 +70,7 @@ export default function InnovationPage() {
         ]}
         eyebrow="Research & innovation"
         title="Setting new standards *in silicone*"
-        intro="Our R&D covers the whole chain: what goes into the silicone, how its surface performs, and the machines that shape it."
-        aside={<Scene3D variant="extruder-vertical" className="h-full" fallback={<Render name="extruder-vertical" priority className="h-full w-full object-contain" />} />}
+        intro="Our research covers everything from what goes into the silicone, to how its surface looks and feels, to the machines that shape it."
       />
 
       <Section>
@@ -92,7 +86,7 @@ export default function InnovationPage() {
             cols={1}
             stats={[
               { value: '20+', label: 'patents granted or pending' },
-              { value: '1st', label: 'vertical silicone data-cable extrusion line in the world' },
+              { value: '1st', label: 'upright silicone cable machine in the world' },
             ]}
           />
         </div>
@@ -100,12 +94,7 @@ export default function InnovationPage() {
 
       {areas.map((area, i) => (
         <Section key={area.id} id={area.id} tone={i % 2 === 0 ? 'muted' : 'white'} eyebrow="Research area" title={area.title} className="scroll-mt-20">
-          <div className="grid items-start gap-8 lg:grid-cols-[1fr_1.5fr]">
-          <div className="relative lg:sticky lg:top-28">
-            <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.22), transparent)' }} />
-            <Render name={area.model} className="relative mx-auto max-h-80 w-auto" sizes="(min-width: 1024px) 40vw, 100vw" />
-          </div>
-          <div data-reveal="stagger" className="grid gap-5">
+          <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
             {area.items.map((it) => (
               <div key={it.title} data-tilt className="card lift p-7">
                 <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
@@ -118,11 +107,10 @@ export default function InnovationPage() {
               </div>
             ))}
           </div>
-          </div>
         </Section>
       ))}
 
-      <CtaBand title="Partner with our *R&D team*" body="We co-develop materials and processes with customers who need something that doesn’t exist yet." />
+      <CtaBand title="Work with our *research team*" body="We develop new materials and methods with customers who need something that doesn’t exist yet." />
     </>
   )
 }

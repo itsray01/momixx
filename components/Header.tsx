@@ -1,10 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Menu, MenuColumn, MenuLink } from '@/lib/nav'
+import type { Menu, MenuColumn } from '@/lib/nav'
 import { Logo } from './Logo'
 
 function isActive(pathname: string, href: string) {
@@ -13,15 +12,6 @@ function isActive(pathname: string, href: string) {
 }
 
 const colsClass: Record<number, string> = { 1: '', 2: 'grid-cols-2', 3: 'grid-cols-[1.35fr_1fr_0.9fr]' }
-
-function Thumb({ model }: { model: NonNullable<MenuLink['model']> }) {
-  return (
-    <span className="relative flex h-12 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/[0.06] bg-ink-850">
-      <span aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgb(20_159_148/0.25),transparent)]" />
-      <Image src={`/renders/${model}.webp`} alt="" width={96} height={72} sizes="64px" className="relative h-full w-full object-contain p-0.5" />
-    </span>
-  )
-}
 
 function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; pathname: string; cards: boolean; alone: boolean }) {
   const many = col.links.length > 4
@@ -45,7 +35,6 @@ function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; path
               aria-current={isActive(pathname, l.href) && !l.href.includes('#') ? 'page' : undefined}
               className="group/link flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.05] focus-visible:bg-white/[0.05]"
             >
-              {cards && l.model && <Thumb model={l.model} />}
               <span className="min-w-0">
                 <span className={`block text-sm font-medium transition-colors group-hover/link:text-white ${isActive(pathname, l.href) ? 'text-white' : 'text-slate-200'}`}>
                   {l.label}
@@ -73,18 +62,9 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
       {menu.feature && (
         <Link
           href={menu.feature.href}
-          className="group/feature relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-brand-900/40 to-ink-900 p-5 transition-colors hover:border-brand-300/40"
+          className="group/feature relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
         >
-          <span aria-hidden="true" className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(60%_70%_at_50%_40%,rgb(20_159_148/0.35),transparent)]" />
-          <Image
-            src={`/renders/${menu.feature.model}.webp`}
-            alt=""
-            width={480}
-            height={360}
-            sizes="272px"
-            className="relative -mx-2 -mt-3 h-32 w-[calc(100%+1rem)] object-contain transition-transform duration-500 group-hover/feature:scale-105"
-          />
-          <span className="relative mt-2 text-[11px] font-medium tracking-[0.16em] text-brand-300 uppercase">{menu.feature.eyebrow}</span>
+          <span className="relative text-[11px] font-medium tracking-[0.16em] text-brand-300 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
           <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-400">{menu.feature.body}</span>
           <span className="relative mt-auto pt-4 text-xs font-medium text-brand-300">
@@ -209,7 +189,9 @@ export function Header({ menus }: { menus: Menu[] }) {
                 style={pill ? { left: pill.left, width: pill.width } : undefined}
               />
               {menus.map((menu, i) => {
-                const current = isActive(pathname, menu.href) || (menu.columns ?? []).some((c) => c.links.some((l) => !l.href.includes('#') && isActive(pathname, l.href)))
+                const owner = menus.findIndex((m) => isActive(pathname, m.href))
+                const current =
+                  owner >= 0 ? owner === i : (menu.columns ?? []).some((c) => c.links.some((l) => !l.href.includes('#') && isActive(pathname, l.href)))
                 return (
                   <li
                     key={menu.label}

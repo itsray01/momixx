@@ -26,12 +26,12 @@ export const carbonComparison: null | { unit: string; recycled: number; virgin: 
 
 /** How we reduce our footprint today: factual levers already described on the site. */
 export const carbonLevers = [
-  { title: 'Recycled feedstock', body: 'Every tonne of silicone we rebuild from scrap is a tonne that does not have to start again from quartz, metal and chemical synthesis.' },
-  { title: 'Solar power', body: 'Solar generation at our facilities supplies part of our electricity and supports our carbon-reduction programme.' },
-  { title: '30% less oven energy', body: 'Our redesigned curing ovens use about 30% less electricity than conventional ovens.' },
-  { title: 'Less material waste', body: 'Our LSR mixer avoids leaving around 4% of each bucket of silicone unused.' },
-  { title: 'Cleaner coating', body: 'Dip coating releases up to 20× fewer volatile organic compounds than spray coating.' },
-  { title: 'PFAS-free materials', body: 'High-density silicone can replace fluorinated rubbers that contain “forever chemicals”.' },
+  { title: 'Recycled silicone', body: 'Every tonne we rebuild from scrap is a tonne that doesn’t have to be made from scratch, starting with sand.' },
+  { title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
+  { title: '30% less oven energy', body: 'Our redesigned ovens use about 30% less electricity than standard ones.' },
+  { title: 'Less waste', body: 'Our mixer uses the 4% or so of silicone usually left at the bottom of each bucket.' },
+  { title: 'Cleaner coating', body: 'Dipping instead of spraying releases up to 20 times less polluting fumes.' },
+  { title: 'PFAS-free materials', body: 'Our dense silicone can replace rubbers that contain “forever chemicals”.' },
 ]
 
 /**

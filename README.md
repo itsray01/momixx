@@ -106,7 +106,6 @@ You need Node.js 20.9 or newer.
   - Pages are static, and the stylesheet is inlined.
   - Fonts are self-hosted with size-matched fallbacks, so nothing shifts as they load.
   - Live 3D loads only after the page, and only on devices with a real GPU (see "Design, 3D and motion").
-  - Cards use small pre-rendered images.
 
 **After launch:**
 
@@ -119,9 +118,9 @@ You need Node.js 20.9 or newer.
 The site uses a dark, premium design aimed at an investor audience. It is built on four pieces:
 
 - **Type.** Geist for text, with *Instrument Serif* italics as an accent. In any heading, wrap words in `*asterisks*` to accent them, for example `title="Silicone that *comes back*"`.
-- **3D models.** Every product, application and process is a real 3D model, built in code in `components/three/models.tsx`. They are shown two ways:
-  - **Live 3D** (Three.js via React Three Fiber) in page headers, the home hero, the recycling ring, the extrusion line and the Locations globe. Live scenes follow the mouse, and the home cable turns towards you as you scroll. Live 3D starts only after the page has loaded, and only on devices with a hardware GPU, at least 4 GB of memory, and no data-saver or 2G/3G connection.
-  - **Pre-rendered images** (`public/renders/*.webp`, mostly about 40 KB each) on cards, so pages with many cards stay fast. They are also what everyone else sees: search engines, screen readers, and devices without a GPU or on slow connections.
+- **3D, used sparingly.** 3D appears in four places only: the home hero cable, the extrusion line explorer, the cable anatomy and the "sand to silicone" cards. Page headers and cards are text-led, and there are no coloured glows.
+  - **Live 3D** (Three.js via React Three Fiber, models in `components/three/`) starts only after the page has loaded, and only on devices with a hardware GPU, at least 4 GB of memory, and no data-saver or 2G/3G connection. The home cable turns towards you as you scroll.
+  - **Pre-rendered images** (`public/renders/*.webp`) are what everyone else sees: search engines, screen readers, and devices without a GPU or on slow connections. They also illustrate the "sand to silicone" cards, and `/renders/*.webp` is the social image for each article.
 - **Motion** (GSAP and Lenis): smooth scrolling, a pinned hero, a horizontal-scroll "sand to silicone" story, text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt. It is all controlled by attributes such as `data-reveal` and `data-countup` (see `components/motion/ScrollEffects.tsx`).
 - **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and their 3D scenes stay still.
 
@@ -129,12 +128,12 @@ The site uses a dark, premium design aimed at an investor audience. It is built 
 
 | Piece | Where | Files |
 |---|---|---|
-| Vertical extrusion line explorer: click a part (or its number) to fly to it and read what it does; the machine specs link to their parts | Home, `/products/vertical-extruder` | `components/ExtruderExplorer.tsx`, `components/three/ExtruderLine.tsx`, part copy in `components/three/extruderParts.ts` |
+| Vertical extrusion line explorer: a 3D model of the real machine you can drag to turn, with numbered markers on its parts; click one (or a part in the list) to fly in and read what it does. A Photo toggle shows the same markers on the real photo, which is also the fallback without WebGL. The machine specs link to their parts | Home, `/products/vertical-extruder` | `components/ExtruderExplorer.tsx`, the model in `components/three/ExtruderMachine.tsx` and `MachineCanvas.tsx`, part copy, photo markers and camera views in `components/three/extruderParts.ts` |
 | Anatomy of a silicone cable: the layers pull apart as you scroll | `/silicone`, `/products/momixx-mm`, `/applications/consumer-electronics` | `components/CableAnatomy.tsx`, `components/three/CableAnatomy.tsx`, layer copy in `components/three/cableLayers.ts` |
 | Temperature range chart (silicone vs TPE vs PVC) | `/silicone`, `/products/momixx-move`, `/applications/electric-vehicles` | `components/TemperatureRange.tsx` |
 | Mega-menu navigation, built from the content files | Every page | `components/Header.tsx`, `lib/nav.ts` |
 
-Both 3D pieces work without WebGL: a pre-rendered image with the same numbered markers, which zooms into the chosen part. After moving a marker or a camera, run `node scripts/extruder-hotspots.mjs` so the image markers line up again, and re-render `extruder-line` and `cable-anatomy`.
+Each extruder part can have a photo marker (`photo: { x, y }`, as percentages) and a 3D anchor with a camera view (`machine`); parts with neither are listed but not marked. The cable anatomy works without WebGL: a pre-rendered image with the same numbered markers, which zooms into the chosen layer. After moving a cable-anatomy marker or camera, run `node scripts/extruder-hotspots.mjs` so the image markers line up again, and re-render `cable-anatomy`.
 
 **Re-rendering the card images** after changing a model:
 

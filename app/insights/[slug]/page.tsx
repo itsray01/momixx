@@ -3,9 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
-import { Breadcrumbs, CtaBand, FaqList, Glow, GridBackdrop, Section } from '@/components/ui'
-import { formatDate, getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
+import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, Section } from '@/components/ui'
+import { getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -40,9 +39,8 @@ export default async function ArticlePage({ params }: Props) {
       <article>
         <header className="grain relative overflow-hidden pt-32 pb-12 sm:pt-40">
           <GridBackdrop />
-          <Glow className="-top-40 right-[-10%]" size={900} />
-          <div className="container-page relative grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-            <div>
+          <div className="container-page relative">
+            <div className="max-w-4xl">
               <Breadcrumbs
                 items={[
                   { href: '/insights', label: 'Insights' },
@@ -53,27 +51,11 @@ export default async function ArticlePage({ params }: Props) {
               <p className="eyebrow mt-8">{topic.label}</p>
               <h1 className="display-lg mt-5">{a.title}</h1>
               <p className="mt-6 max-w-2xl text-xl leading-relaxed text-slate-300">{a.description}</p>
-              <p className="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
-                <span>{a.author ? `By ${a.author.name}${a.author.role ? `, ${a.author.role}` : ''}` : `By the ${site.name} team`}</span>
-                <span aria-hidden="true">·</span>
-                <time dateTime={a.date}>Published {formatDate(a.date)}</time>
-                {a.updated && a.updated !== a.date && (
-                  <>
-                    <span aria-hidden="true">·</span>
-                    <time dateTime={a.updated}>Updated {formatDate(a.updated)}</time>
-                  </>
-                )}
-                <span aria-hidden="true">·</span>
-                <span>{a.readingMinutes} min read</span>
-              </p>
-            </div>
-            <div className="relative hidden lg:block">
-              <Render name={a.model} priority className="relative" sizes="40vw" />
             </div>
           </div>
         </header>
 
-        <div className="container-page grid gap-12 pb-24 lg:grid-cols-[16rem_1fr] lg:gap-16">
+        <div className="container-page grid gap-12 pt-12 pb-24 sm:pt-16 lg:grid-cols-[16rem_1fr] lg:gap-16">
           <aside className="hidden lg:block">
             {a.headings.length > 2 && (
               <nav aria-label="On this page" className="sticky top-28">
@@ -100,7 +82,7 @@ export default async function ArticlePage({ params }: Props) {
                 <ul className="mt-4 space-y-3 text-slate-200">
                   {a.takeaways.map((t) => (
                     <li key={t} className="flex gap-3">
-                      <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" />
+                      <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
                       {t}
                     </li>
                   ))}

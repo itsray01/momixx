@@ -1,5 +1,3 @@
-import { Render } from '@/components/Render'
-import { Scene3D } from '@/components/three/Scene3D'
 import { ArrowLink, CtaBand, PageHeader, Section } from '@/components/ui'
 import { pageMetadata, site } from '@/lib/site'
 
@@ -29,17 +27,17 @@ const sites = [
   },
   {
     id: 'penang',
-    role: 'R&D and manufacturing',
+    role: 'Research and manufacturing',
     name: 'Batu Kawan, Penang, Malaysia',
     address: ['Batu Kawan', 'Penang, Malaysia'],
     map: 'Batu Kawan, Penang, Malaysia',
     summary:
-      'Our R&D and manufacturing plant in Batu Kawan, in one of Asia’s leading semiconductor and electronics clusters. It produces liquid silicone rubber at volume for the region, and high-precision components for medical-device and semiconductor customers.',
+      'Our research centre and factory in Batu Kawan, in one of Asia’s leading regions for chips and electronics. It makes liquid silicone in large volumes for the region, and high-precision parts for medical and chip-making customers.',
     facts: [
       { label: 'Certified', value: 'ISO 13485 (medical devices), 2026' },
-      { label: 'Production', value: 'LSR mass production for ASEAN demand' },
-      { label: 'Medical', value: 'Medical device OEM since 2025' },
-      { label: 'Precision', value: 'Medical and semiconductor components' },
+      { label: 'Production', value: 'Liquid silicone made in volume for South-East Asia' },
+      { label: 'Medical', value: 'Making medical devices for other companies since 2025' },
+      { label: 'Precision', value: 'Parts for medical devices and chip-making machines' },
     ],
   },
 ]
@@ -54,9 +52,7 @@ export default function LocationsPage() {
         ]}
         eyebrow="Global presence"
         title="Built in Asia, *for the world*"
-        intro="Headquartered in Singapore, with R&D and manufacturing in Penang, Malaysia, and a second large-volume manufacturing facility in Asia. Our materials, machines and components are used by customers around the world."
-        aside={<Scene3D variant="globe" className="h-full" fallback={<Render name="globe" priority className="h-full w-full object-contain" />} />}
-        mobileVisual={<Render name="globe" priority className="mx-auto max-h-72 w-auto" sizes="100vw" />}
+        intro="Our headquarters is in Singapore. We research and make our products in Penang, Malaysia, and at a second large factory in Asia. Customers around the world use our materials, machines and parts."
       />
 
       <Section eyebrow="Our sites" title="Where we *are*">

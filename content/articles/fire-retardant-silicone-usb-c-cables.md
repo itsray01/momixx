@@ -1,23 +1,24 @@
 ---
-title: "Fire-retardant silicone in USB-C cables: VW-1, UL 94 and the EU common charger"
-description: What the VW-1 and UL 94 flame tests measure, why cable jackets need to be flame-retardant, and how the EU's USB-C common charger rule is reshaping the cable market.
+title: "Fire-retardant silicone in USB-C cables: VW-1, UL 94 and the EU charger rule explained"
+description: How the VW-1 and UL 94 flame tests work, why cable jackets should resist fire, and how the EU's USB-C charger rule is changing cables.
 date: 2026-10-02
+updated: 2026-10-02
 topic: regulation
 model: cable
 tags: [USB-C, VW-1, UL 94, flame retardant, cables, EU common charger]
 takeaways:
-  - VW-1 is a flame test for finished wires and cables. A sample must stop burning within 60 seconds, char no more than 25% of a paper flag, and not drip burning material.
-  - UL 94 rates the flammability of plastic materials (V-0, V-1, V-2), not finished cables.
-  - Since 28 December 2024, phones and many other small devices sold in the EU must charge by wire over USB-C. Laptops followed on 28 April 2026.
+  - VW-1 is a flame test for finished cables. To pass, a cable must stop burning on its own within 60 seconds and must not drip burning material.
+  - UL 94 grades the plastic or rubber itself, not the finished cable. V-0 is the safest grade.
+  - Since 28 December 2024, phones and many other small devices sold in the EU must charge through USB-C. Laptops followed on 28 April 2026.
 faqs:
   - q: What is the VW-1 flame test?
-    a: VW-1 is a vertical-wire flame test for finished cables. A burner flame is applied five times for 15 seconds each. To pass, the cable must not burn for more than 60 seconds after any application, must not burn more than 25% of a paper indicator flag, and must not ignite cotton placed below.
+    a: A flame is held to a hanging cable five times, for 15 seconds each. To pass, the cable must stop burning within 60 seconds each time. It must not burn more than a quarter of a paper flag above it, or drip flames onto cotton below.
   - q: What is the difference between UL 94 V-0, V-1 and V-2?
-    a: All three are vertical burn ratings for plastic materials. V-0 requires each specimen to stop burning within 10 seconds, with no flaming drips. V-1 allows up to 30 seconds, with no flaming drips. V-2 allows up to 30 seconds and permits flaming drips that ignite cotton.
+    a: They grade how a plastic or rubber behaves in a flame. V-0, the safest, must stop burning within 10 seconds with no flaming drips. V-1 allows 30 seconds with no flaming drips. V-2 allows 30 seconds and flaming drips.
   - q: Do all USB-C cables have to be flame-retardant?
-    a: Requirements depend on the product, market and certification route. Many brands specify flame-rated cable jackets such as VW-1 as part of safety certification. Momixx MM silicone is designed to self-extinguish and pass VW-1.
+    a: It depends on the product, market and safety approval route. Many brands ask for VW-1-rated jackets. Momixx MM silicone is designed to pass VW-1.
   - q: When did the EU require USB-C chargers?
-    a: Directive (EU) 2022/2380 has applied since 28 December 2024 to phones, tablets, cameras, headphones, handheld consoles, portable speakers, e-readers, keyboards, mice, navigation devices and earbuds that charge by wire. It has applied to laptops since 28 April 2026.
+    a: Since 28 December 2024 for phones, tablets, cameras, headphones, earbuds, e-readers, keyboards, mice and other small devices that charge by cable. Laptops followed on 28 April 2026.
 sources:
   - title: "UL Solutions: Combustion (fire) tests for plastics, UL 94"
     url: https://www.ul.com/services/combustion-fire-tests-plastics
@@ -33,51 +34,49 @@ sources:
     url: https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C_202402997
 ---
 
-A charging cable sits next to beds, sofas and desks, carrying more power than ever as fast charging spreads. If it overheats or catches fire, the jacket is the first thing to burn. **Flame-retardant cable jackets** are designed to stop burning on their own once the flame is removed, and to avoid dripping burning material onto whatever is below.
+A charging cable lies next to beds, sofas and desks, and fast charging pushes more power through it than ever. If it overheats, the jacket burns first. A **flame-retardant jacket** stops burning once the flame is taken away and does not drip.
 
-## Why do cables need to be flame-retardant?
+## Why do cables need to resist fire?
 
-UL notes that burning cables "may produce significant volumes of heat, smoke, toxic or corrosive fumes and falling flaming materials". Inside buildings, it warns, non-compliant cables can hasten the spread of fire. A flame-retardant jacket limits how far a fire travels along the cable and how much burning material falls from it.
+UL, the US safety testing body, warns that burning cables can give off heat, smoke, toxic fumes and flaming drips. Cables that fail safety standards can help fire spread through a building.
 
 ## What is the VW-1 test?
 
-VW-1 is one of the most widely used flame tests for **finished wires and cables**. Its test method is in UL 2556, *Wire and Cable Test Methods*. As described by cable maker LAPP:
+VW-1 is one of the most common flame tests for **finished cables**. It is set out in UL 2556, UL's rulebook for testing wire.
 
-1. A cable sample hangs vertically, with a paper indicator flag above and cotton below.
-2. A burner flame is applied for **15 seconds**, then removed. This is repeated **five times**.
-3. To pass, the cable must **not burn for more than 60 seconds** after any application. **No more than 25%** of the paper flag may burn, and **no burning drips** may ignite the cotton.
+1. A cable hangs straight down, with a paper flag above it and cotton below.
+2. A flame is held to it for 15 seconds, five times.
+3. To pass, the cable must stop burning within **60 seconds** each time. No more than a quarter of the flag may burn, and no burning drips may light the cotton.
 
 ## What is UL 94?
 
-UL 94 (*Tests for Flammability of Plastic Materials for Parts in Devices and Appliances*) rates **materials**, not finished cables. Small bar specimens are held vertically and exposed to a flame twice. UL Solutions sets the vertical ratings as follows:
+UL 94 tests the **material itself**, not a finished cable. Small upright bars of plastic or rubber are put to a flame and graded:
 
-| Rating | Afterflame per specimen | Total afterflame (set of 5, 10 flame applications) | Flaming drips that ignite cotton |
-|---|---|---|---|
-| V-0 | ≤ 10 s | ≤ 50 s | Not allowed |
-| V-1 | ≤ 30 s | ≤ 250 s | Not allowed |
-| V-2 | ≤ 30 s | ≤ 250 s | Allowed |
+| Grade | Must stop burning within | Burning drips allowed? |
+|---|---|---|
+| V-0 (safest) | 10 seconds | No |
+| V-1 | 30 seconds | No |
+| V-2 | 30 seconds | Yes |
 
-In every class, no specimen may burn all the way to the holding clamp. V-0 is the strictest.
+## Why is silicone good for fire-safe cables?
 
-## Why does silicone suit flame-retardant cables?
+Silicone copes with heat by nature. When it does burn, it leaves a mineral ash instead of melting and dripping like many plastics. Wacker, a major silicone maker, says special grades for fire-safety cables turn into a hard ceramic layer. That layer keeps the wire insulated at up to 1,000 °C.
 
-Silicone's silicon–oxygen backbone is inherently heat-resistant. When it burns, it leaves a silica-rich ash rather than melting and dripping like many plastics. Specialist ceramifying grades are used in fire-survival safety cables: Wacker says they form a hard ceramic layer that keeps insulating at temperatures as high as 1,000 °C.
+**[Momixx MM silicone](/products/momixx-mm)** copes with heat up to 250 °C. In our testing, TPE, the soft plastic most cable jackets use, starts to soften at around 170 °C. MM stops burning once the flame is removed and passes VW-1.
 
-For everyday data cables, the benefit shows up in heat resistance and safety margins. **[Momixx MM silicone](/products/momixx-mm)** handles heat up to 250 °C, where the TPE commonly used for cable jackets starts to soften at around 170 °C in our testing. It self-extinguishes when the flame is removed and passes VW-1.
+## What did the EU's common charger rule change?
 
-## How did the EU common charger change the market?
+An EU law, Directive (EU) 2022/2380, made **USB-C**, the small oval plug that fits either way up, the standard charging port.
 
-Directive (EU) 2022/2380 amended the Radio Equipment Directive to make **USB-C the common charging port**:
-
-- **Since 28 December 2024:** phones, tablets, digital cameras, headphones and headsets, handheld game consoles, portable speakers, e-readers, keyboards, mice, portable navigation devices and earbuds that charge by wire.
+- **Since 28 December 2024:** phones, tablets, cameras, headphones and other small devices that charge by cable.
 - **Since 28 April 2026:** laptops.
-- **From 14 December 2028:** interoperability requirements for external power supplies.
+- **From 14 December 2028:** chargers sold separately must work across devices.
 
-The Commission has also reported on extending the scope and is due to report on unbundling cables from devices by the end of 2026. With one connector across categories, a single USB-C cable now has to serve everything from earbuds to laptops. That raises the bar on power handling, durability and fire safety.
+One USB-C cable now has to serve everything from earbuds to laptops. So it must carry more power, last longer and resist fire better.
 
 ## What does Momixx make for USB-C cables?
 
-- **Materials:** the [MM series](/products/momixx-mm) of fire-retardant silicone (HCR and LSR grades), including high-tensile, low-cure-temperature and child-safe bitterant grades.
-- **Machines:** our patented [vertical extrusion line](/products/vertical-extruder) runs LSR cable jackets at up to 100 m/min. Read [how silicone cable is made](/insights/how-silicone-cable-is-made).
+- **Materials:** [MM series](/products/momixx-mm) fire-retardant silicone, in solid and liquid forms ([LSR vs HCR](/insights/lsr-vs-hcr)). Grades include extra-strong, low-temperature-setting and bitter-tasting child-safe options.
+- **Machines:** our patented [vertical extrusion line](/products/vertical-extruder) coats cable at up to 100 metres a minute. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
 
 [Request a sample or specification](/contact).

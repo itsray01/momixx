@@ -1,23 +1,24 @@
 ---
-title: "PFAS-free silicone: what PFAS are, and why brands are replacing FKM"
-description: Fluorinated rubbers such as FKM fall into the PFAS family the EU is working to restrict. Here is where the regulation stands, and how fluorine-free silicone can replace them.
+title: "PFAS-free silicone: what PFAS are, and why brands are moving away from FKM"
+description: FKM, a fluorine-based rubber used in watch straps and seals, is in the PFAS family the EU is working to restrict. Here is where the rules stand.
 date: 2026-10-02
+updated: 2026-10-02
 topic: regulation
 model: watchband
 tags: [PFAS, FKM, fluoroelastomer, regulation, watch straps, REACH]
 takeaways:
-  - PFAS are fluorinated chemicals that persist in the environment. The EU is working towards a broad restriction, but as of October 2026 it has not been adopted.
-  - FKM (fluoroelastomer) is a fluoropolymer, and fluoropolymers fall within the OECD definition of PFAS that the EU proposal uses.
-  - Standard silicone is built on a silicon–oxygen backbone with no fluorine. Momixx High Density (MHD) silicone is designed to match FKM's look and feel without it.
+  - PFAS are man-made chemicals that barely break down. The EU is working on a broad restriction, but as of October 2026 it has not been adopted.
+  - FKM is a fluorine-based rubber that counts as a PFAS under the EU proposal's definition.
+  - Standard silicone has no fluorine, so it is not a PFAS. Momixx High Density (MHD) silicone is designed to look and feel like FKM.
 faqs:
   - q: Does silicone contain PFAS?
-    a: Standard silicone (polydimethylsiloxane-based) does not contain fluorine, so it is not a PFAS. Fluorosilicones are a separate, specialist family that do contain fluorine. Momixx's MHD silicone is fluorine-free.
+    a: Standard silicone has no fluorine, so it is not a PFAS. Fluorosilicones, a separate specialist type, do contain fluorine.
   - q: Has the EU banned PFAS?
-    a: Not yet, as a group. A universal PFAS restriction was proposed in January 2023. ECHA's risk committee adopted its opinion in March 2026 and the socio-economic committee's final opinion is expected by the end of 2026. The European Commission then drafts the restriction for a vote by EU member states.
+    a: Not yet, as a group. A broad restriction was proposed in January 2023, and ECHA's expert committees are due to finish their opinions by the end of 2026. EU member states then vote on a draft law from the European Commission.
   - q: Is FKM a PFAS?
-    a: FKM is a fluoroelastomer, a type of fluoropolymer. Fluoropolymers contain fully fluorinated carbon groups, which places them within the OECD definition of PFAS used by the EU restriction proposal.
+    a: FKM is a fluoropolymer, a rubber made with fluorine. That puts it within the PFAS definition the EU proposal uses.
   - q: What can replace FKM in watch straps?
-    a: High-density silicone is one option. Momixx MHD is a dense, silky silicone developed to match FKM's look, soft-touch feel and durability without fluorine. Suitability should always be confirmed by testing against the product's requirements.
+    a: High-density silicone is one option. Momixx MHD is made to match FKM's look, feel and toughness without fluorine. Test it for your product first.
 sources:
   - title: "ECHA: Per- and polyfluoroalkyl substances (PFAS)"
     url: https://echa.europa.eu/hot-topics/perfluoroalkyl-chemicals-pfas
@@ -33,39 +34,40 @@ sources:
     url: https://news.3m.com/2022-12-20-3M-to-Exit-PFAS-Manufacturing-by-the-End-of-2025
 ---
 
-**PFAS-free silicone** is silicone made without fluorinated chemistry. It matters because many premium rubber parts, from smartwatch straps to automotive seals, have long been made from **FKM**, a fluorinated rubber. FKM falls within the family of "forever chemicals" that regulators are working to restrict.
+**PFAS-free silicone** is made without fluorine. That matters because smartwatch straps, car seals and other premium parts have long used **FKM**, a fluorine-based rubber in the "forever chemicals" family that regulators want to restrict.
 
 ## What are PFAS?
 
-PFAS (per- and polyfluoroalkyl substances) are a large family of man-made chemicals containing carbon–fluorine bonds. ECHA, the EU's chemicals agency, calls this "one of the strongest chemical bonds in organic chemistry". That strength is why PFAS resist heat, oil and stains. It is also why they barely break down in the environment.
+PFAS (per- and polyfluoroalkyl substances) are man-made chemicals built around a carbon–fluorine bond. ECHA, the EU's chemicals agency, calls it "one of the strongest chemical bonds in organic chemistry". That is why PFAS resist heat, oil and stains, and why they barely break down in nature.
 
-ECHA says PFAS can travel long distances, contaminate groundwater, and that clean-up is technically difficult and costly. Certain PFAS are toxic for reproduction and several may cause cancer. The EU has set a drinking-water limit of 0.5 µg per litre for all PFAS combined.
+ECHA says PFAS can travel far, pollute groundwater and are costly to clean up. Some can harm human reproduction, and several may cause cancer.
 
-The OECD defines PFAS as fluorinated substances containing at least one fully fluorinated methyl or methylene carbon atom. The EU's risk committee supports using this definition.
+The EU proposal uses a definition from the OECD, an international policy body. Put simply, a chemical is a PFAS if one of its carbon atoms is fully covered in fluorine.
 
 ## Where does the EU PFAS restriction stand?
 
-As of **October 2026, a universal EU PFAS restriction has not been adopted**. The milestones so far:
+As of **October 2026, no broad EU PFAS restriction has been adopted**.
 
-1. **January 2023:** Germany, Denmark, the Netherlands, Norway and Sweden submit the proposal.
-2. **March 2026:** ECHA's Committee for Risk Assessment (RAC) adopts its final opinion. The socio-economic committee (SEAC) agrees a draft opinion supporting a restriction with targeted derogations.
-3. **May 2026:** Public consultation on the SEAC draft closes.
-4. **Next:** SEAC's final opinion is expected by the end of 2026. The European Commission then drafts the restriction, which goes to a vote of EU member states in the REACH Committee.
+1. **January 2023:** Germany, Denmark, the Netherlands, Norway and Sweden propose it.
+2. **March 2026:** ECHA's risk committee gives its final opinion. A second committee backs a restriction with some exceptions, in draft.
+3. **Next:** that committee's final opinion is due by the end of 2026. The European Commission then drafts the law, and EU member states vote on it.
 
-The timing and final scope are not yet known. Even so, many brands are already designing PFAS out of their products. Major producers are moving too: 3M announced in 2022 that it would exit all PFAS manufacturing, including fluoropolymers, by the end of 2025.
+The timing and final scope are still unknown, but many brands are already designing PFAS out. In 2022, 3M said it would stop making all PFAS by the end of 2025, including fluoropolymers (plastics and rubbers made with fluorine).
 
 ## Why is FKM affected?
 
-FKM is the fluoroelastomer family; Chemours' Viton, introduced in 1957 for aerospace seals, is the best-known brand. FKM is prized for heat and chemical resistance and, in watch straps, for a dense, silky feel. As a **fluoropolymer**, it contains fully fluorinated carbon groups, which places it within the OECD PFAS definition. ECHA's risk committee notes that fluoropolymers show limited evidence of toxicity, but their life cycle "leads to significant PFAS emissions".
+FKM is a fluoropolymer, so it falls within the PFAS definition. The best-known brand, Chemours' Viton, was launched in 1957 for aerospace seals. FKM resists heat and chemicals, and feels dense and silky on the wrist.
+
+ECHA's risk committee found limited evidence that fluoropolymers are toxic in themselves. But it says their life cycle, from making to disposal, "leads to significant PFAS emissions".
 
 ## Is silicone a PFAS?
 
-**Standard silicone is not.** Its backbone alternates silicon and oxygen atoms, with methyl groups on the side, and there is no fluorine. (Fluorosilicones, a specialist family, do contain fluorine. They are a different material.)
+**Standard silicone is not.** Its backbone is a chain of silicon and oxygen, with no fluorine. Fluorosilicones, a separate specialist type, do contain fluorine.
 
-That makes silicone a natural candidate to replace FKM where its properties fit. The challenge has been feel and density. Ordinary silicone can feel lighter and grippier than FKM, which matters for products people wear every day.
+So silicone can replace FKM where it does the job. The catch has been feel. Ordinary silicone is lighter and grippier, which matters on a wrist all day.
 
-## How does Momixx MHD compare?
+## How does Momixx MHD compare with FKM?
 
-**[Momixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone developed to match FKM's look, soft-touch feel and durability without fluorine. It is available as LSR (M1) and HCR (M2), for injection or compression moulding. Typical uses include smartwatch and fitness straps, EV seals and cable parts, and medical and food-contact parts.
+**[Momixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone made to match FKM's look, feel and toughness, without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, electric car seals and cable parts, and medical and food-contact parts.
 
-As with any material change, we recommend validating MHD against your product's own requirements, such as chemical exposure, abrasion and ageing. [Ask us for samples](/contact).
+As with any new material, test MHD for your product's needs, such as wear and ageing. [Ask us for samples](/contact).

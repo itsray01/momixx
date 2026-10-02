@@ -1,21 +1,22 @@
 ---
 title: "Silicone in electric vehicles: cables, batteries and seals"
-description: Electric cars run hotter and at higher voltages than combustion cars in key places. Here is where silicone is used in an EV, and why.
+description: Electric cars run hotter and at higher voltages than petrol cars in key places. Here is where silicone is used in an EV, and why.
 date: 2026-10-02
+updated: 2026-10-02
 topic: applications
 model: ev-cable
 tags: [electric vehicles, EV, high-voltage cable, battery, thermal management, seals]
 takeaways:
-  - Global electric-car sales passed 20 million in 2025, about a quarter of new cars, according to the IEA.
-  - Silicone is used in EV high-voltage cables, battery thermal management and fire protection, and in connector and coolant seals.
-  - Its value comes from staying flexible and insulating across a wide temperature range, and from slowing the spread of thermal events.
+  - More than 20 million electric cars were sold in 2025, about a quarter of new cars, says the International Energy Agency.
+  - Silicone goes into EV high-voltage cables, battery cooling, fire protection and seals.
+  - It stays bendy and insulating from cold to heat, and helps slow a battery fire.
 faqs:
   - q: Why is silicone used in EV cables?
-    a: High-voltage EV cables carry large currents and must stay flexible in tight spaces across a wide temperature range. Silicone rubber remains flexible and insulating at temperatures where many plastics soften. Wacker, for example, offers HCR silicone for extruded high-voltage EV cables rated to 180 °C.
+    a: The cables carry large currents and must bend through tight spaces, in cold and heat. Silicone stays flexible and insulating where many plastics soften. Wacker offers EV cable silicone rated to 180 °C.
   - q: How is silicone used in EV batteries?
-    a: Silicone is used in thermally conductive gap fillers and adhesives, for potting battery-management electronics and busbars, in cured-in-place and flame-retardant gaskets, and in sheets that help protect against thermal runaway.
+    a: It carries heat away from the cells and seals in the battery electronics. It also goes into fire-resistant gaskets and sheets that guard against "thermal runaway", when a failing cell overheats and can set off others.
   - q: What Momixx products are used in EVs?
-    a: Momixx Move (MV) is a high-temperature silicone for EV cables. Momixx Seal and Momixx High Density (MHD) are used for seals and cable parts, and our extrusion lines process silicone cable.
+    a: Momixx Move (MV) for cables, Momixx Seal and Momixx High Density (MHD) for seals, and our extrusion lines for making silicone cable.
 sources:
   - title: "IEA: Global EV Outlook 2026, executive summary"
     url: https://www.iea.org/reports/global-ev-outlook-2026/executive-summary
@@ -23,37 +24,37 @@ sources:
     url: https://www.wacker.com/cms/en-us/products/applications/automotive-aerospace-railway/e-mobility/e-mobility.html
 ---
 
-Electric vehicles are now mainstream. The IEA reports that **global electric-car sales grew 20% to more than 20 million in 2025**, about a quarter of all new cars sold. Inside each one are hundreds of metres of cable, a large battery pack, and electronics that must be kept cool, sealed and safe. **Silicone** shows up in all three.
+Electric cars are now mainstream. The International Energy Agency (IEA) reports that **more than 20 million were sold in 2025**, about a quarter of all new cars. Each has lots of cable, a big battery and electronics that must stay cool, sealed and safe. **Silicone** helps with all three.
 
-## Why do EVs need high-temperature materials?
+## Why do electric cars need heat-proof materials?
 
-An EV moves large amounts of energy through compact spaces. High-voltage cables run between the battery, inverter, motor and charging port. Battery cells generate heat as they charge and discharge. Power electronics need to shed heat and stay dry. Materials in these areas have to:
+Thick cables link the battery, motor, charging port and inverter, which converts battery power for the motor. The battery warms up as it charges and discharges. Materials here must:
 
-- stay **flexible** in tight routing and in the cold;
-- keep **insulating** at high temperatures;
-- resist **ageing** over many years of heat cycles;
-- help **contain** a fire if a cell fails.
+- stay **bendy** in tight spaces and in the cold;
+- keep **insulating** when hot;
+- **last for years** of heating and cooling;
+- help **hold back a fire** if a cell fails.
 
 ## Where is silicone used in an EV?
 
-Wacker lists these uses:
+Wacker, a major silicone maker, lists these uses:
 
-| Area | How silicone is used |
+| Part of the car | What silicone does |
 |---|---|
-| **High-voltage cables** | Extruded silicone rubber (HCR) insulation, with heat resistance up to 180 °C |
-| **Battery thermal management** | Thermally conductive gap fillers and adhesives that move heat from cells to cooling plates |
-| **Electronics protection** | Potting of battery-management electronics and busbars |
-| **Sealing** | Cured-in-place and flame-retardant gaskets; connector seals; battery coolant connectors (HCR and LSR) |
-| **Fire protection** | Thermal-runaway protection sheets; Wacker says silicones "slow the spread of thermal events" |
+| **High-voltage cables** | Insulates the wires and copes with heat up to 180 °C |
+| **Battery cooling** | Pastes and glues carry heat from the cells to cooling plates |
+| **Electronics** | Seals in the battery's control electronics and current-carrying metal strips |
+| **Seals** | Gaskets, including flame-resistant ones, and connector seals |
+| **Fire protection** | Sheets that "slow the spread of thermal events", in Wacker's words, such as a battery fire |
 
 ## How does silicone compare with other cable materials?
 
-Common cable-insulation plastics, such as cross-linked polyolefin (XLPO) and thermoplastic elastomers (TPE), are cheaper. Silicone's advantage is its **temperature range and flexibility**: it stays soft in the cold and does not soften in the heat. That matters most near motors, inverters and fast-charging hardware.
+Common cable plastics are cheaper. But silicone **stays soft in the cold and does not soften in the heat**. That matters most near the motor, inverter and fast chargers.
 
 ## What does Momixx make for EVs?
 
-- **[Momixx Move (MV)](/products/momixx-move):** high-temperature silicone for EV cables. It is tested against XLPO, with results on the product page.
-- **[Momixx Seal](/products/momixx-seal)** and **[High Density (MHD)](/products/momixx-high-density):** sealing and PFAS-free materials for seals and cable parts.
-- **[Extrusion lines](/products/horizontal-extruder):** machines that process silicone cable.
+- **[Momixx Move (MV)](/products/momixx-move):** heat-resistant silicone for EV cables, with test results against a common cable plastic.
+- **[Momixx Seal](/products/momixx-seal)** and **[High Density (MHD)](/products/momixx-high-density):** sealing materials and PFAS-free silicone for seals and cable parts.
+- **[Extrusion lines](/products/horizontal-extruder):** machines that make silicone cable.
 
-See [Electric vehicles](/applications/electric-vehicles) for the full picture, including market estimates and certifications.
+See [Electric vehicles](/applications/electric-vehicles) for market estimates and certifications.

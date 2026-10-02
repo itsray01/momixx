@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { Render } from '@/components/Render'
-import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, CtaBand, PageHeader, Section } from '@/components/ui'
 import { pageMetadata, site } from '@/lib/site'
 
@@ -13,21 +11,21 @@ export const metadata = pageMetadata({
 
 // Values from the founder's brief. Edit freely; each needs a title and a line or two.
 const values = [
-  { title: 'Engineers at heart', body: 'We are a technology company that happens to make silicone. We solve problems with R&D, and we build our own machines when the right one doesn’t exist.' },
+  { title: 'Engineers at heart', body: 'We are a technology company that happens to make silicone. We solve problems through research, and we build our own machines when the right one doesn’t exist.' },
   { title: 'Fast, then faster', body: 'Speed is a habit. We prototype quickly, decide quickly and answer customers quickly, without cutting corners on quality.' },
-  { title: 'Sweat the details', body: 'Great products come from obsessive attention to small things: a colour matched to within dE94 0.5, a jacket 0.3 mm thin.' },
+  { title: 'Sweat the details', body: 'Great products come from caring about small things: a colour matched so closely you can’t tell the difference, a cable coating thinner than a credit card.' },
   { title: 'Decide together', body: 'Good decisions come from the people closest to the work. Small teams debate openly, agree, and then move as one.' },
   { title: 'Think global', body: 'We build for international markets and international standards from day one, and we hold ourselves to them.' },
-  { title: 'Leave it better', body: 'Sustainability is part of the job, not a side project: recycled feedstock, less waste and cleaner processes in everything we do.' },
+  { title: 'Leave it better', body: 'Sustainability is part of the job, not a side project: recycled materials, less waste and cleaner ways of working in everything we do.' },
 ]
 
 const growth = [
   { title: 'Responsibility early', body: 'New team members own real projects from the start, with experienced engineers beside them.' },
-  { title: 'Learning by building', body: 'From material formulation to machine design, you see the whole chain, from lab to production line.' },
+  { title: 'Learning by building', body: 'From creating new silicone recipes to designing machines, you see the whole journey, from the lab to the factory floor.' },
   { title: 'The next generation', body: 'We are building a culture that develops tomorrow’s leaders, people who will take Momixx much further than today.' },
 ]
 
-const teams = ['Materials R&D', 'Process & automation engineering', 'Quality & regulatory', 'Production', 'Sales & applications', 'Corporate functions']
+const teams = ['Materials research', 'Machine and automation engineering', 'Quality and standards', 'Production', 'Sales and customer support', 'Business support']
 
 export default function CulturePage() {
   return (
@@ -40,7 +38,6 @@ export default function CulturePage() {
         eyebrow="Culture & careers"
         title="How we *work*"
         intro="Momixx is going for a much bigger future. Getting there takes a particular kind of culture: curious, fast, precise and collaborative, and designed to grow the next generation."
-        aside={<Scene3D variant="molecule" className="h-full" fallback={<Render name="molecule" priority className="h-full w-full object-contain" />} />}
       />
 
       <Section eyebrow="Our values" title="Six things we *believe*">
@@ -56,19 +53,13 @@ export default function CulturePage() {
       </Section>
 
       <Section tone="muted" eyebrow="Growing people" title="Shaping the *next generation*">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
-          <div className="relative">
-            <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.22), transparent)' }} />
-            <Render name="samples" className="relative" sizes="(min-width: 1024px) 40vw, 100vw" />
-          </div>
-          <div data-reveal="stagger" className="space-y-5">
-            {growth.map((g) => (
-              <div key={g.title} data-tilt className="card lift p-7">
-                <h3 className="text-xl font-semibold tracking-[-0.02em]">{g.title}</h3>
-                <p className="mt-2 leading-relaxed text-slate-400">{g.body}</p>
-              </div>
-            ))}
-          </div>
+        <div data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
+          {growth.map((g) => (
+            <div key={g.title} data-tilt className="card lift p-7">
+              <h3 className="text-xl font-semibold tracking-[-0.02em]">{g.title}</h3>
+              <p className="mt-2 leading-relaxed text-slate-400">{g.body}</p>
+            </div>
+          ))}
         </div>
       </Section>
 

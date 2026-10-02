@@ -33,19 +33,22 @@ function HeroCable() {
   const ref = useRef<THREE.Group>(null)
   // On wide screens the canvas spans the hero, so sit the cable to the right of the headline.
   const wide = useThree((s) => s.size.width >= 1024)
+  // Size and offset follow the visible width, so narrower desktop windows don't crop the cable end.
+  const viewWidth = useThree((s) => s.viewport.width)
+  const scale = wide ? 0.9 * Math.min(1, viewWidth / 8.6) : 1
   useFrame((state, delta) => {
     const g = ref.current
     if (!g) return
     const p = heroProgress.value
     const t = state.clock.elapsedTime
-    const baseX = wide ? 1.9 : 0
+    const baseX = wide ? viewWidth * 0.26 : 0
     g.rotation.y = THREE.MathUtils.damp(g.rotation.y, -0.75 * p + state.pointer.x * 0.3 + Math.sin(t * 0.25) * 0.1, 3, delta)
     g.rotation.x = THREE.MathUtils.damp(g.rotation.x, 0.25 * p - state.pointer.y * 0.18, 3, delta)
     g.position.x = THREE.MathUtils.damp(g.position.x, baseX - (wide ? 1.6 : 0.9) * p, 3, delta)
     g.position.z = THREE.MathUtils.damp(g.position.z, 1.6 * p, 3, delta)
   })
   return (
-    <group ref={ref}>
+    <group ref={ref} scale={scale}>
       <CableModel />
     </group>
   )

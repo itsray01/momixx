@@ -1,6 +1,5 @@
 import { ArticleCard } from '@/components/ArticleCard'
 import { collectionPage, JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { getArticles } from '@/lib/articles'
 import { pageMetadata } from '@/lib/site'
@@ -25,9 +24,7 @@ export default function InsightsPage() {
         crumbs={[{ href: '/insights', label: 'Insights' }]}
         eyebrow="Insights"
         title="Silicone, *explained*"
-        intro="Clear, sourced articles on silicone: how it is made, how it is recycled, and where it is used, from phone cables to humanoid robots."
-        aside={<Render name="molecule" priority className="h-full w-full object-contain" />}
-      >
+        intro="Clear, sourced articles on silicone: how it is made, how it is recycled, and where it is used, from phone cables to humanoid robots."      >
         <div className="mt-8">
           <TopicNav />
         </div>

@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import { CertCard } from '@/components/CertCard'
 import { RecycleSteps } from '@/components/infographics'
-import { Render } from '@/components/Render'
-import { Scene3D } from '@/components/three/Scene3D'
-import { ArrowLink, CtaBand, FeatureGrid, Glow, PageHeader, Section } from '@/components/ui'
+import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { certifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
 import { carbonComparison, carbonLevers, carbonMetrics, certificationClaim, greenPhotos } from '@/content/sustainability'
@@ -29,18 +27,16 @@ export default function SustainabilityPage() {
         crumbs={[{ href: '/sustainability', label: 'Sustainability' }]}
         eyebrow="Sustainability"
         title="Silicone with a *smaller footprint*"
-        intro="Sustainability is built into how we make silicone: certified recycled material, a validated carbon footprint, and machines designed to waste less."
-        aside={<Scene3D variant="recycle" className="h-full" fallback={<Render name="recycle" priority className="h-full w-full object-contain" />} />}
-        mobileVisual={<Render name="recycle" priority className="mx-auto max-w-sm" sizes="100vw" />}
+        intro="Sustainability is built into how we make silicone: certified recycled material, an independently checked carbon footprint, and machines designed to waste less."
       >
         <p className="mt-8 inline-flex max-w-xl items-start gap-3 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100">
-          <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" />
+          <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
           {certificationClaim.headline}
         </p>
       </PageHeader>
 
       {/* Certifications */}
-      <Section eyebrow="Certified" title="Independently *audited*" intro="Recycled-content claims are only as good as the audit behind them. Two international schemes track our recycled silicone from source to finished product.">
+      <Section eyebrow="Certified" title="Independently *checked*" intro="A recycling claim is only as good as the checks behind it. Two international schemes, GRS and ISCC PLUS, follow our recycled silicone from the waste it came from to the finished product.">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
           {featured.map((c) => (
             <CertCard key={c.id} cert={c} featured />
@@ -54,20 +50,16 @@ export default function SustainabilityPage() {
       </Section>
 
       {/* Carbon footprint */}
-      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Measured and *independently validated*">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.3fr]">
-          <div data-reveal className="card grain relative overflow-hidden p-8 sm:p-10">
-            <Glow className="-top-48 -right-48" size={520} />
-            <p className="relative text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{carbonCert?.issuer ?? 'Third-party validation'}</p>
-            <p className="display-md relative mt-4">
-              Product carbon footprint <em className="accent">independently validated</em>
+      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Measured and *independently checked*">
+        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+          <div data-reveal className="lg:sticky lg:top-28">
+            <p className="text-lg leading-relaxed text-slate-300">
+              We measure the greenhouse gases released in making our silicone, and an independent expert checks the results. The figures show us
+              where to cut next.
             </p>
-            <p className="relative mt-5 leading-relaxed text-slate-400">
-              We measure the greenhouse-gas emissions of our silicone and have the results checked by an independent third party. The figures guide
-              where we cut next.
-            </p>
+            <p className="mt-4 leading-relaxed text-slate-400">Here is what we are doing about it.</p>
             {carbonCert?.file && (
-              <a href={carbonCert.file} target="_blank" rel="noopener" className="relative mt-6 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
+              <a href={carbonCert.file} target="_blank" rel="noopener" className="mt-6 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
                 View validation statement (PDF) <span aria-hidden="true">→</span>
               </a>
             )}
@@ -92,11 +84,11 @@ export default function SustainabilityPage() {
             )}
             {cmp && (
               <figure data-reveal className="card p-7">
-                <figcaption className="text-sm font-medium text-white">Recycled vs virgin silicone ({cmp.unit})</figcaption>
+                <figcaption className="text-sm font-medium text-white">Recycled vs new silicone ({cmp.unit})</figcaption>
                 <div className="mt-5 space-y-3">
                   {[
                     { label: 'Momixx recycled', v: cmp.recycled, c: '#1caa9e' },
-                    { label: 'Virgin silicone', v: cmp.virgin, c: '#5a6474' },
+                    { label: 'New silicone', v: cmp.virgin, c: '#5a6474' },
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
                       <span className="w-36 shrink-0 text-sm text-slate-300">{b.label}</span>
@@ -125,20 +117,14 @@ export default function SustainabilityPage() {
 
       {/* Recycling */}
       <Section eyebrow="Circular silicone" title="Silicone that *comes back*">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="relative">
-            <div aria-hidden="true" className="absolute inset-0" style={{ background: 'radial-gradient(closest-side, rgb(20 159 148 / 0.22), transparent)' }} />
-            <Render name="recycle" className="relative" sizes="(min-width: 1024px) 45vw, 100vw" />
-          </div>
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <p className="text-lg leading-relaxed text-slate-300">{recyclingFacts.summary}</p>
-            <div className="mt-8">
-              <RecycleSteps compact />
-            </div>
             <ArrowLink href="/recycled-silicone" className="mt-8">
               How our recycled silicone works
             </ArrowLink>
           </div>
+          <RecycleSteps />
         </div>
       </Section>
 
@@ -159,9 +145,9 @@ export default function SustainabilityPage() {
       <Section tone={greenPhotos.length > 0 ? 'white' : 'muted'} eyebrow="Beyond recycling" title="Safer *materials*">
         <FeatureGrid
           items={[
-            { title: 'PFAS-free', body: 'Silicone contains no fluorine. Our high-density grades can replace FKM rubber in watch straps, seals and EV parts.' },
-            { title: 'Longer-lasting products', body: 'Our silicone cables survived twice as many twists as a high-grade TPE cable in our testing: built to last.' },
-            { title: 'Traceable supply chain', body: 'Chain-of-custody certification means every batch of recycled silicone can be traced to its source.' },
+            { title: 'PFAS-free', body: 'Silicone contains no “forever chemicals”. Our dense silicone can replace the rubbers that do, in watch straps, seals and car parts.' },
+            { title: 'Longer-lasting products', body: 'In our tests, our silicone cables survived twice as many twists as a good plastic cable.' },
+            { title: 'Traceable supply chain', body: 'Certification means every batch of recycled silicone can be traced back to the waste it came from.' },
           ]}
         />
       </Section>

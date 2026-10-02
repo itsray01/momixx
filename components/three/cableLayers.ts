@@ -6,14 +6,14 @@ type Vec3 = [number, number, number]
 export type CableLayer = { id: string; name: string; body: string; momixx?: boolean }
 
 export const cableLayers: CableLayer[] = [
-  { id: 'copper', name: 'Copper conductors', body: 'Fine stranded copper carries power and data, and stays flexible.' },
-  { id: 'insulation', name: 'Wire insulation', body: 'Each wire is insulated and colour-coded, keeping power and data signals apart.' },
-  { id: 'foil', name: 'Foil shield', body: 'A wrap of aluminium foil blocks electrical interference.' },
-  { id: 'braid', name: 'Braided shield', body: 'A woven metal braid adds shielding and pull strength.' },
+  { id: 'copper', name: 'Copper wires', body: 'Bundles of fine copper strands carry power and data, and stay flexible.' },
+  { id: 'insulation', name: 'Wire coating', body: 'Each wire has its own coloured coating, which keeps power and data apart.' },
+  { id: 'foil', name: 'Foil wrap', body: 'A layer of aluminium foil stops outside signals interfering with the data.' },
+  { id: 'braid', name: 'Metal braid', body: 'Woven metal adds more protection from interference, and makes the cable harder to pull apart.' },
   {
     id: 'jacket',
-    name: 'Silicone jacket',
-    body: 'Momixx MM fire-retardant silicone: soft and supple, 10,000 twist cycles in our testing, heat-resistant to 250 °C and self-extinguishing (UL VW-1).',
+    name: 'Silicone outer layer',
+    body: 'Momixx MM fire-safe silicone. It is soft and supple, survived 10,000 twists in our tests, copes with 250 °C and puts itself out if it catches fire.',
     momixx: true,
   },
 ]

@@ -52,9 +52,9 @@ export function ContactForm({ email }: { email: string }) {
         <select name="topic" className={input} defaultValue="Silicone materials">
           <option>Silicone materials</option>
           <option>Recycled silicone</option>
-          <option>Extrusion equipment</option>
-          <option>ODM / OEM manufacturing</option>
-          <option>Medical or precision components</option>
+          <option>Cable machines</option>
+          <option>Contract manufacturing</option>
+          <option>Medical or precision parts</option>
           <option>Investor relations</option>
           <option>Something else</option>
         </select>

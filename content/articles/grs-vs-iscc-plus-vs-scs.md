@@ -1,23 +1,24 @@
 ---
 title: "GRS vs ISCC PLUS vs SCS: what recycled-content certificates actually prove"
-description: Three certification schemes, three different rules. A plain-English guide to the Global Recycled Standard, ISCC PLUS and SCS Recycled Content, including minimum content, mass balance and chain of custody.
+description: Three schemes check recycled-content claims, each with its own rules. A plain guide to GRS, ISCC PLUS and SCS, and what mass balance really means.
 date: 2026-10-02
+updated: 2026-10-02
 topic: sustainability
 model: compound
 tags: [GRS, ISCC PLUS, SCS, certification, recycled content, mass balance, chain of custody]
 takeaways:
-  - All three schemes use independent audits to verify recycled-content claims. They differ in minimum content, in social and environmental criteria, and in how recycled content is tracked.
-  - GRS requires at least 20% recycled content for business-to-business claims (50% for consumer labels) and adds social, environmental and chemical rules.
-  - ISCC PLUS and SCS allow mass balance, a bookkeeping method. A product can carry a certified claim without physically containing that share of recycled material.
+  - All three use independent auditors to check recycled-content claims. Only GRS also checks working conditions and chemicals.
+  - GRS needs at least 20% recycled content for sales between businesses, and 50% for labels shoppers see.
+  - ISCC PLUS and SCS allow mass balance, a bookkeeping method. A product can carry a certified claim without physically containing that much recycled material.
 faqs:
   - q: What is the Global Recycled Standard (GRS)?
-    a: GRS is a certification owned by Textile Exchange that verifies recycled content and chain of custody through third-party audits. It also sets social, environmental and chemical requirements for processing. Business-to-business claims need at least 20% recycled content, and consumer-facing GRS labels need at least 50%.
+    a: A certificate owned by Textile Exchange. It checks recycled content plus working conditions, the environment and chemicals. It needs at least 20% recycled content, or 50% for labels shoppers see.
   - q: What is ISCC PLUS?
-    a: ISCC PLUS is a voluntary certification scheme for circular, bio-circular, bio-based and renewable-energy-derived materials. It traces them through supply chains using physical segregation, controlled blending or mass balance. Each site that handles certified material needs its own certificate, valid for 12 months.
+    a: A voluntary certificate for recycled, plant-based and waste-based materials, and materials made with renewable energy. It allows mass balance. Each site handling the material needs its own certificate, renewed yearly.
   - q: What does mass balance mean?
-    a: Mass balance is a bookkeeping method. It tracks how much certified material enters a process and allocates that amount to outputs, even when certified and conventional inputs are mixed. ISCC itself notes that a mass-balance product may not physically contain the certified content claimed.
+    a: A bookkeeping method. Certified material going in is recorded and shared out across what comes out. ISCC itself says such a product may not physically contain the certified content it claims.
   - q: Is GRS being replaced?
-    a: Textile Exchange is consolidating its standards into a new Materials Matter Standard. Criteria were released in December 2025, it becomes effective on 31 December 2026, and use becomes mandatory from 31 December 2027.
+    a: It is being folded into Textile Exchange's new Materials Matter Standard, released in December 2025. It takes effect on 31 December 2026 and must be used from 31 December 2027.
 sources:
   - title: "Textile Exchange: Recycled Claim Standard and Global Recycled Standard"
     url: https://textileexchange.org/recycled-claim-global-recycled-standard/
@@ -29,54 +30,46 @@ sources:
     url: https://www.scsglobalservices.com/services/recycled-content-certification
 ---
 
-"Contains recycled material" is easy to say and hard to prove. **Recycled-content certifications** use independent auditors to check that claim at every step of the supply chain. The three schemes you will see most often for materials are **GRS**, **ISCC PLUS** and **SCS Recycled Content**. They do not all prove the same thing.
+"Contains recycled material" is easy to say and hard to prove. **Recycled-content certificates** use independent auditors to check that claim. The three you will see most often are **GRS**, **ISCC PLUS** and **SCS Recycled Content**, and they prove different things.
 
-## What is chain of custody?
+## How do certificates keep track of recycled material?
 
-Chain of custody is the documented trail of who held a material, and how much, at every step from waste to finished product. All three schemes audit it. Where they differ is in **how** recycled content is tracked once it is mixed with ordinary material:
+All three check the **chain of custody**: the paper trail of who held the material, and how much, from waste to finished product. They differ in how they track recycled material alongside ordinary material:
 
-- **Physical segregation:** certified material is kept separate throughout.
-- **Controlled blending:** certified and conventional material are mixed in known proportions, and the claim reflects the actual share.
-- **Mass balance:** certified inputs are tracked in the books and allocated to outputs. A given product may not physically contain the share claimed.
+- **Kept separate:** the two never mix.
+- **Mixed in known amounts:** the claim matches the real share in the product.
+- **Mass balance:** recycled material is tracked in the books and shared out across products. A given product may not contain the share it claims.
 
-## What does GRS certify?
+## What does GRS prove?
 
-The **Global Recycled Standard (GRS)** is owned by Textile Exchange. It verifies recycled content with third-party audits at each stage of the supply chain, and goes further than recycled content alone. It adds **social and environmental processing requirements** and **bans chemicals "with harmful potential"**.
+The **Global Recycled Standard (GRS)** is owned by Textile Exchange. Beyond recycled content, it sets **rules on working conditions and the environment**, and **bans chemicals "with harmful potential"**. Material must meet the international (ISO) definition of "recycled", from factory scrap or used products. It needs at least **20% recycled content** for sales between businesses, and **50%** for labels shoppers see.
 
-- Material must meet the ISO definition of "recycled"; pre- and post-consumer sources are both accepted.
-- **Minimum 20% recycled content** for business-to-business claims; **50%** for consumer-facing GRS labels.
+GRS is being folded into Textile Exchange's new **Materials Matter Standard**. It takes effect on 31 December 2026 and must be used from 31 December 2027.
 
-Textile Exchange is consolidating GRS and its other standards into a new **Materials Matter Standard**, effective 31 December 2026 and mandatory from 31 December 2027.
+## What does ISCC PLUS prove?
 
-## What does ISCC PLUS certify?
+**ISCC PLUS** covers recycled materials, materials made from plant or animal waste, plant-based materials, and materials made with renewable energy. It is widely used in chemicals and plastics, and allows **mass balance**.
 
-**ISCC PLUS** certifies "alternative feedstocks" in four groups: circular materials from mechanical or chemical recycling, bio-circular materials, bio materials, and renewable-energy-derived materials. It is widely used in chemicals and plastics.
+In ISCC's own example, a factory uses 30% certified recycled material and loses 10% in processing. It can then sell 270 kg of every tonne it makes as "100% certified". As ISCC puts it: "We cannot say for certain that the finished good in our hands physically contains certified recycled content."
 
-ISCC PLUS allows all three chain-of-custody options, including **mass balance**. ISCC gives a worked example in its own explainer: a converter whose input is 30% certified recycled material, with a 10% process loss, can claim 270 kg of every tonne of output as "100% certified". ISCC is explicit about the trade-off: "We cannot say for certain that the finished good in our hands physically contains certified recycled content." Every site handling the material must hold its own certificate, valid for 12 months.
+## What does SCS Recycled Content prove?
 
-## What does SCS Recycled Content certify?
-
-**SCS Global Services** has run its recycled-content programme since 1989. Its standard (SCS-103) certifies the percentage of pre- or post-consumer recycled content, defined consistently with ISO 14021.
-
-- **Minimum 5% recycled content.**
-- Controlled blending or mass balance, applied consistently over at least 30 days of production.
-- Certificates are valid for one year, with annual re-audits. SCS also recognises ISCC and Textile Exchange certificates.
+**SCS Global Services** has certified recycled content since 1989. It checks what share of a product comes from factory scrap or used products, in line with the international (ISO) standard. Products need at least **5% recycled content**. Mixing or mass balance must be applied the same way over at least 30 days of production. SCS also accepts ISCC and Textile Exchange certificates.
 
 ## GRS vs ISCC PLUS vs SCS at a glance
 
-| Criterion | GRS | ISCC PLUS | SCS Recycled Content |
+| | GRS | ISCC PLUS | SCS Recycled Content |
 |---|---|---|---|
-| Owner | Textile Exchange | ISCC System | SCS Global Services |
-| Minimum recycled content | 20% (50% for consumer labels) | None stated | 5% |
-| Social and environmental criteria | Yes | Not part of the scheme | Not part of the scheme |
-| Chemical restrictions | Yes | Not part of the scheme | Not part of the scheme |
-| How content is tracked | Physical tracking through the chain of custody | Segregation, controlled blending or mass balance | Controlled blending or mass balance |
-| Validity | Audited per supply-chain stage | 12 months per site | 1 year, annual re-audit |
+| Least recycled content | 20% (50% for shopper labels) | None stated | 5% |
+| Checks working conditions and environment? | Yes | Not part of the scheme | Not part of the scheme |
+| Limits harmful chemicals? | Yes | Not part of the scheme | Not part of the scheme |
+| How recycled material is tracked | Followed physically through the supply chain | Kept separate, mixed in known amounts, or mass balance | Mixed in known amounts, or mass balance |
+| How long it lasts | Checked at each supply-chain step | 12 months per site | 1 year, re-audited yearly |
 
-*Compiled from each scheme's public overview, October 2026. Always check the current version of the standard.*
+*Compiled from each scheme's public overview, October 2026. Always check the latest version.*
 
 ## Why does Momixx hold all three?
 
-Different customers ask for different schemes. Textile and consumer brands often specify GRS; chemical and plastics supply chains often use ISCC PLUS; SCS is common in North America. Holding all three means a customer can use the certificate their own programme recognises.
+Different customers ask for different certificates. Textile and consumer brands often want GRS, chemical and plastics supply chains often use ISCC PLUS, and SCS is common in North America. With all three, customers can use whichever one their programme accepts.
 
 Momixx's recycled silicone is certified under **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).

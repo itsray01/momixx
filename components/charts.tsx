@@ -8,7 +8,8 @@ import { formatUsd, type Market } from '@/content/markets'
 const ACCENT = '#1caa9e'
 const MUTED = '#5a6474'
 
-function advantage(row: Comparison['rows'][number], other: string) {
+function advantage(row: Comparison['rows'][number], label: string) {
+  const other = label.toLowerCase()
   // Ratios of Celsius temperatures are meaningless, so show the difference.
   if (row.unit === '°C') return `${Math.abs(row.momixx - row.other)} °C ${row.better === 'higher' ? 'higher' : 'lower'} than ${other}`
   if (row.better === 'lower') return `${Math.round((1 - row.momixx / row.other) * 100)}% lower than ${other}`
@@ -113,10 +114,10 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
 
       {market.cagr && (
         <p className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-brand-400/30 bg-brand-400/10 px-3 py-1 text-sm font-medium text-brand-200">
-          {market.cagr.pct}% a year <span className="font-normal text-brand-300/80">CAGR {market.cagr.period}</span>
+          {market.cagr.pct}% growth a year <span className="font-normal text-brand-300/80">{market.cagr.period}</span>
         </p>
       )}
-      {market.note && !compact && <p className="mt-5 text-sm leading-relaxed text-slate-400">{market.note}</p>}
+      {market.note && (!compact || !market.current) && <p className="mt-5 text-sm leading-relaxed text-slate-400">{market.note}</p>}
       <p className="mt-auto pt-6 text-xs text-slate-500">
         Source:{' '}
         <a href={market.source.url} target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-slate-300">
@@ -136,7 +137,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
     <figure className="card p-6 sm:p-10">
       <figcaption>
         <h3 className="text-xl font-semibold tracking-[-0.02em]">Expected annual growth by market</h3>
-        <p className="mt-1.5 text-sm text-slate-500">Compound annual growth rate (CAGR) forecast by each publisher. Growth rates are comparable even where market sizes are measured differently.</p>
+        <p className="mt-1.5 text-sm text-slate-500">Average growth a year, as forecast by each publisher. Growth rates can be compared even where publishers measure market size differently.</p>
       </figcaption>
       <div className="mt-10 space-y-5">
         {rows.map((m) => (

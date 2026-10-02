@@ -18,6 +18,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 //   data-words             words light up one by one as you scroll through
 //   data-hero              pinned hero; drives the 3D cable via heroProgress
 //   data-hscroll           pinned horizontal-scroll story (desktop)
+// Pinned elements must sit inside a plain wrapper element: GSAP moves them into
+// a spacer, so React has to remove the wrapper (not the moved element) on navigation.
 // Content is fully visible without JavaScript, and nothing moves for visitors
 // who prefer reduced motion.
 export function ScrollEffects() {
@@ -110,7 +112,11 @@ export function ScrollEffects() {
           const bar = wrap.querySelector<HTMLElement>('[data-hscroll-progress]')
           if (!track || !viewport) return () => {}
           // While pinned, the row is moved by scrolling the page, not swiped.
+          // Scroll-snap must be off too, or the browser re-snaps the viewport
+          // against the transform and the cards stop moving.
           viewport.style.overflowX = 'hidden'
+          viewport.style.scrollSnapType = 'none'
+          viewport.scrollLeft = 0
           const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
           gsap.to(track, {
             x: () => -distance(),
@@ -127,6 +133,7 @@ export function ScrollEffects() {
           })
           return () => {
             viewport.style.overflowX = ''
+            viewport.style.scrollSnapType = ''
           }
         })
         return () => {

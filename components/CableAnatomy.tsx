@@ -89,7 +89,6 @@ export function CableAnatomy() {
       </ol>
 
       <div ref={stage} className="card relative order-first aspect-[4/3] overflow-hidden lg:order-2">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(70%_60%_at_55%_45%,rgb(20_159_148/0.18),transparent)]" />
         <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? 'pointer-events-none opacity-0' : 'opacity-100'}`}>
           <Image src="/renders/cable-anatomy.webp" alt="Cutaway of a silicone data cable showing its layers" fill sizes="(min-width: 1024px) 55vw, 100vw" className="object-contain" />
           {cableLayers.map((l, i) => {
@@ -128,7 +127,7 @@ export function CableAnatomy() {
             ))}
           </div>
         )}
-        <p className="pointer-events-none absolute right-4 bottom-4 left-4 text-center text-[11px] text-slate-500">Typical shielded USB-C construction; designs vary by cable maker.</p>
+        <p className="pointer-events-none absolute right-4 bottom-4 left-4 text-center text-[11px] text-slate-500">A typical USB-C cable. Designs vary by maker.</p>
       </div>
     </div>
   )

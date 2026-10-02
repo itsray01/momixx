@@ -1,23 +1,24 @@
 ---
-title: "What is the carbon footprint of silicone, and how much can recycling cut it?"
-description: Independent and industry data on silicone's cradle-to-gate carbon footprint, where the emissions come from, and what peer-reviewed research says recycling can save.
+title: "What is silicone's carbon footprint, and can recycling cut it?"
+description: Making 1 kg of silicone releases about 6 kg of greenhouse gases. Here is where they come from and how much recycling could save.
 date: 2026-10-02
+updated: 2026-10-02
 topic: sustainability
 model: sand
 tags: [carbon footprint, CO2e, LCA, recycled silicone, EPD, sustainability]
 takeaways:
-  - An industry study puts the cradle-to-gate footprint of PDMS, the most common silicone, at about 6 kg CO₂e per kg. Third-party-verified product declarations for silicone products report similar figures.
-  - Most of the footprint comes from making silicon metal, which is very energy-intensive.
-  - A 2026 peer-reviewed study found PDMS recovered by chemical recycling had a footprint of 1.83 kg CO₂e per kg, and that fully replacing virgin PDMS could cut a sealant's footprint by up to 55%.
+  - Making 1 kg of silicone releases about 6 kg of greenhouse gases, says an industry-funded study. Independently checked product reports give similar figures.
+  - Most of it comes from making silicon, silicone's main raw material, which uses a lot of electricity.
+  - A 2026 peer-reviewed study found recycling could cut a silicone sealant's emissions by up to 55%. It was based on lab results.
 faqs:
   - q: What is the carbon footprint of silicone?
-    a: An industry-commissioned study for the Global Silicones Council (2024) put the cradle-to-gate footprint of PDMS at 5.97 kg CO₂e per kg, with an uncertainty range of about 4.7 to 7.0. Third-party-verified product declarations for silicone sealant and silicone profiles report around 6.3 to 6.9 kg CO₂e per kg. Figures depend on the energy mix and the method.
+    a: About 6 kg of greenhouse gases per kilogram made. An industry-funded study (2024) put it at 5.97 kg, and checked product reports give 6.3 to 6.9 kg. The figure depends on the electricity used and how emissions are counted.
   - q: Does recycled silicone have a lower carbon footprint?
-    a: Research suggests it can. A 2026 peer-reviewed life-cycle assessment in Green Chemistry found PDMS recovered by chemical recycling had a footprint of 1.83 kg CO₂e per kg. Four of five recycling routes studied cut PDMS emissions by 28–66%. The study scaled up laboratory data, so commercial results may differ.
+    a: Research suggests so. A 2026 peer-reviewed study found four of five recycling methods cut emissions by 28% to 66%. It scaled up lab results, so real factories may differ.
   - q: Where do silicone's emissions come from?
-    a: Mostly from making silicon metal, which is produced by reducing quartz with carbon in electric furnaces. The industry study attributes about two-thirds of methyl-siloxane emissions to silicon.
+    a: Mostly from making silicon, which uses a lot of electricity. The industry study links about two-thirds of silicone's emissions to this step.
   - q: What carbon figures does Momixx publish?
-    a: Momixx holds a carbon footprint validation. We publish product carbon figures only when they are validated, with their boundary and verifier stated, on our Sustainability page.
+    a: Momixx holds a carbon footprint validation. We only publish product carbon figures once they are checked, and we say what they cover and who checked them.
 sources:
   - title: "Global Silicones Council / denkstatt (2024): SILICAB 2 summary report"
     url: https://www.silicones.eu/wp-content/uploads/2024/10/240718-GSC-Summary-Report-4.pdf
@@ -31,41 +32,35 @@ sources:
     url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11314909/
 ---
 
-Silicone's environmental story has two sides. Making it is energy-intensive. Yet silicone products often **save** energy and emissions over their lifetime by making things last longer, run cooler or seal better. This article looks at the first side, the **production footprint**, and at what recycling can do to reduce it. All figures are "cradle-to-gate": from raw materials to the factory gate, excluding use and disposal.
+**Making 1 kg of silicone releases about 6 kg of greenhouse gases.** This is its "carbon footprint", counted from raw materials to the factory gate. CO₂e, used below, means all greenhouse gases counted as if they were carbon dioxide.
 
-## How big is silicone's production footprint?
+## How much greenhouse gas does making silicone release?
 
-| Source | What was measured | kg CO₂e per kg |
+| Study or report | What was measured | kg CO₂e per kg |
 |---|---|---|
-| Global Silicones Council study (2024, industry-commissioned) | PDMS, cradle-to-gate | **5.97** (range ≈ 4.7–7.0) |
-| Bostik silicone sealant EPD (third-party verified) | Sealant, A1–A3 | 6.30 |
-| V.A.V. silicone profiles EPD (2026, third-party verified) | Extruded profiles, A1–A3 | 6.94 |
-| Green Chemistry LCA (2026, peer-reviewed) | Virgin RTV-1 sealant | 5.79 |
+| Global Silicones Council (2024, industry-funded) | Basic silicone | **5.97** (likely 4.7 to 7.0) |
+| Bostik (independently checked) | Silicone sealant | 6.30 |
+| V.A.V. (2026, independently checked) | Silicone strips | 6.94 |
+| Green Chemistry study (2026, peer-reviewed) | New silicone sealant | 5.79 |
 
-*A1–A3 is the product stage in an environmental product declaration (EPD). The same industry study notes the ecoinvent database gives a much higher 15.86 kg for PDMS, which shows how much results depend on data and method.*
-
-In round numbers, **making a kilogram of silicone emits about 6 kg of CO₂e**.
+*The Bostik and V.A.V. figures come from environmental product declarations (EPDs), independently checked reports on a product's impact. One widely used database gives a much higher 15.86 kg, which shows how much the data matters.*
 
 ## Where do the emissions come from?
 
-Mostly from **silicon metal**. Silicon is made by reducing quartz with carbon in electric arc furnaces at very high temperatures, which takes a lot of electricity. The industry study puts silicon at 9.7 kg CO₂e per kg, and attributes about **two-thirds** of methyl-siloxane emissions to it. (The summary report is not fully consistent on this share, giving 51% in one place.) Where the electricity comes from therefore makes a big difference.
+Mostly from **making silicon**, silicone's main raw material. It is made by heating quartz with carbon in electric furnaces, which uses a lot of electricity. The industry study puts this at about **two-thirds** of silicone's emissions, though one part of the report says 51%. Either way, where the electricity comes from matters a lot.
 
 ## How much can recycling save?
 
-Chemical recycling skips the most carbon-intensive step: it recovers siloxanes from waste instead of making them from new silicon.
+Chemical recycling recovers silicone's building blocks from waste, so it skips making new silicon.
 
-A **2026 peer-reviewed life-cycle assessment** by the Leibniz Institute for Catalysis, published in *Green Chemistry*, modelled five recycling routes for silicone elastomers:
+A 2026 **peer-reviewed study** in *Green Chemistry* compared five recycling methods. Four of them cut emissions by **28% to 66%**. A sealant made only with recycled silicone had up to **55%** lower emissions. The study scaled up lab results, so real factories may differ.
 
-- PDMS recovered by catalytic depolymerisation had a footprint of **1.83 kg CO₂e per kg**.
-- **Four of the five** routes cut PDMS emissions by **28–66%**.
-- Fully replacing virgin PDMS in a sealant cut its footprint by up to **55%**, from 5.43 to 2.64 kg CO₂e per kg.
+Companies report similar savings. Recycler ECO U.S.A. says its recycled silicone oil has less than a quarter of the emissions of new oil, and Dow expects a cut of more than half. These are the companies' own claims, quoted in a 2024 review.
 
-The study is a *prospective* LCA, scaled up from laboratory data, so commercial plants may differ. Company-reported figures point the same way. Recycler ECO U.S.A. reports 1,401 kg CO₂e per tonne for recycled silicone oil versus 6,079 kg for virgin, and Dow expects more than a 50% reduction for recycled PDMS. Those are company claims, cited in a 2024 review.
+## Does silicone save emissions once it is in use?
 
-## What about use-phase benefits?
-
-The same industry study estimates that silicone products save around **14 times** more emissions in use than are produced in making and disposing of them, through applications such as insulation, solar panels and lighter vehicles. It was commissioned by the industry, and its summary was not critically reviewed, so treat the multiple as indicative.
+Often, yes, in uses such as insulation, solar panels and lighter vehicles. The industry study estimates silicone products save about **14 times** the emissions it takes to make and dispose of them. The industry paid for this study and its summary was not independently reviewed, so treat this as a rough guide.
 
 ## What does Momixx do?
 
-Momixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and holds a carbon footprint validation. We publish product carbon figures only when they are validated, with their boundary and verifier stated, on our [Sustainability page](/sustainability#carbon-footprint).
+Momixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and holds a carbon footprint validation. We only publish product carbon figures once they are checked, saying what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).

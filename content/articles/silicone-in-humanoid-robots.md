@@ -1,21 +1,22 @@
 ---
 title: "Silicone in humanoid robots: skin, grippers, joints and cables"
-description: Robots that work alongside people need soft, durable materials. Here is why silicone dominates soft robotics, where it could go in humanoids, and what forecasters expect for the market.
+description: Robots that work beside people need soft, tough materials. Why silicone leads soft robotics, where it fits in humanoids, and what forecasters expect.
 date: 2026-10-02
+updated: 2026-10-02
 topic: applications
 model: robot
 tags: [robotics, humanoid robots, soft robotics, grippers, high-flex cable]
 takeaways:
-  - Silicones dominate soft robotics because they are soft, stretch more than 300%, and keep their properties from about −50 to +300 °C, according to a 2024 review.
-  - In humanoid robots, silicone is a natural fit for grippers and fingertips, soft covers, joint seals and high-flex cabling.
-  - Forecasts for the humanoid market vary widely, from US$38 billion by 2035 (Goldman Sachs) to over US$5 trillion by 2050 including supply chains (Morgan Stanley).
+  - Silicone leads soft robotics because it is soft, very stretchy and copes with cold and heat, says a 2024 scientific review.
+  - In humanoids, silicone suits hands, soft outer covers, joint seals and cables that bend all day.
+  - Market forecasts range from US$38 billion by 2035 (Goldman Sachs) to over US$5 trillion by 2050 including supply chains (Morgan Stanley).
 faqs:
   - q: Why is silicone used in robots?
-    a: Silicone is soft, highly stretchable, durable and stable across a wide temperature range. A 2024 review notes these properties have allowed silicones to dominate soft robotics, including grippers and actuators. Silicone is also used for seals and flexible cables.
+    a: It is soft, very stretchy, durable and stable from cold to heat. A 2024 review says this has let silicone dominate soft robotics, from grippers to the soft parts that make robots move.
   - q: How big is the humanoid robot market?
-    a: Estimates vary widely. Goldman Sachs projected a US$38 billion humanoid robot market by 2035 (about 1.4 million units). Morgan Stanley projected a market of more than US$5 trillion by 2050, including supply chains and services, with more than 1 billion units. Both are third-party forecasts.
+    a: Estimates vary widely. Goldman Sachs projected US$38 billion by 2035. Morgan Stanley projected over US$5 trillion by 2050, including supply chains and services. Both are forecasts by other firms.
   - q: Does Momixx supply robot makers?
-    a: Robotics is an emerging opportunity for Momixx. We are applying our high-flex cable silicone, soft-touch high-density silicone, sealing materials and precision moulding to this market.
+    a: Robotics is a new opportunity for Momixx. We offer our bend-resistant cable silicone, soft-touch silicone, seals and precision moulding to this market.
 sources:
   - title: "3D Printing and Additive Manufacturing (2024): review of silicone 3D printing for soft robotics"
     url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11442412/
@@ -25,36 +26,36 @@ sources:
     url: https://www.morganstanley.com/insights/articles/humanoid-robot-market-5-trillion-by-2050
 ---
 
-Industrial robots have worked behind safety fences for decades. **Humanoid robots** are designed to work beside people, so they need to bend, grip and touch safely, millions of times over. That puts soft, durable materials at the centre of their design, and **silicone** is the leading soft material in robotics.
+Factory robots work behind safety fences. **Humanoid robots** are built to work beside people, so they must bend, grip and touch safely, millions of times. That makes soft, tough materials central to their design. **Silicone** is the leading soft material in robotics.
 
-## Why does silicone dominate soft robotics?
+## Why is silicone the go-to material for soft robots?
 
-A 2024 peer-reviewed review on silicone 3D printing for soft robots puts it plainly: silicones (PDMS) combine a **low modulus** (they are soft), **strain above 300%** (they stretch a long way without breaking) and **stable properties from about −50 to +300 °C**. In the authors' words, "these factors have allowed silicones to dominate the field of soft robots". Soft grippers, actuators and sensors are commonly cast or printed in silicone.
+A 2024 scientific review explains why. Silicone is **soft**, **stretches by more than 300% without breaking**, and **keeps its properties from deep cold to oven heat** (about −50 to +300 °C). The authors say "these factors have allowed silicones to dominate the field of soft robots". Soft grippers and sensors are often cast or 3D-printed in silicone.
 
 ## Where could silicone go in a humanoid?
 
-| Area | What it needs | Why silicone fits |
-|---|---|---|
-| **Hands and grippers** | Grip, softness, wear resistance | Soft, grippy and durable; can be made in different hardnesses |
-| **Outer covers and "skin"** | Safe, pleasant contact with people | Soft-touch, skin-like feel; stable and easy to clean |
-| **Joint and sensor seals** | Keep dust and water out | Flexible sealing across temperature changes |
-| **Cabling in arms and joints** | Survive constant bending and twisting | Silicone cable jackets tolerate repeated flexing better than many plastics |
+| Part of the robot | Why silicone fits |
+|---|---|
+| **Hands and grippers** | Soft, grippy and hard-wearing; can be made softer or firmer |
+| **Outer covers and "skin"** | Safe, skin-like feel; easy to clean |
+| **Seals at joints and sensors** | Keeps out dust and water as temperatures change |
+| **Cables in arms and joints** | Copes with constant bending and twisting better than many plastics |
 
 ## How big could the market be?
 
-Forecasts vary enormously, which reflects how early the market is:
+Forecasts vary hugely, a sign of how early the market is:
 
-- **Goldman Sachs (Feb 2024):** a humanoid robot market of about **US$38 billion by 2035**, around 1.4 million units, up from its earlier US$6 billion estimate.
-- **Morgan Stanley (May 2025):** a market above **US$5 trillion by 2050**, including supply chains and services, with more than 1 billion units in use. It estimated a humanoid cost about US$200,000 in 2024.
+- **Goldman Sachs (February 2024):** about **US$38 billion by 2035**, or around 1.4 million robots.
+- **Morgan Stanley (May 2025):** over **US$5 trillion by 2050**, counting supply chains and services, with more than 1 billion robots in use.
 
-These are third-party forecasts, shown for context. They are not projections of Momixx's business.
+These are other firms' forecasts, not forecasts of Momixx's business.
 
 ## What is Momixx's role?
 
-Robotics is an **emerging opportunity** for Momixx. We are applying materials we already make:
+Robotics is a **new opportunity** for Momixx, using materials we already make:
 
-- **High-flex cables:** [MM silicone](/products/momixx-mm) survived 10,000 twisting cycles in our testing, about double a high-grade TPE.
-- **Soft-touch materials:** [High Density (MHD)](/products/momixx-high-density) and self-bonding grades for grippers and covers.
+- **Cables that bend all day:** in our tests, [MM silicone](/products/momixx-mm) survived 10,000 twisting cycles, about double a high-grade rubber-like plastic (TPE).
+- **Soft-touch materials:** [High Density (MHD)](/products/momixx-high-density), plus self-bonding grades that stick to other parts as they set.
 - **Seals and precision parts:** [Momixx Seal](/products/momixx-seal) and [precision moulding](/products/medical-precision-components) from our Penang plant.
 
 See [Robotics & humanoids](/applications/robotics) for more.

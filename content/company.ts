@@ -1,42 +1,42 @@
 // Company story, milestones and certifications.
 
 export const milestones: Array<{ year: number; items: string[] }> = [
-  { year: 2018, items: ['Silicone R&D and production centre set up in Malaysia', 'Development of fire-retardant solid silicone (HCR)'] },
-  { year: 2019, items: ['Fire-retardant power-cable silicone qualified by a leading smartphone brand'] },
-  { year: 2020, items: ['Development of fire-retardant liquid silicone (LSR)', 'Development of the vertical extrusion machine'] },
-  { year: 2021, items: ['Fire-retardant LSR data-cable silicone qualified by a leading smartphone brand', 'First vertical extrusion machine installed'] },
-  { year: 2022, items: ['Second manufacturing facility set up for large-volume production', 'Vertical extrusion machine installations doubled'] },
+  { year: 2018, items: ['Research and production centre opened in Malaysia', 'Developed our first fire-safe solid silicone'] },
+  { year: 2019, items: ['A leading smartphone brand approved our fire-safe silicone for its charging cables'] },
+  { year: 2020, items: ['Developed fire-safe liquid silicone', 'Began building our upright cable machine'] },
+  { year: 2021, items: ['A leading smartphone brand approved our liquid silicone for its data cables', 'First upright cable machine installed'] },
+  { year: 2022, items: ['Second factory opened for large-volume production', 'Twice as many upright cable machines installed'] },
   {
     year: 2023,
     items: [
-      'Second facility qualified for large-volume production',
-      'Further LSR data-cable qualification with a leading smartphone brand',
-      'Production expanded for recycled silicone',
-      'Low-temperature fire-retardant LSR developed for a PFAS-free project',
+      'Second factory approved for large-volume production',
+      'Another data-cable approval from a leading smartphone brand',
+      'More recycled silicone production',
+      'Developed a fire-safe silicone that sets at lower heat, for a project free of “forever chemicals”',
     ],
   },
   {
     year: 2024,
     items: [
-      'Mass production of low-temperature LSR for a PFAS-free project',
-      'Recycled silicone facility certified to the Global Recycled Standard (GRS)',
-      'Development of silicone and bio-leather materials',
+      'Began making that lower-heat silicone in volume',
+      'Recycled silicone factory certified to the Global Recycled Standard (GRS)',
+      'Developed materials that combine silicone and bio-leather',
     ],
   },
   {
     year: 2025,
     items: [
-      'Penang Batu Kawan plant expanded with in-depth R&D',
-      'Entry into medical device OEM manufacturing',
-      'ISCC PLUS certification for supply-chain traceability',
+      'Penang factory expanded, with a larger research team',
+      'Began making medical devices for other companies',
+      'ISCC PLUS certification, which traces recycled materials through the supply chain',
     ],
   },
   {
     year: 2026,
     items: [
-      'Mass production of LSR at Penang Batu Kawan to meet ASEAN demand',
-      'ISO 13485 certification for Penang Batu Kawan plant',
-      'Expansion into high-precision components for medical and semiconductor',
+      'Began making liquid silicone in volume in Penang for South-East Asian customers',
+      'Penang factory certified to ISO 13485, the medical-device quality standard',
+      'Began making high-precision parts for the medical and chip-making industries',
     ],
   },
 ]
@@ -77,7 +77,7 @@ export const certifications: Certification[] = [
     short: 'ISCC PLUS',
     issuer: 'International Sustainability & Carbon Certification',
     covers: 'Traceability of recycled and circular raw materials through the supply chain',
-    plain: 'An international system that follows circular and recycled materials through complex supply chains so customers can trust the claim.',
+    plain: 'An international system that follows recycled materials through every company in the supply chain, so customers can trust the claim.',
     year: 2025,
     group: 'recycling',
   },
@@ -114,9 +114,9 @@ export const certifications: Certification[] = [
 export const companyStats = [
   { value: '2018', label: 'founded in Singapore and Malaysia' },
   { value: '20+', label: 'patents granted or pending' },
-  { value: '1st', label: 'vertical silicone data-cable extrusion line in the world' },
+  { value: '1st', label: 'upright silicone cable machine in the world' },
   { value: '4', label: 'international certifications' },
 ]
 
 export const patentsSummary =
-  'Our team holds more than 20 patents, most granted and some under review. They cover machines, manufacturing processes and material recipes, including the high-speed liquid-silicone vertical extrusion machine, an automated cable-coating system, an anti-stick coating and a multi-colour liquid-silicone moulding process.'
+  'Our team holds more than 20 patents, most granted and some still being reviewed. They cover machines, ways of making things and silicone recipes. Among them are our fast, upright cable machine, an automatic cable-coating system, a non-stick coating and a way to mould silicone in several colours at once.'

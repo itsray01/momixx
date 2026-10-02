@@ -20,7 +20,7 @@ export const site = {
   },
   locations: [
     { name: 'Singapore', role: 'Headquarters', detail: '22 New Industrial Road, Primax' },
-    { name: 'Batu Kawan, Penang, Malaysia', role: 'R&D and manufacturing', detail: 'LSR production, medical (ISO 13485) and precision components' },
+    { name: 'Batu Kawan, Penang, Malaysia', role: 'Research and manufacturing', detail: 'Liquid silicone, certified medical parts and precision parts' },
   ],
   // Add LinkedIn etc. here once confirmed; they feed Organization.sameAs.
   sameAs: [] as string[],

@@ -40,7 +40,7 @@ export const markets: Market[] = [
       url: 'https://www.grandviewresearch.com/industry-analysis/silicone-market',
       date: '2026',
     },
-    note: 'Asia Pacific accounted for 45.8% of 2025 revenue; silicone rubbers (elastomers), Momixx’s core, were the largest product group at 42.1%.',
+    note: 'Asia Pacific made up 45.8% of 2025 sales. Silicone rubber, Momixx’s main business, was the biggest product group at 42.1%.',
     kind: 'addressable',
   },
   {
@@ -125,7 +125,7 @@ export const markets: Market[] = [
   {
     id: 'humanoid-robots',
     name: 'Humanoid robots',
-    scope: 'Total addressable market for humanoid robots.',
+    scope: 'Expected yearly sales of humanoid robots.',
     forecast: { year: 2035, usdBn: 38 },
     source: {
       publisher: 'Goldman Sachs Research',
@@ -133,7 +133,7 @@ export const markets: Market[] = [
       url: 'https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035',
       date: 'Feb 2024',
     },
-    note: 'Goldman Sachs projects 1.4 million humanoid robots shipped in 2035. Every one needs high-flex cables, seals and soft-touch surfaces.',
+    note: 'Goldman Sachs projects 1.4 million humanoid robots shipped in 2035. Every one needs bendy cables, seals and soft-touch surfaces.',
     kind: 'addressable',
   },
   {
@@ -164,7 +164,7 @@ export const recyclingFacts = {
   summary:
     'In 2024 the world produced an estimated 2.9–3.0 million tonnes of silicone, but only about 35,000–45,000 tonnes of silicone waste were chemically recycled. Researchers describe the sector as “still in its infancy”.',
   landfill: {
-    text: 'Most silicone waste is not recycled; it ends up in landfill or is burned for energy recovery.',
+    text: 'Most silicone waste is not recycled. It is buried in landfill or burned to make energy.',
     source: { publisher: 'Silicones Europe', title: 'Circularity', url: 'https://www.silicones.eu/science/circularity/', date: '2026' } satisfies Source,
   },
 }

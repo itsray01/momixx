@@ -1,21 +1,22 @@
 ---
-title: How silicone cable is made, and why vertical extrusion changes the game
-description: A plain-English guide to silicone cable extrusion, from horizontal lines fed by hand to fully automated vertical lines running at up to 100 metres a minute.
+title: How silicone cable is made, and what a vertical production line does differently
+description: A plain-English guide to how silicone cable is made, from hand-fed sideways lines to automated vertical lines running at up to 100 metres a minute.
 date: 2026-10-02
+updated: 2026-10-02
 topic: technology
 model: extruder-vertical
 tags: [extrusion, cables, LSR, manufacturing]
 takeaways:
-  - A silicone cable jacket is made by extrusion, pushing silicone through a die around the wire, then curing it with heat.
-  - Conventional lines run horizontally and are often fed with silicone mixed offline on a roll mill.
-  - Momixx's patented vertical line uses liquid silicone, mixed automatically, and runs at up to 100 m/min with jackets as thin as 0.30 mm.
+  - A silicone cable jacket is made by squeezing soft silicone around the wire, then heating it so it sets. This is called extrusion.
+  - Most lines run sideways, with silicone often mixed separately and fed in by hand.
+  - Momixx's patented vertical line mixes liquid silicone automatically. It runs at up to 100 metres a minute, with jackets as thin as 0.30 mm.
 faqs:
   - q: What is cable extrusion?
-    a: Extrusion is the process of pushing a material through a shaped opening (a die) to form a continuous profile. For cables, the conductor runs through a crosshead die while silicone is pushed around it, forming the outer jacket, which is then cured in an oven.
+    a: Extrusion squeezes a soft material through a shaped opening, like toothpaste from a tube. For cables, silicone is wrapped around the wire, then heated in an oven so it sets into a rubber jacket.
   - q: Why use liquid silicone for cables?
-    a: Liquid silicone rubber (LSR) can be pumped and mixed automatically in a closed system, which suits continuous, high-speed production and gives consistent quality. Momixx's vertical line is designed around its fire-retardant LSR.
+    a: Liquid silicone rubber (LSR) can be pumped and mixed automatically in a sealed system. That suits fast, non-stop production with steady quality.
   - q: How fast is a vertical silicone extrusion line?
-    a: Momixx's vertical line runs at up to 100 metres per minute, compared with up to 30 metres per minute for its horizontal line, with more than 90% cable concentricity and jacket thickness down to 0.30 mm.
+    a: Momixx's vertical line runs at up to 100 metres a minute, against up to 30 for its sideways line. Jackets can be as thin as 0.30 mm.
 sources:
   - title: Momixx Vertical Extrusion Line specifications
     url: https://www.momixx.com/products/vertical-extruder
@@ -25,40 +26,33 @@ sources:
     url: https://www.momixx.com/innovation
 ---
 
-Every silicone charging cable starts as bare copper wire and a tub of uncured silicone. The step that joins them, **extrusion**, decides how fast a factory can make cable, how thin and even the jacket is, and how much material is wasted.
+Every silicone charging cable starts as bare copper wire and a tub of soft silicone. The step that joins them is called **extrusion**. It decides how fast a factory works, how thin and even the jacket is, and how much material is wasted.
 
 ## What does extrusion mean?
 
-Extrusion pushes a soft material through a shaped opening, called a die, to make a continuous profile, much like squeezing toothpaste from a tube. To make cable, the wire runs through a **crosshead die** while silicone flows around it. The coated wire then passes through an oven, where heat **cures** the silicone: it sets permanently into a flexible rubber jacket.
+Extrusion squeezes a soft material through a shaped opening, like toothpaste from a tube. For cable, the wire runs through the machine while silicone is wrapped around it. An oven then **cures** the silicone, meaning heat sets it for good into a bendy rubber jacket.
 
-Quality depends on three things:
+Good cable needs a thin jacket that is the same thickness all the way round, because thin spots wear through.
 
-- **Concentricity:** how evenly centred the wire is inside the jacket. Uneven jackets have thin spots that wear through.
-- **Jacket thickness:** thinner jackets make lighter, more flexible cables, but only if they stay even.
-- **Speed:** how many metres per minute the line can run without losing quality.
+## How are silicone cables usually made?
 
-## How do conventional silicone cable lines work?
-
-Most silicone cable lines run **horizontally**. Solid silicone rubber is often mixed offline on a roll mill and fed into the extruder by hand. That works, but it adds manual handling, limits speed and makes consistency harder to control from batch to batch.
-
-Momixx builds horizontal lines too. Ours use precise material-supply control and a high-precision crosshead to keep jacket thickness even, running at up to **30 metres per minute** with more than **90% concentricity**.
+Most lines run **sideways**. Workers often mix solid silicone separately on rollers and feed it in by hand. That slows the line and makes it harder to keep every batch the same. Momixx's own sideways lines run at up to **30 metres a minute**.
 
 ## What is different about a vertical line?
 
-Momixx developed what we believe is the first vertical extrusion line for high-speed silicone data cable, protected by patent. Instead of running sideways, the cable travels **vertically** through the extruder and ovens. The line is built around **liquid silicone rubber (LSR)**:
+Momixx developed and patented what we believe is the first vertical line for fast silicone data cable. The cable runs upright through the machine and ovens. It uses **liquid silicone rubber (LSR)**, which can be pumped:
 
-1. A pay-off station feeds the wire.
-2. A preheat oven conditions it.
-3. An automatic mixer combines the two parts of the liquid silicone 1:1 and feeds the extruder directly. There is no roll mill and no manual feeding.
-4. The extruder coats the wire, and vertical and horizontal ovens cure the jacket.
-5. Diameter and high-voltage inspection check every metre before the cable is wound.
+1. The bare wire is unwound and warmed.
+2. A mixer blends the liquid silicone's two parts and feeds the machine, with no mixing or loading by hand.
+3. Silicone is wrapped around the wire, and ovens set it.
+4. Sensors check every metre before the cable is reeled.
 
-The result is a line that runs at up to **100 metres per minute**, more than three times our horizontal line, with jackets as thin as **0.30 mm** and more than **90% concentricity**.
+The line runs at up to **100 metres a minute**, over three times faster than our sideways line. Jackets can be as thin as **0.30 mm**.
 
 ## Why does this matter for cable makers?
 
-- **Output:** more cable per line per shift.
-- **Consistency:** a closed, automated material path removes manual variation.
-- **Less waste:** our LSR mixer is designed to avoid leaving around 4% of each silicone bucket unused, and our redesigned curing ovens use about 30% less electricity.
+- **More cable** from each line, every shift.
+- **Steadier quality**, because machines handle the silicone from start to finish.
+- **Less waste:** our mixer is designed to empty each silicone bucket instead of leaving about 4% behind. Our redesigned ovens use about 30% less electricity.
 
-For a broader look at the materials involved, see [LSR vs HCR](/insights/lsr-vs-hcr) and our [fire-retardant MM silicone](/products/momixx-mm).
+For the materials, see [LSR vs HCR](/insights/lsr-vs-hcr) and our [fire-retardant MM silicone](/products/momixx-mm).

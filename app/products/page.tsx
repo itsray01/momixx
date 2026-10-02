@@ -1,8 +1,6 @@
 import { collectionPage, JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
-import { RenderCard } from '@/components/RenderCard'
+import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
-import { Scene3D } from '@/components/three/Scene3D'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { categoryIntros, categoryLabels, products, productsByCategory, type ProductCategory } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
@@ -25,7 +23,6 @@ export default function ProductsPage() {
         eyebrow="Products & services"
         title="Everything *we make*"
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
-        aside={<Scene3D variant="samples" className="h-full" fallback={<Render name="samples" priority className="h-full w-full object-contain" />} />}
       />
       <TabNav tabs={productTabs} label="Products" />
       {order.map((cat, i) => (
@@ -33,9 +30,8 @@ export default function ProductsPage() {
           <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {productsByCategory(cat).map((p) => (
               <li key={p.slug}>
-                <RenderCard
+                <LinkCard
                   href={`/products/${p.slug}`}
-                  model={p.illustration ?? 'compound'}
                   title={p.name}
                   body={p.tagline}
                   footer={
@@ -51,7 +47,7 @@ export default function ProductsPage() {
           </ul>
         </Section>
       ))}
-      <CtaBand title="Looking for something *not listed?*" body="Most of our work is custom. Tell us what you need and our R&D team will formulate it." />
+      <CtaBand title="Looking for something *not listed?*" body="Most of our work is made to order. Tell us what you need and our research team will create it." />
       <JsonLd data={collectionPage('Momixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
     </>
   )
