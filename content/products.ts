@@ -393,7 +393,7 @@ export const products: Product[] = [
     category: 'services',
     tagline: 'From formulation to finished part, under one roof.',
     summary:
-      'We develop and manufacture finished silicone parts for brands: matching any colour, adding fire-retardant or chemical-resistant properties, applying surface treatments, and producing at volume in Malaysia and China.',
+      'We develop and manufacture finished silicone parts for brands: matching any colour, adding fire-retardant or chemical-resistant properties, applying surface treatments, and producing at volume across our manufacturing base in Asia.',
     benefits: [
       { title: 'Exact colour', body: 'Colour matched to within dE94 0.50 of the target, even for vivid or translucent shades.' },
       { title: 'Custom properties', body: 'Formulations tuned for fire retardancy, chemical resistance or feel.' },

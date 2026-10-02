@@ -22,10 +22,12 @@ const columns = [
     title: 'Company',
     links: [
       { href: '/silicone', label: 'What is silicone?' },
+      { href: '/sustainability', label: 'Sustainability' },
+      { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About us' },
       { href: '/team', label: 'Our team' },
+      { href: '/culture', label: 'Culture & careers' },
       { href: '/innovation', label: 'Research & innovation' },
-      { href: '/recycled-silicone', label: 'Recycled silicone' },
       { href: '/markets', label: 'Markets' },
       { href: '/contact', label: 'Contact' },
     ],
@@ -84,7 +86,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
-          <p>Singapore · Penang, Malaysia · Guangdong, China</p>
+          <p>Singapore · Penang, Malaysia · Serving customers worldwide</p>
         </div>
       </div>
     </footer>

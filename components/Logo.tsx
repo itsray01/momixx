@@ -16,7 +16,7 @@ export function Logo({ className }: { className?: string }) {
     <span className={`inline-flex items-center gap-2.5 ${className ?? ''}`}>
       <LogoMark className="h-8 w-8" />
       <span className="flex flex-col leading-none">
-        <span className="text-[10px] font-semibold tracking-[0.35em] uppercase opacity-70">Orion</span>
+        <span className="text-[10px] font-semibold tracking-[0.35em] uppercase opacity-70">Orion</span>{' '}
         <span className="font-display text-lg font-extrabold tracking-tight">MoMixx</span>
       </span>
     </span>

@@ -32,7 +32,9 @@ export function ScrollEffects() {
 
         gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
           const targets = el.dataset.reveal === 'stagger' ? Array.from(el.children) : el
-          gsap.from(targets, { y: 40, autoAlpha: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, scrollTrigger: once(el) })
+          // Opacity only (not visibility), so unrevealed sections stay in the
+          // accessibility tree and screen readers can still navigate to them.
+          gsap.from(targets, { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, scrollTrigger: once(el) })
         })
 
         gsap.utils.toArray<HTMLElement>('[data-grow]').forEach((el) => {
@@ -53,7 +55,7 @@ export function ScrollEffects() {
         gsap.utils.toArray<HTMLElement>('[data-words]').forEach((el) => {
           gsap.fromTo(
             el.querySelectorAll('[data-word]'),
-            { opacity: 0.16 },
+            { opacity: 0.4 },
             { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } },
           )
         })

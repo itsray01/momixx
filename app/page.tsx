@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ArticleCard } from '@/components/ArticleCard'
 import { MarketCard } from '@/components/charts'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Render } from '@/components/Render'
@@ -7,6 +8,8 @@ import { Arrow, ArrowLink, CtaBand, Glow, GridBackdrop, Marquee, Section, Sectio
 import { applications } from '@/content/applications'
 import { certifications } from '@/content/company'
 import { getMarket, marketDisclaimer } from '@/content/markets'
+import { certificationClaim } from '@/content/sustainability'
+import { getArticles } from '@/lib/articles'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = {
@@ -52,7 +55,7 @@ export default function HomePage() {
 
         <div className="container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
           <div data-hero-fade className="max-w-3xl">
-            <p className="eyebrow">Silicone materials · Recycling · Machines</p>
+            <p className="eyebrow">A tech-driven silicone company</p>
             <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*')}</h1>
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">
               We develop, recycle and process high-performance silicone for the things the world now runs on: phone cables, electric vehicles, medical
@@ -118,7 +121,7 @@ export default function HomePage() {
               stats={[
                 { value: '2018', label: 'founded in Singapore and Malaysia' },
                 { value: '20+', label: 'patents granted or pending' },
-                { value: '3', label: 'sites: Singapore, Penang, Dongguan' },
+                { value: 'World first', label: 'vertical silicone data-cable extrusion line' },
                 { value: '4', label: 'international certifications' },
               ]}
             />
@@ -141,7 +144,7 @@ export default function HomePage() {
           <BentoTile href="/products/vertical-extruder" className="lg:col-span-2" model="extruder-vertical" kicker="Machines" title="A world-first extrusion line" stat="100 m/min" />
           <BentoTile href="/recycled-silicone" className="lg:col-span-2" model="recycle" kicker="Recycling" title="Certified recycled silicone" stat="GRS · ISCC PLUS · SCS" />
           <BentoTile href="/products/medical-precision-components" className="lg:col-span-3" model="medical" kicker="Medical & precision" title="ISO 13485 manufacturing" stat="Since 2026" />
-          <BentoTile href="/products/odm-oem" className="lg:col-span-3" model="oem" kicker="ODM / OEM" title="From formulation to finished part" stat="Malaysia & China" />
+          <BentoTile href="/products/odm-oem" className="lg:col-span-3" model="oem" kicker="ODM / OEM" title="From formulation to finished part" stat="Volume production in Asia" />
         </div>
       </Section>
 
@@ -180,23 +183,28 @@ export default function HomePage() {
       </Section>
 
       {/* ── Recycling ── */}
-      <Section eyebrow="Recycled silicone" title="Silicone that *comes back*">
+      <Section eyebrow="Sustainability" title="Silicone that *comes back*">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-square">
             <Glow className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" size={620} />
             <Scene3D variant="recycle" className="h-full" fallback={<Render name="recycle" className="h-full w-full object-contain" />} />
           </div>
           <div>
-            <p className="text-lg leading-relaxed text-slate-300">
+            <p className="inline-flex items-start gap-3 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100">
+              <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300 shadow-[0_0_8px_var(--color-brand-300)]" />
+              {certificationClaim.headline}
+            </p>
+            <p className="mt-6 text-lg leading-relaxed text-slate-300">
               Most silicone waste ends up in landfill. We chemically break it down and rebuild it into new silicone with the same performance, certified and
               traceable batch by batch.
             </p>
             <div className="mt-8">
               <RecycleSteps compact />
             </div>
-            <ArrowLink href="/recycled-silicone" className="mt-8">
-              See the process and certificates
-            </ArrowLink>
+            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+              <ArrowLink href="/sustainability">Our sustainability</ArrowLink>
+              <ArrowLink href="/recycled-silicone">The recycling process</ArrowLink>
+            </div>
           </div>
         </div>
       </Section>
@@ -246,6 +254,21 @@ export default function HomePage() {
           </div>
         </div>
       </Section>
+
+      {/* ── Latest insights ── */}
+      {getArticles().length > 0 && (
+        <Section tone="muted" eyebrow="Insights" title="Silicone, *explained*" intro={<>Plain-English articles on silicone, recycling and where it is used. <ArrowLink href="/insights">All insights</ArrowLink></>}>
+          <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {getArticles()
+              .slice(0, 3)
+              .map((a) => (
+                <li key={a.slug}>
+                  <ArticleCard article={a} />
+                </li>
+              ))}
+          </ul>
+        </Section>
+      )}
 
       <CtaBand />
     </>

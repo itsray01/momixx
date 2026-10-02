@@ -14,6 +14,10 @@ Everything here needs a human decision or a file from the company before the new
 | 6 | **New products** you want added. | `content/products.ts` | See the README for how to add one. |
 | 7 | **LinkedIn and other official profiles.** | `lib/site.ts` → `sameAs` | Helps Google and AI assistants link the brand. |
 | 8 | **Investor relations.** Whether to add an IR page, and when. | Not yet built | Timing depends on your IPO advisers (see section 3). |
+| 9 | **Green-initiative photos from Jaslyn.** | `public/images/sustainability/` + `content/sustainability.ts` → `greenPhotos` | The photo gallery on /sustainability appears automatically once photos are listed. |
+| 10 | **Carbon footprint figures and validation statement.** For example, kg CO₂e per kg, the boundary, the verifier and the year. | `content/sustainability.ts` → `carbonMetrics` / `carbonComparison`; PDF in `public/certificates/` | The figures block and the recycled-vs-virgin chart appear once real, validated numbers are added. Never estimate. |
+| 11 | **Careers contact.** Use a dedicated email (e.g. careers@) instead of enquiries@. | `app/culture/page.tsx` | CVs currently go to the general enquiries inbox. |
+| 12 | **Article review owner.** Who checks new Insights articles before they go live. | `content/articles/` | Keeps facts and claims accurate as the library grows. |
 
 ## 2. Assets to export from WordPress
 
@@ -49,6 +53,13 @@ A listing candidate's website is usually treated as public communication during 
 - **"Maturity" labels on applications.**
   - Labels: In mass production / Certified & scaling / Emerging opportunity.
   - These were added so that investors aren't given the impression that AI data centres and robotics are existing revenue lines. Adjust them if this is wrong.
+- **"To our knowledge, the only silicone company certified under both GRS and ISCC PLUS".**
+  - This is shown on the home page and on /sustainability, at Dr Cheah's request.
+  - An "only" claim needs documented evidence, such as a search of the GRS and ISCC certificate databases, kept on file.
+  - Remove "To our knowledge" only once that evidence exists.
+- **No mention of China.** Per Dr Cheah, the second manufacturing facility is described only as "a second large-volume facility in Asia".
+  - Nothing on the site contradicts its existence.
+  - Confirm with your advisers that this is consistent with what the prospectus will disclose.
 - **EU PFAS wording.**
   - The old site said the EU "will restrict PFAS by 2026". As of Oct 2026, the restriction is still going through ECHA and the European Commission and is not yet law.
   - The new site says the EU is "working towards" a restriction.

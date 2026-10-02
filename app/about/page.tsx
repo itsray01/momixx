@@ -7,7 +7,7 @@ import { pageMetadata, site } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'About Momixx',
   description:
-    'Founded in 2018, Momixx is a Singapore-headquartered silicone company with plants in Penang, Malaysia and Guangdong, China, pioneering recycled silicone and high-speed silicone cable extrusion.',
+    'Founded in 2018, Momixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.',
   path: '/about',
 })
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
               PLUS and SCS Global Services, and our product carbon footprint has been independently validated.
             </p>
             <p>
-              Today we manufacture in Batu Kawan, Penang (Malaysia) and Dongguan, Guangdong (China), with our headquarters in Singapore. In 2026 our
+              Today we manufacture at our Batu Kawan plant in Penang, Malaysia, and a second large-volume facility in Asia, with our headquarters in Singapore. In 2026 our
               Penang plant was certified to ISO 13485 for medical devices and expanded into high-precision components for the medical and
               semiconductor industries.
             </p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="muted" id="locations" eyebrow="Where we are" title="Where we *are*">
-        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
+        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
           {site.locations.map((l) => (
             <li key={l.name} data-tilt className="card lift p-7">
               <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{l.role}</p>

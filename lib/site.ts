@@ -9,7 +9,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.momixx.com',
   tagline: 'High-performance and recycled silicone, engineered in Asia for the world.',
   description:
-    'Momixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore with plants in Penang, Malaysia and Guangdong, China.',
+    'Momixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
   foundingYear: 2018,
   email: 'enquiries@orionmomixx.com',
   address: {
@@ -21,7 +21,6 @@ export const site = {
   locations: [
     { name: 'Singapore', role: 'Headquarters', detail: '22 New Industrial Road, Primax' },
     { name: 'Batu Kawan, Penang, Malaysia', role: 'R&D and manufacturing', detail: 'LSR production, medical (ISO 13485) and precision components' },
-    { name: 'Dongguan, Guangdong, China', role: 'Manufacturing', detail: 'Large-volume silicone production since 2022' },
   ],
   // Add LinkedIn etc. here once confirmed; they feed Organization.sameAs.
   sameAs: [] as string[],
@@ -33,15 +32,25 @@ export const mainNav: NavItem[] = [
   { href: '/silicone', label: 'Silicone' },
   { href: '/products', label: 'Products' },
   { href: '/applications', label: 'Applications' },
-  { href: '/recycled-silicone', label: 'Recycled Silicone' },
-  { href: '/markets', label: 'Markets' },
+  {
+    href: '/sustainability',
+    label: 'Sustainability',
+    children: [
+      { href: '/sustainability', label: 'Sustainability overview' },
+      { href: '/recycled-silicone', label: 'Recycled silicone' },
+      { href: '/sustainability#carbon-footprint', label: 'Carbon footprint' },
+    ],
+  },
+  { href: '/insights', label: 'Insights' },
   {
     href: '/about',
     label: 'Company',
     children: [
-      { href: '/about', label: 'About Us' },
-      { href: '/team', label: 'Our Team' },
-      { href: '/innovation', label: 'Research & Innovation' },
+      { href: '/about', label: 'About us' },
+      { href: '/team', label: 'Our team' },
+      { href: '/culture', label: 'Culture & careers' },
+      { href: '/innovation', label: 'Research & innovation' },
+      { href: '/markets', label: 'Markets' },
     ],
   },
 ]

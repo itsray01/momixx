@@ -13,7 +13,20 @@ export function Render({
   alt?: string
   className?: string
   sizes?: string
+  /** Above the fold: load immediately at high priority (likely the LCP image). */
   priority?: boolean
 }) {
-  return <Image src={`/renders/${name}.webp`} alt={alt} width={1200} height={900} sizes={sizes} priority={priority} className={`h-auto w-full select-none ${className}`} draggable={false} />
+  return (
+    <Image
+      src={`/renders/${name}.webp`}
+      alt={alt}
+      width={1200}
+      height={900}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : 'auto'}
+      className={`h-auto w-full object-contain select-none ${className}`}
+      draggable={false}
+    />
+  )
 }

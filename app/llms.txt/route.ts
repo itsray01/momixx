@@ -2,6 +2,8 @@ import { applications } from '@/content/applications'
 import { certifications, milestones } from '@/content/company'
 import { siliconeFaqs } from '@/content/faqs'
 import { formatUsd, markets } from '@/content/markets'
+import { certificationClaim } from '@/content/sustainability'
+import { getArticles } from '@/lib/articles'
 import { categoryLabels, products } from '@/content/products'
 import { absoluteUrl, site } from '@/lib/site'
 
@@ -18,12 +20,15 @@ export function GET() {
     '',
     `Founded ${site.foundingYear}. Headquarters: ${site.address.street}, ${site.address.locality} ${site.address.postalCode}. Contact: ${site.email}.`,
     `Note: Momixx makes silicone (the flexible polymer), not silicon (the element used in chips).`,
+    `Sustainability: ${certificationClaim.headline}`,
     '',
     '## Key pages',
     `- [What is silicone?](${absoluteUrl('/silicone')}): plain-English guide, silicon vs silicone, FAQs`,
     `- [Products](${absoluteUrl('/products')}): silicone materials, machines and manufacturing services`,
     `- [Applications](${absoluteUrl('/applications')}): where Momixx silicone is used`,
+    `- [Sustainability](${absoluteUrl('/sustainability')}): certifications, carbon footprint, green initiatives`,
     `- [Recycled silicone](${absoluteUrl('/recycled-silicone')}): recycling process and certifications`,
+    `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
     `- [Markets](${absoluteUrl('/markets')}): third-party market-size estimates with sources`,
     `- [About](${absoluteUrl('/about')}): history, milestones and locations`,
     '',
@@ -32,6 +37,9 @@ export function GET() {
     '',
     '## Applications',
     ...applications.map((a) => `- [${a.name}](${absoluteUrl(`/applications/${a.slug}`)}): ${a.tagline} Status: ${a.maturity}.`),
+    '',
+    '## Insights articles',
+    ...getArticles().map((a) => `- [${a.title}](${absoluteUrl(`/insights/${a.slug}`)}) (${a.updated ?? a.date}): ${a.description}`),
     '',
     '## Certifications',
     ...certifications.map((c) => `- ${c.name} (${c.issuer})${c.year ? `, since ${c.year}` : ''}: ${c.plain}`),

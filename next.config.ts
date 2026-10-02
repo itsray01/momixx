@@ -24,13 +24,15 @@ const legacyRedirects: Array<[string, string]> = [
   ['/research-equipment', '/innovation'],
   ['/research-materials', '/innovation'],
   ['/research-surface-treatment', '/innovation'],
-  ['/sustainability', '/recycled-silicone'],
   ['/contact-us', '/contact'],
 ]
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   devIndicators: false,
+  // The Tailwind stylesheet is small, so it ships inside the HTML instead of
+  // as a separate render-blocking request: faster first paint for new visitors.
+  experimental: { inlineCss: true },
   async redirects() {
     return [
       ...redirectHosts.map((host) => ({

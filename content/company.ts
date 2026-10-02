@@ -5,11 +5,11 @@ export const milestones: Array<{ year: number; items: string[] }> = [
   { year: 2019, items: ['Fire-retardant power-cable silicone qualified by a leading smartphone brand'] },
   { year: 2020, items: ['Development of fire-retardant liquid silicone (LSR)', 'Development of the vertical extrusion machine'] },
   { year: 2021, items: ['Fire-retardant LSR data-cable silicone qualified by a leading smartphone brand', 'First vertical extrusion machine installed'] },
-  { year: 2022, items: ['Dongguan, China facility set up for large-volume production', 'Vertical extrusion machine installations doubled'] },
+  { year: 2022, items: ['Second manufacturing facility set up for large-volume production', 'Vertical extrusion machine installations doubled'] },
   {
     year: 2023,
     items: [
-      'Dongguan facility qualified for large-volume production',
+      'Second facility qualified for large-volume production',
       'Further LSR data-cable qualification with a leading smartphone brand',
       'Production expanded for recycled silicone',
       'Low-temperature fire-retardant LSR developed for a PFAS-free project',
@@ -110,7 +110,7 @@ export const certifications: Certification[] = [
 export const companyStats = [
   { value: '2018', label: 'founded in Singapore and Malaysia' },
   { value: '20+', label: 'patents granted or pending' },
-  { value: '3', label: 'sites: Singapore, Penang, Dongguan' },
+  { value: 'World first', label: 'vertical silicone data-cable extrusion line' },
   { value: '4', label: 'international certifications' },
 ]
 

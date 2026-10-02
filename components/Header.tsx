@@ -54,7 +54,7 @@ export function Header() {
           scrolled || open ? 'border-white/10 bg-ink-950/70 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl' : 'border-transparent bg-transparent'
         }`}
       >
-        <Link href="/" aria-label="Momixx home" className="shrink-0">
+        <Link href="/" aria-label="Orion MoMixx home" className="shrink-0">
           <Logo />
         </Link>
 

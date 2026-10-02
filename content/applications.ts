@@ -33,7 +33,7 @@ export const applications: Application[] = [
     intro:
       'Every phone, laptop and earbud needs a cable, and the EU now requires USB-C on most new devices. Premium brands are switching cable jackets from plastic to silicone because it feels softer, tangles less, lasts longer and handles heat better. Momixx has supplied fire-retardant silicone for data and power cables to leading smartphone brands since 2019.',
     maturity: 'In mass production',
-    maturityNote: 'Qualified with leading smartphone brands since 2019; mass production in Malaysia and China.',
+    maturityNote: 'Qualified with leading smartphone brands since 2019; mass production at our facilities in Asia.',
     whySilicone: [
       { title: 'Soft and tangle-free', body: 'Silicone has low hardness and almost no memory, so cables lie flat instead of kinking.' },
       { title: 'Lasts longer', body: 'Our silicone cables survive 10,000 twists in testing, about double a high-grade plastic cable.' },

@@ -1,9 +1,13 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme inline {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
 
 @theme {
-  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
 
   /* Surfaces: near-black with a hint of blue */
   --color-ink-950: #05070a;
@@ -25,6 +29,10 @@
   --color-brand-900: #0f4341;
 
   --color-copper: #c98a55;
+
+  /* Tertiary text, lifted from Tailwind's default so small grey text still
+     meets WCAG AA (4.5:1) on every dark surface. */
+  --color-slate-500: #74869f;
 
   --animate-spin-slow: spin 60s linear infinite;
   --animate-marquee: marquee 40s linear infinite;
@@ -215,6 +223,31 @@ html.lenis body {
 }
 [data-tilt]:hover::after {
   opacity: 1;
+}
+
+/* Long-form article typography (Insights) */
+@utility article-prose {
+  @apply prose prose-lg prose-invert max-w-none;
+  --tw-prose-body: var(--color-slate-300);
+  --tw-prose-headings: #fff;
+  --tw-prose-links: var(--color-brand-300);
+  --tw-prose-bold: #fff;
+  --tw-prose-bullets: var(--color-brand-400);
+  --tw-prose-counters: var(--color-brand-300);
+  --tw-prose-quotes: var(--color-slate-200);
+  --tw-prose-quote-borders: var(--color-brand-400);
+  --tw-prose-hr: rgb(255 255 255 / 0.08);
+  --tw-prose-th-borders: rgb(255 255 255 / 0.12);
+  --tw-prose-td-borders: rgb(255 255 255 / 0.06);
+  & h2 {
+    @apply mt-14 scroll-mt-28 text-3xl font-semibold tracking-[-0.03em];
+  }
+  & h3 {
+    @apply scroll-mt-28 tracking-[-0.02em];
+  }
+  & a {
+    @apply underline decoration-brand-400/40 underline-offset-4 hover:decoration-brand-300;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

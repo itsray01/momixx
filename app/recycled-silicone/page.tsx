@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { CertCard } from '@/components/CertCard'
 import { RecycleOrbit } from '@/components/infographics'
 import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
@@ -120,32 +120,5 @@ export default function RecycledSiliconePage() {
 
       <CtaBand title="Have silicone waste, or a *recycled-content target?*" body="We work with manufacturers on both sides: collecting silicone scrap and supplying certified recycled silicone." />
     </>
-  )
-}
-
-function CertCard({ cert }: { cert: (typeof certifications)[number] }) {
-  return (
-    <li data-tilt className="card lift flex flex-col p-7">
-      <div className="flex h-16 items-center">
-        {cert.logo ? (
-          <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="h-14 w-auto object-contain" />
-        ) : (
-          <span className="rounded-xl border border-brand-400/30 bg-brand-400/10 px-3.5 py-2 text-lg font-semibold tracking-[-0.02em] text-brand-100">{cert.short}</span>
-        )}
-      </div>
-      <h4 className="mt-4 font-semibold text-white">{cert.name}</h4>
-      <p className="mt-0.5 text-xs text-slate-500">
-        {cert.issuer}
-        {cert.year ? ` · since ${cert.year}` : ''}
-      </p>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{cert.plain}</p>
-      {cert.file ? (
-        <a href={cert.file} target="_blank" rel="noopener" className="mt-5 text-sm font-semibold text-brand-300 hover:text-brand-200">
-          View certificate (PDF) <span aria-hidden="true">→</span>
-        </a>
-      ) : (
-        <p className="mt-5 text-sm text-slate-500">Certificate available on request</p>
-      )}
-    </li>
   )
 }

@@ -118,7 +118,7 @@ export default function Scene({ variant, animate, onReady }: { variant: SceneVar
   const Model = variant !== 'hero' && variant !== 'extrusion' ? modelRegistry[variant] : null
   return (
     <Canvas
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       frameloop={animate ? 'always' : 'demand'}
       camera={camera(variant)}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
