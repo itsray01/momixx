@@ -45,7 +45,7 @@ HCR is processed by **extrusion, calendering, and compression or transfer mouldi
 
 ## LSR vs HCR at a glance
 
-| | LSR | HCR |
+| Property | LSR | HCR |
 |---|---|---|
 | Form | Pourable, two-part liquid | Stiff, dough-like solid |
 | Typical cure | Platinum-catalysed addition | Peroxide (platinum grades exist) |

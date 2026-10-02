@@ -12,9 +12,13 @@ It is built with Next.js, deployed on Vercel, and every page is static. All the 
 | What is silicone? | `/silicone` | `content/faqs.ts`, `app/silicone/page.tsx` |
 | Products (one tab per product) | `/products`, `/products/<slug>` | `content/products.ts` |
 | Applications (one tab per industry) | `/applications`, `/applications/<slug>` | `content/applications.ts` |
+| Sustainability (claim, carbon footprint, photos) | `/sustainability` | `content/sustainability.ts`, `content/company.ts` |
 | Recycled silicone and certificates | `/recycled-silicone` | `content/company.ts` (certifications) |
+| Insights (articles, topics, glossary, RSS) | `/insights`, `/insights/<slug>`, `/insights/glossary` | `content/articles/*.md`, `content/glossary.ts` |
 | Markets (addressable markets) | `/markets` | `content/markets.ts` |
-| About, milestones, locations | `/about` | `content/company.ts`, `lib/site.ts` |
+| About and milestones | `/about` | `content/company.ts` |
+| Locations | `/locations` | `app/locations/page.tsx`, `lib/site.ts` |
+| Culture & careers | `/culture` | `app/culture/page.tsx` |
 | Our team (management) | `/team` | `content/team.ts` |
 | Research & innovation | `/innovation` | `app/innovation/page.tsx` |
 | Contact | `/contact` | `lib/site.ts` (email, address) |
@@ -34,6 +38,10 @@ Common edits:
 - **Add a certificate PDF or logo.** Put the PDF in `public/certificates/` and the logo in `public/images/certs/`. Then set `file` and `logo` on that certificate in `content/company.ts`. A "View certificate" button appears automatically.
 - **Add a product photo.** Put it in `public/images/products/` and set `image: '/images/products/xyz.jpg'` on the product. It replaces the line illustration.
 - **Update a market figure.** Edit `content/markets.ts`.
+- **Publish an article.** Add a Markdown file to `content/articles/`. The format and writing rules are in [`content/articles/README.md`](content/articles/README.md). It appears on the Insights hub, its topic page, the home page, the sitemap, the RSS feed and `llms.txt` automatically.
+- **Add sustainability photos.** Put them in `public/images/sustainability/` and list them in `content/sustainability.ts` → `greenPhotos`. The gallery appears on `/sustainability`.
+- **Add carbon footprint figures.** Fill in `carbonMetrics` (and `carbonComparison` for a recycled-vs-virgin chart) in `content/sustainability.ts`. Use validated figures only; the sections stay hidden until then.
+- **Add a certificate number or verification link.** Set `number` and `verifyUrl` on the certificate in `content/company.ts`. A "Verify" link appears on its card.
   - Keep the publisher, year and URL with every number.
   - Never mix two publishers in one growth line.
 
@@ -79,21 +87,26 @@ You need Node.js 20.9 or newer.
 
 - **One canonical domain.** Every page sets its own canonical URL. All secondary domains, and the bare `momixx.com`, redirect to `www.momixx.com`.
 - **Discovery files.**
-  - `sitemap.xml` and `robots.txt` are generated automatically.
+  - `sitemap.xml` (with article dates), `robots.txt` and the Insights RSS feed (`/insights/feed.xml`) are generated automatically.
   - Vercel preview deployments are blocked from indexing.
 - **Structured data (JSON-LD).**
-  - Organization and WebSite on every page.
-  - BreadcrumbList on inner pages.
-  - Product or Service on each product page.
-  - FAQPage wherever there are FAQs.
+  - Corporation (legal name, contact point, both sites) and WebSite on every page.
+  - BreadcrumbList on inner pages; CollectionPage with an ItemList on the products, applications and insights hubs.
+  - Product (with image and specifications) or Service on each product page.
+  - Article (dates, word count, sources as citations, optional named author) on each article.
+  - DefinedTermSet on the glossary; FAQPage wherever there are FAQs.
 - **Answer-engine content (AEO).**
-  - The Silicone page and each application page answer real questions in plain English, for example "Is silicone the same as silicon?" and "Why is silicone used in medical devices?"
-  - This is the format Google's AI Overviews and featured snippets quote.
+  - Key pages open with a plain-English definition, and articles answer their question in the first paragraph, with question headings, key takeaways, FAQs and cited sources.
+  - This is the format Google's AI Overviews, featured snippets and AI assistants quote.
 - **AI assistant visibility (GEO).**
   - `/llms.txt` is a plain-text summary of the company, products, applications, certifications and sourced market data, generated from the same content files.
   - `robots.txt` allows AI crawlers.
 - **Social sharing.** Every page has a 1200×630 social image.
-- **Performance.** Pages are static and fonts are self-hosted. Live 3D code loads lazily, and only on pages that use it. Cards use small pre-rendered images (see "Design, 3D and motion").
+- **Performance.** Lighthouse scores 93–100 on mobile and 100 on desktop (Oct 2026).
+  - Pages are static, and the stylesheet is inlined.
+  - Fonts are self-hosted with size-matched fallbacks, so nothing shifts as they load.
+  - Live 3D loads only after the page, and only on devices with a real GPU (see "Design, 3D and motion").
+  - Cards use small pre-rendered images.
 
 **After launch:**
 
@@ -107,17 +120,19 @@ The site uses a dark, premium design aimed at an investor audience. It is built 
 
 - **Type.** Geist for text, with *Instrument Serif* italics as an accent. In any heading, wrap words in `*asterisks*` to accent them, for example `title="Silicone that *comes back*"`.
 - **3D models.** Every product, application and process is a real 3D model, built in code in `components/three/models.tsx`. They are shown two ways:
-  - **Live 3D** (Three.js via React Three Fiber) in page headers, the home hero, the recycling ring and the extrusion line. Live scenes follow the mouse, and the home cable turns towards you as you scroll.
-  - **Pre-rendered images** (`public/renders/*.webp`, about 40 KB each) on cards, so pages with many cards stay fast. They are also the fallback shown while live 3D loads, and to search engines, screen readers and devices without WebGL.
+  - **Live 3D** (Three.js via React Three Fiber) in page headers, the home hero, the recycling ring, the extrusion line and the Locations globe. Live scenes follow the mouse, and the home cable turns towards you as you scroll. Live 3D starts only after the page has loaded, and only on devices with a hardware GPU, at least 4 GB of memory, and no data-saver or 2G/3G connection.
+  - **Pre-rendered images** (`public/renders/*.webp`, mostly about 40 KB each) on cards, so pages with many cards stay fast. They are also what everyone else sees: search engines, screen readers, and devices without a GPU or on slow connections.
 - **Motion** (GSAP and Lenis): smooth scrolling, a pinned hero, a horizontal-scroll "sand to silicone" story, text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt. It is all controlled by attributes such as `data-reveal` and `data-countup` (see `components/motion/ScrollEffects.tsx`).
 - **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and their 3D scenes stay still.
 
 **Re-rendering the card images** after changing a model:
 
 ```bash
-npm run dev                                   # in one terminal
-node scripts/render-models.mjs                # all models, or list some: … cable seal
+ENABLE_RENDER=1 npm run dev -- -p 3001        # in one terminal
+node scripts/render-models.mjs http://localhost:3001   # all models, or list some: … cable seal
 ```
+
+The globe's land dots (`components/three/landDots.ts`) are generated from Natural Earth data by `scripts/generate-land-dots.mjs`. Regenerate them rather than editing by hand.
 
 The script needs Playwright with Chromium. Models are listed in `components/three/modelNames.ts`. To show a model on a product or application, set its `illustration` field to the model's name.
 

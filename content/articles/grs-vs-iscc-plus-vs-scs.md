@@ -64,7 +64,7 @@ ISCC PLUS allows all three chain-of-custody options, including **mass balance**.
 
 ## GRS vs ISCC PLUS vs SCS at a glance
 
-| | GRS | ISCC PLUS | SCS Recycled Content |
+| Criterion | GRS | ISCC PLUS | SCS Recycled Content |
 |---|---|---|---|
 | Owner | Textile Exchange | ISCC System | SCS Global Services |
 | Minimum recycled content | 20% (50% for consumer labels) | None stated | 5% |

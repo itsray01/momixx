@@ -49,7 +49,7 @@ Those cyclic siloxanes can be **purified and polymerised again** into new silico
 
 ## Mechanical vs chemical recycling at a glance
 
-| | Mechanical | Chemical (depolymerisation) |
+| Aspect | Mechanical | Chemical (depolymerisation) |
 |---|---|---|
 | What happens | Grind into powder | Break chains into cyclic siloxanes |
 | Output | Filler powder | Purified monomers → new silicone |

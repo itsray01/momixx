@@ -33,6 +33,7 @@ export default function InsightsPage() {
         </div>
       </PageHeader>
       <Section>
+        <h2 className="sr-only">Latest articles</h2>
         {featured && (
           <div data-reveal className="mb-5">
             <ArticleCard article={featured} large />

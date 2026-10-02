@@ -42,6 +42,7 @@ export default async function TopicPage({ params }: Props) {
         </div>
       </PageHeader>
       <Section>
+        <h2 className="sr-only">Articles</h2>
         <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((a) => (
             <li key={a.slug}>
