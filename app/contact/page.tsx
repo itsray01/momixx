@@ -14,7 +14,7 @@ export default function ContactPage() {
       <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Contact *Momixx*" intro="Tell us about your product or project and the right person on our team will get back to you." />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
-          <ContactForm email={site.email} investorEmail={site.investorEmail || undefined} />
+          <ContactForm formId={site.formspreeId} email={site.email} />
           <div className="space-y-8">
             <div>
               <h2 className="text-lg font-semibold">Email</h2>

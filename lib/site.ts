@@ -15,9 +15,11 @@ export const site = {
     'Momixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
   foundingYear: 2019,
   email: 'enquiries@orionmomixx.com',
+  // Contact form: the code after /f/ in the Formspree form's endpoint. Enquiries go to
+  // the inbox chosen in Formspree, with the visitor's topic in the subject line.
+  formspreeId: 'xqpareyg',
   // Optional dedicated inboxes; each falls back to the enquiries address when empty.
   careersEmail: '',
-  investorEmail: '',
   address: {
     street: '22 New Industrial Road, #03-09/10 Primax',
     locality: 'Singapore',

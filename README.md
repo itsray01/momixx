@@ -63,7 +63,6 @@ You need Node.js 20.9 or newer.
    - Under **Settings → Environment Variables**, add:
      - `NEXT_PUBLIC_SITE_URL` = `https://www.momixx.com` (the canonical address)
      - `REDIRECT_HOSTS` = every other hostname you own, comma-separated, for example `momixx.com,orionmomixx.com,www.orionmomixx.com`
-     - `NEXT_PUBLIC_FORMSPREE_FORM_ID` = the contact form's Formspree code (see "Contact form" below)
    - Under **Analytics** and **Speed Insights**, click **Enable**. The site already includes both; they are cookie-free.
 2. **Add the domains.** Under **Settings → Domains**:
    - Add `www.momixx.com` as the primary domain.
@@ -155,11 +154,9 @@ The script needs Playwright with Chromium. Models are listed in `components/thre
 
 Enquiries are delivered by [Formspree](https://formspree.io) to the company inbox, with a spam trap and success and error messages.
 
-1. Sign up at formspree.io with the enquiries inbox and create a form.
-2. Copy the code after `/f/` in the form's endpoint (for example `xyzabcd` in `https://formspree.io/f/xyzabcd`).
-3. In Vercel, set `NEXT_PUBLIC_FORMSPREE_FORM_ID` to that code, then redeploy.
+The form's ID (`xqpareyg`, the code after `/f/` in its endpoint) is set in `lib/site.ts` → `formspreeId`. To change where enquiries are delivered, or to restrict submissions to the live domain, use the form's **Settings** in the Formspree dashboard. No code change is needed.
 
-Until it is set, submitting the form opens the visitor's email app with the enquiry filled in. Investor-relations enquiries go to `investorEmail` in `lib/site.ts` when one is set. The form links to the privacy notice at `/privacy`.
+Each email's subject line starts "Website enquiry:" followed by the topic the visitor picked (for example "Investor relations"), so the inbox can sort them. If Formspree can't be reached, the visitor is asked to email the enquiries address instead. The form links to the privacy notice at `/privacy`.
 
 ## Before launch
 

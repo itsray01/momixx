@@ -9,8 +9,8 @@ Everything here needs a human decision or a file from the company before the new
 | 1 | **Management team.** Names, titles, 2–3 sentence bios and headshots. | `content/team.ts` | Until every entry is real, `/team` returns "not found" in production and is left out of the menu, footer, About page and sitemap. |
 | 2 | **Second domain name.** The site assumes `orionmomixx.com`, based on the email address. | `REDIRECT_HOSTS` in Vercel | Needed for the redirect and for SEO consolidation. |
 | 3 | **Company name.** Running text, the logo and the footer wordmark say "Momixx"; the © line, share cards and structured data use the legal name "Orion MoMixx". Confirm the brand spelling and the registered company name (e.g. "… Pte. Ltd."). The UEN (201310727R) is set. | `lib/site.ts` → `name`, `legalName`, `registrationNumber` | Footer, structured data, privacy notice and terms. One place to change. |
-| 4 | **Contact form delivery.** Create a free form at formspree.io (sign up with the enquiries inbox), copy the code after `/f/` in its endpoint, and set it as `NEXT_PUBLIC_FORMSPREE_FORM_ID` in Vercel, then redeploy. | Vercel → Environment Variables | Until then, the form falls back to opening the visitor's email app, which loses enquiries. |
-| 5 | **Dedicated inboxes** for careers and investor relations, if wanted. | `lib/site.ts` → `careersEmail`, `investorEmail` | CVs and IR enquiries currently go to enquiries@. |
+| 4 | **Contact form delivery.** The Formspree form (`xqpareyg`) is connected. Confirm it delivers to the enquiries inbox, and on the free plan check the monthly submission limit is enough. Once live, add `www.momixx.com` under the form's allowed domains in Formspree. | Formspree dashboard → the form's Settings | An enquiry that never arrives is a lost customer. |
+| 5 | **Dedicated inboxes** for careers and investor relations, if wanted. | `lib/site.ts` → `careersEmail`; for investor enquiries, a mail rule on subjects starting "Website enquiry: Investor relations" | CVs and IR enquiries currently go to enquiries@. |
 | 6 | **Privacy notice and terms of use.** Drafts are live at `/privacy` and `/terms`, written from what the site actually does (enquiry form, cookie-free analytics, hosting logs). | `app/privacy/page.tsx`, `app/terms/page.tsx` | Must be reviewed by your lawyers, including the forward-looking statements paragraph, which should match the listing documents. |
 | 7 | **What are the Selix and Crimson lines?** Their descriptions are written only from the grade tables. | `content/products.ts` | Product pages need accurate positioning. |
 | 8 | **Certificate details.** For GRS, ISCC PLUS and ISO 13485: the certification body, certificate number, scope, and the year for SCS. | `content/company.ts` | Shown on the certificate cards ("issued by an accredited certification body" until named). |
@@ -65,7 +65,7 @@ A listing candidate's website is usually treated as public communication during 
 ## 4. Go-live steps
 
 1. Vercel project created and the preview reviewed.
-2. Environment variables set in Vercel: `NEXT_PUBLIC_SITE_URL` (https://www.momixx.com), `REDIRECT_HOSTS`, `NEXT_PUBLIC_FORMSPREE_FORM_ID`. Never set `ENABLE_RENDER` in production.
+2. Environment variables set in Vercel: `NEXT_PUBLIC_SITE_URL` (https://www.momixx.com), `REDIRECT_HOSTS`. Never set `ENABLE_RENDER` in production.
 3. In the Vercel project, turn on **Web Analytics** and **Speed Insights** (cookie-free; the site already includes them).
 4. Domains added in Vercel, with the secondary domains set to redirect.
 5. IT changes the DNS. **MX and TXT records stay untouched.**

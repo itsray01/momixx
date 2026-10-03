@@ -4,34 +4,22 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 // Enquiries are delivered by Formspree (formspree.io) to the company inbox.
-// Set NEXT_PUBLIC_FORMSPREE_FORM_ID in Vercel (the code after /f/ in the form's
-// endpoint) and redeploy. Until it is set, the form falls back to opening the
-// visitor's email app with the enquiry filled in.
-const formId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID
+// The form's ID is set in lib/site.ts → formspreeId.
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
-export function ContactForm({ email, investorEmail }: { email: string; investorEmail?: string }) {
+export function ContactForm({ formId, email }: { formId: string; email: string }) {
   const [status, setStatus] = useState<Status>('idle')
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
     const f = new FormData(form)
-    const topic = String(f.get('topic'))
-    const subject = `Website enquiry: ${topic}`
-
-    if (!formId) {
-      const to = topic === 'Investor relations' && investorEmail ? investorEmail : email
-      const body = [`Name: ${f.get('name')}`, `Company: ${f.get('company') || '-'}`, `Phone: ${f.get('phone') || '-'}`, `Email: ${f.get('email')}`, '', String(f.get('message') ?? '')].join('\n')
-      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      setStatus('sent')
-      return
-    }
+    // The topic leads the email subject, so the inbox can be filtered by it.
+    f.set('_subject', `Website enquiry: ${f.get('topic')}`)
 
     setStatus('sending')
     try {
-      f.set('_subject', subject)
       const res = await fetch(`https://formspree.io/f/${formId}`, { method: 'POST', body: f, headers: { Accept: 'application/json' } })
       if (!res.ok) throw new Error(String(res.status))
       form.reset()
@@ -50,7 +38,7 @@ export function ContactForm({ email, investorEmail }: { email: string; investorE
     </span>
   )
 
-  if (status === 'sent' && formId) {
+  if (status === 'sent') {
     return (
       <div className="card p-6 sm:p-8" role="status">
         <h2 className="text-2xl font-semibold tracking-[-0.02em]">Thank you, your enquiry has been sent</h2>
@@ -116,7 +104,6 @@ export function ContactForm({ email, investorEmail }: { email: string; investorE
             .
           </p>
         )}
-        {!formId && status === 'sent' && <p>Your email app should now be open with your message. If not, write to us at {email}.</p>}
         <p>
           We use your details only to reply to your enquiry. See our{' '}
           <Link href="/privacy" className="underline decoration-white/20 underline-offset-2 hover:text-white">
