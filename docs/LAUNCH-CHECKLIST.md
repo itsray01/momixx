@@ -31,6 +31,9 @@ Open questions for Dr Cheah. Each one blocks a change on the site; the answer de
 | 14 | **Penang plant details.** Both addresses are set. Still needed: photos, floor area and headcount for both plants (if disclosable). For Perai, see pending questions Q1 and Q2. | `lib/site.ts` → `plants`, `app/locations/page.tsx` | Site pages rank for "[company] [city]" and plant-capability searches. |
 | 15 | **Certificate numbers and public verification links** for GRS, ISCC PLUS and SCS. Decide with counsel first (see section 3, "Second facility"). | `content/company.ts` → `number`, `verifyUrl` | A "Verify certificate" link is the strongest proof of an "only" claim. |
 | 16 | **Recycled vs virgin test data.** Tensile, tear, elongation and ageing results, with methods. | A new Insights article | Published data that shows recycled silicone performs like new is the page most likely to be cited by AI answers. |
+| 17 | **Navbar: Investors link.** Add a top-level "Investors" item once the investor relations page exists (see item 10). | `lib/nav.ts` | The standard first stop for analysts and shareholders of a listed company. Add it on the timing your IPO advisers set. |
+| 18 | **Navbar: "Request a sample" button** next to Contact us, if MoMixx sends samples. Confirm what can be sampled (materials, grades, quantities) and who handles requests. | `components/Header.tsx`; a "Samples" topic in `app/contact/ContactForm.tsx` | A direct call to action for buyers and engineers. |
+| 19 | **Announcement strip** above the navbar, for listing news or a certification line. Any "only company" claim needs your IPO advisers' sign-off first, since the strip appears on every page (see section 3). | `components/Header.tsx` | Puts the most important news in front of every visitor. |
 
 ## 2. Photos and files
 
