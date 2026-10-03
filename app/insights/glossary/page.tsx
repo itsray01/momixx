@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/JsonLd'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
-import { glossary } from '@/content/glossary'
+import { glossary, glossaryId } from '@/content/glossary'
 import { absoluteUrl, pageMetadata } from '@/lib/site'
 import { TopicNav } from '../TopicNav'
 
@@ -10,8 +10,6 @@ export const metadata = pageMetadata({
   description: 'Plain-English definitions of silicone, silicone recycling and cable terms: LSR, HCR, DMC, siloxane, GRS, ISCC PLUS, PFAS, FKM, UL 94, VW-1 and more.',
   path: '/insights/glossary',
 })
-
-const id = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
 export default function GlossaryPage() {
   const terms = [...glossary].sort((a, b) => a.term.localeCompare(b.term))
@@ -43,7 +41,7 @@ export default function GlossaryPage() {
           {terms.map((t, i) => {
             const first = i === 0 || terms[i - 1].term[0].toUpperCase() !== t.term[0].toUpperCase()
             return (
-              <div key={t.term} id={id(t.term)} className="grid scroll-mt-28 gap-2 py-7 sm:grid-cols-[16rem_1fr] sm:gap-10">
+              <div key={t.term} id={glossaryId(t.term)} className="grid scroll-mt-28 gap-2 py-7 sm:grid-cols-[16rem_1fr] sm:gap-10">
                 <dt>
                   {first && <span id={`letter-${t.term[0].toUpperCase()}`} className="block scroll-mt-28" />}
                   <span className="text-xl font-semibold tracking-[-0.02em] text-white">{t.term}</span>
@@ -74,7 +72,7 @@ export default function GlossaryPage() {
             name: t.term,
             ...(t.also ? { alternateName: t.also } : {}),
             description: t.definition,
-            url: absoluteUrl(`/insights/glossary#${id(t.term)}`),
+            url: absoluteUrl(`/insights/glossary#${glossaryId(t.term)}`),
             inDefinedTermSet: absoluteUrl('/insights/glossary'),
           })),
         }}

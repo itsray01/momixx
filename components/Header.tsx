@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Menu, MenuColumn } from '@/lib/nav'
 import { site } from '@/lib/site'
 import { Logo } from './Logo'
+import { Search } from './Search'
 
 function isActive(pathname: string, href: string) {
   const path = href.split('#')[0]
@@ -239,7 +240,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                         else if (menu.columns) open(i)
                         else setActive(null)
                       }}
-                      className={`relative flex items-center gap-1 rounded-full px-3.5 py-2 text-sm transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
+                      className={`relative flex items-center gap-1 rounded-full px-2.5 py-2 text-sm xl:px-3.5 transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
                     >
                       {menu.label}
                       {menu.columns && (
@@ -247,7 +248,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                           <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" />
                         </svg>
                       )}
-                      {current && <span aria-hidden="true" className="absolute inset-x-3.5 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />}
+                      {current && <span aria-hidden="true" className="absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3.5 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />}
                     </Link>
                     {menu.columns && (
                       <div
@@ -268,7 +269,8 @@ export function Header({ menus }: { menus: Menu[] }) {
           </nav>
 
           <div className="flex items-center gap-2" onMouseEnter={() => close(120)}>
-            <Link href="/contact" className="btn-primary hidden py-2 sm:inline-flex">
+            <Search onOpen={() => setActive(null)} />
+            <Link href="/contact" className="btn-primary hidden py-2 whitespace-nowrap sm:inline-flex">
               Contact us
             </Link>
             <button

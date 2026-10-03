@@ -4,6 +4,9 @@
 
 export type Term = { term: string; also?: string; definition: string; link?: string }
 
+/** The anchor for a term on the glossary page, e.g. /insights/glossary#mass-balance. */
+export const glossaryId = (term: string) => term.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
 export const glossary: Term[] = [
   { term: 'Chain of custody', definition: 'A documented record of who held a material at every step, used by certification schemes to prove that recycled content in a finished product is genuine.', link: '/sustainability' },
   { term: 'Compound', definition: 'A ready-to-use silicone blend: base polymer plus fillers, pigments and additives tuned for a job such as fire retardancy, colour or strength.', link: '/products' },
