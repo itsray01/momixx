@@ -6,8 +6,14 @@
 import { site } from '@/lib/site'
 
 export const milestones: Array<{ year: number; items: string[] }> = [
-  { year: 2018, items: ['Research and production centre opened in Malaysia', 'Developed our first flame-retardant solid silicone (HCR)'] },
-  { year: 2019, items: ['Our flame-retardant silicone for charging cables qualified by a leading smartphone brand'] },
+  {
+    year: 2019,
+    items: [
+      'Research and production centre opened in Malaysia',
+      'Developed our first flame-retardant solid silicone (HCR)',
+      'Our flame-retardant silicone for charging cables qualified by a leading smartphone brand',
+    ],
+  },
   { year: 2020, items: ['Developed flame-retardant liquid silicone (LSR)', 'Began developing our vertical cable extrusion line'] },
   { year: 2021, items: ['Our liquid silicone for data cables qualified by a leading smartphone brand', 'First vertical extrusion line installed'] },
   { year: 2022, items: ['Second factory set up for large-volume production', 'Number of vertical extrusion lines installed doubled'] },
