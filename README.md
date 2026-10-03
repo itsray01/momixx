@@ -101,7 +101,7 @@ You need Node.js 20.9 or newer.
   - This is the format Google's AI Overviews, featured snippets and AI assistants quote.
 - **AI assistant visibility (GEO).**
   - `/llms.txt` is a plain-text summary of the company, products, applications, certifications and sourced market data, generated from the same content files.
-  - The header search (⌘K / Ctrl K, or `/`) covers every product, application, article, glossary term and main page. Its index, `/search.json`, is generated from the content files and only downloaded when someone opens search. To add synonyms for a page, edit `lib/searchIndex.ts`.
+  - The header search (also Ctrl K / ⌘K) covers every product, application, article, glossary term and main page. Its index, `/search.json`, is generated from the content files and only downloaded when someone opens search. To add synonyms for a page, edit `lib/searchIndex.ts`.
   - `robots.txt` allows AI crawlers.
 - **Social sharing.** Every page has a 1200×630 PNG social image. Products, applications and articles each get their own, with the page title (`lib/og.tsx`); other pages share the site image.
 - **Performance.** Lighthouse scores 95–97 on mobile (Oct 2026).
