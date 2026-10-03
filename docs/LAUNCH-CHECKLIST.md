@@ -2,6 +2,15 @@
 
 Everything here needs a human decision or a file from the company before the new site replaces WordPress.
 
+## Pending questions
+
+Open questions for Dr Cheah. Each one blocks a change on the site; the answer decides what changes.
+
+| # | Question | Why it matters | What changes | Where |
+|---|---|---|---|---|
+| Q1 | **Is the Perai plant (Momixx Malaysia Sdn. Bhd.) the "second large factory in Asia"?** | The site lists Batu Kawan and Perai by name, plus "a second large factory in Asia" whose location isn't given. If Perai is that factory, the site counts it twice. | **Yes:** remove the unnamed factory from the Locations and About pages, and say Perai is our large-volume factory. **No:** nothing changes. | `app/locations/page.tsx`, `app/about/page.tsx` |
+| Q2 | **What does the Perai plant make, and when did it open?** | Its card on the Locations page only says "Manufacturing" and the company name, so it looks thin next to Batu Kawan. | Add two or three facts (products, year opened, certifications) and a one-line description. | `app/locations/page.tsx` (the `perai` entry), `lib/site.ts` → `locations` |
+
 ## 1. Content and settings to confirm
 
 | # | Item | Where | Why it matters |
@@ -19,7 +28,7 @@ Everything here needs a human decision or a file from the company before the new
 | 11 | **Green-initiative photos from Jaslyn.** | `public/images/sustainability/` + `content/sustainability.ts` → `greenPhotos` | The photo gallery on /sustainability appears automatically once photos are listed. |
 | 12 | **Carbon footprint figures and validation statement.** For example, kg CO₂e per kg, the standard (e.g. ISO 14067), the boundary, the verifier and the year. | `content/sustainability.ts` → `carbonMetrics` / `carbonComparison`; PDF in `public/certificates/` | The site says only that the calculation was checked by an independent third party. The figures block appears once real, validated numbers are added. Never estimate. |
 | 13 | **Article review owner and named authors.** Who checks new Insights articles, and one or two engineers willing to be credited. | `author:` in each article's frontmatter | Articles now show an "Updated" date and "Momixx technical team" until a named author is added. |
-| 14 | **Penang plant details.** Both addresses are set. Still needed: what the Perai plant makes and when it opened (its card only says "Manufacturing"), and photos, floor area and headcount for both plants (if disclosable). Confirm Perai is not the "second large factory in Asia", or that wording counts it twice. | `lib/site.ts` → `plants`, `app/locations/page.tsx` | Site pages rank for "[company] [city]" and plant-capability searches. |
+| 14 | **Penang plant details.** Both addresses are set. Still needed: photos, floor area and headcount for both plants (if disclosable). For Perai, see pending questions Q1 and Q2. | `lib/site.ts` → `plants`, `app/locations/page.tsx` | Site pages rank for "[company] [city]" and plant-capability searches. |
 | 15 | **Certificate numbers and public verification links** for GRS, ISCC PLUS and SCS. Decide with counsel first (see section 3, "Second facility"). | `content/company.ts` → `number`, `verifyUrl` | A "Verify certificate" link is the strongest proof of an "only" claim. |
 | 16 | **Recycled vs virgin test data.** Tensile, tear, elongation and ageing results, with methods. | A new Insights article | Published data that shows recycled silicone performs like new is the page most likely to be cited by AI answers. |
 
