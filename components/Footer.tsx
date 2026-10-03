@@ -78,7 +78,7 @@ export function Footer() {
           className="container-page -mb-[0.2em] text-center font-display text-[22vw] leading-none font-semibold tracking-[-0.06em] text-transparent lg:text-[17rem]"
           style={{ backgroundImage: 'linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
         >
-          MoMixx
+          Momixx
         </p>
       </div>
 

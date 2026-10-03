@@ -18,29 +18,7 @@ export function buildMenus(): Menu[] {
   const usedTopics = (Object.keys(topics) as Topic[]).filter((t) => getArticles().some((a) => a.topic === t))
 
   return [
-    {
-      label: 'Silicone',
-      href: '/silicone',
-      columns: [
-        {
-          title: 'Silicone 101',
-          links: [
-            { href: '/silicone', label: 'What is silicone?', desc: 'The material, in two minutes', model: 'molecule' },
-            { href: '/insights/silicon-vs-silicone', label: 'Silicon vs silicone', desc: 'One letter, two very different things', model: 'sand' },
-            { href: '/insights/lsr-vs-hcr', label: 'Liquid vs solid silicone', desc: 'The two main types (LSR and HCR)', model: 'samples' },
-            { href: '/insights/glossary', label: 'Glossary', desc: 'Silicone terms in plain English', model: 'compound' },
-          ],
-        },
-      ],
-      feature: {
-        href: '/insights/how-silicone-cable-is-made',
-        eyebrow: 'Explainer',
-        title: 'How silicone cable is made',
-        body: 'From wire and liquid silicone to finished cable, in five steps.',
-        model: 'extruder-horizontal',
-        cta: 'Read',
-      },
-    },
+    // Menu order: what we sell and who we are first; the silicone explainer and articles last.
     {
       label: 'Products',
       href: '/products',
@@ -112,23 +90,6 @@ export function buildMenus(): Menu[] {
       },
     },
     {
-      label: 'Insights',
-      href: '/insights',
-      columns: [
-        {
-          title: 'Topics',
-          href: '/insights',
-          links: [
-            ...usedTopics.map((t) => ({ href: `/insights/topic/${t}`, label: topics[t].label })),
-            { href: '/insights/glossary', label: 'Glossary' },
-          ],
-        },
-      ],
-      ...(latest
-        ? { feature: { href: `/insights/${latest.slug}`, eyebrow: 'Latest article', title: latest.title, body: latest.description, model: latest.model, cta: 'Read' } }
-        : {}),
-    },
-    {
       label: 'Company',
       href: '/about',
       columns: [
@@ -152,6 +113,46 @@ export function buildMenus(): Menu[] {
         body: 'Headquartered in Singapore, with research and manufacturing in Penang, Malaysia.',
         model: 'globe',
       },
+    },
+    {
+      label: 'Silicone',
+      href: '/silicone',
+      columns: [
+        {
+          title: 'Silicone 101',
+          links: [
+            { href: '/silicone', label: 'What is silicone?', desc: 'The material, in two minutes', model: 'molecule' },
+            { href: '/insights/silicon-vs-silicone', label: 'Silicon vs silicone', desc: 'One letter, two very different things', model: 'sand' },
+            { href: '/insights/lsr-vs-hcr', label: 'Liquid vs solid silicone', desc: 'The two main types (LSR and HCR)', model: 'samples' },
+            { href: '/insights/glossary', label: 'Glossary', desc: 'Silicone terms in plain English', model: 'compound' },
+          ],
+        },
+      ],
+      feature: {
+        href: '/insights/how-silicone-cable-is-made',
+        eyebrow: 'Explainer',
+        title: 'How silicone cable is made',
+        body: 'From wire and liquid silicone to finished cable, in five steps.',
+        model: 'extruder-horizontal',
+        cta: 'Read',
+      },
+    },
+    {
+      label: 'Insights',
+      href: '/insights',
+      columns: [
+        {
+          title: 'Topics',
+          href: '/insights',
+          links: [
+            ...usedTopics.map((t) => ({ href: `/insights/topic/${t}`, label: topics[t].label })),
+            { href: '/insights/glossary', label: 'Glossary' },
+          ],
+        },
+      ],
+      ...(latest
+        ? { feature: { href: `/insights/${latest.slug}`, eyebrow: 'Latest article', title: latest.title, body: latest.description, model: latest.model, cta: 'Read' } }
+        : {}),
     },
   ]
 }
