@@ -6,7 +6,7 @@ export const site = {
   name: 'Momixx',
   legalName: 'Orion MoMixx',
   // Company registration number (Singapore UEN). Shown in the footer once filled in.
-  registrationNumber: '',
+  registrationNumber: '201310727R',
   // Canonical origin. The live WordPress site serves www.momixx.com, so we keep
   // www as canonical to preserve existing search rankings.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.momixx.com',

@@ -20,7 +20,9 @@ export default function PrivacyPage() {
         <div className="article-prose max-w-3xl">
           <h2>Who we are</h2>
           <p>
-            This website is run by {site.legalName} (“{site.name}”, “we”), {site.address.street}, {site.address.locality} {site.address.postalCode}. For any
+            This website is run by {site.legalName}
+            {site.registrationNumber && ` (UEN ${site.registrationNumber})`} (“{site.name}”, “we”), {site.address.street}, {site.address.locality}{' '}
+            {site.address.postalCode}. For any
             question about your personal data, email <a href={`mailto:${site.email}`}>{site.email}</a>.
           </p>
 

@@ -21,7 +21,8 @@ export default function TermsPage() {
         <div className="article-prose max-w-3xl">
           <h2>About this website</h2>
           <p>
-            This website is run by {site.legalName} (“{site.name}”, “we”). By using it, you agree to these terms. If you do not agree, please do not
+            This website is run by {site.legalName}
+            {site.registrationNumber && ` (UEN ${site.registrationNumber})`} (“{site.name}”, “we”). By using it, you agree to these terms. If you do not agree, please do not
             use the website.
           </p>
 

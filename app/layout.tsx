@@ -43,6 +43,7 @@ const organization = {
   logo: absoluteUrl('/icon.svg'),
   description: site.description,
   foundingDate: String(site.foundingYear),
+  ...(site.registrationNumber ? { identifier: { '@type': 'PropertyValue', propertyID: 'UEN', value: site.registrationNumber } } : {}),
   email: site.email,
   areaServed: 'Worldwide',
   contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: site.email, areaServed: 'Worldwide', availableLanguage: ['English'] },
