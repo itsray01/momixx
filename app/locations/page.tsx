@@ -18,10 +18,10 @@ const sites = [
     name: 'Singapore',
     address: [site.address.street, `Singapore ${site.address.postalCode}`],
     map: `${site.address.street}, Singapore ${site.address.postalCode}`,
-    summary: 'Our corporate headquarters, where Momixx was founded in 2018.',
+    summary: `Our corporate headquarters, where Momixx was founded in ${site.foundingYear}.`,
     facts: [
       { label: 'Role', value: 'Corporate headquarters' },
-      { label: 'Founded', value: '2018' },
+      { label: 'Founded', value: String(site.foundingYear) },
       { label: 'Contact', value: site.email, href: `mailto:${site.email}` },
     ],
   },

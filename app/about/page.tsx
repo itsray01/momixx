@@ -4,9 +4,9 @@ import { teamReady } from '@/content/team'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'About us: silicone company founded in 2018',
+  title: `About us: silicone company founded in ${site.foundingYear}`,
   description:
-    'Founded in 2018, Momixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.',
+    `Founded in ${site.foundingYear}, Momixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.`,
   path: '/about',
 })
 
@@ -16,8 +16,8 @@ export default function AboutPage() {
       <PageHeader
         crumbs={[{ href: '/about', label: 'About Us' }]}
         eyebrow="About us"
-        title="Precision silicone, *since 2018*"
-        intro="Momixx was founded in Singapore and Malaysia in 2018 to solve hard problems in silicone, from making cables safer to giving silicone waste a second life."
+        title={`Precision silicone, *since ${site.foundingYear}*`}
+        intro={`Momixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
       />
 
       <Section>

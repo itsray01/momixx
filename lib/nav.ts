@@ -7,6 +7,7 @@ import { productsByCategory } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
 import { teamReady } from '@/content/team'
 import { getArticles, topics, type Topic } from '@/lib/articles'
+import { site } from '@/lib/site'
 
 export type MenuLink = { href: string; label: string; desc?: string; model?: ModelName }
 export type MenuColumn = { title: string; href?: string; links: MenuLink[] }
@@ -96,7 +97,7 @@ export function buildMenus(): Menu[] {
         {
           title: 'Company',
           links: [
-            { href: '/about', label: 'About us', desc: 'Our story since 2018' },
+            { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}` },
             // Listed once real names and photos are in content/team.ts.
             ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and joining us' },

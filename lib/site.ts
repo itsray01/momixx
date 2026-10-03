@@ -13,7 +13,7 @@ export const site = {
   tagline: 'High-performance and recycled silicone, engineered in Asia for the world.',
   description:
     'Momixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
-  foundingYear: 2018,
+  foundingYear: 2019,
   email: 'enquiries@orionmomixx.com',
   // Optional dedicated inboxes; each falls back to the enquiries address when empty.
   careersEmail: '',
