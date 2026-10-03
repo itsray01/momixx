@@ -1,9 +1,9 @@
-// Where silicone is used, and where Momixx fits. Each entry becomes its own
+// Where silicone is used, and where MoMixx fits. Each entry becomes its own
 // page at /applications/<slug> with a panel of independent industry estimates
-// (industry context only, not Momixx forecasts).
+// (industry context only, not MoMixx forecasts).
 //
-// Claims rules: temperatures and twist counts for Momixx grades come from
-// Momixx testing and must say so; typical silicone cable is rated to about
+// Claims rules: temperatures and twist counts for MoMixx grades come from
+// MoMixx testing and must say so; typical silicone cable is rated to about
 // 180–200 °C. Keep the "10,000 twisting cycles" figure to one mention here
 // (consumer electronics) plus the MM product page.
 
@@ -37,15 +37,15 @@ export const applications: Application[] = [
     tabLabel: 'Phones & Cables',
     tagline: 'The soft, flame-retardant silicone inside everyday charging cables.',
     intro:
-      'Every phone, laptop and pair of earbuds needs a cable, and the EU now requires USB-C on most new devices. Many premium brands use silicone cable jackets because silicone feels softer, tangles less, lasts longer and handles heat better than common plastics. Since 2019, Momixx flame-retardant silicone has been qualified by a leading smartphone brand for its cables.',
+      'Every phone, laptop and pair of earbuds needs a cable, and the EU now requires USB-C on most new devices. Many premium brands use silicone cable jackets because silicone feels softer, tangles less, lasts longer and handles heat better than common plastics. Since 2019, MoMixx flame-retardant silicone has been qualified by a leading smartphone brand for its cables.',
     maturity: 'In mass production',
     maturityNote: 'Qualified by a leading smartphone brand since 2019 and made in volume at our factories in Asia.',
     whySilicone: [
       { title: 'Soft and tangle-free', body: 'Silicone has low hardness and almost no “memory” (it does not hold a bent shape), so cables lie flat instead of kinking.' },
-      { title: 'Lasts longer', body: 'In Momixx testing, MM silicone cable jackets withstood 10,000 twisting cycles, about twice as many as a standard TPE cable.' },
+      { title: 'Lasts longer', body: 'In MoMixx testing, MM silicone cable jackets withstood 10,000 twisting cycles, about twice as many as a standard TPE cable.' },
       {
         title: 'Handles heat',
-        body: 'Standard silicone cable is typically rated to about 180–200 °C, against about 105 °C for a TPE cable (LAPP catalogue). In Momixx testing, MM silicone withstood 250 °C.',
+        body: 'Standard silicone cable is typically rated to about 180–200 °C, against about 105 °C for a TPE cable (LAPP catalogue). In MoMixx testing, MM silicone withstood 250 °C.',
       },
     ],
     ourRole: [
@@ -59,11 +59,11 @@ export const applications: Application[] = [
     faqs: [
       {
         q: 'Why are silicone phone cables better than plastic ones?',
-        a: 'Silicone is softer and more flexible than TPE, the plastic used in most cable jackets, so it tangles less and survives far more bending. It is also rated for higher temperatures: standard silicone cable is typically rated to about 180–200 °C, against about 105 °C for TPE cable. Flame-retardant grades such as Momixx MM stop burning once the flame is removed.',
+        a: 'Silicone is softer and more flexible than TPE, the plastic used in most cable jackets, so it tangles less and survives far more bending. It is also rated for higher temperatures: standard silicone cable is typically rated to about 180–200 °C, against about 105 °C for TPE cable. Flame-retardant grades such as MoMixx MM stop burning once the flame is removed.',
       },
       {
-        q: 'Does Momixx make cables?',
-        a: 'Momixx makes the silicone that forms the outside of the cable, and the machines that apply it. Cable makers and electronics brands use our silicone and machines to make their own cables.',
+        q: 'Does MoMixx make cables?',
+        a: 'MoMixx makes the silicone that forms the outside of the cable, and the machines that apply it. Cable makers and electronics brands use our silicone and machines to make their own cables.',
       },
     ],
     illustration: 'data-cable',
@@ -76,11 +76,11 @@ export const applications: Application[] = [
     intro:
       'Electric cars move a lot of power through hot, tightly packed spaces. Their high-voltage cables must stay flexible in freezing winters, cope with the heat near batteries, motors and inverters, and resist fire. Flame-retardant silicone meets all three needs. Our PFAS-free silicones also help carmakers prepare for possible EU restrictions on “forever chemicals”.',
     maturity: 'Certified & scaling',
-    maturityNote: 'MV silicone has been tested by Momixx under conditions harsher than normal electric-car operation.',
+    maturityNote: 'MV silicone has been tested by MoMixx under conditions harsher than normal electric-car operation.',
     whySilicone: [
       {
         title: 'Wide temperature range',
-        body: 'In Momixx testing, MV silicone worked from −60 °C to 250 °C. In the same tests, XLPO, the plastic usually used, withstood about 150 °C.',
+        body: 'In MoMixx testing, MV silicone worked from −60 °C to 250 °C. In the same tests, XLPO, the plastic usually used, withstood about 150 °C.',
       },
       { title: 'Easier to route', body: 'Softer cables bend more tightly, which simplifies wiring in compact cars.' },
       { title: 'PFAS-free', body: 'High-density silicone can replace fluorinated rubber (FKM) in many seals and parts where fuel and oil resistance is not critical.' },
@@ -100,7 +100,7 @@ export const applications: Application[] = [
       },
       {
         q: 'What does PFAS-free mean for car parts?',
-        a: 'PFAS are “forever chemicals” that build up in nature. They include fluorinated rubbers such as FKM, used in some car seals, and the EU is working on a broad restriction. Momixx high-density silicone offers a similar feel and toughness without fluorine, although FKM remains the better choice for parts exposed to fuel and oil.',
+        a: 'PFAS are “forever chemicals” that build up in nature. They include fluorinated rubbers such as FKM, used in some car seals, and the EU is working on a broad restriction. MoMixx high-density silicone offers a similar feel and toughness without fluorine, although FKM remains the better choice for parts exposed to fuel and oil.',
       },
     ],
     illustration: 'ev-cable',
@@ -137,7 +137,7 @@ export const applications: Application[] = [
       },
       {
         q: 'What is ISO 13485?',
-        a: 'ISO 13485 is the international quality-management standard for organisations that design or make medical devices and their parts. It certifies how a company works, not a material or product. The quality system at Momixx’s factory in Batu Kawan, Penang, is certified to it.',
+        a: 'ISO 13485 is the international quality-management standard for organisations that design or make medical devices and their parts. It certifies how a company works, not a material or product. The quality system at MoMixx’s factory in Batu Kawan, Penang, is certified to it.',
       },
     ],
     illustration: 'medical',
@@ -150,7 +150,7 @@ export const applications: Application[] = [
     intro:
       'AI computing packs far more power into each server rack than traditional computing. That means more heat, more power cabling and more cooling, so materials that keep working when hot are becoming essential. Silicone is used in high-temperature cables, seals and thermal interface materials: the soft pads and gels that carry heat away from chips.',
     maturity: 'Emerging opportunity',
-    maturityNote: 'A new market for Momixx: we are offering our existing high-temperature cable and sealing materials.',
+    maturityNote: 'A new market for MoMixx: we are offering our existing high-temperature cable and sealing materials.',
     whySilicone: [
       {
         title: 'Runs hot, stays safe',
@@ -183,7 +183,7 @@ export const applications: Application[] = [
     intro:
       'Robots, and especially humanoid robots, bend and flex all the time. The cables inside them twist and bend constantly, their joints need seals, and their hands and outer shells increasingly use soft, skin-like materials so they are safe to touch. Silicone suits all three.',
     maturity: 'Emerging opportunity',
-    maturityNote: 'A new market for Momixx: we are offering our flexible cable, sealing and soft-touch materials.',
+    maturityNote: 'A new market for MoMixx: we are offering our flexible cable, sealing and soft-touch materials.',
     whySilicone: [
       { title: 'Flexes repeatedly', body: 'Silicone cable jackets tolerate repeated twisting and bending better than many plastics.' },
       { title: 'Skin-like touch', body: 'Soft, high-density silicone gives robot hands and “skin” a natural feel and is easy to clean.' },
@@ -233,7 +233,7 @@ export const applications: Application[] = [
     faqs: [
       {
         q: 'Is silicone the same as the silicon used in chips?',
-        a: 'No. Silicon is the element used to make computer chips. Silicone is a flexible material made from silicon, oxygen, carbon and hydrogen. Momixx makes silicone, including parts for the machines that make silicon chips.',
+        a: 'No. Silicon is the element used to make computer chips. Silicone is a flexible material made from silicon, oxygen, carbon and hydrogen. MoMixx makes silicone, including parts for the machines that make silicon chips.',
       },
     ],
     illustration: 'chip',

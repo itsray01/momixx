@@ -53,6 +53,6 @@ Big silicone makers are investing. Elkem has tested chemical recycling in France
 
 Brands also want recycled content they can **prove**. Schemes such as GRS and ISCC PLUS check the paper trail from waste to product (see [GRS vs ISCC PLUS vs SCS](/insights/grs-vs-iscc-plus-vs-scs)).
 
-## What does Momixx do?
+## What does MoMixx do?
 
-Momixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Its recycled content is certified under GRS, ISCC PLUS and SCS Global Services, with certified chain-of-custody records from collected waste to finished silicone. [See our process and certificates](/recycled-silicone).
+MoMixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Its recycled content is certified under GRS, ISCC PLUS and SCS Global Services, with certified chain-of-custody records from collected waste to finished silicone. [See our process and certificates](/recycled-silicone).

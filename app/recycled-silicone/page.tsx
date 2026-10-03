@@ -8,7 +8,7 @@ import { pageMetadata } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Recycled silicone: our process and certifications',
   description:
-    'How Momixx chemically recycles silicone waste into new, high-performance silicone, certified under GRS, ISCC PLUS and SCS Global Services, with traceability for every batch.',
+    'How MoMixx chemically recycles silicone waste into new, high-performance silicone, certified under GRS, ISCC PLUS and SCS Global Services, with traceability for every batch.',
   path: '/recycled-silicone',
 })
 
@@ -16,23 +16,23 @@ export const metadata = pageMetadata({
 const recycledFaqs = [
   {
     q: 'What is recycled silicone?',
-    a: 'Recycled silicone is new silicone made from silicone waste, such as factory scraps and used products, instead of only fresh raw materials. Momixx recycles chemically: the waste is broken down into its basic building blocks, cleaned, and rebuilt into new silicone.',
+    a: 'Recycled silicone is new silicone made from silicone waste, such as factory scraps and used products, instead of only fresh raw materials. MoMixx recycles chemically: the waste is broken down into its basic building blocks, cleaned, and rebuilt into new silicone.',
   },
   {
     q: 'Is recycled silicone as good as new silicone?',
-    a: 'It depends on how it is recycled. Grinding silicone into powder and mixing it back in makes it weaker. Chemical recycling rebuilds silicone from its basic building blocks, so it can work just like new material. Momixx uses the chemical route.',
+    a: 'It depends on how it is recycled. Grinding silicone into powder and mixing it back in makes it weaker. Chemical recycling rebuilds silicone from its basic building blocks, so it can work just like new material. MoMixx uses the chemical route.',
   },
   {
-    q: 'What certifications does Momixx recycled silicone have?',
-    a: 'Momixx recycled silicone is certified under the Global Recycled Standard (GRS), ISCC PLUS and SCS Global Services recycled content certification. To our knowledge, Momixx is the only silicone company certified under both GRS and ISCC PLUS.',
+    q: 'What certifications does MoMixx recycled silicone have?',
+    a: 'MoMixx recycled silicone is certified under the Global Recycled Standard (GRS), ISCC PLUS and SCS Global Services recycled content certification. To our knowledge, MoMixx is the only silicone company certified under both GRS and ISCC PLUS.',
   },
   {
     q: 'What silicone waste can be recycled?',
     a: 'Both factory scrap, such as offcuts and rejected parts, and silicone products people have used and thrown away. Contact us to talk about the type and amount of scrap you have.',
   },
   {
-    q: 'Which Momixx silicones come with recycled content?',
-    a: 'Any Momixx silicone can be made with recycled content on request, including our cable silicone. Tell us what you need and how much recycled content you are aiming for.',
+    q: 'Which MoMixx silicones come with recycled content?',
+    a: 'Any MoMixx silicone can be made with recycled content on request, including our cable silicone. Tell us what you need and how much recycled content you are aiming for.',
   },
 ]
 

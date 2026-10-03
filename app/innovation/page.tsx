@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Research & innovation',
   description:
-    'Momixx research in silicone materials, surface treatment and manufacturing equipment, backed by more than 20 patents, granted or pending, including, to our knowledge, the first vertical silicone cable extrusion line.',
+    'MoMixx research in silicone materials, surface treatment and manufacturing equipment, backed by more than 20 patents, granted or pending, including, to our knowledge, the first vertical silicone cable extrusion line.',
   path: '/innovation',
 })
 

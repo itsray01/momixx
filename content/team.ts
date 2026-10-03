@@ -17,25 +17,25 @@ export const team: TeamMember[] = [
   {
     name: 'Name to be confirmed',
     role: 'Chief Executive Officer',
-    bio: 'Short bio: background, years in the industry, and what they lead at Momixx.',
+    bio: 'Short bio: background, years in the industry, and what they lead at MoMixx.',
     placeholder: true,
   },
   {
     name: 'Name to be confirmed',
     role: 'Chief Financial Officer',
-    bio: 'Short bio: background, years in the industry, and what they lead at Momixx.',
+    bio: 'Short bio: background, years in the industry, and what they lead at MoMixx.',
     placeholder: true,
   },
   {
     name: 'Name to be confirmed',
     role: 'Chief Technology Officer',
-    bio: 'Short bio: background, years in the industry, and what they lead at Momixx.',
+    bio: 'Short bio: background, years in the industry, and what they lead at MoMixx.',
     placeholder: true,
   },
   {
     name: 'Name to be confirmed',
     role: 'Chief Operating Officer',
-    bio: 'Short bio: background, years in the industry, and what they lead at Momixx.',
+    bio: 'Short bio: background, years in the industry, and what they lead at MoMixx.',
     placeholder: true,
   },
 ]

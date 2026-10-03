@@ -24,7 +24,7 @@ export function GET() {
     <title>${esc(site.name)} Insights</title>
     <link>${absoluteUrl('/insights')}</link>
     <atom:link href="${absoluteUrl('/insights/feed.xml')}" rel="self" type="application/rss+xml" />
-    <description>${esc('Silicone, silicone recycling and sustainable materials, explained by Momixx.')}</description>
+    <description>${esc('Silicone, silicone recycling and sustainable materials, explained by MoMixx.')}</description>
     <language>en</language>
 ${items}
   </channel>

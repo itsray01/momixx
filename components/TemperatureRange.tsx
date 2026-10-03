@@ -1,11 +1,11 @@
 // How hot and cold each cable material can go: a range chart in HTML (so text
 // stays readable on phones), with direct value labels and a table view.
-// Momixx is the one accent colour; everything else is a muted grey.
+// MoMixx is the one accent colour; everything else is a muted grey.
 
 type Row = { name: string; detail: string; min: number; max: number; tone: 'momixx' | 'silicone' | 'other' }
 
 const rows: Row[] = [
-  { name: 'Momixx MV silicone', detail: 'In Momixx testing', min: -60, max: 250, tone: 'momixx' },
+  { name: 'MoMixx MV silicone', detail: 'In MoMixx testing', min: -60, max: 250, tone: 'momixx' },
   { name: 'Standard silicone cable', detail: 'LAPP ÖLFLEX HEAT 180 SiHF', min: -60, max: 180, tone: 'silicone' },
   { name: 'TPE cable', detail: 'LAPP ÖLFLEX ROBUST FD, flexing', min: -40, max: 105, tone: 'other' },
   { name: 'PVC cable', detail: 'LAPP ÖLFLEX CLASSIC 110, flexing', min: -15, max: 70, tone: 'other' },
@@ -23,8 +23,8 @@ export function TemperatureRange() {
   return (
     <figure className="card p-6 sm:p-8">
       <figcaption>
-        <p className="text-lg font-semibold tracking-[-0.02em] text-white">Silicone cable is rated from −60 °C to 180 °C; Momixx MV reached 250 °C in our testing</p>
-        <p className="mt-1 text-sm text-slate-400">Temperature range by cable material: catalogue ratings, and Momixx MV in testing</p>
+        <p className="text-lg font-semibold tracking-[-0.02em] text-white">Silicone cable is rated from −60 °C to 180 °C; MoMixx MV reached 250 °C in our testing</p>
+        <p className="mt-1 text-sm text-slate-400">Temperature range by cable material: catalogue ratings, and MoMixx MV in testing</p>
       </figcaption>
 
       <div className="relative mt-8">
@@ -104,7 +104,7 @@ export function TemperatureRange() {
         <a href="https://products.lappgroup.com/online-catalogue/power-and-control-cables/expanded-ambient-temperatures/silicone-cables/oelflex-heat-180-sihf.html" target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-white">
           LAPP ÖLFLEX catalogue
         </a>
-        . The Momixx MV figure is a Momixx test result, not a catalogue rating.
+        . The MoMixx MV figure is a MoMixx test result, not a catalogue rating.
       </p>
     </figure>
   )

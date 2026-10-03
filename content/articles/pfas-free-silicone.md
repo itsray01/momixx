@@ -10,7 +10,7 @@ tags: [PFAS, FKM, fluoroelastomer, regulation, watch straps, REACH]
 takeaways:
   - PFAS are man-made chemicals that barely break down. The EU is working on a broad restriction, but as of October 2026 it has not been adopted.
   - FKM is a fluorine-based rubber that counts as a PFAS under the EU proposal's definition.
-  - Standard silicone has no fluorine, so it is not a PFAS. Momixx High Density (MHD) silicone is designed to look and feel like FKM.
+  - Standard silicone has no fluorine, so it is not a PFAS. MoMixx High Density (MHD) silicone is designed to look and feel like FKM.
 faqs:
   - q: Does silicone contain PFAS?
     a: Standard silicone has no fluorine, so it is not a PFAS. Fluorosilicones, a separate specialist type, do contain fluorine.
@@ -19,7 +19,7 @@ faqs:
   - q: Is FKM a PFAS?
     a: FKM is a fluoropolymer, a rubber made with fluorine. That puts it within the PFAS definition the EU proposal uses.
   - q: What can replace FKM in watch straps?
-    a: High-density silicone is one option. Momixx MHD offers a similar look, feel and toughness without fluorine. FKM still resists fuels and oils better, so test MHD for your product first.
+    a: High-density silicone is one option. MoMixx MHD offers a similar look, feel and toughness without fluorine. FKM still resists fuels and oils better, so test MHD for your product first.
 sources:
   - title: "ECHA: Per- and polyfluoroalkyl substances (PFAS)"
     url: https://echa.europa.eu/hot-topics/perfluoroalkyl-chemicals-pfas
@@ -67,8 +67,8 @@ ECHA's risk committee found limited evidence that fluoropolymers are toxic in th
 
 So silicone can replace FKM where it does the job. The catch has been feel. Ordinary silicone is lighter and grippier, which matters on a wrist all day.
 
-## How does Momixx MHD compare with FKM?
+## How does MoMixx MHD compare with FKM?
 
-**[Momixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone with a similar look, feel and toughness to FKM, made without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, and seals and cable parts in electric cars. FKM still resists fuels and oils better, so it remains the right choice for parts exposed to them.
+**[MoMixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone with a similar look, feel and toughness to FKM, made without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, and seals and cable parts in electric cars. FKM still resists fuels and oils better, so it remains the right choice for parts exposed to them.
 
 As with any new material, test MHD for your product's needs, such as wear and ageing. [Ask us for samples](/contact).

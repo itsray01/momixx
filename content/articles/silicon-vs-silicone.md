@@ -50,11 +50,11 @@ That chain makes silicone **heat-resistant**, **flexible even in the cold** and 
 1. **Sand to silicon.** Quartz is heated with carbon in electric furnaces, which strips out the oxygen. Wacker, a major silicone maker, describes making silicon "from quartz and coal at 2,000 °C".
 2. **Silicon to building blocks.** Ground silicon reacts with a gas called methyl chloride, with copper to speed things up. This "direct process" dates from the early 1940s and is still the main method.
 3. **Building blocks to silicone.** These react with water and link into long chains and rings. This is raw silicone.
-4. **Silicone to compound.** Raw silicone is mixed with fillers and additives into a ready-to-use **compound**, tuned for fire resistance, colour, strength or feel. This is where Momixx works.
+4. **Silicone to compound.** Raw silicone is mixed with fillers and additives into a ready-to-use **compound**, tuned for fire resistance, colour, strength or feel. This is where MoMixx works.
 5. **Compound to product.** The compound is extruded (pushed through a shaped opening), moulded or coated into parts, then cured so it sets.
 
 ## Why does the difference matter?
 
 Mixing up the words sends buyers, investors and searchers to the wrong suppliers, data and rules. Silicon is a strategic raw material: the US added it to its critical-minerals list in November 2025. Silicone has its own supply chain, standards and recycling routes.
 
-Momixx makes **silicone**: compounds, the machines that process them and finished parts. See [Silicone 101](/silicone) or the [glossary](/insights/glossary) for more.
+MoMixx makes **silicone**: compounds, the machines that process them and finished parts. See [Silicone 101](/silicone) or the [glossary](/insights/glossary) for more.

@@ -38,8 +38,8 @@ author:                   # optional: a named expert byline builds trust with Go
 - **Cite every number** in `sources`. No figure without a source; never use competitors' unverified claims.
 - **Link to at least one product or application page** on momixx.com, and to one other article.
 - **Keep it current.** When anything changes (a regulation, a market figure, a certification), update the text and the `updated:` date.
-- **Avoid forward-looking statements about Momixx's own business** (revenue, market share, IPO). Have them reviewed first.
-- **Label Momixx test results as test results.** Write "in Momixx testing" next to any temperature, twist count or other figure from our own tests, and never present it as a rating. Typical silicone cable is rated to about 180–200 °C.
+- **Avoid forward-looking statements about MoMixx's own business** (revenue, market share, IPO). Have them reviewed first.
+- **Label MoMixx test results as test results.** Write "in MoMixx testing" next to any temperature, twist count or other figure from our own tests, and never present it as a rating. Typical silicone cable is rated to about 180–200 °C.
 - **Recycled-content claims:** describe certified chain-of-custody records, not "every batch can be traced". ISCC PLUS allows mass balance.
 - **Use "flame-retardant", not "fire-safe" or "fireproof",** and say "designed for cables that pass VW-1" (VW-1 tests the finished cable).
 - **Hedge firsts and onlys:** "to our knowledge". No new superlatives without documented evidence.

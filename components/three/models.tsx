@@ -1,6 +1,6 @@
 'use client'
 
-// Procedural 3D models of Momixx's materials, machines and markets. They are
+// Procedural 3D models of MoMixx's materials, machines and markets. They are
 // used two ways: live in hero scenes, and pre-rendered to transparent images
 // for cards (see scripts/render-models.mjs), so pages with many cards stay fast.
 
@@ -619,7 +619,7 @@ export function SamplesModel({ float }: { float?: (i: number, node: React.ReactN
 
 // ───────────────────────── Globe ─────────────────────────
 
-/** Where Momixx is today: Singapore HQ and Batu Kawan, Penang. */
+/** Where MoMixx is today: Singapore HQ and Batu Kawan, Penang. */
 export const globeSites = [
   { name: 'Singapore', lat: 1.29, lon: 103.85 },
   { name: 'Batu Kawan, Penang', lat: 5.23, lon: 100.43 },

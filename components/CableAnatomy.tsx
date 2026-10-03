@@ -63,7 +63,7 @@ export function CableAnatomy() {
               <span>
                 <span className="flex items-center gap-2 font-semibold text-white">
                   {l.name}
-                  {l.momixx && <span className="rounded-full bg-brand-400 px-2 py-0.5 text-[10px] font-semibold text-ink-950">Momixx</span>}
+                  {l.momixx && <span className="rounded-full bg-brand-400 px-2 py-0.5 text-[10px] font-semibold text-ink-950">MoMixx</span>}
                 </span>
                 <span className="mt-1 block text-sm leading-relaxed text-slate-400">{l.body}</span>
               </span>

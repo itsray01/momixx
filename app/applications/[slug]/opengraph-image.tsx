@@ -13,5 +13,5 @@ export const alt = 'Silicone applications'
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const a = getApplication(slug)
-  return ogCard({ eyebrow: 'Momixx · Applications', title: a ? `Silicone for ${a.name}` : 'Applications', subtitle: a?.tagline })
+  return ogCard({ eyebrow: 'MoMixx · Applications', title: a ? `Silicone for ${a.name}` : 'Applications', subtitle: a?.tagline })
 }

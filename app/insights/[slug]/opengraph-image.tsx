@@ -8,10 +8,10 @@ export function generateStaticParams() {
   return getArticles().map((a) => ({ slug: a.slug }))
 }
 
-export const alt = 'Momixx Insights article'
+export const alt = 'MoMixx Insights article'
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const a = getArticle(slug)
-  return ogCard({ eyebrow: a ? `Momixx Insights · ${topics[a.topic].label}` : 'Momixx Insights', title: a?.title ?? 'Insights' })
+  return ogCard({ eyebrow: a ? `MoMixx Insights · ${topics[a.topic].label}` : 'MoMixx Insights', title: a?.title ?? 'Insights' })
 }

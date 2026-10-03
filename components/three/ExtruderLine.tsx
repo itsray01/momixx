@@ -1,6 +1,6 @@
 'use client'
 
-// The Momixx vertical extrusion line as an interactive 3D model. Each station
+// The MoMixx vertical extrusion line as an interactive 3D model. Each station
 // is its own clickable part (see extruderParts.ts for names and copy), and the
 // cable runs through all of them, from the pay-off reel to the autowinder.
 

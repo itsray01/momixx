@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Menu, MenuColumn } from '@/lib/nav'
+import { site } from '@/lib/site'
 import { Logo } from './Logo'
 
 function isActive(pathname: string, href: string) {
@@ -201,7 +202,7 @@ export function Header({ menus }: { menus: Menu[] }) {
             solid ? 'border-white/10 bg-ink-950/75 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl' : 'border-transparent bg-transparent'
           }`}
         >
-          <Link href="/" aria-label="Momixx home" className="shrink-0" onMouseEnter={() => close(120)}>
+          <Link href="/" aria-label={`${site.name} home`} className="shrink-0" onMouseEnter={() => close(120)}>
             <Logo />
           </Link>
 

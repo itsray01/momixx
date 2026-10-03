@@ -16,11 +16,11 @@ import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = {
   ...pageMetadata({
-    title: 'Momixx | High-performance & recycled silicone',
+    title: 'MoMixx | High-performance & recycled silicone',
     description: site.description,
     path: '/',
   }),
-  title: { absolute: 'Momixx | High-performance & recycled silicone' },
+  title: { absolute: 'MoMixx | High-performance & recycled silicone' },
 }
 
 // Number of material grades across the range, e.g. M3, M4… (derived, so it stays right as grades change).
@@ -33,9 +33,9 @@ const statement =
 
 // Call-outs that appear around the cable as the hero scrolls (desktop only).
 const heroLabels = [
-  { title: 'Momixx silicone jacket', sub: 'Flame-retardant, for UL VW-1 cables', pos: 'top-[46%] right-[8%]' },
-  { title: '10,000 twisting cycles', sub: 'In Momixx testing', pos: 'bottom-[22%] left-[6%]' },
-  { title: 'Up to 250 °C', sub: 'Momixx MM grades, in our testing', pos: 'top-[12%] right-[14%]' },
+  { title: 'MoMixx silicone jacket', sub: 'Flame-retardant, for UL VW-1 cables', pos: 'top-[46%] right-[8%]' },
+  { title: '10,000 twisting cycles', sub: 'In MoMixx testing', pos: 'bottom-[22%] left-[6%]' },
+  { title: 'Up to 250 °C', sub: 'MoMixx MM grades, in our testing', pos: 'top-[12%] right-[14%]' },
 ]
 
 /** The hero still: the same view as the live 3D on desktop, a compact cable on phones. */
@@ -165,7 +165,7 @@ export default function HomePage() {
       <JourneyScroll
         eyebrow="From sand to silicone"
         title="Where *silicone* comes from"
-        intro="Silicone starts as ordinary sand. Momixx works at three points along the way: we make silicone for specific jobs, build the machines that shape it, and recycle it at the end of its life."
+        intro="Silicone starts as ordinary sand. MoMixx works at three points along the way: we make silicone for specific jobs, build the machines that shape it, and recycle it at the end of its life."
       />
 
       {/* ── Applications ── */}
@@ -210,7 +210,7 @@ export default function HomePage() {
       </Section>
 
       {/* ── Markets ── */}
-      <Section tone="muted" eyebrow="Markets" title="The industries *we supply*" intro={<>Independent estimates for industries our materials are sold into. They are not forecasts of Momixx’s business. <ArrowLink href="/markets">All markets and sources</ArrowLink></>}>
+      <Section tone="muted" eyebrow="Markets" title="The industries *we supply*" intro={<>Independent estimates for industries our materials are sold into. They are not forecasts of MoMixx’s business. <ArrowLink href="/markets">All markets and sources</ArrowLink></>}>
         <div data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {featuredMarkets.map((m) => (
             <MarketCard key={m.id} market={m} compact />
@@ -219,7 +219,7 @@ export default function HomePage() {
         <p className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-500">{marketDisclaimer}</p>
       </Section>
 
-      {/* ── Momixx Extruder: interactive 3D ── */}
+      {/* ── MoMixx Extruder: interactive 3D ── */}
       <ExtruderSection links />
 
       {/* ── Latest insights ── */}

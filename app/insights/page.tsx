@@ -45,7 +45,7 @@ export default function InsightsPage() {
         </ul>
       </Section>
       <CtaBand title="Have a question about *silicone?*" body="Our engineers are happy to help with materials, recycling and manufacturing questions." />
-      <JsonLd data={collectionPage('Momixx Insights', '/insights', all.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))} />
+      <JsonLd data={collectionPage('MoMixx Insights', '/insights', all.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))} />
     </>
   )
 }

@@ -15,7 +15,7 @@ faqs:
   - q: What is the difference between LSR and HCR?
     a: LSR (liquid silicone rubber) is a thick, pumpable liquid that is mostly injected into moulds by automatic machines. HCR (high-consistency rubber, or solid silicone) is thick, like dough, and is usually pushed out into long shapes.
   - q: Is LSR or HCR better for cables?
-    a: Both are used. Cable jackets have usually been made from HCR. Momixx's vertical line uses flame-retardant LSR, which can be fed in automatically, and its MM series includes both.
+    a: Both are used. Cable jackets have usually been made from HCR. MoMixx's vertical line uses flame-retardant LSR, which can be fed in automatically, and its MM series includes both.
   - q: Which is better for making large numbers of parts?
     a: Usually LSR. Automatic machines can mould it, often with no finishing afterwards.
 sources:
@@ -51,7 +51,7 @@ It is mostly extruded, meaning pushed through a shaped opening to make tubes, se
 
 In electric cars, Wacker lists HCR for high-voltage cables and both types for connector and battery seals. Cars often use both side by side.
 
-## How does Momixx use LSR and HCR?
+## How does MoMixx use LSR and HCR?
 
 We make both. Our **[MM series](/products/momixx-mm)** for cable jackets has flame-retardant HCR grades (M3, M4) and LSR grades (M5 to M9). Our **[High Density (MHD)](/products/momixx-high-density)** silicone is [free of PFAS](/insights/pfas-free-silicone) and comes as LSR (M1) and HCR (M2).
 

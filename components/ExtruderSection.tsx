@@ -21,7 +21,7 @@ export function ExtruderSection({ tone = 'white', links = false }: { tone?: 'whi
       title="Explore our *vertical extrusion line*"
       intro="To our knowledge, the world’s first vertical extrusion line for silicone data cable, and one of our 20+ patents. It is automated from mixing the silicone to inspecting the finished cable, runs at up to 100 metres a minute, and its customers include a Fortune Global 500 company. Select a part to see what it does."
     >
-      <ExtruderExplorer specs={line?.specs ?? []} photo={{ src: '/images/products/vertical-extruder-photo.webp', alt: 'Photograph of a Momixx silicone cable extrusion machine' }} />
+      <ExtruderExplorer specs={line?.specs ?? []} photo={{ src: '/images/products/vertical-extruder-photo.webp', alt: 'Photograph of a MoMixx silicone cable extrusion machine' }} />
       <ul data-reveal="stagger" className="mt-5 grid gap-5 md:grid-cols-3">
         {points.map((p, i) => (
           <li key={p.title} className="card p-6 sm:p-7">

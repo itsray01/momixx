@@ -69,10 +69,10 @@ In ISCC's own example, a factory uses 30% certified recycled material and loses 
 
 *Compiled from each scheme's public overview, October 2026. Always check the latest version.*
 
-## Why does Momixx hold all three?
+## Why does MoMixx hold all three?
 
 Different customers ask for different certificates. Textile and consumer brands often want GRS, chemical and plastics supply chains often use ISCC PLUS, and SCS is common in North America. With all three, customers can use whichever one their programme accepts.
 
 The schemes track recycled content differently. GRS follows it physically through the supply chain; ISCC PLUS also allows mass balance. Ask us which chain-of-custody model applies to your order.
 
-Momixx's recycled silicone is certified under **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).
+MoMixx's recycled silicone is certified under **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).

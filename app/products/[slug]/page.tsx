@@ -115,7 +115,7 @@ export default async function ProductPage({ params }: Props) {
           </Section>
         )}
         {p.slug === 'momixx-move' && (
-          <Section tone="muted" eyebrow="Heat and cold" title="Tested from *−60 °C to 250 °C*" intro="MV silicone in Momixx testing, compared with catalogue ratings for common cable materials.">
+          <Section tone="muted" eyebrow="Heat and cold" title="Tested from *−60 °C to 250 °C*" intro="MV silicone in MoMixx testing, compared with catalogue ratings for common cable materials.">
             <TemperatureRange />
           </Section>
         )}

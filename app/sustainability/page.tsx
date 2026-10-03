@@ -10,7 +10,7 @@ import { pageMetadata } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Sustainability: certified recycled silicone',
   description:
-    'Momixx sustainability: GRS and ISCC PLUS certified recycled silicone, an independently checked carbon footprint calculation, energy-saving manufacturing and PFAS-free materials.',
+    'MoMixx sustainability: GRS and ISCC PLUS certified recycled silicone, an independently checked carbon footprint calculation, energy-saving manufacturing and PFAS-free materials.',
   path: '/sustainability',
 })
 
@@ -91,7 +91,7 @@ export default function SustainabilityPage() {
                 <figcaption className="text-sm font-medium text-white">Recycled vs new silicone ({cmp.unit})</figcaption>
                 <div className="mt-5 space-y-3">
                   {[
-                    { label: 'Momixx recycled', v: cmp.recycled, c: '#1caa9e' },
+                    { label: 'MoMixx recycled', v: cmp.recycled, c: '#1caa9e' },
                     { label: 'New silicone', v: cmp.virgin, c: '#5a6474' },
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
@@ -150,7 +150,7 @@ export default function SustainabilityPage() {
         <FeatureGrid
           items={[
             { title: 'PFAS-free', body: 'Standard silicone rubber contains no fluorine, so it is not a PFAS (“forever chemical”). Our high-density silicone can replace fluorinated rubber (FKM) in many watch straps, seals and car parts.' },
-            { title: 'Recycled option', body: 'Any Momixx silicone can be supplied with recycled content on request.' },
+            { title: 'Recycled option', body: 'Any MoMixx silicone can be supplied with recycled content on request.' },
             { title: 'Certified chain of custody', body: 'Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.' },
           ]}
         />

@@ -1,6 +1,6 @@
 # momixx.com
 
-The Momixx corporate website. It replaces the WordPress site at www.momixx.com.
+The MoMixx corporate website. It replaces the WordPress site at www.momixx.com.
 
 It is built with Next.js, deployed on Vercel, and every page is static. All the words, numbers and products live in plain files under [`content/`](content), so you can change them without touching any design code.
 

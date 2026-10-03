@@ -51,7 +51,7 @@ export default function ProductsPage() {
         ))}
       </TabNav>
       <CtaBand title="Looking for something *not listed?*" body="Most of our work is made to order. Tell us what you need and our research team will create it." />
-      <JsonLd data={collectionPage('Momixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
+      <JsonLd data={collectionPage('MoMixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
     </>
   )
 }

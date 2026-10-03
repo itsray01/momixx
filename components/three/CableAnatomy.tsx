@@ -1,7 +1,7 @@
 'use client'
 
 // An exploded silicone data cable: copper, insulation, foil, braid and the
-// Momixx silicone jacket, each layer stripped back further than the one
+// MoMixx silicone jacket, each layer stripped back further than the one
 // outside it. `explode` (or the ref, for scroll-driven motion) pulls them apart.
 
 import { useFrame } from '@react-three/fiber'

@@ -56,7 +56,7 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
   { title: 'Sand', body: 'Ordinary quartz sand, one of the most common materials on Earth.', model: 'sand' },
   { title: 'Silicon', body: 'Heated in a furnace, the sand becomes silicon: the same element that goes into computer chips.', model: 'chip' },
   { title: 'Silicone', body: 'Silicon is joined with oxygen, carbon and hydrogen into long, bendy chains.', model: 'molecule' },
-  { title: 'Momixx silicone', body: 'We mix in ingredients that add flame retardancy, colour, strength or a particular feel.', model: 'samples', momixx: true },
+  { title: 'MoMixx silicone', body: 'We mix in ingredients that add flame retardancy, colour, strength or a particular feel.', model: 'samples', momixx: true },
   { title: 'Shaped on our machines', body: 'Our patented vertical line coats wire with silicone at up to 100 metres a minute.', model: 'extruder-vertical', momixx: true },
   { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'data-cable' },
   { title: 'Back to silicone', body: 'Scrap and used parts come back to us, and we rebuild them into certified recycled silicone.', model: 'recycle', momixx: true },
@@ -99,7 +99,7 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
                 <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-brand-300">Step 0{i + 1}</span>
-                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">Momixx</span>}
+                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">MoMixx</span>}
                   </div>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
@@ -130,7 +130,7 @@ export function SiliconVsSilicone() {
       formula: '[–Si–O–]ₙ',
       what: 'A man-made material built from silicon, oxygen, carbon and hydrogen.',
       looks: 'Soft rubber, liquid, gel or resin; any colour.',
-      uses: 'Cables, seals, medical devices, phone cases, cookware. This is what Momixx makes.',
+      uses: 'Cables, seals, medical devices, phone cases, cookware. This is what MoMixx makes.',
       highlight: true,
     },
   ]

@@ -16,8 +16,8 @@ faqs:
     a: It is soft, very stretchy, durable and stable from cold to heat. A 2024 review says this has let silicone dominate soft robotics, from grippers to the soft parts that make robots move.
   - q: How big is the humanoid robot market?
     a: Estimates vary widely. Goldman Sachs projected US$38 billion by 2035. Morgan Stanley projected over US$5 trillion by 2050, including supply chains and services. Both are forecasts by other firms.
-  - q: Does Momixx supply robot makers?
-    a: Robotics is a new opportunity for Momixx. We offer our bend-resistant cable silicone, soft-touch silicone, seals and precision moulding to this market.
+  - q: Does MoMixx supply robot makers?
+    a: Robotics is a new opportunity for MoMixx. We offer our bend-resistant cable silicone, soft-touch silicone, seals and precision moulding to this market.
 sources:
   - title: "3D Printing and Additive Manufacturing (2024): review of silicone 3D printing for soft robotics"
     url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11442412/
@@ -49,14 +49,14 @@ Forecasts vary hugely, a sign of how early the market is:
 - **Goldman Sachs (February 2024):** about **US$38 billion by 2035**, or around 1.4 million robots.
 - **Morgan Stanley (May 2025):** over **US$5 trillion by 2050**, counting supply chains and services, with more than 1 billion robots in use.
 
-These are other firms' forecasts, not forecasts of Momixx's business.
+These are other firms' forecasts, not forecasts of MoMixx's business.
 
-## What is Momixx's role?
+## What is MoMixx's role?
 
-Robotics is a **new opportunity** for Momixx, using materials we already make:
+Robotics is a **new opportunity** for MoMixx, using materials we already make:
 
-- **Flexible cables:** in Momixx testing, [MM silicone](/products/momixx-mm) withstood 10,000 twisting cycles, about twice a standard cable made from TPE (a rubber-like plastic). Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.
+- **Flexible cables:** in MoMixx testing, [MM silicone](/products/momixx-mm) withstood 10,000 twisting cycles, about twice a standard cable made from TPE (a rubber-like plastic). Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.
 - **Soft-touch materials:** [High Density (MHD)](/products/momixx-high-density), plus self-bonding grades that stick to other parts as they set.
-- **Seals and precision parts:** [Momixx Seal](/products/momixx-seal) and [precision moulding](/products/medical-precision-components) from our Batu Kawan, Penang plant.
+- **Seals and precision parts:** [MoMixx Seal](/products/momixx-seal) and [precision moulding](/products/medical-precision-components) from our Batu Kawan, Penang plant.
 
 See [Robotics & humanoids](/applications/robotics) for more.

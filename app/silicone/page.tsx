@@ -41,7 +41,7 @@ export default function SiliconePage() {
         tone="muted"
         eyebrow="From sand to product"
         title="How silicone is *made*"
-        intro="Silicone starts as quartz sand. Momixx compounds it for specific jobs (step four), builds the machines that shape it (step five) and rebuilds scrap into recycled silicone (step seven)."
+        intro="Silicone starts as quartz sand. MoMixx compounds it for specific jobs (step four), builds the machines that shape it (step five) and rebuilds scrap into recycled silicone (step seven)."
       />
 
       <Section eyebrow="Why people choose it" title="Six reasons silicone is *everywhere*">

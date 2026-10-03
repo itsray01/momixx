@@ -1,4 +1,4 @@
-// The parts of the Momixx vertical extrusion line shown in the extruder
+// The parts of the MoMixx vertical extrusion line shown in the extruder
 // explorer, in the order the cable travels. Plain data (no Three.js).
 
 type Vec3 = [number, number, number]

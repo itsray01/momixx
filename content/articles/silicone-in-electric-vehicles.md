@@ -16,8 +16,8 @@ faqs:
     a: The cables carry large currents and must bend through tight spaces, in cold and heat. Silicone stays flexible and insulating where many plastics soften. Wacker offers EV cable silicone rated to 180 °C.
   - q: How is silicone used in EV batteries?
     a: It carries heat away from the cells and seals in the battery electronics. It also goes into fire-resistant gaskets and sheets that guard against "thermal runaway", when a failing cell overheats and can set off others.
-  - q: What Momixx products are used in EVs?
-    a: Momixx Move (MV) for high-voltage cables, Momixx High Density (MHD) for seals and cable parts, and our extrusion lines for making silicone cable.
+  - q: What MoMixx products are used in EVs?
+    a: MoMixx Move (MV) for high-voltage cables, MoMixx High Density (MHD) for seals and cable parts, and our extrusion lines for making silicone cable.
 sources:
   - title: "IEA: Global EV Outlook 2026, executive summary"
     url: https://www.iea.org/reports/global-ev-outlook-2026/executive-summary
@@ -52,9 +52,9 @@ Wacker, a major silicone maker, lists these uses:
 
 Common cable plastics are cheaper. But silicone **stays flexible in the cold and softens far less in the heat**. That matters most near the motor, inverter and fast chargers.
 
-## What does Momixx make for EVs?
+## What does MoMixx make for EVs?
 
-- **[Momixx Move (MV)](/products/momixx-move):** heat-resistant silicone for high-voltage EV cables. In Momixx testing it worked from −60 °C to 250 °C; the product page compares it with XLPO, a common cable plastic.
+- **[MoMixx Move (MV)](/products/momixx-move):** heat-resistant silicone for high-voltage EV cables. In MoMixx testing it worked from −60 °C to 250 °C; the product page compares it with XLPO, a common cable plastic.
 - **[High Density (MHD)](/products/momixx-high-density):** PFAS-free silicone for seals and cable parts where fuel and oil resistance is not critical.
 - **[Extrusion lines](/products/vertical-extruder):** machines that make silicone cable.
 

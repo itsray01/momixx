@@ -6,7 +6,7 @@ import { pageMetadata, site } from '@/lib/site'
 export const metadata = pageMetadata({
   title: `About us: silicone company founded in ${site.foundingYear}`,
   description:
-    `Founded in ${site.foundingYear}, Momixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.`,
+    `Founded in ${site.foundingYear}, MoMixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.`,
   path: '/about',
 })
 
@@ -17,7 +17,7 @@ export default function AboutPage() {
         crumbs={[{ href: '/about', label: 'About Us' }]}
         eyebrow="About us"
         title={`Precision silicone, *since ${site.foundingYear}*`}
-        intro={`Momixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
+        intro={`MoMixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
       />
 
       <Section>
@@ -87,7 +87,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <CtaBand title="Partner with *Momixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/locations', label: 'Our locations' }} />
+      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/locations', label: 'Our locations' }} />
     </>
   )
 }

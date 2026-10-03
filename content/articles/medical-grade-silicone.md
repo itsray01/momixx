@@ -15,7 +15,7 @@ faqs:
   - q: What does medical-grade silicone mean?
     a: There is no legal definition. It usually means silicone with safety test data for its use, made under a quality system such as ISO 13485. Safety is finally judged for the finished device, not the raw material.
   - q: What is ISO 13485?
-    a: The international quality standard for medical-device makers. It certifies how a company works, not a material or product. The quality system at Momixx's Batu Kawan, Penang factory is certified to it.
+    a: The international quality standard for medical-device makers. It certifies how a company works, not a material or product. The quality system at MoMixx's Batu Kawan, Penang factory is certified to it.
   - q: Is USP Class VI still valid?
     a: Only until 30 November 2026. The revised USP chapter <88> then keeps one test, for drug packaging, drops the Class I–VI system and points device makers to FDA guidance.
   - q: Does the FDA recognise ISO 13485?
@@ -67,8 +67,8 @@ From **1 December 2026**, a revised chapter:
 
 After that, "USP Class VI" is an outdated label. Device makers will increasingly expect ISO 10993 evidence.
 
-## What does Momixx do in medical?
+## What does MoMixx do in medical?
 
-Momixx has made silicone parts for medical-device makers since 2025. The quality system at our **Batu Kawan, Penang factory has been certified to ISO 13485 since 2026**. The factory also makes high-precision parts for semiconductor customers. We also offer [PFAS-free high-density silicone](/products/momixx-high-density). As with any material, whether it suits a medical or food-contact part depends on testing for that use.
+MoMixx has made silicone parts for medical-device makers since 2025. The quality system at our **Batu Kawan, Penang factory has been certified to ISO 13485 since 2026**. The factory also makes high-precision parts for semiconductor customers. We also offer [PFAS-free high-density silicone](/products/momixx-high-density). As with any material, whether it suits a medical or food-contact part depends on testing for that use.
 
 See [Medical](/applications/medical) and [precision components](/products/medical-precision-components), or [contact us](/contact) about your device.

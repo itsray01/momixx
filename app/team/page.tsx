@@ -8,7 +8,7 @@ import { absoluteUrl, pageMetadata } from '@/lib/site'
 export const metadata = {
   ...pageMetadata({
     title: 'Our team',
-    description: 'Meet the management team leading Momixx.',
+    description: 'Meet the management team leading MoMixx.',
     path: '/team',
   }),
   // Kept out of search results until real profiles replace the placeholders.
@@ -37,7 +37,7 @@ export default function TeamPage() {
         ]}
         eyebrow="Leadership"
         title="Our management *team*"
-        intro="The people responsible for Momixx’s strategy, technology and operations."
+        intro="The people responsible for MoMixx’s strategy, technology and operations."
       />
       <Section>
         <ul data-reveal="stagger" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

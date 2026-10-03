@@ -148,4 +148,4 @@ export const companyStats = [
 ]
 
 export const patentsSummary =
-  'Momixx holds more than 20 patents, granted or pending; most are granted. They cover machines, manufacturing processes and silicone formulations. Among them are our high-speed vertical extrusion line for liquid silicone, an automated cable-coating system, an anti-stick coating and a process for moulding liquid silicone in several colours at once.'
+  'MoMixx holds more than 20 patents, granted or pending; most are granted. They cover machines, manufacturing processes and silicone formulations. Among them are our high-speed vertical extrusion line for liquid silicone, an automated cable-coating system, an anti-stick coating and a process for moulding liquid silicone in several colours at once.'

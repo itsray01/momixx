@@ -10,7 +10,7 @@ tags: [silicone recycling, recycled silicone, depolymerisation, DMC, circular ec
 takeaways:
   - Once silicone rubber has set, it cannot be melted, so it cannot be recycled like most plastics.
   - Mechanical recycling grinds silicone into a powder for mixing into other materials. Quality drops, so it is called downcycling.
-  - Chemical recycling breaks silicone back into its building blocks, which are cleaned and made into new silicone. Momixx uses this method.
+  - Chemical recycling breaks silicone back into its building blocks, which are cleaned and made into new silicone. MoMixx uses this method.
 faqs:
   - q: Can silicone be recycled?
     a: Yes, but not by melting. Set silicone stays solid when heated. So it is either ground into a powder filler (mechanical recycling) or broken down into its building blocks and made into new silicone (chemical recycling).
@@ -54,9 +54,9 @@ Chemical recycling, or **depolymerisation**, uses heat and chemicals to "unzip" 
 | Can it be repeated? | Not well; quality drops | Yes, in principle |
 | How hard is it? | Simple | Harder: needs chemistry, cleaning and careful control |
 
-## How does Momixx recycle silicone?
+## How does MoMixx recycle silicone?
 
-Momixx uses the **chemical method**, in five steps:
+MoMixx uses the **chemical method**, in five steps:
 
 1. **Collect** factory offcuts and used products.
 2. **Break down** the silicone into its building blocks.

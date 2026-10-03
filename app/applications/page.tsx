@@ -7,9 +7,9 @@ import { pageMetadata } from '@/lib/site'
 import { applicationTabs } from './tabs'
 
 export const metadata = pageMetadata({
-  title: 'Applications: where Momixx silicone is used',
+  title: 'Applications: where MoMixx silicone is used',
   description:
-    'How Momixx silicone serves phone and laptop cables, electric vehicles, medical devices, AI data centres, robotics and humanoids, and semiconductor equipment.',
+    'How MoMixx silicone serves phone and laptop cables, electric vehicles, medical devices, AI data centres, robotics and humanoids, and semiconductor equipment.',
   path: '/applications',
 })
 
@@ -17,7 +17,7 @@ const maturityOrder: Maturity[] = ['In mass production', 'Certified & scaling', 
 const maturityText: Record<Maturity, string> = {
   'In mass production': 'Markets where customers already buy from us in volume.',
   'Certified & scaling': 'Products available, with production at an early stage.',
-  'Emerging opportunity': 'New markets for Momixx where our existing materials may fit; not yet established businesses.',
+  'Emerging opportunity': 'New markets for MoMixx where our existing materials may fit; not yet established businesses.',
 }
 const columns: Record<number, string> = { 1: '', 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3' }
 
@@ -28,7 +28,7 @@ export default function ApplicationsPage() {
         crumbs={[{ href: '/applications', label: 'Applications' }]}
         eyebrow="Applications"
         title="One material, *many futures*"
-        intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where Momixx supplies today, and which markets are still new for us."
+        intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where MoMixx supplies today, and which markets are still new for us."
       />
       <TabNav tabs={applicationTabs} label="Applications">
         <Section>

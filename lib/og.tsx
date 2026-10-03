@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 // Shared design for social-sharing images (PNG, which every platform renders,
-// including LinkedIn): the page's section, its title, and the Momixx cable
+// including LinkedIn): the page's section, its title, and the MoMixx cable
 // cross-section motif.
 
 export const ogSize = { width: 1200, height: 630 }

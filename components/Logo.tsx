@@ -1,6 +1,8 @@
-// Stand-in for the Momixx mark. Replace the <svg> with the official logo
+// Stand-in for the MoMixx mark. Replace the <svg> with the official logo
 // file (ask marketing for the SVG) once available — everything else that uses
 // <Logo /> will update automatically.
+
+import { site } from '@/lib/site'
 
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -15,7 +17,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className ?? ''}`}>
       <LogoMark className="h-8 w-8" />
-      <span className="font-display text-xl leading-none font-extrabold tracking-tight">Momixx</span>
+      <span className="font-display text-xl leading-none font-extrabold tracking-tight">{site.name}</span>
     </span>
   )
 }

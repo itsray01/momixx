@@ -13,8 +13,8 @@ import { absoluteUrl, plantAddress, site } from '@/lib/site'
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: 'Momixx | High-performance & recycled silicone',
-    template: '%s | Momixx',
+    default: 'MoMixx | High-performance & recycled silicone',
+    template: '%s | MoMixx',
   },
   description: site.description,
   applicationName: site.name,
@@ -37,7 +37,7 @@ const organization = {
   '@id': absoluteUrl('/#organization'),
   name: site.name,
   legalName: site.legalName,
-  alternateName: [site.legalName, 'Orion Momixx'],
+  alternateName: [site.legalName],
   slogan: site.tagline,
   url: site.url,
   logo: absoluteUrl('/icon.svg'),

@@ -18,8 +18,8 @@ faqs:
     a: Research suggests so. A 2026 peer-reviewed study found four of five recycling methods cut emissions by 28% to 66%. It scaled up lab results, so real factories may differ.
   - q: Where do silicone's emissions come from?
     a: Mostly from making silicon, which uses a lot of electricity. The industry study links about two-thirds of silicone's emissions to this step.
-  - q: What carbon figures does Momixx publish?
-    a: An independent third party has checked how Momixx calculates its product carbon footprint. The validation statement, with its scope and method, is available on request. We publish product carbon figures only together with what they cover and who checked them.
+  - q: What carbon figures does MoMixx publish?
+    a: An independent third party has checked how MoMixx calculates its product carbon footprint. The validation statement, with its scope and method, is available on request. We publish product carbon figures only together with what they cover and who checked them.
 sources:
   - title: "Global Silicones Council / denkstatt (2024): SILICAB 2 summary report"
     url: https://www.silicones.eu/wp-content/uploads/2024/10/240718-GSC-Summary-Report-4.pdf
@@ -62,6 +62,6 @@ Companies report similar savings. Recycler ECO U.S.A. says its recycled silicone
 
 Often, yes, in uses such as insulation, solar panels and lighter vehicles. The industry study estimates silicone products save about **14 times** the emissions it takes to make and dispose of them. The industry paid for this study and its summary was not independently reviewed, so treat this as a rough guide.
 
-## What does Momixx do?
+## What does MoMixx do?
 
-Momixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and an independent third party has checked how we calculate our product carbon footprint. The validation statement is available on request. We publish product carbon figures only together with what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).
+MoMixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and an independent third party has checked how we calculate our product carbon footprint. The validation statement is available on request. We publish product carbon figures only together with what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).

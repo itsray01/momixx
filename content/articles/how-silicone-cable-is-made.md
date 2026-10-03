@@ -10,24 +10,24 @@ tags: [extrusion, cables, LSR, manufacturing]
 takeaways:
   - A silicone cable jacket is made by squeezing soft silicone around the wire, then heating it so it sets. This is called extrusion.
   - Most lines run horizontally, often with solid silicone prepared separately and fed in by hand.
-  - Momixx's patented vertical line mixes liquid silicone automatically. It runs at up to 100 metres a minute, with jackets as thin as 0.30 mm.
+  - MoMixx's patented vertical line mixes liquid silicone automatically. It runs at up to 100 metres a minute, with jackets as thin as 0.30 mm.
 faqs:
   - q: What is cable extrusion?
     a: Extrusion squeezes a soft material through a shaped opening, like toothpaste from a tube. For cables, silicone is wrapped around the wire, then heated in an oven so it sets into a rubber jacket.
   - q: Why use liquid silicone for cables?
     a: Liquid silicone rubber (LSR) can be pumped and mixed automatically in a sealed system. That suits fast, non-stop production with steady quality.
   - q: How fast is a vertical silicone extrusion line?
-    a: Momixx's vertical line runs at up to 100 metres a minute, against up to 30 for its horizontal line. Jackets can be as thin as 0.30 mm.
+    a: MoMixx's vertical line runs at up to 100 metres a minute, against up to 30 for its horizontal line. Jackets can be as thin as 0.30 mm.
 sources:
   - title: "Wacker: Liquid silicone rubber (LSR)"
     url: https://www.wacker.com/cms/en-us/products/product-groups/silicone-rubber/liquid-silicone-rubber.html
   - title: "Wacker: Solid silicone rubber (HCR)"
     url: https://www.wacker.com/cms/en-us/products/product-groups/silicone-rubber/solid-silicone-rubber.html
-  - title: Momixx Vertical Extrusion Line specifications
+  - title: MoMixx Vertical Extrusion Line specifications
     url: https://www.momixx.com/products/vertical-extruder
-  - title: Momixx Horizontal Extrusion Line specifications
+  - title: MoMixx Horizontal Extrusion Line specifications
     url: https://www.momixx.com/products/horizontal-extruder
-  - title: Momixx Research & Innovation
+  - title: MoMixx Research & Innovation
     url: https://www.momixx.com/innovation
 ---
 
@@ -41,11 +41,11 @@ Good cable needs a thin jacket that is the same thickness all the way round, bec
 
 ## How are silicone cables usually made?
 
-Most silicone cable lines run **horizontally**. Many use solid silicone (HCR), which is often prepared on a roll mill and fed in by hand. That slows the line and makes consistency harder to control. Momixx's own horizontal line runs at up to **30 metres a minute**.
+Most silicone cable lines run **horizontally**. Many use solid silicone (HCR), which is often prepared on a roll mill and fed in by hand. That slows the line and makes consistency harder to control. MoMixx's own horizontal line runs at up to **30 metres a minute**.
 
 ## What is different about a vertical line?
 
-Momixx developed and patented a vertical line for fast silicone data cable: to our knowledge, the first of its kind. The cable runs upright through the machine and ovens. It uses **liquid silicone rubber (LSR)**, which can be pumped. It works in five steps:
+MoMixx developed and patented a vertical line for fast silicone data cable: to our knowledge, the first of its kind. The cable runs upright through the machine and ovens. It uses **liquid silicone rubber (LSR)**, which can be pumped. It works in five steps:
 
 1. **Feed:** the bare wire is unwound and warmed.
 2. **Mix:** a mixer blends the liquid silicone's two parts and feeds the machine, with no mixing or loading by hand.

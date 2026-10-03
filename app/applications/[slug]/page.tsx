@@ -81,7 +81,7 @@ export default async function ApplicationPage({ params }: Props) {
         </Section>
 
         {a.slug === 'consumer-electronics' && (
-          <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable has five layers. Momixx makes the material for the outer one: the soft, flame-retardant silicone jacket you hold.">
+          <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable has five layers. MoMixx makes the material for the outer one: the soft, flame-retardant silicone jacket you hold.">
             <CableAnatomy />
           </Section>
         )}
@@ -91,7 +91,7 @@ export default async function ApplicationPage({ params }: Props) {
           </Section>
         )}
 
-        <Section eyebrow="Market size" title="Industry *context*" intro="Independent estimates for this industry. They are not Momixx’s addressable market or a forecast of its business.">
+        <Section eyebrow="Market size" title="Industry *context*" intro="Independent estimates for this industry. They are not MoMixx’s addressable market or a forecast of its business.">
           <div data-reveal="stagger" className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>
             {relatedMarkets.map((m) => (
               <MarketCard key={m.id} market={m} />
@@ -103,7 +103,7 @@ export default async function ApplicationPage({ params }: Props) {
           </ArrowLink>
         </Section>
 
-        <Section tone="muted" eyebrow="How Momixx helps" title="What Momixx *supplies*">
+        <Section tone="muted" eyebrow="How MoMixx helps" title="What MoMixx *supplies*">
           <FeatureGrid items={a.ourRole} />
           {relatedProducts.length > 0 && (
             <div className="mt-12">

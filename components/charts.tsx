@@ -2,7 +2,7 @@ import type { Comparison } from '@/content/products'
 import { formatUsd, type Market } from '@/content/markets'
 
 // Emphasis palette for the dark surface, validated (dataviz validator, dark
-// mode, surface #0e131b): Momixx teal #1caa9e vs comparison grey #5a6474 pass
+// mode, surface #0e131b): MoMixx teal #1caa9e vs comparison grey #5a6474 pass
 // lightness, colour-blind separation, normal-vision separation and 3:1
 // contrast. Every bar also carries a direct value label.
 const ACCENT = '#1caa9e'
@@ -25,7 +25,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
         <h3 className="text-xl font-semibold tracking-[-0.02em]">{comparison.title}</h3>
         <ul className="flex gap-5 text-sm text-slate-400" aria-label="Legend">
           <li className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-sm" style={{ background: ACCENT }} /> Momixx
+            <span className="h-2.5 w-2.5 rounded-sm" style={{ background: ACCENT }} /> MoMixx
           </li>
           <li className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-sm" style={{ background: MUTED }} /> {comparison.otherLabel}
@@ -44,7 +44,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
               <p className="mt-0.5 text-xs text-slate-500">{row.better === 'higher' ? 'Higher is better' : 'Lower is better'}</p>
               <div className="mt-4 space-y-2.5">
                 {[
-                  { label: 'Momixx', v: row.momixx, t: row.momixxText, c: ACCENT },
+                  { label: 'MoMixx', v: row.momixx, t: row.momixxText, c: ACCENT },
                   { label: comparison.otherLabel, v: row.other, t: row.otherText, c: MUTED },
                 ].map((b) => {
                   const text = b.t ?? b.v.toLocaleString('en')
@@ -68,7 +68,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
         })}
       </div>
       {comparison.note && <p className="mt-10 border-t border-white/[0.06] pt-5 text-xs text-slate-500">{comparison.note}</p>}
-      <p className="mt-2 text-xs text-slate-500">Source: Momixx internal testing.</p>
+      <p className="mt-2 text-xs text-slate-500">Source: MoMixx internal testing.</p>
     </figure>
   )
 }

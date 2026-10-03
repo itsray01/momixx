@@ -4,7 +4,7 @@ import { pageMetadata, plantLines, site } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Locations: Singapore and Penang, Malaysia',
   description:
-    'Momixx is headquartered in Singapore, with R&D and manufacturing at Batu Kawan (ISO 13485 certified) and Perai in Penang, Malaysia, and a second large-volume facility in Asia.',
+    'MoMixx is headquartered in Singapore, with R&D and manufacturing at Batu Kawan (ISO 13485 certified) and Perai in Penang, Malaysia, and a second large-volume facility in Asia.',
   path: '/locations',
 })
 
@@ -21,7 +21,7 @@ const sites = [
     name: 'Singapore',
     address: [site.address.street, `Singapore ${site.address.postalCode}`],
     map: `${site.address.street}, Singapore ${site.address.postalCode}`,
-    summary: `Our corporate headquarters, where Momixx was founded in ${site.foundingYear}.`,
+    summary: `Our corporate headquarters, where MoMixx was founded in ${site.foundingYear}.`,
     facts: [
       { label: 'Role', value: 'Corporate headquarters' },
       { label: 'Founded', value: String(site.foundingYear) },
@@ -121,7 +121,7 @@ export default function LocationsPage() {
         </div>
       </Section>
 
-      <CtaBand title="Reach the *right team*" body="Tell us what you need and which site you would like to reach, and we will put you in touch." secondary={{ href: '/about', label: 'About Momixx' }} />
+      <CtaBand title="Reach the *right team*" body="Tell us what you need and which site you would like to reach, and we will put you in touch." secondary={{ href: '/about', label: 'About MoMixx' }} />
     </>
   )
 }

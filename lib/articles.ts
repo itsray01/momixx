@@ -35,7 +35,7 @@ export type Article = {
   takeaways: string[]
   faqs: Array<{ q: string; a: string }>
   sources: Array<{ title: string; url: string }>
-  /** Named expert byline (optional). Without it, the article is credited to the Momixx team. */
+  /** Named expert byline (optional). Without it, the article is credited to the MoMixx team. */
   author?: { name: string; role?: string; url?: string }
   html: string
   headings: Array<{ id: string; text: string }>

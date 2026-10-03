@@ -6,8 +6,8 @@
 //  - Where publishers disagree we use the more conservative, internally
 //    consistent figure, and note it.
 //  - Have your IPO advisers review this file before launch.
-//  - Present every figure as industry context. None of them is Momixx's
-//    addressable market, market share or a forecast of Momixx revenue.
+//  - Present every figure as industry context. None of them is MoMixx's
+//    addressable market, market share or a forecast of MoMixx revenue.
 //  - Notes may only contain facts from the named source. No marketing copy.
 //
 // Figures checked against the publishers' pages on 2 Oct 2026.
@@ -26,9 +26,9 @@ export type Market = {
   /** Extra context shown under the figure. */
   note?: string
   /**
-   * Both kinds are shown as industry context, never as Momixx's addressable market.
-   * 'addressable' (legacy name) = an industry Momixx's products are sold into;
-   * 'context' = a broader or related industry, of which Momixx supplies a small part.
+   * Both kinds are shown as industry context, never as MoMixx's addressable market.
+   * 'addressable' (legacy name) = an industry MoMixx's products are sold into;
+   * 'context' = a broader or related industry, of which MoMixx supplies a small part.
    */
   kind: 'addressable' | 'context'
 }
@@ -37,7 +37,7 @@ export const markets: Market[] = [
   {
     id: 'silicone',
     name: 'Global silicone',
-    scope: 'All silicone products worldwide: rubbers, fluids, resins and gels, including many products Momixx does not make.',
+    scope: 'All silicone products worldwide: rubbers, fluids, resins and gels, including many products MoMixx does not make.',
     current: { year: 2025, usdBn: 24.3 },
     forecast: { year: 2033, usdBn: 37.3 },
     cagr: { pct: 5.4, period: '2026–2033' },
@@ -47,7 +47,7 @@ export const markets: Market[] = [
       url: 'https://www.grandviewresearch.com/industry-analysis/silicone-market',
       date: '2026',
     },
-    note: 'Asia Pacific made up 45.8% of 2025 sales. Silicone rubber, Momixx’s main business, was the biggest product group at 42.1%.',
+    note: 'Asia Pacific made up 45.8% of 2025 sales. Silicone rubber, MoMixx’s main business, was the biggest product group at 42.1%.',
     kind: 'context',
   },
   {
@@ -100,7 +100,7 @@ export const markets: Market[] = [
   {
     id: 'usb-cables',
     name: 'Consumer electronics charging cables',
-    scope: 'Complete charging and data cables for phones, laptops and other consumer devices (Momixx supplies the jacket material, not the cables).',
+    scope: 'Complete charging and data cables for phones, laptops and other consumer devices (MoMixx supplies the jacket material, not the cables).',
     current: { year: 2025, usdBn: 4.32 },
     forecast: { year: 2035, usdBn: 8.5 },
     cagr: { pct: 6.7, period: '2026–2035' },
@@ -146,7 +146,7 @@ export const markets: Market[] = [
   {
     id: 'semiconductor-equipment',
     name: 'Semiconductor equipment',
-    scope: 'Total global sales of chip-making equipment. Industry context: Momixx supplies components, a small share of this.',
+    scope: 'Total global sales of chip-making equipment. Industry context: MoMixx supplies components, a small share of this.',
     forecast: { year: 2026, usdBn: 165.9 },
     source: {
       publisher: 'SEMI',
@@ -177,7 +177,7 @@ export const recyclingFacts = {
 }
 
 export const marketDisclaimer =
-  'Market figures are independent third-party estimates from the publishers named, shown for industry context only. They are not prepared or verified by Momixx, are not Momixx’s addressable market, and are not forecasts of Momixx’s revenue or market share. Publishers define markets and forecast periods differently, so figures from different sources should not be compared directly.'
+  'Market figures are independent third-party estimates from the publishers named, shown for industry context only. They are not prepared or verified by MoMixx, are not MoMixx’s addressable market, and are not forecasts of MoMixx’s revenue or market share. Publishers define markets and forecast periods differently, so figures from different sources should not be compared directly.'
 
 export function getMarket(id: string) {
   return markets.find((m) => m.id === id)

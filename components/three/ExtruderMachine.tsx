@@ -1,6 +1,6 @@
 'use client'
 
-// The Momixx vertical extruder (the machine in the product photo) as an
+// The MoMixx vertical extruder (the machine in the product photo) as an
 // interactive 3D model, built to match the photo. The extruder, the capstan
 // pulleys and the inspection unit are clickable parts; their indices, copy and
 // marker positions come from extruderParts.ts.

@@ -5,7 +5,7 @@
 // fields. Only `slug`, `name`, `category`, `tagline` and `summary` are required.
 //
 // Claims rules: temperatures, twist counts and other test figures come from
-// Momixx's own testing and must say so. Spec labels on the extrusion lines must
+// MoMixx's own testing and must say so. Spec labels on the extrusion lines must
 // match the keys in components/three/extruderParts.ts (specPart).
 
 import type { ModelName } from '@/components/three/modelNames'
@@ -73,12 +73,12 @@ export const products: Product[] = [
   // ───────────────────────────── Materials ─────────────────────────────
   {
     slug: 'momixx-mm',
-    name: 'Momixx (MM) Series',
+    name: 'MoMixx (MM) Series',
     tabLabel: 'MM · Cables',
     category: 'materials',
     tagline: 'Flame-retardant silicone for phone and laptop cables.',
     summary:
-      'Our flagship cable silicone. It forms the soft outer jacket of USB-C and charging cables. Compared with TPE, the thermoplastic most cable jackets use, it is softer and more flexible, and in Momixx testing it withstood twice as many twisting cycles and much higher temperatures. It is flame-retardant: it stops burning once the flame is removed.',
+      'Our flagship cable silicone. It forms the soft outer jacket of USB-C and charging cables. Compared with TPE, the thermoplastic most cable jackets use, it is softer and more flexible, and in MoMixx testing it withstood twice as many twisting cycles and much higher temperatures. It is flame-retardant: it stops burning once the flame is removed.',
     benefits: [
       {
         title: 'Flame-retardant',
@@ -86,7 +86,7 @@ export const products: Product[] = [
       },
       {
         title: 'Lasts longer',
-        body: 'In Momixx twisting tests, MM cable jackets lasted about twice as long as a standard TPE cable.',
+        body: 'In MoMixx twisting tests, MM cable jackets lasted about twice as long as a standard TPE cable.',
       },
       {
         title: 'Soft and supple',
@@ -95,8 +95,8 @@ export const products: Product[] = [
     ],
     uses: ['USB-C data cables', 'Phone and laptop chargers', 'Network cables', 'Noise-reducing and magnetic parts'],
     stats: [
-      { value: '10,000', label: 'twisting cycles withstood in Momixx testing' },
-      { value: '250 °C', label: 'highest temperature withstood in Momixx testing' },
+      { value: '10,000', label: 'twisting cycles withstood in MoMixx testing' },
+      { value: '250 °C', label: 'highest temperature withstood in MoMixx testing' },
       { value: 'VW-1', label: 'cable flame test MM grades are designed to pass' },
     ],
     models: [
@@ -114,7 +114,7 @@ export const products: Product[] = [
     processing: 'Extrusion (for cable jackets), injection moulding or compression moulding',
     comparison: {
       title: 'MM silicone vs a standard TPE cable',
-      note: 'Momixx test results, not rated operating temperatures. The heat figures are the highest temperatures each material withstood in our tests. Catalogue ratings for continuous use are lower: about 180 °C for a standard silicone cable and 105 °C for a TPE cable (LAPP ÖLFLEX catalogue). In a long heat-ageing test, MM silicone passed 60 days at 158 °C; the TPE reference passed 7 days at 121 °C.',
+      note: 'MoMixx test results, not rated operating temperatures. The heat figures are the highest temperatures each material withstood in our tests. Catalogue ratings for continuous use are lower: about 180 °C for a standard silicone cable and 105 °C for a TPE cable (LAPP ÖLFLEX catalogue). In a long heat-ageing test, MM silicone passed 60 days at 158 °C; the TPE reference passed 7 days at 121 °C.',
       otherLabel: 'Standard TPE',
       rows: [
         { metric: 'Twisting test', unit: 'cycles', momixx: 10000, other: 5000, better: 'higher' },
@@ -129,7 +129,7 @@ export const products: Product[] = [
   },
   {
     slug: 'momixx-high-density',
-    name: 'Momixx High Density (MHD)',
+    name: 'MoMixx High Density (MHD)',
     tabLabel: 'MHD · PFAS-free',
     category: 'materials',
     tagline: 'A PFAS-free silicone alternative to fluorinated rubber (FKM).',
@@ -162,27 +162,27 @@ export const products: Product[] = [
   },
   {
     slug: 'momixx-move',
-    name: 'Momixx Move (MV)',
+    name: 'MoMixx Move (MV)',
     tabLabel: 'MV · EV',
     category: 'materials',
     tagline: 'Heat-resistant silicone for high-voltage EV cables.',
     summary:
-      'Electric cars carry high power through hot, cramped spaces. In Momixx testing, MV silicone kept working from −60 °C to 250 °C, beyond the roughly 180–200 °C rating typical of standard silicone cable. It is also much softer and more flexible than XLPO, the cross-linked plastic usually used, so cables can be routed through tighter spaces.',
+      'Electric cars carry high power through hot, cramped spaces. In MoMixx testing, MV silicone kept working from −60 °C to 250 °C, beyond the roughly 180–200 °C rating typical of standard silicone cable. It is also much softer and more flexible than XLPO, the cross-linked plastic usually used, so cables can be routed through tighter spaces.',
     benefits: [
-      { title: 'Wide temperature range', body: 'Stayed flexible from −60 °C to 250 °C in Momixx testing.' },
+      { title: 'Wide temperature range', body: 'Stayed flexible from −60 °C to 250 °C in MoMixx testing.' },
       { title: 'Easier to route', body: 'Lower hardness means tighter bends and simpler wiring layouts.' },
-      { title: 'Tested beyond normal use', body: 'Tested by Momixx under conditions harsher than normal electric-car operation.' },
+      { title: 'Tested beyond normal use', body: 'Tested by MoMixx under conditions harsher than normal electric-car operation.' },
     ],
     uses: ['High-voltage power cables in electric cars', 'Charging cables', 'Battery, motor and inverter wiring'],
     stats: [
-      { value: '−60 to 250 °C', label: 'working range in Momixx testing' },
+      { value: '−60 to 250 °C', label: 'working range in MoMixx testing' },
       { value: '60 days', label: 'heat-ageing test passed at 158 °C' },
     ],
     models: [{ model: 'M13', type: 'HCR', properties: 'High-temperature' }],
     processing: 'Extrusion (for cable jackets)',
     comparison: {
       title: 'MV silicone vs XLPO car-cable plastic',
-      note: 'Momixx test results. Highest temperature is what each material withstood in our tests, not a rated operating temperature. Hardness is the middle of each range on the Shore A scale (lower is softer): MV 65–75, XLPO 85–95. In a long heat-ageing test, MV passed 60 days at 158 °C; the XLPO reference passed 7 days at 136 °C.',
+      note: 'MoMixx test results. Highest temperature is what each material withstood in our tests, not a rated operating temperature. Hardness is the middle of each range on the Shore A scale (lower is softer): MV 65–75, XLPO 85–95. In a long heat-ageing test, MV passed 60 days at 158 °C; the XLPO reference passed 7 days at 136 °C.',
       otherLabel: 'XLPO',
       rows: [
         { metric: 'Highest temperature withstood in testing', unit: '°C', momixx: 250, other: 150, better: 'higher' },
@@ -194,7 +194,7 @@ export const products: Product[] = [
   },
   {
     slug: 'momixx-procase',
-    name: 'Momixx ProCase (MPC)',
+    name: 'MoMixx ProCase (MPC)',
     tabLabel: 'MPC · Cases',
     category: 'materials',
     tagline: 'Self-bonding silicone for phone and tablet cases.',
@@ -213,7 +213,7 @@ export const products: Product[] = [
   },
   {
     slug: 'momixx-seal',
-    name: 'Momixx Seal (MMS)',
+    name: 'MoMixx Seal (MMS)',
     tabLabel: 'MMS · Seals',
     category: 'materials',
     tagline: 'Sealing silicone for waterproof electronics.',
@@ -279,7 +279,7 @@ export const products: Product[] = [
         body: 'Keeps silicone out of landfill and skips the energy-intensive step of making new silicon. Published studies show lower emissions than new silicone.',
       },
     ],
-    uses: ['Cables with recycled content', 'Products with recycled-content targets', 'Any Momixx silicone, on request'],
+    uses: ['Cables with recycled content', 'Products with recycled-content targets', 'Any MoMixx silicone, on request'],
     stats: [
       { value: String(recyclingCertifications.length), label: 'recycled-content certifications' },
       { value: '5', label: 'steps from scrap to new silicone' },
@@ -458,7 +458,7 @@ export function productsByCategory(category: ProductCategory) {
 
 /**
  * Search-result titles: short and keyword-first (about 55 characters at most,
- * before " | Momixx"). The on-page heading stays the product name.
+ * before " | MoMixx"). The on-page heading stays the product name.
  */
 export const productSeoTitles: Record<string, string> = {
   'momixx-mm': 'Flame-retardant silicone for USB-C cables (MM)',

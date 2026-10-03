@@ -2,8 +2,8 @@
 // structured data and llms.txt pick them up.
 
 export const site = {
-  // The brand in running text. The logo lockup and legal name are set separately.
-  name: 'Momixx',
+  // The brand, spelled MoMixx everywhere: logo, footer, page titles and running text.
+  name: 'MoMixx',
   legalName: 'Orion MoMixx',
   // Company registration number (Singapore UEN). Shown in the footer once filled in.
   registrationNumber: '201310727R',
@@ -12,7 +12,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.momixx.com',
   tagline: 'High-performance and recycled silicone, engineered in Asia for the world.',
   description:
-    'Momixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
+    'MoMixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
   foundingYear: 2019,
   email: 'enquiries@orionmomixx.com',
   // Contact form: the code after /f/ in the Formspree form's endpoint. Enquiries go to
@@ -29,7 +29,7 @@ export const site = {
   locations: [
     { name: 'Singapore', role: 'Headquarters', detail: '22 New Industrial Road, Primax' },
     { name: 'Batu Kawan, Penang, Malaysia', role: 'Research and manufacturing', detail: 'Liquid silicone, certified medical parts and precision parts' },
-    { name: 'Perai, Penang, Malaysia', role: 'Manufacturing', detail: 'Momixx Malaysia Sdn. Bhd.' },
+    { name: 'Perai, Penang, Malaysia', role: 'Manufacturing', detail: 'MoMixx Malaysia Sdn. Bhd.' },
   ],
   // Plant addresses, written as the company writes them. They feed /locations
   // and the structured data. All are in Malaysia.
@@ -41,7 +41,7 @@ export const site = {
       region: 'Pulau Pinang',
     },
     perai: {
-      company: 'Momixx Malaysia Sdn. Bhd.',
+      company: 'MoMixx Malaysia Sdn. Bhd.',
       lines: ['No 5, Jalan Saga Jaya 1', 'Taman Perindustrian Saga Jaya'],
       postalCode: '13600',
       locality: 'Perai',

@@ -5,7 +5,7 @@ import { pageMetadata, site } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Culture & careers',
   description:
-    'How we work at Momixx: a tech-driven, fast-moving silicone company building an international business, and a culture designed to grow the next generation of engineers and leaders.',
+    'How we work at MoMixx: a tech-driven, fast-moving silicone company building an international business, and a culture designed to grow the next generation of engineers and leaders.',
   path: '/culture',
 })
 
@@ -37,7 +37,7 @@ export default function CulturePage() {
         ]}
         eyebrow="Culture & careers"
         title="How we *work*"
-        intro="Momixx is a technology-led company building an international business. Our culture is curious, fast, precise and collaborative, and designed to develop the next generation of engineers and leaders."
+        intro="MoMixx is a technology-led company building an international business. Our culture is curious, fast, precise and collaborative, and designed to develop the next generation of engineers and leaders."
       />
 
       <Section eyebrow="Our values" title="Six things we *believe*">
@@ -72,11 +72,11 @@ export default function CulturePage() {
           ))}
         </ul>
         <div className="mt-12 flex flex-wrap gap-3">
-          <a href={`mailto:${site.careersEmail || site.email}?subject=${encodeURIComponent('Careers at Momixx')}`} className="group btn-primary px-6 py-3 text-base">
+          <a href={`mailto:${site.careersEmail || site.email}?subject=${encodeURIComponent('Careers at MoMixx')}`} className="group btn-primary px-6 py-3 text-base">
             Send us your CV <Arrow />
           </a>
           <Link href="/about" className="btn-ghost-dark px-6 py-3 text-base">
-            About Momixx
+            About MoMixx
           </Link>
         </div>
       </Section>

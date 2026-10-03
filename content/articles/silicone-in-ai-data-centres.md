@@ -41,12 +41,12 @@ AI chips (GPUs) and fast fibre-optic links draw far more power than older equipm
 
 **Crowded cabling.** In warm, packed cabinets, heat-resistant and flame-retardant silicone is an option where ordinary plastics are near their limits.
 
-## What is Momixx's role?
+## What is MoMixx's role?
 
-AI data centres are a **new opportunity** for Momixx, not yet an established business. We offer materials we already make:
+AI data centres are a **new opportunity** for MoMixx, not yet an established business. We offer materials we already make:
 
-- **[MM flame-retardant silicone](/products/momixx-mm):** withstood 250 °C in Momixx testing, is designed for cables that pass the VW-1 flame test, and is already used in data cables.
-- **[Momixx Seal](/products/momixx-seal):** sealing silicone for waterproof enclosures and connectors.
+- **[MM flame-retardant silicone](/products/momixx-mm):** withstood 250 °C in MoMixx testing, is designed for cables that pass the VW-1 flame test, and is already used in data cables.
+- **[MoMixx Seal](/products/momixx-seal):** sealing silicone for waterproof enclosures and connectors.
 - **Precision moulded parts** from our Batu Kawan, Penang factory.
 
 See [AI data centres](/applications/ai-data-centres) for market estimates and sources.
