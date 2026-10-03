@@ -8,7 +8,8 @@ To publish a new article, copy an existing file, rename it (lowercase, hyphens, 
 
 ```yaml
 ---
-title: Silicone in wearables: why straps feel the way they do   # the question or phrase people search for
+title: Silicone in wearables: why straps feel the way they do   # the on-page heading (H1): the question or phrase people search for
+seoTitle: "Silicone watch straps: why they feel the way they do"   # the browser/search title: 55 characters or fewer, main keyword first
 description: One or two sentences, under 160 characters, shown in Google and on cards.
 date: 2026-10-02          # first published
 updated: 2026-10-02       # change this whenever you revise the article; Google notices fresh dates
@@ -38,3 +39,7 @@ author:                   # optional: a named expert byline builds trust with Go
 - **Link to at least one product or application page** on momixx.com, and to one other article.
 - **Keep it current.** When anything changes (a regulation, a market figure, a certification), update the text and the `updated:` date.
 - **Avoid forward-looking statements about Momixx's own business** (revenue, market share, IPO). Have them reviewed first.
+- **Label Momixx test results as test results.** Write "in Momixx testing" next to any temperature, twist count or other figure from our own tests, and never present it as a rating. Typical silicone cable is rated to about 180–200 °C.
+- **Recycled-content claims:** describe certified chain-of-custody records, not "every batch can be traced". ISCC PLUS allows mass balance.
+- **Use "flame-retardant", not "fire-safe" or "fireproof",** and say "designed for cables that pass VW-1" (VW-1 tests the finished cable).
+- **Hedge firsts and onlys:** "to our knowledge". No new superlatives without documented evidence.

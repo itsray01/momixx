@@ -5,17 +5,17 @@
 type Row = { name: string; detail: string; min: number; max: number; tone: 'momixx' | 'silicone' | 'other' }
 
 const rows: Row[] = [
-  { name: 'Momixx MV silicone', detail: 'From our own testing', min: -60, max: 250, tone: 'momixx' },
+  { name: 'Momixx MV silicone', detail: 'In Momixx testing', min: -60, max: 250, tone: 'momixx' },
   { name: 'Standard silicone cable', detail: 'LAPP ÖLFLEX HEAT 180 SiHF', min: -60, max: 180, tone: 'silicone' },
-  { name: 'Soft plastic cable (TPE)', detail: 'LAPP ÖLFLEX ROBUST FD, while bending', min: -40, max: 105, tone: 'other' },
-  { name: 'PVC plastic cable', detail: 'LAPP ÖLFLEX CLASSIC 110, while bending', min: -15, max: 70, tone: 'other' },
+  { name: 'TPE cable', detail: 'LAPP ÖLFLEX ROBUST FD, flexing', min: -40, max: 105, tone: 'other' },
+  { name: 'PVC cable', detail: 'LAPP ÖLFLEX CLASSIC 110, flexing', min: -15, max: 70, tone: 'other' },
 ]
 
 const LO = -80
 const HI = 280
 const ticks = [-80, -40, 0, 40, 80, 120, 160, 200, 240, 280]
 const pct = (t: number) => ((t - LO) / (HI - LO)) * 100
-const deg = (t: number) => `${t < 0 ? '−' : ''}${Math.abs(t)} °C`
+const deg = (t: number) => `${t < 0 ? '−' : ''}${Math.abs(t)} °C`
 
 const fill = { momixx: 'bg-[#1caa9e]', silicone: 'bg-[#1caa9e]/55', other: 'bg-[#5a6474]' }
 
@@ -23,8 +23,8 @@ export function TemperatureRange() {
   return (
     <figure className="card p-6 sm:p-8">
       <figcaption>
-        <p className="text-lg font-semibold tracking-[-0.02em] text-white">Silicone keeps working from −60 °C to well above 180 °C</p>
-        <p className="mt-1 text-sm text-slate-400">The coldest and hottest each cable material is rated for</p>
+        <p className="text-lg font-semibold tracking-[-0.02em] text-white">Silicone cable is rated from −60 °C to 180 °C; Momixx MV reached 250 °C in our testing</p>
+        <p className="mt-1 text-sm text-slate-400">Temperature range by cable material: catalogue ratings, and Momixx MV in testing</p>
       </figcaption>
 
       <div className="relative mt-8">
@@ -100,11 +100,11 @@ export function TemperatureRange() {
         </table>
       </details>
       <p className="mt-4 text-xs leading-relaxed text-slate-500">
-        For a fair comparison, the cable ratings all come from one maker&apos;s catalogue:{' '}
+        The three cable ratings come from one maker&apos;s catalogue:{' '}
         <a href="https://products.lappgroup.com/online-catalogue/power-and-control-cables/expanded-ambient-temperatures/silicone-cables/oelflex-heat-180-sihf.html" target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-white">
           LAPP ÖLFLEX catalogue
         </a>
-        . The Momixx MV figure comes from our own testing.
+        . The Momixx MV figure is a Momixx test result, not a catalogue rating.
       </p>
     </figure>
   )

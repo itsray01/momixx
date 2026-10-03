@@ -8,7 +8,8 @@ import { useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 import { CableAnatomyModel } from './CableAnatomy'
 import { anatomyView, cableLayers, layerAnchors } from './cableLayers'
-import { Studio } from './models'
+import { Ready } from './Ready'
+import { Studio } from './Studio'
 
 function Markers({ markers, shown }: { markers: RefObject<Array<HTMLElement | null>>; shown: RefObject<number> }) {
   const v = useMemo(() => new THREE.Vector3(), [])
@@ -33,16 +34,6 @@ function Rig() {
     camera.position.x = THREE.MathUtils.damp(camera.position.x, base.x + pointer.x * 0.5, 3, delta)
     camera.position.y = THREE.MathUtils.damp(camera.position.y, base.y + pointer.y * 0.3, 3, delta)
     camera.lookAt(target)
-  })
-  return null
-}
-
-function Ready({ onReady }: { onReady: () => void }) {
-  const fired = useRef(false)
-  useFrame(() => {
-    if (fired.current) return
-    fired.current = true
-    requestAnimationFrame(onReady)
   })
   return null
 }

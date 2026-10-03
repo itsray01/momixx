@@ -2,79 +2,74 @@
 
 Everything here needs a human decision or a file from the company before the new site replaces WordPress.
 
-## 1. Content to confirm
+## 1. Content and settings to confirm
 
 | # | Item | Where | Why it matters |
 |---|---|---|---|
-| 1 | **Management team.** Names, titles, 2–3 sentence bios and headshots. | `content/team.ts` | The page shows placeholders and is hidden from Google until they are filled in. |
+| 1 | **Management team.** Names, titles, 2–3 sentence bios and headshots. | `content/team.ts` | Until every entry is real, `/team` returns "not found" in production and is left out of the menu, footer, About page and sitemap. |
 | 2 | **Second domain name.** The site assumes `orionmomixx.com`, based on the email address. | `REDIRECT_HOSTS` in Vercel | Needed for the redirect and for SEO consolidation. |
-| 3 | **Legal entity name** for the footer (currently "Orion MoMixx"). | `lib/site.ts` → `legalName` | Footer copyright and structured data. |
-| 4 | **What are the Selix and Crimson lines?** Their descriptions are written only from the grade tables. | `content/products.ts` | Product pages need accurate positioning. |
-| 5 | **Certificate details.** Years for SCS Global and the carbon footprint validation, the certifying body, and scope. | `content/company.ts` | Shown on the certificate cards. |
-| 6 | **New products** you want added. | `content/products.ts` | See the README for how to add one. |
-| 7 | **LinkedIn and other official profiles.** | `lib/site.ts` → `sameAs` | Helps Google and AI assistants link the brand. |
-| 8 | **Investor relations.** Whether to add an IR page, and when. | Not yet built | Timing depends on your IPO advisers (see section 3). |
-| 9 | **Green-initiative photos from Jaslyn.** | `public/images/sustainability/` + `content/sustainability.ts` → `greenPhotos` | The photo gallery on /sustainability appears automatically once photos are listed. |
-| 10 | **Carbon footprint figures and validation statement.** For example, kg CO₂e per kg, the boundary, the verifier and the year. | `content/sustainability.ts` → `carbonMetrics` / `carbonComparison`; PDF in `public/certificates/` | The figures block and the recycled-vs-virgin chart appear once real, validated numbers are added. Never estimate. |
-| 11 | **Careers contact.** Use a dedicated email (e.g. careers@) instead of enquiries@. | `app/culture/page.tsx` | CVs currently go to the general enquiries inbox. |
-| 12 | **Article review owner.** Who checks new Insights articles before they go live. | `content/articles/` | Keeps facts and claims accurate as the library grows. |
-| 13 | **Penang plant details.** Full street address, photos, floor area and headcount (if disclosable). | `app/locations/page.tsx`, `app/layout.tsx` (Organization `location`) | Site pages like Wacker's rank for "[company] [city]" and plant-capability searches. |
-| 14 | **Certificate numbers and public verification links** for GRS, ISCC PLUS and SCS. | `content/company.ts` → `number`, `verifyUrl` | A "Verify" link to each scheme's public database is the strongest proof of an "only" claim. |
-| 15 | **Named article authors.** One or two engineers or managers willing to be credited. | `author:` in each article's frontmatter | Named expert bylines are a trust signal for Google and AI answer engines. |
-| 16 | **Recycled vs virgin test data.** Tensile, tear, elongation and ageing results, with methods. | A new Insights article | AI answers currently repeat that recycled silicone "loses quality". Published data that shows otherwise is the page most likely to be cited. |
+| 3 | **Company name and registration.** Running text says "Momixx"; the logo and footer say "Orion MoMixx". Confirm the brand spelling, the registered company name (e.g. "… Pte. Ltd.") and the UEN. | `lib/site.ts` → `name`, `legalName`, `registrationNumber` | Footer, structured data, privacy notice and terms. One place to change. |
+| 4 | **Contact form delivery.** Create a free form at formspree.io (sign up with the enquiries inbox), copy the code after `/f/` in its endpoint, and set it as `NEXT_PUBLIC_FORMSPREE_FORM_ID` in Vercel, then redeploy. | Vercel → Environment Variables | Until then, the form falls back to opening the visitor's email app, which loses enquiries. |
+| 5 | **Dedicated inboxes** for careers and investor relations, if wanted. | `lib/site.ts` → `careersEmail`, `investorEmail` | CVs and IR enquiries currently go to enquiries@. |
+| 6 | **Privacy notice and terms of use.** Drafts are live at `/privacy` and `/terms`, written from what the site actually does (enquiry form, cookie-free analytics, hosting logs). | `app/privacy/page.tsx`, `app/terms/page.tsx` | Must be reviewed by your lawyers, including the forward-looking statements paragraph, which should match the listing documents. |
+| 7 | **What are the Selix and Crimson lines?** Their descriptions are written only from the grade tables. | `content/products.ts` | Product pages need accurate positioning. |
+| 8 | **Certificate details.** For GRS, ISCC PLUS and ISO 13485: the certification body, certificate number, scope, and the year for SCS. | `content/company.ts` | Shown on the certificate cards ("issued by an accredited certification body" until named). |
+| 9 | **LinkedIn and other official profiles.** | `lib/site.ts` → `sameAs` | Helps Google and AI assistants link the brand. |
+| 10 | **Investor relations.** Whether to add an IR page, and when. | Not yet built | Timing depends on your IPO advisers (see section 3). |
+| 11 | **Green-initiative photos from Jaslyn.** | `public/images/sustainability/` + `content/sustainability.ts` → `greenPhotos` | The photo gallery on /sustainability appears automatically once photos are listed. |
+| 12 | **Carbon footprint figures and validation statement.** For example, kg CO₂e per kg, the standard (e.g. ISO 14067), the boundary, the verifier and the year. | `content/sustainability.ts` → `carbonMetrics` / `carbonComparison`; PDF in `public/certificates/` | The site says only that the calculation was checked by an independent third party. The figures block appears once real, validated numbers are added. Never estimate. |
+| 13 | **Article review owner and named authors.** Who checks new Insights articles, and one or two engineers willing to be credited. | `author:` in each article's frontmatter | Articles now show an "Updated" date and "Momixx technical team" until a named author is added. |
+| 14 | **Penang plant details.** Full street address, photos, floor area and headcount (if disclosable). | `app/locations/page.tsx`, `app/layout.tsx` (Organization `location`) | Site pages rank for "[company] [city]" and plant-capability searches. |
+| 15 | **Certificate numbers and public verification links** for GRS, ISCC PLUS and SCS. Decide with counsel first (see section 3, "Second facility"). | `content/company.ts` → `number`, `verifyUrl` | A "Verify certificate" link is the strongest proof of an "only" claim. |
+| 16 | **Recycled vs virgin test data.** Tensile, tear, elongation and ageing results, with methods. | A new Insights article | Published data that shows recycled silicone performs like new is the page most likely to be cited by AI answers. |
 
-## 2. Assets to export from WordPress
+## 2. Photos and files
 
-These are in the WordPress Media Library under `wp-content/uploads/`. They could not be downloaded directly.
+The site has almost no photography. Real photos of the factory, machines, products and people will do more for the site than any other change. Priorities:
 
-Two photos have already been carried over from screenshots of the old pages, at the size they were displayed (about 500 px wide): the extruder (`public/images/products/vertical-extruder.webp`) and the white data cable (`public/images/products/momixx-mm-cable.webp`). Replace them with the original files for full resolution.
-
-| File on the current site | Put it in | Use |
+| File | Put it in | Use |
 |---|---|---|
-| Official logo, as SVG if possible | Replace the stand-in in `components/Logo.tsx` and `app/icon.svg` | Header, footer, favicon. The current mark is an approximation. |
-| `2024/06/DSC00175-1.png` (extruder) | `public/images/products/vertical-extruder.png` | Vertical extruder page |
-| `2024/08/equipment-scaled.webp` | `public/images/products/horizontal-extruder.webp` | Horizontal extruder page |
+| Official logo, as SVG | Replace the stand-in in `components/Logo.tsx` and `app/icon.svg`, then regenerate `app/favicon.ico`, `app/apple-icon.png` and `public/icon-*.png` from it | Header, footer, browser tab, home-screen icon. The current mark is an approximation. |
+| A new, high-resolution photo of the vertical extruder, shot in Penang | `public/images/products/vertical-extruder-photo.webp` | The current image is a ~500 px capture from the old site. A wall socket in the background has been retouched out; a new photo removes the need for that. Keep the same framing so the numbered markers still line up, or ask for the marker positions to be updated. |
 | `2024/06/DSC00416-1.png` (data cable) | `public/images/products/momixx-mm.png` | MM series page |
-| `2024/06/DSC00413-2.png` (EV cable) | `public/images/products/momixx-move.png` | MV series page |
-| `2024/04/prod-series-01.png`, `prod-series-02.png` | `public/images/products/` | MHD and MPC pages |
-| `2024/08/scs-global-services-…png`, `global-recycled-standard…png` | `public/images/certs/` | Certificate cards. Check each scheme's logo-use rules first. |
+| `2024/06/DSC00413-2.png` (EV cable), `prod-series-01.png`, `prod-series-02.png` | `public/images/products/` | MV, MHD and MPC pages |
+| Certificate logos (check each scheme's logo-use rules) | `public/images/certs/` | Certificate cards |
 | Certificate PDFs (GRS, ISCC PLUS, SCS, ISO 13485) | `public/certificates/` | "View certificate" buttons |
+| Factory, team and culture photos | `public/images/` | About, Culture & careers and Locations pages |
 
-Then set the `image`, `logo` or `file` field on the matching entry. See the README.
+Then set the `photo`, `image`, `logo` or `file` field on the matching entry. See the README.
 
 ## 3. Claims for IPO counsel to review
 
-A listing candidate's website is usually treated as public communication during the IPO process. Have your advisers review these before launch:
+A listing candidate's website is usually treated as public communication during the IPO process. Have your advisers review these before launch. The wording on the site is already cautious ("to our knowledge", "in Momixx testing"); each item below still needs evidence on file.
 
-- **Market figures** (`content/markets.ts`, `/markets` and each application page).
-  - All are third-party estimates with the publisher, date and link shown, plus a disclaimer.
-  - Where publishers disagreed, the more conservative figure was used.
-  - Checked on 2 Oct 2026.
-- **"World's first vertical extrusion machine"** and **"20+ patents"**. Keep the patent numbers on file as evidence.
-- **"Supplied to a Fortune Global 500 company"** and **"qualified by a leading smartphone brand"**. Confirm these don't breach customer NDAs.
-- **Test results versus TPE and XLPO** (product pages). These are labelled "Momixx internal testing". Keep the test reports.
+- **Market figures** (`content/markets.ts`, `/markets`, the home page and each application page).
+  - All are third-party estimates with the publisher, date and link shown, labelled as industry context (not Momixx's addressable market) with a disclaimer.
+  - Checked on 2 Oct 2026. Review against publicity rules before the listing.
+- **"To our knowledge, the world's first vertical extrusion line"** and **"20+ patents, granted or pending"**. Keep the patent list (granted vs pending, held by the company) and the novelty evidence on file.
+- **"Customers include a Fortune Global 500 company"** and **"qualified by a leading smartphone brand"**. Confirm these don't breach customer NDAs, and whether it is one smartphone brand or several.
+- **Temperatures.** 250 °C (MM, MV) and −60 °C (MV) are shown as Momixx test results. Confirm the method and whether they are continuous or short-term, and whether any formal rating (UL, ISO 6722, LV 216) exists. The 170 °C (TPE) and 136/150 °C (XLPO) comparison figures are Momixx test results too.
+- **Other test claims.** The 10,000 twisting cycles method; UL 94 ratings and thicknesses per grade; UL file numbers and VW-1 reports with the cable constructions tested; MHD data against FKM and the fluorine test behind "PFAS-free"; any ISO 10993, USP or FDA 21 CFR 177.2600 data behind medical and food-contact uses; the PCTG FDA regulation and compliance letter; whether MMS is used in IP68-rated devices.
+- **Process figures.** The baselines behind "about 30% less electricity than a standard curing oven", "±5 °C instead of ±10 °C", the ~4% bucket saving, "up to 20× lower VOC emissions" and "fewer rejects than UV-cured coatings". Confirm ΔE94 0.50, F-grade hardness, 150 kg/h (without crosshead), 35 rpm, 70 kPa and 10.0 mm are current.
 - **Sustainability claims.**
-  - The old site's "better than net-zero" and "carbon neutrality across all operations by 2024" wording was **deliberately left out**, because it could be read as greenwashing without current evidence.
-  - Re-add it only with substantiation.
-- **"Maturity" labels on applications.**
-  - Labels: In mass production / Certified & scaling / Emerging opportunity.
-  - These were added so that investors aren't given the impression that AI data centres and robotics are existing revenue lines. Adjust them if this is wrong.
-- **"To our knowledge, the only silicone company certified under both GRS and ISCC PLUS".**
-  - This is shown on the home page and on /sustainability, at Dr Cheah's request.
-  - An "only" claim needs documented evidence, such as a search of the GRS and ISCC certificate databases, kept on file.
-  - Remove "To our knowledge" only once that evidence exists.
-- **No mention of China.** Per Dr Cheah, the second manufacturing facility is described only as "a second large-volume facility in Asia".
-  - Nothing on the site contradicts its existence.
-  - Confirm with your advisers that this is consistent with what the prospectus will disclose.
-- **EU PFAS wording.**
-  - The old site said the EU "will restrict PFAS by 2026". As of Oct 2026, the restriction is still going through ECHA and the European Commission and is not yet law.
-  - The new site says the EU is "working towards" a restriction.
+  - The carbon footprint is described only as "a calculation checked by an independent third party", with the statement available on request.
+  - The old site's "better than net-zero" and "carbon neutrality by 2024" wording was deliberately left out. Re-add it only with substantiation.
+  - Recycled content is described as covered by certified chain-of-custody records, which is true under both GRS and ISCC PLUS mass balance. Confirm the recycled-content percentages offered, whether both PIR and PCR scrap are recycled, and which factories have solar panels.
+- **"To our knowledge, the only silicone company certified under both GRS and ISCC PLUS"** (home page and /sustainability, at Dr Cheah's request). Keep a dated search of the GRS and ISCC certificate databases on file.
+- **Medical.** The site says Momixx has made silicone parts for medical-device makers since 2025 and that the Penang factory's quality system was certified to ISO 13485 in 2026. Confirm where 2025 parts were made and the certificate's scope.
+- **"Maturity" labels on applications** (In mass production / Certified & scaling / Emerging opportunity). Confirm what supports "Certified & scaling" for EV and semiconductor, and whether MV is in volume production.
+- **Second facility.** Per Dr Cheah, the second manufacturing facility is described only as "a second large factory in Asia", and nothing on the site names its location. Publishing certificate PDFs or verification links may reveal it (the recycling certificate likely names that site). Decide with counsel which entity and site each published certificate shows, and confirm the wording matches what the prospectus will disclose.
+- **Regulatory wording.** The EU PFAS restriction is described as something the EU is "working towards". Align the D4/D5/D6 wording in the landfill article with the prospectus risk factors.
 
 ## 4. Go-live steps
 
-1. Vercel project created, environment variables set, and the preview reviewed.
-2. Domains added in Vercel, with the secondary domains set to redirect.
-3. IT changes the DNS. **MX and TXT records stay untouched.**
-4. Spot-check old URLs: `/about-us/`, `/data-cable/` and `/sustainability/` should all redirect.
-5. Verify the site in Google Search Console and Bing, and submit the sitemap.
-6. Retire WordPress after about two weeks with no issues.
+1. Vercel project created and the preview reviewed.
+2. Environment variables set in Vercel: `NEXT_PUBLIC_SITE_URL` (https://www.momixx.com), `REDIRECT_HOSTS`, `NEXT_PUBLIC_FORMSPREE_FORM_ID`. Never set `ENABLE_RENDER` in production.
+3. In the Vercel project, turn on **Web Analytics** and **Speed Insights** (cookie-free; the site already includes them).
+4. Domains added in Vercel, with the secondary domains set to redirect.
+5. IT changes the DNS. **MX and TXT records stay untouched.**
+6. Spot-check old URLs. These should all redirect: `/about-us/`, `/contact-us/`, `/data-cable/`, `/odm-oem/`, `/wearable-product/`, `/our-milestone/2018-2/`, `/feed/`, `/wp-sitemap.xml`.
+7. Check the security headers (`curl -I https://www.momixx.com`) and that the browser console shows no Content-Security-Policy errors on the home page, a product page and the contact form.
+8. Send a test enquiry through the contact form and confirm it arrives.
+9. Verify the site in Google Search Console and Bing, and submit the sitemap.
+10. Retire WordPress after about two weeks with no issues.

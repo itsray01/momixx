@@ -1,8 +1,9 @@
 ---
 title: "Silicone recycling explained: mechanical vs chemical"
+seoTitle: "Silicone recycling: mechanical vs chemical"
 description: Silicone can't be melted down like plastic. Here is how it is recycled instead, and why chemical recycling can make it as good as new.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: recycling
 model: recycle
 tags: [silicone recycling, recycled silicone, depolymerisation, DMC, circular economy]
@@ -61,9 +62,9 @@ Momixx uses the **chemical method**, in five steps:
 2. **Break down** the silicone into its building blocks.
 3. **Clean** the recovered DMC.
 4. **Rebuild** the DMC into silicone oil, the same starting point used for new silicone.
-5. **Make** new, high-performance silicone from the oil. Every batch can be traced.
+5. **Make** new, high-performance silicone from the oil.
 
-Our recycled silicone is certified under three recycled-content schemes: **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our process and certificates](/recycled-silicone), or read [what each certificate proves](/insights/grs-vs-iscc-plus-vs-scs).
+Our recycled silicone is certified under three recycled-content schemes: **GRS, ISCC PLUS and SCS Global Services**. Certified chain-of-custody records cover the recycled content from collected waste to finished silicone. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our process and certificates](/recycled-silicone), or read [what each certificate proves](/insights/grs-vs-iscc-plus-vs-scs).
 
 ## How much silicone is recycled today?
 

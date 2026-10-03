@@ -1,13 +1,14 @@
+import { getImageProps } from 'next/image'
 import Link from 'next/link'
 import { ArticleCard } from '@/components/ArticleCard'
 import { MarketCard } from '@/components/charts'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
-import { Render } from '@/components/Render'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, ArrowLink, CtaBand, GridBackdrop, Marquee, Section, StatTiles, rich } from '@/components/ui'
 import { applications } from '@/content/applications'
-import { certifications } from '@/content/company'
+import { companyStats, formalCertifications, recyclingCertifications } from '@/content/company'
+import { products } from '@/content/products'
 import { getMarket, marketDisclaimer } from '@/content/markets'
 import { certificationClaim } from '@/content/sustainability'
 import { getArticles } from '@/lib/articles'
@@ -22,16 +23,38 @@ export const metadata = {
   title: { absolute: 'Momixx | High-performance & recycled silicone' },
 }
 
-const featuredMarkets = ['silicone', 'ev-cables', 'humanoid-robots'].map((id) => getMarket(id)!)
+// Number of material grades across the range, e.g. M3, M4… (derived, so it stays right as grades change).
+const gradeCount = products.flatMap((p) => p.models ?? []).length
+
+const featuredMarkets = ['silicone', 'ev-cables', 'usb-cables'].map((id) => getMarket(id)!)
 
 const statement =
-  'Silicone is the quiet material inside modern technology. It survives heat that melts plastic, bends again and again without cracking, keeps water out, and is gentle enough for medicine. We make it better, cleaner and at scale.'
+  'Silicone is the quiet material inside modern technology. It withstands heat that softens common plastics, bends again and again without cracking, keeps water out, and is widely used in medicine. We develop it, recycle it and produce it at scale.'
 
+// Call-outs that appear around the cable as the hero scrolls (desktop only).
 const heroLabels = [
-  { title: 'Momixx silicone coating', sub: 'Puts itself out if it catches fire', pos: 'top-[18%] right-[4%]' },
-  { title: '10,000 twists', sub: 'Twice as many as a plastic cable', pos: 'top-[50%] right-[38%]' },
-  { title: '−60 °C to 250 °C', sub: 'Stays flexible, won’t melt', pos: 'bottom-[16%] right-[8%]' },
+  { title: 'Momixx silicone jacket', sub: 'Flame-retardant, for UL VW-1 cables', pos: 'top-[46%] right-[8%]' },
+  { title: '10,000 twisting cycles', sub: 'In Momixx testing', pos: 'bottom-[22%] left-[6%]' },
+  { title: 'Up to 250 °C', sub: 'Momixx MM grades, in our testing', pos: 'top-[12%] right-[14%]' },
 ]
+
+/** The hero still: the same view as the live 3D on desktop, a compact cable on phones. */
+function HeroStill() {
+  const common = { alt: '', sizes: '(min-width: 1024px) 50vw, min(100vw, 560px)' }
+  const {
+    props: { srcSet: desktop },
+  } = getImageProps({ ...common, src: '/renders/cable-hero.webp', width: 960, height: 1200 })
+  const {
+    props: { srcSet: mobile, ...rest },
+  } = getImageProps({ ...common, src: '/renders/data-cable.webp', width: 1200, height: 900, loading: 'eager', fetchPriority: 'high' })
+  return (
+    <picture>
+      <source media="(min-width: 1024px)" srcSet={desktop} sizes="50vw" />
+      <source srcSet={mobile} sizes="min(100vw, 560px)" />
+      <img {...rest} alt="" draggable={false} className="h-full w-full object-contain select-none lg:object-cover" />
+    </picture>
+  )
+}
 
 export default function HomePage() {
   return (
@@ -42,20 +65,19 @@ export default function HomePage() {
           <GridBackdrop />
           <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_7_10)_30%,transparent)]" aria-hidden="true" />
 
-          <div className="relative order-2 lg:absolute lg:inset-0">
-            <Scene3D
-              variant="hero"
-              className="mx-auto aspect-square w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none"
-              fallback={
-                <div className="flex h-full w-full items-center lg:justify-end lg:pr-[6%]">
-                  <Render name="cable" priority className="h-auto w-full object-contain lg:w-[58%]" sizes="(min-width: 1024px) 58vw, 100vw" />
-                </div>
-              }
-            />
+          {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
+          <div className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" fallback={<HeroStill />} />
+            {heroLabels.map((l) => (
+              <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block motion-reduce:lg:hidden ${l.pos}`}>
+                <p className="text-sm font-medium text-white">{l.title}</p>
+                <p className="text-xs text-slate-400">{l.sub}</p>
+              </div>
+            ))}
           </div>
 
           <div className="container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
-            <div data-hero-fade className="max-w-3xl">
+            <div data-hero-fade className="max-w-3xl lg:max-w-[min(44vw,38rem)]">
               <p className="eyebrow">A tech-driven silicone company</p>
               <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*')}</h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">
@@ -72,13 +94,6 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
-          {heroLabels.map((l) => (
-            <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block motion-reduce:lg:hidden ${l.pos}`}>
-              <p className="text-sm font-medium text-white">{l.title}</p>
-              <p className="text-xs text-slate-400">{l.sub}</p>
-            </div>
-          ))}
 
           <div data-hero-fade aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-slate-500 uppercase lg:flex">
             Scroll
@@ -98,7 +113,7 @@ export default function HomePage() {
             'Humanoid robots',
             'Semiconductors',
             'Recycled silicone',
-            ...certifications.map((c) => c.short),
+            ...formalCertifications.map((c) => c.short),
           ].map((t) => (
             <span key={t} className="text-lg font-medium tracking-[-0.01em] text-slate-400">
               {t}
@@ -120,12 +135,7 @@ export default function HomePage() {
           </p>
           <div className="mt-16">
             <StatTiles
-              stats={[
-                { value: '2018', label: 'founded in Singapore and Malaysia' },
-                { value: '20+', label: 'patents granted or pending' },
-                { value: '1st', label: 'upright silicone cable machine in the world' },
-                { value: '4', label: 'international certifications' },
-              ]}
+              stats={companyStats}
             />
           </div>
         </div>
@@ -140,13 +150,13 @@ export default function HomePage() {
             kicker="Silicone materials"
             title="Silicone made for the job"
             body="A range of silicones, each made for a specific job, from phone cables to electric cars and medical devices."
-            tags={['Fire-safe', 'Waterproof', 'Free of “forever chemicals”', 'Sticks to plastic', 'Any colour', 'Recycled option']}
-            stat="−60 °C to 250 °C"
+            tags={['Flame-retardant', 'Waterproof', 'Free of “forever chemicals”', 'Self-bonding to plastic', 'Any colour', 'Recycled option']}
+            stat={`${gradeCount} grades`}
             big
           />
-          <BentoTile href="/products/vertical-extruder" className="lg:col-span-2" kicker="Machines" title="A world-first cable machine" stat="100 m a minute" />
-          <BentoTile href="/recycled-silicone" className="lg:col-span-2" kicker="Recycling" title="Recycled silicone, independently certified" stat="3 certificates" />
-          <BentoTile href="/products/medical-precision-components" className="lg:col-span-3" kicker="Medical & precision" title="Certified to make medical parts" stat="Since 2026" />
+          <BentoTile href="/products/vertical-extruder" className="lg:col-span-2" kicker="Machines" title="To our knowledge, a world-first cable line" stat="100 m a minute" />
+          <BentoTile href="/recycled-silicone" className="lg:col-span-2" kicker="Recycling" title="Recycled silicone, independently certified" stat={`${recyclingCertifications.length} certifications`} />
+          <BentoTile href="/products/medical-precision-components" className="lg:col-span-3" kicker="Medical & precision" title="Medical and precision parts, made under ISO 13485" stat="ISO 13485" />
           <BentoTile href="/products/odm-oem" className="lg:col-span-3" kicker="Contract manufacturing" title="From the recipe to the finished part" stat="Made in volume in Asia" />
         </div>
       </Section>
@@ -155,7 +165,7 @@ export default function HomePage() {
       <JourneyScroll
         eyebrow="From sand to silicone"
         title="Where *silicone* comes from"
-        intro="Silicone starts as ordinary sand. Momixx works at step four, turning silicone into materials made for a specific job."
+        intro="Silicone starts as ordinary sand. Momixx works mainly at step four, turning silicone into materials made for a specific job."
       />
 
       {/* ── Applications ── */}
@@ -187,8 +197,8 @@ export default function HomePage() {
               {certificationClaim.headline}
             </p>
             <p className="mt-6 text-lg leading-relaxed text-slate-300">
-              Most silicone waste ends up in landfill. We break it down into its basic building blocks and rebuild it into new silicone that works just as
-              well. Every batch is certified and can be traced.
+              Most silicone waste ends up in landfill. We break it down into its basic building blocks and rebuild it into new silicone that performs like
+              new. Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.
             </p>
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
               <ArrowLink href="/sustainability">Our sustainability</ArrowLink>
@@ -200,7 +210,7 @@ export default function HomePage() {
       </Section>
 
       {/* ── Markets ── */}
-      <Section tone="muted" eyebrow="Growing markets" title="Under some of the biggest *growth stories*" intro={<>Independent estimates for some of the markets our materials serve. <ArrowLink href="/markets">All markets and sources</ArrowLink></>}>
+      <Section tone="muted" eyebrow="Markets" title="The industries *we supply*" intro={<>Independent estimates for industries our materials are sold into. They are not forecasts of Momixx’s business. <ArrowLink href="/markets">All markets and sources</ArrowLink></>}>
         <div data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {featuredMarkets.map((m) => (
             <MarketCard key={m.id} market={m} compact />

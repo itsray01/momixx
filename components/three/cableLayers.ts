@@ -13,7 +13,7 @@ export const cableLayers: CableLayer[] = [
   {
     id: 'jacket',
     name: 'Silicone outer layer',
-    body: 'Momixx MM fire-safe silicone. It is soft and supple, survived 10,000 twists in our tests, copes with 250 °C and puts itself out if it catches fire.',
+    body: 'Momixx MM flame-retardant silicone. It is soft and supple, and stops burning once the flame is removed. In Momixx testing it withstood 10,000 twisting cycles and 250 °C.',
     momixx: true,
   },
 ]

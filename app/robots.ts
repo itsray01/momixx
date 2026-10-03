@@ -8,7 +8,8 @@ export default function robots(): MetadataRoute.Robots {
   const isProduction = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === 'production' : true
   if (!isProduction) return { rules: { userAgent: '*', disallow: '/' } }
   return {
-    rules: { userAgent: '*', allow: '/' },
+    // /render is an internal tool for making the 3D images; it is not served in production either.
+    rules: { userAgent: '*', allow: '/', disallow: '/render/' },
     sitemap: absoluteUrl('/sitemap.xml'),
   }
 }

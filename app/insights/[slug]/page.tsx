@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
 import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, Section } from '@/components/ui'
-import { getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
+import { formatDate, getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -19,11 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const a = getArticle(slug)
   if (!a) return {}
-  const base = pageMetadata({ title: a.title, description: a.description, path: `/insights/${a.slug}` })
+  const base = pageMetadata({ title: a.seoTitle ?? a.title, description: a.description, path: `/insights/${a.slug}`, ownImage: true })
   return {
     ...base,
     keywords: a.tags,
-    openGraph: { ...base.openGraph, type: 'article', publishedTime: a.date, modifiedTime: a.updated ?? a.date, images: [{ url: `/renders/${a.model}.webp`, width: 1200, height: 900, alt: a.title }] },
+    // The share image comes from ./opengraph-image.tsx.
+    openGraph: { ...base.openGraph, type: 'article', publishedTime: a.date, modifiedTime: a.updated ?? a.date },
   }
 }
 
@@ -51,6 +52,10 @@ export default async function ArticlePage({ params }: Props) {
               <p className="eyebrow mt-8">{topic.label}</p>
               <h1 className="display-lg mt-5">{a.title}</h1>
               <p className="mt-6 max-w-2xl text-xl leading-relaxed text-slate-300">{a.description}</p>
+              {/* A visible date and author help readers, search engines and AI answers judge how current and credible the article is. */}
+              <p className="mt-6 text-sm text-slate-500">
+                Updated <time dateTime={a.updated ?? a.date}>{formatDate(a.updated ?? a.date)}</time> · {a.author ? a.author.name : `${site.name} technical team`}
+              </p>
             </div>
           </div>
         </header>
@@ -102,7 +107,7 @@ export default async function ArticlePage({ params }: Props) {
             {a.sources.length > 0 && (
               <section className="mt-16 border-t border-white/[0.08] pt-8">
                 <h2 className="text-sm font-medium tracking-[0.16em] text-slate-500 uppercase">Sources</h2>
-                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-slate-400 marker:text-slate-600">
+                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-slate-400 marker:text-slate-500">
                   {a.sources.map((s) => (
                     <li key={s.url}>
                       <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-white">
@@ -137,7 +142,7 @@ export default async function ArticlePage({ params }: Props) {
         </Section>
       )}
 
-      <CtaBand />
+      <CtaBand title="Questions about *this topic?*" body="Our engineers can help with materials, testing and recycled content." secondary={{ href: '/insights', label: 'More insights' }} />
 
       <JsonLd
         data={{

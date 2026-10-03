@@ -18,6 +18,7 @@ export function CertCard({ cert, featured = false }: { cert: Certification; feat
       </div>
       <h3 className={`mt-5 font-semibold tracking-[-0.02em] text-white ${featured ? 'text-2xl' : ''}`}>{cert.name}</h3>
       <p className="mt-1 text-xs text-slate-500">
+        {cert.schemeOwner && `Standard: ${cert.schemeOwner} · `}
         {cert.issuer}
         {cert.year ? ` · since ${cert.year}` : ''}
         {cert.number ? ` · No. ${cert.number}` : ''}
@@ -33,7 +34,7 @@ export function CertCard({ cert, featured = false }: { cert: Certification; feat
         )}
         {cert.verifyUrl && (
           <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:text-brand-200">
-            Verify with {cert.issuer} <span aria-hidden="true">↗</span>
+            Verify certificate <span aria-hidden="true">↗</span>
           </a>
         )}
       </div>

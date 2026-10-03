@@ -4,20 +4,19 @@
 // used two ways: live in hero scenes, and pre-rendered to transparent images
 // for cards (see scripts/render-models.mjs), so pages with many cards stay fast.
 
-import { Environment, Lightformer, RoundedBox } from '@react-three/drei'
+import { RoundedBox } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { CableAnatomyModel } from './CableAnatomy'
 import { anatomyStillExplode } from './cableLayers'
 import { ExtruderLineModel } from './ExtruderLine'
+import { HeroCableModel } from './HeroCable'
 import { DuneModel, HumanoidModel, MedicalTubingModel, SwatchFanModel, WaferModel } from './modelsDetailed'
 import { landDots } from './landDots'
 import type { ModelName } from './modelNames'
+import { TEAL, TEAL_DARK, TEAL_LIGHT } from './Studio'
 
-export const TEAL = '#149f94'
-export const TEAL_DARK = '#0e514e'
-export const TEAL_LIGHT = '#6dd5c9'
 const COPPER = '#c98a55'
 const GRAPHITE = '#1c2533'
 const STEEL = '#c3ccd6'
@@ -48,37 +47,6 @@ const Glow = ({ color = TEAL_LIGHT, intensity = 2 }: { color?: string; intensity
 const Clear = ({ tint = '#eef8f7', opacity = 0.5 }: { tint?: string; opacity?: number }) => (
   <meshPhysicalMaterial color={tint} roughness={0.05} metalness={0} clearcoat={1} transparent opacity={opacity} depthWrite={false} />
 )
-
-// ───────────────────────── Lighting ─────────────────────────
-
-/**
- * Studio lighting with glossy reflections, generated locally (no HDR downloads):
- * a large overhead softbox, white strip lights for crisp edge highlights, a teal
- * rim from behind and a soft floor bounce.
- */
-export function Studio({ resolution = 256 }: { resolution?: number }) {
-  return (
-    <>
-      <ambientLight intensity={0.22} />
-      <hemisphereLight args={['#e6faf7', '#06090d', 0.45]} />
-      <directionalLight position={[4, 7, 6]} intensity={2.3} />
-      <directionalLight position={[-6, 3, -5]} intensity={1.5} color={TEAL_LIGHT} />
-      <directionalLight position={[6, 2, -6]} intensity={0.9} />
-      <directionalLight position={[0, -4, 3]} intensity={0.3} />
-      <Environment resolution={resolution} frames={1}>
-        <Lightformer form="rect" intensity={3.4} position={[0, 7, 2]} rotation-x={Math.PI / 2} scale={[14, 6, 1]} />
-        <Lightformer form="rect" intensity={2.6} position={[8, 1.5, 2]} rotation-y={-Math.PI / 2} scale={[1.2, 9, 1]} />
-        <Lightformer form="rect" intensity={1.6} position={[-8, 1, 3]} rotation-y={Math.PI / 2} scale={[1.2, 7, 1]} />
-        <Lightformer form="rect" intensity={1.2} position={[0, 2, 9]} scale={[10, 3, 1]} />
-        <Lightformer form="ring" intensity={3} color={TEAL_LIGHT} position={[-5, 2.5, -4]} scale={3.5} />
-        <Lightformer form="rect" intensity={1.4} color={TEAL_LIGHT} position={[4, 3, -7]} scale={[6, 2, 1]} />
-        <Lightformer form="rect" intensity={0.5} position={[0, -6, 0]} rotation-x={-Math.PI / 2} scale={[14, 14, 1]} />
-      </Environment>
-    </>
-  )
-}
-
-// ───────────────────────── Helpers ─────────────────────────
 
 const v = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z)
 
@@ -121,59 +89,6 @@ function roundedRectShape(w: number, h: number, r: number) {
 }
 
 // ───────────────────────── Models ─────────────────────────
-
-/** Silicone-jacketed cable with a stripped, cut end. */
-export function CableModel({ color = TEAL, compact = false }: { color?: string; compact?: boolean }) {
-  const R = compact ? 0.5 : 0.62
-  const points = useMemo(
-    () =>
-      compact
-        ? [v(-3.2, -1.9, -2.5), v(-1.8, -1.2, -0.6), v(-0.6, -0.9, 0.5), v(0.5, -0.2, 0.9), v(1.2, 0.7, 0.8)]
-        : [v(-14, -8.5, -12), v(-7, -4.2, -5), v(-3.6, -2.4, -1.5), v(-1.6, -2.1, 0.6), v(0.2, -0.9, 1.1), v(1.1, 0.25, 0.9)],
-    [compact],
-  )
-  const curve = useMemo(() => new THREE.CatmullRomCurve3(points), [points])
-  const end = useMemo(() => curve.getPoint(1), [curve])
-  const quat = useMemo(() => new THREE.Quaternion().setFromUnitVectors(v(0, 0, 1), curve.getTangent(1).normalize()), [curve])
-  const conductors = useMemo(
-    () => [[0, 0], ...Array.from({ length: 6 }, (_, i) => [Math.cos((i * Math.PI) / 3) * R * 0.38, Math.sin((i * Math.PI) / 3) * R * 0.38])] as Array<[number, number]>,
-    [R],
-  )
-  return (
-    <group position={compact ? [0.2, 0, 0] : [-0.4, 0.2, 0]}>
-      <mesh>
-        <tubeGeometry args={[curve, compact ? 220 : 320, R, 64, false]} />
-        <Silicone color={color} />
-      </mesh>
-      <group position={end} quaternion={quat}>
-        <mesh>
-          <ringGeometry args={[R * 0.74, R, 64]} />
-          <Silicone color={color} />
-        </mesh>
-        <mesh position={[0, 0, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[R * 0.74, R * 0.74, 0.32, 64]} />
-          <meshPhysicalMaterial color="#eef2f6" roughness={0.45} clearcoat={0.4} />
-        </mesh>
-        <mesh position={[0, 0, 0.221]}>
-          <circleGeometry args={[R * 0.6, 48]} />
-          <meshStandardMaterial color="#0b121c" roughness={0.8} />
-        </mesh>
-        {conductors.map(([x, y], i) => (
-          <group key={i} position={[x, y, 0]}>
-            <mesh position={[0, 0, 0.28]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[R * 0.15, R * 0.15, 0.36, 24]} />
-              <meshStandardMaterial color="#26364b" roughness={0.5} />
-            </mesh>
-            <mesh position={[0, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[R * 0.09, R * 0.09, 0.42, 20]} />
-              <Copper />
-            </mesh>
-          </group>
-        ))}
-      </group>
-    </group>
-  )
-}
 
 /** Orange high-voltage EV cable ending in a charging connector. */
 function EvCableModel() {
@@ -791,7 +706,8 @@ export function GlobeModel({ spin = false }: { spin?: boolean }) {
 }
 
 export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
-  cable: () => <CableModel compact />,
+  'data-cable': () => <HeroCableModel path="card" />,
+  'cable-hero': () => <HeroCableModel path="hero" />,
   'ev-cable': () => <EvCableModel />,
   watchband: () => <WatchModel />,
   'phone-case': () => <PhoneCaseModel />,

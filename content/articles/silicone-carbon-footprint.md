@@ -1,8 +1,9 @@
 ---
 title: "What is silicone's carbon footprint, and can recycling cut it?"
+seoTitle: "Silicone carbon footprint: emissions and recycling"
 description: Making 1 kg of silicone releases about 6 kg of greenhouse gases. Here is where they come from and how much recycling could save.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: sustainability
 model: sand
 tags: [carbon footprint, CO2e, LCA, recycled silicone, EPD, sustainability]
@@ -18,7 +19,7 @@ faqs:
   - q: Where do silicone's emissions come from?
     a: Mostly from making silicon, which uses a lot of electricity. The industry study links about two-thirds of silicone's emissions to this step.
   - q: What carbon figures does Momixx publish?
-    a: Momixx holds a carbon footprint validation. We only publish product carbon figures once they are checked, and we say what they cover and who checked them.
+    a: An independent third party has checked how Momixx calculates its product carbon footprint. The validation statement, with its scope and method, is available on request. We publish product carbon figures only together with what they cover and who checked them.
 sources:
   - title: "Global Silicones Council / denkstatt (2024): SILICAB 2 summary report"
     url: https://www.silicones.eu/wp-content/uploads/2024/10/240718-GSC-Summary-Report-4.pdf
@@ -63,4 +64,4 @@ Often, yes, in uses such as insulation, solar panels and lighter vehicles. The i
 
 ## What does Momixx do?
 
-Momixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and holds a carbon footprint validation. We only publish product carbon figures once they are checked, saying what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).
+Momixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and an independent third party has checked how we calculate our product carbon footprint. The validation statement is available on request. We publish product carbon figures only together with what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).

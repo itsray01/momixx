@@ -1,8 +1,9 @@
 ---
 title: "Why most silicone still ends up in landfill"
+seoTitle: "Why most silicone waste ends up in landfill"
 description: Silicone lasts for decades. That is great in use but a problem as waste. Where it goes today, why so little is recycled and what is changing.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: recycling
 model: bottle
 tags: [silicone waste, landfill, recycling, circular economy, end of life]
@@ -54,4 +55,4 @@ Brands also want recycled content they can **prove**. Schemes such as GRS and IS
 
 ## What does Momixx do?
 
-Momixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Every batch is traceable and certified under GRS, ISCC PLUS and SCS Global Services. [See our process and certificates](/recycled-silicone).
+Momixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Its recycled content is certified under GRS, ISCC PLUS and SCS Global Services, with certified chain-of-custody records from collected waste to finished silicone. [See our process and certificates](/recycled-silicone).

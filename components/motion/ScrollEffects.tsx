@@ -1,184 +1,184 @@
 'use client'
 
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePathname } from 'next/navigation'
-import { heroProgress } from '@/components/three/heroProgress'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+import { useEffect } from 'react'
 
 // Site-wide motion, driven by data attributes so pages stay server components:
 //   data-reveal            fade/slide in when scrolled into view
 //   data-reveal="stagger"  same, one child at a time
 //   data-grow / data-grow-y  bars grow from their baseline
-//   data-draw              SVG strokes draw themselves
 //   data-countup           numbers count up ("20+", "100 m/min", "30%")
-//   data-tilt              3D tilt with a light sheen that follows the pointer
 //   data-words             words light up one by one as you scroll through
-//   data-hero              pinned hero; drives the 3D cable via heroProgress
-//   data-hscroll           pinned horizontal-scroll story (desktop)
-// Pinned elements must sit inside a plain wrapper element: GSAP moves them into
-// a spacer, so React has to remove the wrapper (not the moved element) on navigation.
-// Content is fully visible without JavaScript, and nothing moves for visitors
+//   data-tilt              3D tilt with a light sheen that follows the pointer
+//   data-hero, data-hscroll  pinned, scroll-scrubbed sequences (desktop; see pins.ts)
+//
+// Everything except the pinned sequences is plain CSS transitions started by one
+// IntersectionObserver, so no animation library ships with ordinary pages.
+// Content is fully visible without JavaScript: only elements that start below
+// the fold are hidden, just before they animate in. Nothing moves for visitors
 // who prefer reduced motion.
 export function ScrollEffects() {
   const pathname = usePathname()
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const cleanups: Array<() => void> = []
 
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const once = (trigger: Element, start = 'top 88%') => ({ trigger, start, once: true })
-
-        gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
-          const targets = el.dataset.reveal === 'stagger' ? Array.from(el.children) : el
-          // Opacity only (not visibility), so unrevealed sections stay in the
-          // accessibility tree and screen readers can still navigate to them.
-          gsap.from(targets, { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, scrollTrigger: once(el) })
-        })
-
-        gsap.utils.toArray<HTMLElement>('[data-grow]').forEach((el) => {
-          gsap.from(el, { scaleX: 0, transformOrigin: 'left center', duration: 1.2, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') })
-        })
-        gsap.utils.toArray<HTMLElement>('[data-grow-y]').forEach((el) => {
-          gsap.from(el, { scaleY: 0, transformOrigin: 'center bottom', duration: 1.1, ease: 'power3.out', scrollTrigger: once(el, 'top 92%') })
-        })
-
-        gsap.utils.toArray<SVGGeometryElement>('[data-draw]').forEach((el) => {
-          const len = el.getTotalLength()
-          gsap.fromTo(el, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', scrollTrigger: once(el, 'top 85%') })
-        })
-        gsap.utils.toArray<SVGElement>('[data-pop]').forEach((el, i) => {
-          gsap.from(el, { scale: 0, transformOrigin: '50% 50%', duration: 0.6, delay: i * 0.08, ease: 'back.out(2)', scrollTrigger: once(el, 'top 90%') })
-        })
-
-        gsap.utils.toArray<HTMLElement>('[data-words]').forEach((el) => {
-          gsap.fromTo(
-            el.querySelectorAll('[data-word]'),
-            { opacity: 0.4 },
-            { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true } },
-          )
-        })
-
-        const restore: Array<() => void> = []
-        gsap.utils.toArray<HTMLElement>('[data-countup]').forEach((el) => {
-          const original = el.textContent ?? ''
-          const m = original.match(/^(\d[\d,]*)(\D.*)?$/)
-          if (!m) return
-          const target = Number(m[1].replace(/,/g, ''))
-          const suffix = m[2] ?? ''
-          const isYear = !suffix && target >= 1900 && target <= 2100
-          if (target < 10 || isYear) return
-          const fmt = (v: number) => (m[1].includes(',') ? Math.round(v).toLocaleString('en') : String(Math.round(v))) + suffix
-          // The real value stays in the page until the number scrolls into
-          // view, so crawlers and no-scroll visitors never see "0".
-          const state = { v: 0 }
-          restore.push(() => (el.textContent = original))
-          gsap.to(state, {
-            v: target,
-            duration: 1.6,
-            ease: 'power2.out',
-            onUpdate: () => (el.textContent = fmt(state.v)),
-            onComplete: () => (el.textContent = original),
-            scrollTrigger: once(el, 'top bottom'),
-          })
-        })
-        return () => restore.forEach((r) => r())
-      })
-
-      // Pinned, scroll-scrubbed sequences: desktop only, never for reduced motion.
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-        const hero = document.querySelector<HTMLElement>('[data-hero]')
-        if (hero) {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: hero,
-              start: 'top top',
-              end: '+=90%',
-              pin: true,
-              scrub: 0.6,
-              onUpdate: (self) => (heroProgress.value = self.progress),
-            },
-          })
-          tl.to(hero.querySelectorAll('[data-hero-fade]'), { y: -80, autoAlpha: 0, ease: 'power1.in', duration: 1 }, 0)
-          tl.from(hero.querySelectorAll('[data-hero-label]'), { y: 30, autoAlpha: 0, stagger: 0.25, duration: 0.6, ease: 'power2.out' }, 0.25)
+    // ── Reveals, bars and count-ups: start each once it scrolls into view ──
+    // Positions come from IntersectionObserver entries rather than reading the
+    // layout directly, so setting up never forces the browser to re-layout.
+    type Job = { below?: () => void; start: () => void }
+    const jobs = new Map<Element, Job>()
+    const reveal = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue
+          jobs.get(e.target)?.start()
+          jobs.delete(e.target)
+          reveal.unobserve(e.target)
         }
-
-        const hscrollCleanups = gsap.utils.toArray<HTMLElement>('[data-hscroll]').map((wrap) => {
-          const track = wrap.querySelector<HTMLElement>('[data-hscroll-track]')
-          const viewport = wrap.querySelector<HTMLElement>('[data-hscroll-viewport]')
-          const bar = wrap.querySelector<HTMLElement>('[data-hscroll-progress]')
-          if (!track || !viewport) return () => {}
-          // While pinned, the row is moved by scrolling the page, not swiped.
-          // Scroll-snap must be off too, or the browser re-snaps the viewport
-          // against the transform and the cards stop moving.
-          viewport.style.overflowX = 'hidden'
-          viewport.style.scrollSnapType = 'none'
-          viewport.scrollLeft = 0
-          const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
-          gsap.to(track, {
-            x: () => -distance(),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: wrap,
-              start: 'top top',
-              end: () => `+=${distance()}`,
-              pin: true,
-              scrub: 0.6,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => bar && gsap.set(bar, { scaleX: self.progress }),
-            },
-          })
-          return () => {
-            viewport.style.overflowX = ''
-            viewport.style.scrollSnapType = ''
-          }
-        })
-        return () => {
-          heroProgress.value = 0
-          hscrollCleanups.forEach((c) => c())
+      },
+      { rootMargin: '0px 0px -10% 0px' },
+    )
+    // First sighting: anything already on screen is left alone; anything below
+    // the fold is hidden (if it animates in) and handed to the reveal observer.
+    const sort = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        sort.unobserve(e.target)
+        const job = jobs.get(e.target)
+        if (!job) continue
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
+          // Count-ups already in view still count, once; reveals just stay visible.
+          if (!job.below) job.start()
+          jobs.delete(e.target)
+          continue
         }
-      })
-
-      mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
-        const cleanups = gsap.utils.toArray<HTMLElement>('[data-tilt]').map((el) => {
-          gsap.set(el, { transformPerspective: 900 })
-          const rx = gsap.quickTo(el, 'rotationX', { duration: 0.5, ease: 'power3.out' })
-          const ry = gsap.quickTo(el, 'rotationY', { duration: 0.5, ease: 'power3.out' })
-          const move = (e: PointerEvent) => {
-            const r = el.getBoundingClientRect()
-            const px = (e.clientX - r.left) / r.width
-            const py = (e.clientY - r.top) / r.height
-            rx((0.5 - py) * 4)
-            ry((px - 0.5) * 5)
-            el.style.setProperty('--mx', `${px * 100}%`)
-            el.style.setProperty('--my', `${py * 100}%`)
-          }
-          const leave = () => {
-            rx(0)
-            ry(0)
-          }
-          el.addEventListener('pointermove', move)
-          el.addEventListener('pointerleave', leave)
-          return () => {
-            el.removeEventListener('pointermove', move)
-            el.removeEventListener('pointerleave', leave)
-          }
-        })
-        return () => cleanups.forEach((c) => c())
-      })
-
-      // Fonts and lazy 3D can shift layout; recalculate trigger positions.
-      const t = window.setTimeout(() => ScrollTrigger.refresh(), 800)
-      return () => {
-        window.clearTimeout(t)
-        mm.revert()
+        job.below?.()
+        reveal.observe(e.target)
       }
-    },
-    { dependencies: [pathname], revertOnUpdate: true },
-  )
+    })
+    const when = (el: Element, job: Job) => {
+      jobs.set(el, job)
+      sort.observe(el)
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+      const targets = el.dataset.reveal === 'stagger' ? (Array.from(el.children) as HTMLElement[]) : [el]
+      when(el, {
+        below: () =>
+          targets.forEach((t, i) => {
+            t.dataset.motion = 'wait'
+            t.style.setProperty('--motion-delay', `${i * 0.08}s`)
+          }),
+        start: () => targets.forEach((t) => (t.dataset.motion = 'in')),
+      })
+    })
+
+    document.querySelectorAll<HTMLElement>('[data-grow],[data-grow-y]').forEach((el) => {
+      when(el, { below: () => (el.dataset.motionGrow = 'wait'), start: () => (el.dataset.motionGrow = 'in') })
+    })
+
+    document.querySelectorAll<HTMLElement>('[data-countup]').forEach((el) => {
+      const original = el.textContent ?? ''
+      const m = original.match(/^(\d[\d,]*)(\D.*)?$/)
+      if (!m) return
+      const target = Number(m[1].replace(/,/g, ''))
+      const suffix = m[2] ?? ''
+      const isYear = !suffix && target >= 1900 && target <= 2100
+      if (target < 10 || isYear) return
+      const fmt = (v: number) => (m[1].includes(',') ? Math.round(v).toLocaleString('en') : String(Math.round(v))) + suffix
+      // The real value stays in the page until the number scrolls into view,
+      // so crawlers and no-scroll visitors never see "0".
+      let raf = 0
+      when(el, {
+        below: () => {},
+        start: () => {
+          const t0 = performance.now()
+          const tick = (now: number) => {
+            const p = Math.min(1, (now - t0) / 1600)
+            el.textContent = p < 1 ? fmt(target * (1 - (1 - p) ** 2)) : original
+            if (p < 1) raf = requestAnimationFrame(tick)
+          }
+          raf = requestAnimationFrame(tick)
+        },
+      })
+      cleanups.push(() => {
+        cancelAnimationFrame(raf)
+        el.textContent = original
+      })
+    })
+    cleanups.push(() => {
+      sort.disconnect()
+      reveal.disconnect()
+    })
+
+    // ── Words that light up as the paragraph scrolls through the screen ──
+    const wordBlocks = Array.from(document.querySelectorAll<HTMLElement>('[data-words]'))
+    if (wordBlocks.length) {
+      let frame = 0
+      const update = () => {
+        frame = 0
+        const vh = window.innerHeight
+        for (const el of wordBlocks) {
+          const r = el.getBoundingClientRect()
+          if (r.bottom < 0 || r.top > vh) continue
+          // 0 when the top reaches 80% down the screen, 1 when the bottom passes 45%.
+          const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / (vh * 0.35 + r.height)))
+          const words = el.querySelectorAll<HTMLElement>('[data-word]')
+          const span = 1 + 0.1 * (words.length - 1)
+          words.forEach((w, i) => (w.style.opacity = String(0.4 + 0.6 * Math.min(1, Math.max(0, p * span - i * 0.1)))))
+        }
+      }
+      const onScroll = () => (frame ||= requestAnimationFrame(update))
+      onScroll()
+      window.addEventListener('scroll', onScroll, { passive: true })
+      cleanups.push(() => {
+        window.removeEventListener('scroll', onScroll)
+        cancelAnimationFrame(frame)
+        wordBlocks.forEach((el) => el.querySelectorAll<HTMLElement>('[data-word]').forEach((w) => (w.style.opacity = '')))
+      })
+    }
+
+    // ── Tilt and sheen on cards (mouse and trackpad only) ──
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+        const move = (e: PointerEvent) => {
+          const r = el.getBoundingClientRect()
+          const px = (e.clientX - r.left) / r.width
+          const py = (e.clientY - r.top) / r.height
+          el.style.setProperty('--rx', `${(0.5 - py) * 4}deg`)
+          el.style.setProperty('--ry', `${(px - 0.5) * 5}deg`)
+          el.style.setProperty('--mx', `${px * 100}%`)
+          el.style.setProperty('--my', `${py * 100}%`)
+        }
+        const leave = () => {
+          el.style.setProperty('--rx', '0deg')
+          el.style.setProperty('--ry', '0deg')
+        }
+        el.addEventListener('pointermove', move)
+        el.addEventListener('pointerleave', leave)
+        cleanups.push(() => {
+          el.removeEventListener('pointermove', move)
+          el.removeEventListener('pointerleave', leave)
+        })
+      })
+    }
+
+    // ── Pinned sequences: GSAP is only downloaded where one exists, on desktop ──
+    let disposed = false
+    if (document.querySelector('[data-hero],[data-hscroll]') && window.matchMedia('(min-width: 1024px)').matches) {
+      import('./pins').then(({ setupPins }) => {
+        if (!disposed) cleanups.push(setupPins())
+      })
+    }
+
+    return () => {
+      disposed = true
+      cleanups.forEach((c) => c())
+      document.querySelectorAll<HTMLElement>('[data-motion]').forEach((el) => delete el.dataset.motion)
+      document.querySelectorAll<HTMLElement>('[data-motion-grow]').forEach((el) => delete el.dataset.motionGrow)
+    }
+  }, [pathname])
 
   return null
 }

@@ -1,8 +1,9 @@
 ---
 title: "PFAS-free silicone: what PFAS are, and why brands are moving away from FKM"
+seoTitle: "PFAS-free silicone: an alternative to FKM rubber"
 description: FKM, a fluorine-based rubber used in watch straps and seals, is in the PFAS family the EU is working to restrict. Here is where the rules stand.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: regulation
 model: watchband
 tags: [PFAS, FKM, fluoroelastomer, regulation, watch straps, REACH]
@@ -18,7 +19,7 @@ faqs:
   - q: Is FKM a PFAS?
     a: FKM is a fluoropolymer, a rubber made with fluorine. That puts it within the PFAS definition the EU proposal uses.
   - q: What can replace FKM in watch straps?
-    a: High-density silicone is one option. Momixx MHD is made to match FKM's look, feel and toughness without fluorine. Test it for your product first.
+    a: High-density silicone is one option. Momixx MHD offers a similar look, feel and toughness without fluorine. FKM still resists fuels and oils better, so test MHD for your product first.
 sources:
   - title: "ECHA: Per- and polyfluoroalkyl substances (PFAS)"
     url: https://echa.europa.eu/hot-topics/perfluoroalkyl-chemicals-pfas
@@ -68,6 +69,6 @@ So silicone can replace FKM where it does the job. The catch has been feel. Ordi
 
 ## How does Momixx MHD compare with FKM?
 
-**[Momixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone made to match FKM's look, feel and toughness, without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, electric car seals and cable parts, and medical and food-contact parts.
+**[Momixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone with a similar look, feel and toughness to FKM, made without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, and seals and cable parts in electric cars. FKM still resists fuels and oils better, so it remains the right choice for parts exposed to them.
 
 As with any new material, test MHD for your product's needs, such as wear and ageing. [Ask us for samples](/contact).

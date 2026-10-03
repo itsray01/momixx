@@ -10,7 +10,7 @@ import { mkdir } from 'node:fs/promises'
 
 const base = process.argv[2] ?? 'http://localhost:3000'
 const all = [
-  'cable', 'ev-cable', 'watchband', 'phone-case', 'seal', 'compound', 'recycle', 'bottle',
+  'data-cable', 'cable-hero', 'ev-cable', 'watchband', 'phone-case', 'seal', 'compound', 'recycle', 'bottle',
   'extruder-vertical', 'extruder-horizontal', 'mixer', 'winder', 'oven', 'coating', 'oem',
   'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line', 'cable-anatomy',
 ]
@@ -21,14 +21,17 @@ const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH,
   args: ['--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--ignore-gpu-blocklist'],
 })
-const page = await browser.newPage({ viewport: { width: 1200, height: 900 } })
+const page = await browser.newPage({ viewport: { width: 1200, height: 1200 } })
 for (const name of names) {
   await page.goto(`${base}/render/${name}`, { waitUntil: 'networkidle' })
   await page.waitForFunction(() => window.__renderReady === true, null, { timeout: 180000 })
   // Read the WebGL canvas directly: exact pixels with transparency, nothing overlapping.
-  const dataUrl = await page.evaluate(() => document.querySelector('#stage canvas').toDataURL('image/png'))
+  const { dataUrl, width, height } = await page.evaluate(() => {
+    const stage = document.querySelector('#stage')
+    return { dataUrl: stage.querySelector('canvas').toDataURL('image/png'), width: stage.clientWidth, height: stage.clientHeight }
+  })
   const png = Buffer.from(dataUrl.split(',')[1], 'base64')
-  await sharp(png).resize(1200, 900).webp({ quality: 86, alphaQuality: 90 }).toFile(`public/renders/${name}.webp`)
+  await sharp(png).resize(width, height).webp({ quality: 86, alphaQuality: 90 }).toFile(`public/renders/${name}.webp`)
   console.log('rendered', name)
 }
 await browser.close()

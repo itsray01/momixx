@@ -8,7 +8,8 @@ import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from 'rea
 import * as THREE from 'three'
 import { ExtruderMachineModel } from './ExtruderMachine'
 import { extruderParts, machineOverview } from './extruderParts'
-import { Studio } from './models'
+import { Ready } from './Ready'
+import { Studio } from './Studio'
 
 /** Flies the camera to the selected part, or back to the whole machine. Drag to turn it around. */
 function Rig({ selected }: { selected: number | null }) {
@@ -62,16 +63,6 @@ function Markers({ markers }: { markers: RefObject<Array<HTMLElement | null>> })
       el.style.transform = `translate(${((v.x + 1) / 2) * size.width}px, ${((1 - v.y) / 2) * size.height}px) translate(-50%, -50%)`
       el.style.visibility = off ? 'hidden' : 'visible'
     })
-  })
-  return null
-}
-
-function Ready({ onReady }: { onReady: () => void }) {
-  const fired = useRef(false)
-  useFrame(() => {
-    if (fired.current) return
-    fired.current = true
-    requestAnimationFrame(onReady)
   })
   return null
 }

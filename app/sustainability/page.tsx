@@ -2,15 +2,15 @@ import Image from 'next/image'
 import { CertCard } from '@/components/CertCard'
 import { RecycleSteps } from '@/components/infographics'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section } from '@/components/ui'
-import { certifications } from '@/content/company'
+import { certifications, recyclingCertifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
 import { carbonComparison, carbonLevers, carbonMetrics, certificationClaim, greenPhotos } from '@/content/sustainability'
 import { pageMetadata } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'Sustainability: certified recycled silicone and a smaller carbon footprint',
+  title: 'Sustainability: certified recycled silicone',
   description:
-    'Momixx sustainability: GRS and ISCC PLUS certified recycled silicone, independently validated carbon footprint, energy-saving manufacturing and PFAS-free materials.',
+    'Momixx sustainability: GRS and ISCC PLUS certified recycled silicone, an independently checked carbon footprint calculation, energy-saving manufacturing and PFAS-free materials.',
   path: '/sustainability',
 })
 
@@ -27,7 +27,11 @@ export default function SustainabilityPage() {
         crumbs={[{ href: '/sustainability', label: 'Sustainability' }]}
         eyebrow="Sustainability"
         title="Silicone with a *smaller footprint*"
-        intro="Sustainability is built into how we make silicone: certified recycled material, an independently checked carbon footprint, and machines designed to waste less."
+        intro="Sustainability is built into how we make silicone: certified recycled material, a carbon footprint calculation checked by an independent third party, and machines designed to waste less."
+        facts={[
+          { value: String(recyclingCertifications.length), label: 'recycled-content certifications' },
+          { value: '~30%', label: 'less electricity in our curing ovens' },
+        ]}
       >
         <p className="mt-8 inline-flex max-w-xl items-start gap-3 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100">
           <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
@@ -36,7 +40,7 @@ export default function SustainabilityPage() {
       </PageHeader>
 
       {/* Certifications */}
-      <Section eyebrow="Certified" title="Independently *checked*" intro="A recycling claim is only as good as the checks behind it. Two international schemes, GRS and ISCC PLUS, follow our recycled silicone from the waste it came from to the finished product.">
+      <Section eyebrow="Certified" title="Independently *checked*" intro="A recycling claim is only as good as the checks behind it. Two international schemes, GRS and ISCC PLUS, audit the chain of custody of our recycled content, from collected waste to finished silicone.">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
           {featured.map((c) => (
             <CertCard key={c.id} cert={c} featured />
@@ -50,14 +54,14 @@ export default function SustainabilityPage() {
       </Section>
 
       {/* Carbon footprint */}
-      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Measured and *independently checked*">
+      <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Our carbon *footprint*">
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
           <div data-reveal className="lg:sticky lg:top-28">
             <p className="text-lg leading-relaxed text-slate-300">
-              We measure the greenhouse gases released in making our silicone, and an independent expert checks the results. The figures show us
-              where to cut next.
+              We calculate the greenhouse gases released in making our silicone, and an independent third party has checked the calculation. The
+              validation statement, with its scope and method, is available on request.
             </p>
-            <p className="mt-4 leading-relaxed text-slate-400">Here is what we are doing about it.</p>
+            <p className="mt-4 leading-relaxed text-slate-400">How we reduce our footprint:</p>
             {carbonCert?.file && (
               <a href={carbonCert.file} target="_blank" rel="noopener" className="mt-6 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
                 View validation statement (PDF) <span aria-hidden="true">→</span>
@@ -116,7 +120,7 @@ export default function SustainabilityPage() {
       </Section>
 
       {/* Recycling */}
-      <Section eyebrow="Circular silicone" title="Silicone that *comes back*">
+      <Section eyebrow="Circular silicone" title="From waste to *new silicone*">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <p className="text-lg leading-relaxed text-slate-300">{recyclingFacts.summary}</p>
@@ -145,14 +149,14 @@ export default function SustainabilityPage() {
       <Section tone={greenPhotos.length > 0 ? 'white' : 'muted'} eyebrow="Beyond recycling" title="Safer *materials*">
         <FeatureGrid
           items={[
-            { title: 'PFAS-free', body: 'Silicone contains no “forever chemicals”. Our dense silicone can replace the rubbers that do, in watch straps, seals and car parts.' },
-            { title: 'Longer-lasting products', body: 'In our tests, our silicone cables survived twice as many twists as a good plastic cable.' },
-            { title: 'Traceable supply chain', body: 'Certification means every batch of recycled silicone can be traced back to the waste it came from.' },
+            { title: 'PFAS-free', body: 'Standard silicone rubber contains no fluorine, so it is not a PFAS (“forever chemical”). Our high-density silicone can replace fluorinated rubber (FKM) in many watch straps, seals and car parts.' },
+            { title: 'Recycled option', body: 'Any Momixx silicone can be supplied with recycled content on request.' },
+            { title: 'Certified chain of custody', body: 'Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.' },
           ]}
         />
       </Section>
 
-      <CtaBand title="Have silicone waste, or a *recycled-content target?*" body="We work with manufacturers on both sides: collecting silicone scrap and supplying certified recycled silicone." />
+      <CtaBand title="Questions about our *certificates?*" body="Ask for certificate copies, our carbon validation statement or details of our recycled content." />
     </>
   )
 }

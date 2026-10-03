@@ -1,10 +1,11 @@
 ---
 title: "Fire-retardant silicone in USB-C cables: VW-1, UL 94 and the EU charger rule explained"
+seoTitle: "Fire-retardant silicone for USB-C cables: VW-1, UL 94"
 description: How the VW-1 and UL 94 flame tests work, why cable jackets should resist fire, and how the EU's USB-C charger rule is changing cables.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: regulation
-model: cable
+model: data-cable
 tags: [USB-C, VW-1, UL 94, flame retardant, cables, EU common charger]
 takeaways:
   - VW-1 is a flame test for finished cables. To pass, a cable must stop burning on its own within 60 seconds and must not drip burning material.
@@ -16,7 +17,7 @@ faqs:
   - q: What is the difference between UL 94 V-0, V-1 and V-2?
     a: They grade how a plastic or rubber behaves in a flame. V-0, the safest, must stop burning within 10 seconds with no flaming drips. V-1 allows 30 seconds with no flaming drips. V-2 allows 30 seconds and flaming drips.
   - q: Do all USB-C cables have to be flame-retardant?
-    a: It depends on the product, market and safety approval route. Many brands ask for VW-1-rated jackets. Momixx MM silicone is designed to pass VW-1.
+    a: It depends on the product, market and safety approval route. Many brands specify cables that pass VW-1. Momixx MM silicone is designed for cables that pass VW-1.
   - q: When did the EU require USB-C chargers?
     a: Since 28 December 2024 for phones, tablets, cameras, headphones, earbuds, e-readers, keyboards, mice and other small devices that charge by cable. Laptops followed on 28 April 2026.
 sources:
@@ -32,6 +33,10 @@ sources:
     url: https://single-market-economy.ec.europa.eu/sectors/electrical-and-electronic-engineering-industries-eei/radio-equipment-directive-red/one-common-charging-solution-all_en
   - title: "European Commission guidance C/2024/2997 on the common charger"
     url: https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C_202402997
+  - title: "EUR-Lex summary: Regulation (EU) 2025/2052, ecodesign requirements for external power supplies (from 2028)"
+    url: https://eur-lex.europa.eu/EN/legal-content/summary/ecodesign-requirements-external-power-supplies-as-from-2028.html
+  - title: "LAPP: ÖLFLEX silicone and TPE cable ratings (online catalogue)"
+    url: https://products.lappgroup.com/online-catalogue/power-and-control-cables/expanded-ambient-temperatures/silicone-cables/oelflex-heat-180-sihf.html
 ---
 
 A charging cable lies next to beds, sofas and desks, and fast charging pushes more power through it than ever. If it overheats, the jacket burns first. A **flame-retardant jacket** stops burning once the flame is taken away and does not drip.
@@ -58,11 +63,11 @@ UL 94 tests the **material itself**, not a finished cable. Small upright bars of
 | V-1 | 30 seconds | No |
 | V-2 | 30 seconds | Yes |
 
-## Why is silicone good for fire-safe cables?
+## Why is silicone good for flame-retardant cables?
 
-Silicone copes with heat by nature. When it does burn, it leaves a mineral ash instead of melting and dripping like many plastics. Wacker, a major silicone maker, says special grades for fire-safety cables turn into a hard ceramic layer. That layer keeps the wire insulated at up to 1,000 °C.
+Silicone resists heat by nature. When it does burn, it leaves a mineral ash instead of melting and dripping like many plastics. Wacker, a major silicone maker, says special grades for fire-safety cables turn into a hard ceramic layer. That layer keeps the wire insulated at up to 1,000 °C.
 
-**[Momixx MM silicone](/products/momixx-mm)** copes with heat up to 250 °C. In our testing, TPE, the soft plastic most cable jackets use, starts to soften at around 170 °C. MM stops burning once the flame is removed and passes VW-1.
+Standard silicone cable is typically rated for continuous use to about 180–200 °C, against about 105 °C for a TPE cable (LAPP catalogue). TPE is the soft plastic most cable jackets use. In Momixx testing, **[MM silicone](/products/momixx-mm)** withstood 250 °C, while the TPE reference began to soften at around 170 °C. These are test results, not rated operating temperatures. MM stops burning once the flame is removed and is designed for cables that pass VW-1.
 
 ## What did the EU's common charger rule change?
 
@@ -70,13 +75,13 @@ An EU law, Directive (EU) 2022/2380, made **USB-C**, the small oval plug that fi
 
 - **Since 28 December 2024:** phones, tablets, cameras, headphones and other small devices that charge by cable.
 - **Since 28 April 2026:** laptops.
-- **From 14 December 2028:** chargers sold separately must work across devices.
+- **From 14 December 2028:** under a separate ecodesign regulation, (EU) 2025/2052, most external chargers sold in the EU must have a USB-C port and work across devices.
 
-One USB-C cable now has to serve everything from earbuds to laptops. So it must carry more power, last longer and resist fire better.
+One USB-C cable may now serve everything from earbuds to laptops, so brands want cables that carry more power and last longer. The EU charger rules do not set fire-safety requirements themselves; those come from safety standards and each brand's own specifications.
 
 ## What does Momixx make for USB-C cables?
 
-- **Materials:** [MM series](/products/momixx-mm) fire-retardant silicone, in solid and liquid forms ([LSR vs HCR](/insights/lsr-vs-hcr)). Grades include extra-strong, low-temperature-setting and bitter-tasting child-safe options.
+- **Materials:** [MM series](/products/momixx-mm) flame-retardant silicone, in solid and liquid forms ([LSR vs HCR](/insights/lsr-vs-hcr)). Grades include high-strength, lower-temperature-curing and bitter-additive options (the bitter taste discourages chewing).
 - **Machines:** our patented [vertical extrusion line](/products/vertical-extruder) coats cable at up to 100 metres a minute. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
 
 [Request a sample or specification](/contact).

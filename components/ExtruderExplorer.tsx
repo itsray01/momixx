@@ -4,7 +4,8 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { afterLoadIdle, canRun3D } from './three/capability'
+import { CanvasBoundary } from './three/CanvasBoundary'
+import { useLazy3D } from './three/useLazy3D'
 import { extruderParts, specPart } from './three/extruderParts'
 
 // Three.js only downloads when the explorer scrolls near the viewport, on devices that can run it.
@@ -32,41 +33,34 @@ const markerClass = (selected: number | null, hovered: number | null, i: number)
  * without a marker.
  */
 export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src: string; alt: string } }) {
-  const stage = useRef<HTMLDivElement>(null)
+  const { ref: stage, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>()
   const markers = useRef<Array<HTMLButtonElement | null>>([])
+  // Keyboard focus follows the selection when the control that was used disappears
+  // (choosing from the list swaps it for the part card, and back again).
+  const cardHeading = useRef<HTMLHeadingElement>(null)
+  const listButtons = useRef<Array<HTMLButtonElement | null>>([])
+  const focusNext = useRef<'card' | number | null>(null)
   const [selected, setSelected] = useState<number | null>(null)
   const [hovered, setHovered] = useState<number | null>(null)
-  const [enabled, setEnabled] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [ready, setReady] = useState(false)
-  const [reduced, setReduced] = useState(false)
   const [view, setView] = useState<'3d' | 'photo'>('3d')
-
-  useEffect(() => {
-    const el = stage.current
-    if (!el) return
-    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-    let io: IntersectionObserver | undefined
-    const cancel = afterLoadIdle(() => {
-      if (!canRun3D()) return
-      io = new IntersectionObserver(
-        ([entry]) => {
-          setVisible(entry.isIntersecting)
-          if (entry.isIntersecting) setEnabled(true)
-        },
-        { rootMargin: '300px' },
-      )
-      io.observe(el)
-    })
-    return () => {
-      cancel()
-      io?.disconnect()
-    }
-  }, [])
 
   const part = selected === null ? null : extruderParts[selected]
   const partSpecs = part ? specs.filter((s) => specPart[s.label] === part.id) : []
   const step = (d: number) => setSelected((s) => (s === null ? 0 : (s + d + n) % n))
+  const chooseFromList = (i: number) => {
+    focusNext.current = 'card'
+    setSelected(i)
+  }
+  const backToMachine = () => {
+    focusNext.current = selected
+    setSelected(null)
+  }
+  useEffect(() => {
+    const f = focusNext.current
+    focusNext.current = null
+    if (f === 'card') cardHeading.current?.focus({ preventScroll: true })
+    else if (typeof f === 'number') listButtons.current[f]?.focus({ preventScroll: true })
+  }, [selected])
   const focus = selected ?? hovered
   const live = ready && view === '3d'
   const spot = live ? undefined : part?.photo
@@ -96,6 +90,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     onMouseEnter={() => setHovered(i)}
                     onMouseLeave={() => setHovered(null)}
                     aria-label={`${i + 1}. ${p.name}`}
+                    aria-pressed={selected === i}
                     style={{ left: `${p.photo.x}%`, top: `${p.photo.y}%`, scale: spot ? 1 / zoom : 1 }}
                     className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
@@ -109,15 +104,17 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
 
           {enabled && (
             <div className={`absolute inset-0 transition-opacity duration-700 ${live ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-              <MachineCanvas
-                selected={selected}
-                hovered={hovered}
-                onSelect={setSelected}
-                onHover={setHovered}
-                animate={visible && !reduced && view === '3d'}
-                onReady={() => setReady(true)}
-                markers={markers}
-              />
+              <CanvasBoundary>
+                <MachineCanvas
+                  selected={selected}
+                  hovered={hovered}
+                  onSelect={setSelected}
+                  onHover={setHovered}
+                  animate={visible && !reduced && view === '3d'}
+                  onReady={markReady}
+                  markers={markers}
+                />
+              </CanvasBoundary>
               {/* Numbered markers, kept on their parts by the 3D scene */}
               {extruderParts.map((p, i) =>
                 p.machine ? (
@@ -130,6 +127,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     onMouseEnter={() => setHovered(i)}
                     onMouseLeave={() => setHovered(null)}
                     aria-label={`${i + 1}. ${p.name}`}
+                    aria-pressed={selected === i}
                     style={{ visibility: 'hidden' }}
                     className={`absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
@@ -159,7 +157,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
             )}
             {part && !onMachine && (
               <p className="pointer-events-none rounded-full border border-white/10 bg-ink-950/70 px-3 py-1.5 text-xs text-slate-300 backdrop-blur">
-                Not shown here · part of the full production line
+                Not in this photo · part of the full vertical line
               </p>
             )}
           </div>
@@ -167,7 +165,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
             {live ? '3D model · drag to turn the machine, click a part to explore' : 'The real machine · select a numbered part to explore'}
           </p>
           {selected !== null && (
-            <button type="button" onClick={() => setSelected(null)} className="btn-ghost-dark absolute top-4 right-4 py-1.5 text-xs">
+            <button type="button" onClick={backToMachine} className="btn-ghost-dark absolute top-4 right-4 py-1.5 text-xs">
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden="true">
                 <path d="M2 8h12M2 8l4-4M2 8l4 4" fill="none" stroke="currentColor" strokeWidth="1.5" />
               </svg>
@@ -177,13 +175,15 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
         </div>
 
         {/* Part list, or the selected part's card */}
-        <aside className="card flex flex-col p-6 sm:p-7" aria-live="polite">
+        <aside className="card flex flex-col p-6 sm:p-7" aria-label="Machine parts">
           {part && selected !== null ? (
             <div key={part.id} className="flex flex-1 flex-col motion-safe:animate-[fade-in_0.4s_ease-out]">
               <p className="font-mono text-xs text-brand-300">
                 {pad(selected)} / {pad(n - 1)}
               </p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{part.name}</h3>
+              <h3 ref={cardHeading} tabIndex={-1} aria-live="polite" className="mt-3 text-2xl font-semibold tracking-[-0.03em] focus:outline-none">
+                {part.name}
+              </h3>
               <p className="mt-1 text-sm text-brand-200">{part.short}</p>
               <p className="mt-4 leading-relaxed text-slate-300">{part.body}</p>
               {partSpecs.length > 0 && (
@@ -217,8 +217,9 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                 {extruderParts.map((p, i) => (
                   <li key={p.id}>
                     <button
+                      ref={(el) => void (listButtons.current[i] = el)}
                       type="button"
-                      onClick={() => setSelected(i)}
+                      onClick={() => chooseFromList(i)}
                       onMouseEnter={() => setHovered(i)}
                       onMouseLeave={() => setHovered(null)}
                       onFocus={() => setHovered(i)}
@@ -259,7 +260,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                       type="button"
                       onClick={() => {
                         setSelected(i)
-                        stage.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                        stage.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' })
                       }}
                       className="text-left underline decoration-white/15 underline-offset-4 hover:text-brand-200 hover:decoration-brand-300"
                     >

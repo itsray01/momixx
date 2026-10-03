@@ -77,18 +77,21 @@ export function PageHeader({
   title,
   intro,
   crumbs,
+  facts,
   children,
 }: {
   eyebrow?: string
   title: string
   intro?: ReactNode
   crumbs?: Crumb[]
+  /** A few key figures, shown beside the heading on wide screens and under it on phones. */
+  facts?: Array<{ value: string; label: string }>
   children?: ReactNode
 }) {
   return (
     <section className="grain relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
       <GridBackdrop />
-      <div className="container-page relative">
+      <div className={`container-page relative ${facts ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-end lg:gap-16' : ''}`}>
         <div className="max-w-4xl">
           {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
@@ -96,6 +99,17 @@ export function PageHeader({
           {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
           {children}
         </div>
+        {facts && (
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] lg:grid-cols-1">
+            {facts.map((f) => (
+              // Label first for screen readers; shown under the value.
+              <div key={f.label} className="flex flex-col-reverse bg-ink-950/80 px-5 py-4 backdrop-blur">
+                <dt className="mt-0.5 text-xs leading-snug text-slate-400">{f.label}</dt>
+                <dd className="text-2xl font-semibold tracking-[-0.03em] text-white">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
       <div className="hairline absolute inset-x-0 bottom-0" />
     </section>
@@ -223,9 +237,12 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
 export function CtaBand({
   title = 'Talk to *our team*',
   body = 'Whether you need a material, a machine or a manufacturing partner, we’ll help you find the right silicone for the job.',
+  secondary = { href: '/products', label: 'Explore products' },
 }: {
   title?: string
   body?: string
+  /** The second button: somewhere useful to go next from this page. */
+  secondary?: { href: string; label: string }
 }) {
   return (
     <section className="bg-ink-950 py-24 sm:py-32">
@@ -239,8 +256,8 @@ export function CtaBand({
               <Link href="/contact" className="group btn-primary px-6 py-3 text-base">
                 Get in touch <Arrow />
               </Link>
-              <Link href="/products" className="btn-ghost-dark px-6 py-3 text-base">
-                Explore products
+              <Link href={secondary.href} className="btn-ghost-dark px-6 py-3 text-base">
+                {secondary.label}
               </Link>
             </div>
           </div>
@@ -279,12 +296,27 @@ export function Marquee({ items, className = '' }: { items: ReactNode[]; classNa
       ))}
     </ul>
   )
+  // Moving content needs a way to stop it (WCAG 2.2.2): a checkbox styled as a
+  // pause button works without JavaScript, and hovering also pauses.
   return (
-    <div className={`group relative flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)] ${className}`}>
-      <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
-        {row(false)}
-        {row(true)}
+    <div className={`group relative ${className}`}>
+      <div className="flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] group-has-[input:checked]:[animation-play-state:paused]">
+          {row(false)}
+          {row(true)}
+        </div>
       </div>
+      <label className="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center gap-1.5 rounded-full border border-white/10 bg-ink-950/90 px-2.5 py-1 text-[11px] text-slate-400 hover:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-300 motion-reduce:hidden">
+        <input type="checkbox" className="peer sr-only" />
+        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 peer-checked:hidden" aria-hidden="true">
+          <path d="M3.5 2v8M8.5 2v8" stroke="currentColor" strokeWidth="1.6" />
+        </svg>
+        <svg viewBox="0 0 12 12" className="hidden h-2.5 w-2.5 peer-checked:block" aria-hidden="true">
+          <path d="M3 2l7 4-7 4z" fill="currentColor" />
+        </svg>
+        <span className="peer-checked:hidden">Pause</span>
+        <span className="hidden peer-checked:inline">Play</span>
+      </label>
     </div>
   )
 }

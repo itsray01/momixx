@@ -3,7 +3,8 @@
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { afterLoadIdle, canRun3D } from './three/capability'
+import { CanvasBoundary } from './three/CanvasBoundary'
+import { useLazy3D } from './three/useLazy3D'
 import hotspots from './three/cableHotspots.json'
 import { anatomyStillExplode, cableLayers } from './three/cableLayers'
 
@@ -15,47 +16,28 @@ const CableAnatomyCanvas = dynamic(() => import('./three/CableAnatomyCanvas'), {
  * Hover a layer (in the list or on its marker) to pick it out.
  */
 export function CableAnatomy() {
-  const stage = useRef<HTMLDivElement>(null)
+  const { ref: stage, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>()
   const explode = useRef(anatomyStillExplode)
   const markers = useRef<Array<HTMLButtonElement | null>>([])
-  const [active, setActive] = useState<string | null>(null)
-  const [enabled, setEnabled] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [ready, setReady] = useState(false)
-  const [reduced, setReduced] = useState(false)
+  // Hover or focus previews a layer; clicking pins it, so touch and keyboard users can keep one highlighted.
+  const [previewed, setActive] = useState<string | null>(null)
+  const [pinned, setPinned] = useState<string | null>(null)
+  const active = previewed ?? pinned
 
+  // Scroll drives the explode: neat steps as the cable enters, fully apart at mid-screen.
+  // Only needed once the live 3D is running.
   useEffect(() => {
     const el = stage.current
-    if (!el) return
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(mq.matches)
-    // Scroll drives the explode: neat steps as the cable enters, fully apart at mid-screen.
+    if (!el || !enabled || reduced) return
     const onScroll = () => {
-      if (mq.matches) return
       const r = el.getBoundingClientRect()
       const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (window.innerHeight * 0.9)))
       explode.current = p * p * (3 - 2 * p)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    let io: IntersectionObserver | undefined
-    const cancel = afterLoadIdle(() => {
-      if (!canRun3D()) return
-      io = new IntersectionObserver(
-        ([entry]) => {
-          setVisible(entry.isIntersecting)
-          if (entry.isIntersecting) setEnabled(true)
-        },
-        { rootMargin: '300px' },
-      )
-      io.observe(el)
-    })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      cancel()
-      io?.disconnect()
-    }
-  }, [])
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [stage, enabled, reduced])
 
   const markerClass = (id: string, momixx?: boolean) =>
     `flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[11px] font-semibold backdrop-blur transition-colors ${
@@ -69,6 +51,8 @@ export function CableAnatomy() {
           <li key={l.id}>
             <button
               type="button"
+              aria-pressed={pinned === l.id}
+              onClick={() => setPinned((p) => (p === l.id ? null : l.id))}
               onMouseEnter={() => setActive(l.id)}
               onMouseLeave={() => setActive(null)}
               onFocus={() => setActive(l.id)}
@@ -109,7 +93,9 @@ export function CableAnatomy() {
         </div>
         {enabled && (
           <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}>
-            <CableAnatomyCanvas explode={explode} highlight={active} markers={markers} animate={visible && !reduced} onReady={() => setReady(true)} />
+            <CanvasBoundary>
+              <CableAnatomyCanvas explode={explode} highlight={active} markers={markers} animate={visible && !reduced} onReady={markReady} />
+            </CanvasBoundary>
             {cableLayers.map((l, i) => (
               <button
                 key={l.id}

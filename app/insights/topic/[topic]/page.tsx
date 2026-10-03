@@ -18,7 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic } = await params
   if (!(topic in topics)) return {}
   const t = topics[topic as Topic]
-  return pageMetadata({ title: `${t.label}: silicone insights`, description: t.blurb, path: `/insights/topic/${topic}` })
+  const count = getArticles().filter((a) => a.topic === topic).length
+  return pageMetadata({
+    title: `${t.label}: silicone insights`,
+    description: `${t.blurb} ${count} plain-English ${count === 1 ? 'article' : 'articles'} from Momixx, each with sources and FAQs.`,
+    path: `/insights/topic/${topic}`,
+  })
 }
 
 export default async function TopicPage({ params }: Props) {
@@ -51,7 +56,7 @@ export default async function TopicPage({ params }: Props) {
           ))}
         </ul>
       </Section>
-      <CtaBand />
+      <CtaBand title="Have a question about *silicone?*" body="Our engineers are happy to help with materials, recycling and manufacturing questions." secondary={{ href: '/insights', label: 'All insights' }} />
     </>
   )
 }

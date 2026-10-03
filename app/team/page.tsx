@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { JsonLd } from '@/components/JsonLd'
 import { team, teamReady } from '@/content/team'
@@ -24,6 +25,8 @@ function initials(name: string) {
 }
 
 export default function TeamPage() {
+  // Not published until every profile is real; placeholders still show in development for previewing.
+  if (!teamReady && process.env.NODE_ENV === 'production') notFound()
   const real = team.filter((m) => !m.placeholder)
   return (
     <>

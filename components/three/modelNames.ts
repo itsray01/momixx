@@ -1,7 +1,8 @@
 // Names of the 3D models in models.tsx. Kept in a plain module so server code
 // (and the render script) can read the list without loading Three.js.
 export const modelNames = [
-  'cable',
+  'data-cable',
+  'cable-hero',
   'ev-cable',
   'watchband',
   'phone-case',

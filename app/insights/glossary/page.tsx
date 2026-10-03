@@ -6,7 +6,7 @@ import { absoluteUrl, pageMetadata } from '@/lib/site'
 import { TopicNav } from '../TopicNav'
 
 export const metadata = pageMetadata({
-  title: 'Silicone glossary: LSR, HCR, DMC, GRS, PFAS and more',
+  title: 'Silicone glossary: LSR, HCR, DMC, PFAS and more',
   description: 'Plain-English definitions of silicone, silicone recycling and cable terms: LSR, HCR, DMC, siloxane, GRS, ISCC PLUS, PFAS, FKM, UL 94, VW-1 and more.',
   path: '/insights/glossary',
 })
@@ -62,7 +62,7 @@ export default function GlossaryPage() {
           })}
         </dl>
       </Section>
-      <CtaBand />
+      <CtaBand title="Can’t find a *term?*" body="Ask our technical team and we’ll explain it in plain English." secondary={{ href: '/insights', label: 'Read our insights' }} />
       <JsonLd
         data={{
           '@context': 'https://schema.org',

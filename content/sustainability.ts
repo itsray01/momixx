@@ -26,12 +26,12 @@ export const carbonComparison: null | { unit: string; recycled: number; virgin: 
 
 /** How we reduce our footprint today: factual levers already described on the site. */
 export const carbonLevers = [
-  { title: 'Recycled silicone', body: 'Every tonne we rebuild from scrap is a tonne that doesn’t have to be made from scratch, starting with sand.' },
+  { title: 'Recycled silicone', body: 'Silicone rebuilt from scrap avoids making new silicon, the largest source of emissions in producing new silicone.' },
   { title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
-  { title: '30% less oven energy', body: 'Our redesigned ovens use about 30% less electricity than standard ones.' },
-  { title: 'Less waste', body: 'Our mixer uses the 4% or so of silicone usually left at the bottom of each bucket.' },
-  { title: 'Cleaner coating', body: 'Dipping instead of spraying releases up to 20 times less polluting fumes.' },
-  { title: 'PFAS-free materials', body: 'Our dense silicone can replace rubbers that contain “forever chemicals”.' },
+  { title: '30% less oven energy', body: 'Our redesigned curing ovens use about 30% less electricity than a standard curing oven.' },
+  { title: 'Less waste', body: 'Our mixer uses the roughly 4% of liquid silicone that standard mixers leave in each bucket.' },
+  { title: 'Cleaner coating', body: 'Dip coating releases up to 20 times less VOCs (solvent fumes) than spray coating.' },
+  { title: 'PFAS-free materials', body: 'Our high-density silicone can replace fluorinated rubber (FKM), which is a PFAS, in many uses.' },
 ]
 
 /**

@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { CtaBand, PageHeader, Section, StatTiles } from '@/components/ui'
-import { patentsSummary } from '@/content/company'
+import { companyStats, patentsSummary } from '@/content/company'
 import { pageMetadata } from '@/lib/site'
 
 export const metadata = pageMetadata({
   title: 'Research & innovation',
   description:
-    'Momixx research in silicone materials, surface treatment and manufacturing equipment, backed by more than 20 patents including the first vertical silicone cable extrusion machine.',
+    'Momixx research in silicone materials, surface treatment and manufacturing equipment, backed by more than 20 patents, granted or pending, including, to our knowledge, the first vertical silicone cable extrusion line.',
   path: '/innovation',
 })
 
@@ -17,11 +17,11 @@ const areas = [
     items: [
       {
         title: 'Exact colour matching',
-        body: 'Any colour, including bright shades and see-through silicone, matched so closely that most people cannot see the difference. It stays just as fire-safe and strong.',
+        body: 'Any colour, including bright shades and see-through silicone, matched to within ΔE94 0.50, a difference most people cannot see. It stays just as flame-retardant and strong.',
       },
       {
-        title: 'Fire-safe without getting weaker',
-        body: 'The ingredients that make silicone fire-safe usually make it weaker. Ours pass the standard US fire tests for materials and cables (UL 94 and UL VW-1) and stay strong.',
+        title: 'Flame-retardant without losing strength',
+        body: 'The additives that make silicone flame-retardant usually reduce its strength. Our grades are designed for the UL 94 material flammability test and for cables that pass UL VW-1, while keeping their strength.',
       },
       {
         title: 'Free of “forever chemicals”',
@@ -29,7 +29,7 @@ const areas = [
       },
       {
         title: 'Chemical recycling',
-        body: 'Breaking silicone scrap down into a liquid building block, then rebuilding it into new silicone, with every batch traceable.',
+        body: 'Breaking silicone scrap down into a liquid building block, then rebuilding it into new silicone, with certified chain-of-custody records for the recycled content.',
       },
     ],
   },
@@ -43,7 +43,7 @@ const areas = [
       },
       {
         title: 'Tough phone-case finish',
-        body: 'A dipped finish that resists scratches and wear, with fewer rejects than the usual UV-cured coating.',
+        body: 'A dipped finish that resists scratches and wear, with fewer rejects in our production than UV-cured coatings.',
       },
     ],
   },
@@ -51,11 +51,11 @@ const areas = [
     id: 'equipment',
     title: 'Machines',
     items: [
-      { title: 'Upright cable machine', body: 'The world’s first upright machine for making silicone data cables: up to 100 metres a minute.', href: '/products/vertical-extruder' },
-      { title: 'Energy-saving oven', body: 'Uses 30% less electricity and holds its temperature within 5 °C.', href: '/products/energy-saving-oven' },
-      { title: 'Low-waste mixer', body: 'Uses the 4% or so of silicone usually left in each bucket.', href: '/products/lsr-mixer' },
+      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/vertical-extruder' },
+      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/energy-saving-oven' },
+      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/lsr-mixer' },
       { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/autowinder' },
-      { title: 'Dip-coating machine', body: 'Up to 20 times less polluting fumes than spray coating.', href: '/products/dip-coating-machine' },
+      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/dip-coating-machine' },
     ],
   },
 ]
@@ -84,10 +84,7 @@ export default function InnovationPage() {
           </div>
           <StatTiles
             cols={1}
-            stats={[
-              { value: '20+', label: 'patents granted or pending' },
-              { value: '1st', label: 'upright silicone cable machine in the world' },
-            ]}
+            stats={companyStats.slice(1, 3)}
           />
         </div>
       </Section>

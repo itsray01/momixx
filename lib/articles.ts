@@ -24,6 +24,8 @@ export type Topic = keyof typeof topics
 export type Article = {
   slug: string
   title: string
+  /** Shorter, keyword-first title for search results (falls back to the title). */
+  seoTitle?: string
   description: string
   date: string
   updated?: string
@@ -105,6 +107,7 @@ export function getArticles(): Article[] {
     return {
       slug,
       title: String(data.title),
+      seoTitle: data.seoTitle ? String(data.seoTitle) : undefined,
       description: String(data.description),
       date: toDate(data.date)!,
       updated: toDate(data.updated),

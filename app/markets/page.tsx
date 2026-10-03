@@ -6,7 +6,7 @@ import { formatUsd, marketDisclaimer, markets, recyclingFacts } from '@/content/
 import { pageMetadata } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'Markets: the growth behind silicone',
+  title: 'Silicone markets: sizes and sources',
   description:
     'Independent market-size estimates for silicone, liquid silicone rubber, automotive and EV silicone, data centre cables, consumer charging cables, medical silicone and humanoid robots, with sources.',
   path: '/markets',
@@ -55,7 +55,7 @@ export default function MarketsPage() {
       </Section>
 
       <Section eyebrow="Context" title="Related *industries*">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {context.map((m) => (
             <MarketCard key={m.id} market={m} />
           ))}
@@ -108,7 +108,7 @@ export default function MarketsPage() {
         <p className="mt-6 max-w-4xl text-xs leading-relaxed text-slate-500">{marketDisclaimer}</p>
       </Section>
 
-      <CtaBand />
+      <CtaBand title="Materials for *your industry*" body="Talk to our team about silicone for your market, from charging cables to medical parts." secondary={{ href: '/applications', label: 'All applications' }} />
     </>
   )
 }

@@ -1,8 +1,9 @@
 ---
 title: "GRS vs ISCC PLUS vs SCS: what recycled-content certificates actually prove"
+seoTitle: "GRS vs ISCC PLUS vs SCS: recycled-content certificates"
 description: Three schemes check recycled-content claims, each with its own rules. A plain guide to GRS, ISCC PLUS and SCS, and what mass balance really means.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: sustainability
 model: compound
 tags: [GRS, ISCC PLUS, SCS, certification, recycled content, mass balance, chain of custody]
@@ -64,12 +65,14 @@ In ISCC's own example, a factory uses 30% certified recycled material and loses 
 | Checks working conditions and environment? | Yes | Not part of the scheme | Not part of the scheme |
 | Limits harmful chemicals? | Yes | Not part of the scheme | Not part of the scheme |
 | How recycled material is tracked | Followed physically through the supply chain | Kept separate, mixed in known amounts, or mass balance | Mixed in known amounts, or mass balance |
-| How long it lasts | Checked at each supply-chain step | 12 months per site | 1 year, re-audited yearly |
+| How certification is kept up | Annual audits; every company in the chain must be certified | 12 months per site | 1 year, re-audited yearly |
 
 *Compiled from each scheme's public overview, October 2026. Always check the latest version.*
 
 ## Why does Momixx hold all three?
 
 Different customers ask for different certificates. Textile and consumer brands often want GRS, chemical and plastics supply chains often use ISCC PLUS, and SCS is common in North America. With all three, customers can use whichever one their programme accepts.
+
+The schemes track recycled content differently. GRS follows it physically through the supply chain; ISCC PLUS also allows mass balance. Ask us which chain-of-custody model applies to your order.
 
 Momixx's recycled silicone is certified under **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).

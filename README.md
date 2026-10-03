@@ -63,6 +63,8 @@ You need Node.js 20.9 or newer.
    - Under **Settings → Environment Variables**, add:
      - `NEXT_PUBLIC_SITE_URL` = `https://www.momixx.com` (the canonical address)
      - `REDIRECT_HOSTS` = every other hostname you own, comma-separated, for example `momixx.com,orionmomixx.com,www.orionmomixx.com`
+     - `NEXT_PUBLIC_FORMSPREE_FORM_ID` = the contact form's Formspree code (see "Contact form" below)
+   - Under **Analytics** and **Speed Insights**, click **Enable**. The site already includes both; they are cookie-free.
 2. **Add the domains.** Under **Settings → Domains**:
    - Add `www.momixx.com` as the primary domain.
    - Add `momixx.com` and both versions of the second domain, and set each one to **Redirect to → www.momixx.com (308)**.
@@ -71,7 +73,7 @@ You need Node.js 20.9 or newer.
    - At the domain registrar, create the DNS records that Vercel shows for each domain. Vercel shows them in the Domains screen; don't copy values from elsewhere, because they are project-specific.
    - ⚠️ **Do not delete the existing MX or TXT records.** They deliver company email (`enquiries@orionmomixx.com`). Only change the website (A/CNAME) records.
 4. **Old WordPress URLs.**
-   - Old addresses such as `/about-us/`, `/data-cable/` and `/sustainability/` are permanently redirected to the matching new pages (see `next.config.ts`). Existing Google rankings and inbound links carry over.
+   - Old addresses such as `/about-us/`, `/data-cable/`, `/odm-oem/` and the old `/our-milestone/…` posts are permanently redirected to the matching new pages (see `legacyRedirects` in `next.config.ts`). Pages that keep the same address, such as `/sustainability/`, need no redirect. If Search Console later reports an old URL as "not found", add it to that list.
    - Keep the WordPress site running until the DNS switch is confirmed, then retire it.
 
 ### Who needs which access ("superadmin")
@@ -101,11 +103,13 @@ You need Node.js 20.9 or newer.
 - **AI assistant visibility (GEO).**
   - `/llms.txt` is a plain-text summary of the company, products, applications, certifications and sourced market data, generated from the same content files.
   - `robots.txt` allows AI crawlers.
-- **Social sharing.** Every page has a 1200×630 social image.
-- **Performance.** Lighthouse scores 93–100 on mobile and 100 on desktop (Oct 2026).
-  - Pages are static, and the stylesheet is inlined.
-  - Fonts are self-hosted with size-matched fallbacks, so nothing shifts as they load.
-  - Live 3D loads only after the page, and only on devices with a real GPU (see "Design, 3D and motion").
+- **Social sharing.** Every page has a 1200×630 PNG social image. Products, applications and articles each get their own, with the page title (`lib/og.tsx`); other pages share the site image.
+- **Performance.** Lighthouse scores 95–97 on mobile (Oct 2026).
+  - Pages are static. The stylesheet is one small cached file (about 15 KB compressed), shared by every page.
+  - Ordinary pages ship no animation library: reveals and count-ups are CSS transitions started by one IntersectionObserver. GSAP loads only for the two pinned scroll sequences, on desktop.
+  - Fonts are self-hosted with size-matched fallbacks, so nothing shifts as they load. Only the main font is preloaded.
+  - Live 3D loads only after the page, only on desktop screens, and only on devices with a real GPU (see "Design, 3D and motion").
+- **Security.** Every response carries a Content-Security-Policy, HSTS and the other standard security headers (`next.config.ts`).
 
 **After launch:**
 
@@ -118,10 +122,11 @@ You need Node.js 20.9 or newer.
 The site uses a dark, premium design aimed at an investor audience. It is built on four pieces:
 
 - **Type.** Geist for text, with *Instrument Serif* italics as an accent. In any heading, wrap words in `*asterisks*` to accent them, for example `title="Silicone that *comes back*"`.
-- **3D, used sparingly.** 3D appears in four places only: the home hero cable, the extrusion line explorer, the cable anatomy and the "sand to silicone" cards. Page headers and cards are text-led, and there are no coloured glows.
-  - **Live 3D** (Three.js via React Three Fiber, models in `components/three/`) starts only after the page has loaded, and only on devices with a hardware GPU, at least 4 GB of memory, and no data-saver or 2G/3G connection. The home cable turns towards you as you scroll.
-  - **Pre-rendered images** (`public/renders/*.webp`) are what everyone else sees: search engines, screen readers, and devices without a GPU or on slow connections. They also illustrate the "sand to silicone" cards, and `/renders/*.webp` is the social image for each article.
-- **Motion** (GSAP and Lenis): smooth scrolling, a pinned hero, a horizontal-scroll "sand to silicone" story, text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt. It is all controlled by attributes such as `data-reveal` and `data-countup` (see `components/motion/ScrollEffects.tsx`).
+- **3D, used sparingly.** Live 3D appears in three places only: the home hero cable, the extrusion line explorer and the cable anatomy. The "sand to silicone" cards use pre-rendered stills. Page headers and cards are text-led, and there are no coloured glows.
+  - **Live 3D** (Three.js via React Three Fiber, models in `components/three/`) starts only after the page has loaded, and only on desktop-sized screens with a mouse or trackpad, a hardware GPU, at least 4 GB of memory, and no data-saver or 2G/3G connection (`components/three/capability.ts`). Phones and tablets get the still image. The home cable (`HeroCable.tsx`) turns towards you as you scroll.
+  - **Pre-rendered images** (`public/renders/*.webp`) are what everyone else sees: search engines, screen readers, phones, and devices without a GPU or on slow connections. The hero still (`cable-hero.webp`) is rendered from the same camera as the live scene, so the two line up when the 3D fades in.
+  - If a 3D scene fails (no WebGL, a lost GPU, a failed download), `CanvasBoundary` keeps the still image on screen.
+- **Motion.** A pinned hero, a horizontal-scroll "sand to silicone" story (GSAP, desktop only, `components/motion/pins.ts`), plus text that lights up as you scroll, count-up numbers, growing chart bars and subtle card tilt (CSS, `components/motion/ScrollEffects.tsx`). It is all controlled by attributes such as `data-reveal` and `data-countup`. Scrolling is the browser's own, so links to a section and the Back button behave normally.
 - **Reduced motion.** Visitors whose device is set to "reduce motion" get no animation, and their 3D scenes stay still.
 
 **Interactive 3D and infographics**
@@ -139,7 +144,7 @@ Each extruder part can have a photo marker (`photo: { x, y }`, as percentages) a
 
 ```bash
 ENABLE_RENDER=1 npm run dev -- -p 3001        # in one terminal
-node scripts/render-models.mjs http://localhost:3001   # all models, or list some: … cable seal
+node scripts/render-models.mjs http://localhost:3001   # all models, or list some: … data-cable cable-hero
 ```
 
 The globe's land dots (`components/three/landDots.ts`) are generated from Natural Earth data by `scripts/generate-land-dots.mjs`. Regenerate them rather than editing by hand.
@@ -148,7 +153,13 @@ The script needs Playwright with Chromium. Models are listed in `components/thre
 
 ## Contact form
 
-There is no form backend yet. Submitting the form opens the visitor's email app with the enquiry filled in. To receive submissions directly, connect a form service or add a Vercel route handler, then change `app/contact/ContactForm.tsx`.
+Enquiries are delivered by [Formspree](https://formspree.io) to the company inbox, with a spam trap and success and error messages.
+
+1. Sign up at formspree.io with the enquiries inbox and create a form.
+2. Copy the code after `/f/` in the form's endpoint (for example `xyzabcd` in `https://formspree.io/f/xyzabcd`).
+3. In Vercel, set `NEXT_PUBLIC_FORMSPREE_FORM_ID` to that code, then redeploy.
+
+Until it is set, submitting the form opens the visitor's email app with the enquiry filled in. Investor-relations enquiries go to `investorEmail` in `lib/site.ts` when one is set. The form links to the privacy notice at `/privacy`.
 
 ## Before launch
 

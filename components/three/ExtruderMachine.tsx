@@ -8,7 +8,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { Box, Mat, Part, Wheel, type PartState } from './ExtruderLine'
+import { Box, Mat, Part, Wheel, type PartState } from './machineParts'
 import { extruderParts } from './extruderParts'
 
 const TEAL = '#149f94'

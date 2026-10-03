@@ -15,12 +15,12 @@ export const metadata = pageMetadata({
 })
 
 const properties = [
-  { title: 'Handles heat and cold', body: 'Stays flexible from about −40 °C to 150–200 °C, and further in special types.' },
+  { title: 'Handles heat and cold', body: 'Stays flexible from about −40 °C to 150–200 °C, and further in special types.' },
   { title: 'Bends without breaking', body: 'It is soft and stretchy, so it survives being twisted and bent again and again.' },
   { title: 'Keeps water out', body: 'Water runs off it, so it makes excellent seals.' },
-  { title: 'Body-safe', body: 'Medical-grade silicone is safe for the body and can be sterilised again and again.' },
+  { title: 'Medical-grade', body: 'Medical-grade silicone is well tolerated by the body and can be sterilised again and again.' },
   { title: 'Lasts for years', body: 'Sunlight, weather and heat wear it down far more slowly than most plastics and rubbers.' },
-  { title: 'Can be made fire-safe', body: 'With the right ingredients, it stops burning once the flame is taken away.' },
+  { title: 'Can be made flame-retardant', body: 'With the right additives, it stops burning once the flame is taken away.' },
 ]
 
 export default function SiliconePage() {
@@ -41,7 +41,7 @@ export default function SiliconePage() {
         tone="muted"
         eyebrow="From sand to product"
         title="How silicone is *made*"
-        intro="Silicone starts as ordinary sand. Momixx works at step four: we turn silicone into materials made for a specific job."
+        intro="Silicone starts as quartz sand. Momixx’s main business is step four, compounding silicone for a specific job; our recycling also rebuilds silicone from step three."
       />
 
       <Section eyebrow="Why people choose it" title="Six reasons silicone is *everywhere*">
@@ -64,7 +64,7 @@ export default function SiliconePage() {
         <CableAnatomy />
       </Section>
 
-      <Section tone="muted" eyebrow="Where you’ll find it" title="Silicone in the industries *shaping the future*">
+      <Section tone="muted" eyebrow="Where you’ll find it" title="Where silicone is *used*">
         <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
             <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-center gap-5 overflow-hidden p-6">

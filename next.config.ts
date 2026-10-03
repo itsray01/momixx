@@ -21,18 +21,55 @@ const legacyRedirects: Array<[string, string]> = [
   ['/power-cable', '/applications/consumer-electronics'],
   ['/series', '/products'],
   ['/horizontal-extruder', '/products/horizontal-extruder'],
-  ['/research-equipment', '/innovation'],
+  ['/research-equipment', '/products#equipment'],
   ['/research-materials', '/innovation'],
   ['/research-surface-treatment', '/innovation'],
   ['/contact-us', '/contact'],
+  ['/odm-oem', '/products/odm-oem'],
+  ['/wearable-product', '/applications/consumer-electronics'],
+  // Old one-page-per-year milestone posts, and other WordPress leftovers.
+  ['/our-milestone/:year*', '/about#milestones'],
+  ['/author/:name*', '/about'],
+  ['/test', '/'],
+  ['/feed', '/insights/feed.xml'],
+  ['/wp-sitemap.xml', '/sitemap.xml'],
+  ['/wp-sitemap-:part.xml', '/sitemap.xml'],
+]
+
+// Security headers for every response. Scripts and styles allow 'unsafe-inline'
+// because statically generated Next.js pages carry their data in inline
+// scripts (a nonce would force every page to render on demand). Forms may
+// post to Formspree, the contact form's delivery service.
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self'",
+  "connect-src 'self' https://formspree.io",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://formspree.io",
+  "object-src 'none'",
+  'upgrade-insecure-requests',
+].join('; ')
+
+const securityHeaders = [
+  { key: 'Content-Security-Policy', value: csp },
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()' },
 ]
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   devIndicators: false,
-  // The Tailwind stylesheet is small, so it ships inside the HTML instead of
-  // as a separate render-blocking request: faster first paint for new visitors.
-  experimental: { inlineCss: true },
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }]
+  },
   async redirects() {
     return [
       ...redirectHosts.map((host) => ({
@@ -41,8 +78,9 @@ const nextConfig: NextConfig = {
         destination: `${canonical.origin}/:path*`,
         permanent: true,
       })),
+      // Next.js drops a trailing slash first (308), then these apply.
       ...legacyRedirects.map(([source, destination]) => ({
-        source: `${source}{/}?`,
+        source,
         destination,
         permanent: true,
       })),

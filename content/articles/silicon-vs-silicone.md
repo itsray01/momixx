@@ -1,5 +1,6 @@
 ---
 title: "Silicon vs silicone: what is the difference?"
+seoTitle: "Silicon vs silicone: what is the difference?"
 description: Silicon is a chemical element used in computer chips. Silicone is a soft, flexible material made from it. Here is how sand becomes silicone.
 date: 2026-10-02
 updated: 2026-10-02
@@ -46,7 +47,7 @@ That chain makes silicone **heat-resistant**, **flexible even in the cold** and 
 
 ## How does sand become silicone?
 
-1. **Sand to silicon.** Quartz is heated with carbon in electric furnaces, which strips out the oxygen. Wacker, a major silicone maker, describes making silicon "from quartz and coal at 2,000 °C".
+1. **Sand to silicon.** Quartz is heated with carbon in electric furnaces, which strips out the oxygen. Wacker, a major silicone maker, describes making silicon "from quartz and coal at 2,000 °C".
 2. **Silicon to building blocks.** Ground silicon reacts with a gas called methyl chloride, with copper to speed things up. This "direct process" dates from the early 1940s and is still the main method.
 3. **Building blocks to silicone.** These react with water and link into long chains and rings. This is raw silicone.
 4. **Silicone to compound.** Raw silicone is mixed with fillers and additives into a ready-to-use **compound**, tuned for fire resistance, colour, strength or feel. This is where Momixx works.

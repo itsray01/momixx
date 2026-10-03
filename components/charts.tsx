@@ -9,9 +9,10 @@ const ACCENT = '#1caa9e'
 const MUTED = '#5a6474'
 
 function advantage(row: Comparison['rows'][number], label: string) {
-  const other = label.toLowerCase()
+  // Lower-case a leading ordinary word ("Standard TPE" → "standard TPE"), but keep acronyms like XLPO.
+  const other = /^[A-Z][a-z]/.test(label) ? label[0].toLowerCase() + label.slice(1) : label
   // Ratios of Celsius temperatures are meaningless, so show the difference.
-  if (row.unit === '°C') return `${Math.abs(row.momixx - row.other)} °C ${row.better === 'higher' ? 'higher' : 'lower'} than ${other}`
+  if (row.unit === '°C') return `${Math.abs(row.momixx - row.other)} °C ${row.better === 'higher' ? 'higher' : 'lower'} than ${other}`
   if (row.better === 'lower') return `${Math.round((1 - row.momixx / row.other) * 100)}% lower than ${other}`
   return `${(row.momixx / row.other).toFixed(1).replace(/\.0$/, '')}× the ${other} result`
 }
@@ -137,7 +138,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
     <figure className="card p-6 sm:p-10">
       <figcaption>
         <h3 className="text-xl font-semibold tracking-[-0.02em]">Expected annual growth by market</h3>
-        <p className="mt-1.5 text-sm text-slate-500">Average growth a year, as forecast by each publisher. Growth rates can be compared even where publishers measure market size differently.</p>
+        <p className="mt-1.5 text-sm text-slate-500">Average growth a year, as forecast by each publisher. Publishers use different market definitions and forecast periods, so compare growth rates with care.</p>
       </figcaption>
       <div className="mt-10 space-y-5">
         {rows.map((m) => (

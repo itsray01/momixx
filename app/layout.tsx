@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
-import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { geist, instrumentSerif } from '@/lib/fonts'
 import { buildMenus } from '@/lib/nav'
 import { absoluteUrl, site } from '@/lib/site'
@@ -98,7 +99,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <ScrollEffects />
-        <SmoothScroll />
+        {/* Cookie-free visitor counts and real-user speed data. Only on Vercel, where their scripts are served; enable both in the Vercel project. */}
+        {process.env.VERCEL && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   )

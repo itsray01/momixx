@@ -2,7 +2,7 @@ import { ArrowLink, CtaBand, PageHeader, Section } from '@/components/ui'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'Locations: Singapore headquarters and Penang, Malaysia',
+  title: 'Locations: Singapore and Penang, Malaysia',
   description:
     'Momixx is headquartered in Singapore, with R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485 certified), and a second large-volume facility in Asia. We supply customers worldwide.',
   path: '/locations',
@@ -34,9 +34,9 @@ const sites = [
     summary:
       'Our research centre and factory in Batu Kawan, in one of Asia’s leading regions for chips and electronics. It makes liquid silicone in large volumes for the region, and high-precision parts for medical and chip-making customers.',
     facts: [
-      { label: 'Certified', value: 'ISO 13485 (medical devices), 2026' },
+      { label: 'Certified', value: 'ISO 13485 quality system (medical devices), 2026' },
       { label: 'Production', value: 'Liquid silicone made in volume for South-East Asia' },
-      { label: 'Medical', value: 'Making medical devices for other companies since 2025' },
+      { label: 'Medical', value: 'Making silicone parts for medical-device makers since 2025' },
       { label: 'Precision', value: 'Parts for medical devices and chip-making machines' },
     ],
   },
@@ -96,7 +96,7 @@ export default function LocationsPage() {
       <Section tone="muted" eyebrow="Worldwide" title="Serving customers *worldwide*">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
           <p className="text-lg leading-relaxed text-slate-300">
-            We build for international markets and international standards. Our silicone carries certifications recognised across global supply chains: GRS, ISCC PLUS, SCS Global Services and ISO 13485.
+            We build for international markets and international standards. Our recycled silicone is certified under GRS, ISCC PLUS and SCS Global Services, and our Penang factory’s quality system is certified to ISO 13485.
           </p>
           <div className="flex flex-wrap gap-6 lg:justify-end">
             <ArrowLink href="/applications">Where our materials go</ArrowLink>
@@ -106,7 +106,7 @@ export default function LocationsPage() {
         </div>
       </Section>
 
-      <CtaBand />
+      <CtaBand title="Reach the *right team*" body="Tell us what you need and which site you would like to reach, and we will put you in touch." secondary={{ href: '/about', label: 'About Momixx' }} />
     </>
   )
 }

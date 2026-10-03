@@ -1,9 +1,10 @@
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
+import { teamReady } from '@/content/team'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
-  title: 'About Momixx',
+  title: 'About us: silicone company founded in 2018',
   description:
     'Founded in 2018, Momixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.',
   path: '/about',
@@ -23,18 +24,18 @@ export default function AboutPage() {
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div className="space-y-5 text-lg leading-relaxed text-slate-200">
             <p>
-              We started by making fire-safe silicone for smartphone charging cables. Within a year, one of the world’s leading smartphone brands had
-              approved it. Since then we have grown into three connected businesses: silicone materials, the machines that shape them, and making
-              finished parts.
+              We started by making flame-retardant silicone for smartphone charging cables. Within a year, it was qualified by a leading smartphone
+              brand. Since then we have grown into three connected businesses: silicone materials, the machines that shape them, and making finished
+              parts.
             </p>
             <p>
-              We were early to recycled silicone. Independent bodies have certified our recycling and supply chain to three international standards
-              (GRS, ISCC PLUS and SCS), and checked our products’ carbon footprint.
+              We were early to recycled silicone. Our recycled content is certified under three international schemes (GRS, ISCC PLUS and SCS), and an
+              independent third party has checked our product carbon footprint calculation.
             </p>
             <p>
               Our headquarters is in Singapore. We make our products at our factory in Batu Kawan, Penang, Malaysia, and at a second large factory in
-              Asia. In 2026 the Penang factory was certified to make medical devices (ISO 13485) and started making high-precision parts for the
-              medical and chip-making industries.
+              Asia. In 2026 the Penang factory’s quality system was certified to ISO 13485 for medical-device manufacturing, and it began making
+              high-precision parts for the medical and semiconductor industries.
             </p>
           </div>
           <StatTiles stats={companyStats} cols={1} />
@@ -44,9 +45,9 @@ export default function AboutPage() {
       <Section tone="muted" eyebrow="What we do" title="Three capabilities, *one company*">
         <FeatureGrid
           items={[
-            { title: 'Create and make silicone', body: 'Fire-safe, waterproof, dense, colour-matched silicone, and silicone that sticks to plastic by itself, in liquid and solid form.' },
+            { title: 'Create and make silicone', body: 'Flame-retardant, waterproof, high-density and colour-matched silicone, and self-bonding silicone, in liquid and solid form.' },
             { title: 'Recycle silicone waste', body: 'Our own chemical process turns scrap silicone back into new silicone.' },
-            { title: 'Design and build machines', body: 'We make the hardware and software ourselves, from our patented upright cable machine to energy-saving ovens and camera-guided winders.' },
+            { title: 'Design and build machines', body: 'We make the hardware and software ourselves, from our patented vertical extrusion line to energy-saving ovens and camera-guided winders.' },
           ]}
         />
       </Section>
@@ -69,7 +70,7 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      <Section tone="muted" id="locations" eyebrow="Where we are" title="Where we *are*">
+      <Section tone="muted" id="locations" eyebrow="Locations" title="Our *sites*">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
           {site.locations.map((l) => (
             <li key={l.name} data-tilt className="card lift p-7">
@@ -81,12 +82,12 @@ export default function AboutPage() {
         </ul>
         <div className="mt-10 flex flex-wrap gap-6">
           <ArrowLink href="/locations">All locations</ArrowLink>
-          <ArrowLink href="/team">Meet our management team</ArrowLink>
+          {teamReady && <ArrowLink href="/team">Meet our management team</ArrowLink>}
           <ArrowLink href="/innovation">Research & innovation</ArrowLink>
         </div>
       </Section>
 
-      <CtaBand />
+      <CtaBand title="Partner with *Momixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/locations', label: 'Our locations' }} />
     </>
   )
 }

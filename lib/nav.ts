@@ -5,6 +5,7 @@ import type { ModelName } from '@/components/three/modelNames'
 import { applications } from '@/content/applications'
 import { productsByCategory } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
+import { teamReady } from '@/content/team'
 import { getArticles, topics, type Topic } from '@/lib/articles'
 
 export type MenuLink = { href: string; label: string; desc?: string; model?: ModelName }
@@ -63,9 +64,9 @@ export function buildMenus(): Menu[] {
       ],
       feature: {
         href: '/products/vertical-extruder',
-        eyebrow: 'World first',
-        title: 'Our upright cable machine',
-        body: 'Makes up to 100 metres of silicone cable a minute. Explore it in 3D.',
+        eyebrow: 'Patented',
+        title: 'Our vertical extrusion line',
+        body: 'To our knowledge the first of its kind: up to 100 metres of silicone cable a minute. Explore it part by part.',
         model: 'extruder-vertical',
       },
     },
@@ -97,7 +98,7 @@ export function buildMenus(): Menu[] {
           links: [
             { href: '/sustainability', label: 'Overview', desc: 'Certificates, carbon and green initiatives', model: 'recycle' },
             { href: '/recycled-silicone', label: 'Recycled silicone', desc: 'How we turn scrap into new silicone', model: 'bottle' },
-            { href: '/sustainability#carbon-footprint', label: 'Carbon footprint', desc: 'Measured and independently checked', model: 'sand' },
+            { href: '/sustainability#carbon-footprint', label: 'Carbon footprint', desc: 'Our footprint and how we cut it', model: 'sand' },
             { href: '/insights/grs-vs-iscc-plus-vs-scs', label: 'GRS vs ISCC PLUS vs SCS', desc: 'What each certificate proves', model: 'compound' },
           ],
         },
@@ -135,10 +136,11 @@ export function buildMenus(): Menu[] {
           title: 'Company',
           links: [
             { href: '/about', label: 'About us', desc: 'Our story since 2018' },
-            { href: '/team', label: 'Our team', desc: 'Management' },
+            // Listed once real names and photos are in content/team.ts.
+            ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and joining us' },
             { href: '/locations', label: 'Locations', desc: 'Singapore and Penang, Malaysia' },
-            { href: '/innovation', label: 'Research & innovation', desc: '20+ patents and counting' },
+            { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
             { href: '/markets', label: 'Markets', desc: 'Where the growth is' },
           ],
         },

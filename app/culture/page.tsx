@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 // Values from the founder's brief. Edit freely; each needs a title and a line or two.
 const values = [
   { title: 'Engineers at heart', body: 'We are a technology company that happens to make silicone. We solve problems through research, and we build our own machines when the right one doesn’t exist.' },
-  { title: 'Fast, then faster', body: 'Speed is a habit. We prototype quickly, decide quickly and answer customers quickly, without cutting corners on quality.' },
+  { title: 'Speed with discipline', body: 'Speed is a habit. We prototype quickly, decide quickly and answer customers quickly, without cutting corners on quality.' },
   { title: 'Sweat the details', body: 'Great products come from caring about small things: a colour matched so closely you can’t tell the difference, a cable coating thinner than a credit card.' },
   { title: 'Decide together', body: 'Good decisions come from the people closest to the work. Small teams debate openly, agree, and then move as one.' },
   { title: 'Think global', body: 'We build for international markets and international standards from day one, and we hold ourselves to them.' },
@@ -22,7 +22,7 @@ const values = [
 const growth = [
   { title: 'Responsibility early', body: 'New team members own real projects from the start, with experienced engineers beside them.' },
   { title: 'Learning by building', body: 'From creating new silicone recipes to designing machines, you see the whole journey, from the lab to the factory floor.' },
-  { title: 'The next generation', body: 'We are building a culture that develops tomorrow’s leaders, people who will take Momixx much further than today.' },
+  { title: 'The next generation', body: 'We develop future leaders from within our own teams, giving them the experience to lead the next stage of the business.' },
 ]
 
 const teams = ['Materials research', 'Machine and automation engineering', 'Quality and standards', 'Production', 'Sales and customer support', 'Business support']
@@ -37,7 +37,7 @@ export default function CulturePage() {
         ]}
         eyebrow="Culture & careers"
         title="How we *work*"
-        intro="Momixx is going for a much bigger future. Getting there takes a particular kind of culture: curious, fast, precise and collaborative, and designed to grow the next generation."
+        intro="Momixx is a technology-led company building an international business. Our culture is curious, fast, precise and collaborative, and designed to develop the next generation of engineers and leaders."
       />
 
       <Section eyebrow="Our values" title="Six things we *believe*">
@@ -72,7 +72,7 @@ export default function CulturePage() {
           ))}
         </ul>
         <div className="mt-12 flex flex-wrap gap-3">
-          <a href={`mailto:${site.email}?subject=${encodeURIComponent('Careers at Momixx')}`} className="group btn-primary px-6 py-3 text-base">
+          <a href={`mailto:${site.careersEmail || site.email}?subject=${encodeURIComponent('Careers at Momixx')}`} className="group btn-primary px-6 py-3 text-base">
             Send us your CV <Arrow />
           </a>
           <Link href="/about" className="btn-ghost-dark px-6 py-3 text-base">

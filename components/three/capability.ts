@@ -3,14 +3,17 @@
 let capable: boolean | undefined
 
 /**
- * Live 3D only runs where it will be smooth: a real GPU, enough memory and no
- * data-saver or very slow connection. Everyone else keeps the pre-rendered image,
- * which shows the same model.
+ * Live 3D only runs where it will be smooth and worth the download: a desktop-
+ * sized screen with a mouse or trackpad, a real GPU, enough memory and no
+ * data-saver or very slow connection. Phones, tablets and everyone else keep
+ * the still image, which shows the same model.
  */
 export function canRun3D() {
   if (capable !== undefined) return capable
   capable = false
   try {
+    // Touch screens and small windows: dragging a model fights with scrolling, and the download costs battery and data.
+    if (!window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches) return capable
     const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } }
     if (nav.connection?.saveData || /(^|-)2g$|^3g$/.test(nav.connection?.effectiveType ?? '')) return capable
     if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return capable

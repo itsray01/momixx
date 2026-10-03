@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { site } from '@/lib/site'
 import { applications } from '@/content/applications'
 import { products } from '@/content/products'
+import { teamReady } from '@/content/team'
 import { Logo } from './Logo'
 
 const columns = [
@@ -25,7 +26,7 @@ const columns = [
       { href: '/sustainability', label: 'Sustainability' },
       { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About us' },
-      { href: '/team', label: 'Our team' },
+      ...(teamReady ? [{ href: '/team', label: 'Our team' }] : []),
       { href: '/culture', label: 'Culture & careers' },
       { href: '/innovation', label: 'Research & innovation' },
       { href: '/markets', label: 'Markets' },
@@ -53,14 +54,14 @@ export function Footer() {
             </p>
           </address>
         </div>
-        <div className="grid gap-10 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title}>
               <h2 className="text-xs font-medium tracking-[0.18em] text-slate-500 uppercase">{col.title}</h2>
-              <ul className="mt-5 space-y-3 text-sm">
+              <ul className="mt-4 space-y-1 text-sm">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-slate-300 transition-colors hover:text-white">
+                    <Link href={l.href} className="inline-block py-1.5 text-slate-300 transition-colors hover:text-white">
                       {l.label}
                     </Link>
                   </li>
@@ -82,15 +83,28 @@ export function Footer() {
       </div>
 
       <div className="relative border-t border-white/[0.06]">
-        <div className="container-page flex flex-col gap-2 py-6 text-xs text-slate-500 sm:flex-row sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {site.legalName}
+            {site.registrationNumber && ` (UEN ${site.registrationNumber})`}. All rights reserved.
           </p>
-          <p>
-            <Link href="/locations" className="hover:text-white">
-              Singapore · Penang, Malaysia · Serving customers worldwide
-            </Link>
-          </p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            <li>
+              <Link href="/privacy" className="inline-block py-1 hover:text-white">
+                Privacy
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className="inline-block py-1 hover:text-white">
+                Terms of use
+              </Link>
+            </li>
+            <li>
+              <Link href="/locations" className="inline-block py-1 hover:text-white">
+                Singapore · Penang, Malaysia
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>

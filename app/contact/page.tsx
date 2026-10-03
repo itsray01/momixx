@@ -11,10 +11,10 @@ export const metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <>
-      <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Ask us *anything*" intro="Tell us about your product or project and the right person on our team will get back to you." />
+      <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Contact *Momixx*" intro="Tell us about your product or project and the right person on our team will get back to you." />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
-          <ContactForm email={site.email} />
+          <ContactForm email={site.email} investorEmail={site.investorEmail || undefined} />
           <div className="space-y-8">
             <div>
               <h2 className="text-lg font-semibold">Email</h2>

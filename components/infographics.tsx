@@ -1,3 +1,4 @@
+import { recyclingCertificationNames } from '@/content/company'
 import { Render } from './Render'
 import { rich } from './ui'
 import type { ModelName } from './three/modelNames'
@@ -6,10 +7,10 @@ import type { ModelName } from './three/modelNames'
 
 export const recycleSteps = [
   { title: 'Collect scrap', body: 'Factory offcuts and used products that would otherwise go to landfill.' },
-  { title: 'Break it down', body: 'Strong heat breaks the silicone back down into its basic building blocks, which rise as a vapour.' },
+  { title: 'Break it down', body: 'Heat breaks the silicone back down into its basic building blocks, which rise as a vapour.' },
   { title: 'Collect the liquid', body: 'The vapour cools into a clear liquid (called DMC), which is filtered several times.' },
   { title: 'Make silicone oil', body: 'The clean liquid is rebuilt into silicone oil, the same starting point as brand-new silicone.' },
-  { title: 'New silicone', body: 'We turn the oil into new, high-quality silicone. Every batch can be traced.' },
+  { title: 'New silicone', body: 'We turn the oil into new, high-quality silicone. Certified chain-of-custody records cover the recycled content.' },
 ]
 
 /** The five recycling steps as a numbered list. */
@@ -43,7 +44,7 @@ export function RecycleFlow() {
         ))}
       </ol>
       <p className="mt-6 text-sm text-slate-400">
-        Silicone that goes round and round, certified under <span className="text-white">GRS · ISCC PLUS · SCS</span>
+        Recycled content certified under <span className="text-white">{recyclingCertificationNames}</span>
       </p>
     </div>
   )
@@ -56,7 +57,7 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
   { title: 'Silicon', body: 'Heated in a furnace, the sand becomes silicon: the same element that goes into computer chips.', model: 'chip' },
   { title: 'Silicone', body: 'Silicon is joined with oxygen, carbon and hydrogen into long, bendy chains.', model: 'molecule' },
   { title: 'Momixx silicone', body: 'We mix in ingredients that add fire safety, colour, strength or a particular feel.', model: 'samples', momixx: true },
-  { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'cable' },
+  { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'data-cable' },
 ]
 
 /**

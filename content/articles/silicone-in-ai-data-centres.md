@@ -1,8 +1,9 @@
 ---
 title: "Silicone in AI data centres: heat, cooling and fire safety"
+seoTitle: "Silicone in AI data centres: cooling and fire safety"
 description: AI is making data centres use more power and run hotter. Here is where silicone helps, from heat-transfer pads to cooling fluids.
 date: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 topic: applications
 model: datacentre
 tags: [AI, data centres, thermal management, immersion cooling, PFAS-free, cables]
@@ -44,8 +45,8 @@ AI chips (GPUs) and fast fibre-optic links draw far more power than older equipm
 
 AI data centres are a **new opportunity** for Momixx, not yet an established business. We offer materials we already make:
 
-- **[MM fire-retardant silicone](/products/momixx-mm):** handles heat up to 250 °C, meets the VW-1 flame test for wires and is already used in data cables.
-- **[Momixx Seal](/products/momixx-seal):** waterproof sealing materials.
-- **Precision parts** from our Penang plant, certified to ISO 13485, the international quality standard for medical-device makers.
+- **[MM flame-retardant silicone](/products/momixx-mm):** withstood 250 °C in Momixx testing, is designed for cables that pass the VW-1 flame test, and is already used in data cables.
+- **[Momixx Seal](/products/momixx-seal):** sealing silicone for waterproof enclosures and connectors.
+- **Precision moulded parts** from our Penang factory.
 
 See [AI data centres](/applications/ai-data-centres) for market estimates and sources.

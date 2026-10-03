@@ -62,7 +62,7 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
       {menu.feature && (
         <Link
           href={menu.feature.href}
-          className="group/feature relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
+          className="group/feature relative flex flex-col self-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
         >
           <span className="relative text-[11px] font-medium tracking-[0.16em] text-brand-300 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
@@ -85,11 +85,12 @@ export function Header({ menus }: { menus: Menu[] }) {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<number | null>(null)
-  const [mounted, setMounted] = useState<number[]>([])
-  const [pill, setPill] = useState<{ left: number; width: number } | null>(null)
+  const [pill, setPill] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
   const lastY = useRef(0)
   const closeTimer = useRef(0)
+  const skipFocusOpen = useRef(false)
   const headerRef = useRef<HTMLElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
   if ((mobileOpen || active !== null) && openedAt !== pathname) {
@@ -103,7 +104,6 @@ export function Header({ menus }: { menus: Menu[] }) {
       window.clearTimeout(closeTimer.current)
       setOpenedAt(pathname)
       setActive(i)
-      setMounted((m) => (m.includes(i) ? m : [...m, i]))
     },
     [pathname],
   )
@@ -112,12 +112,13 @@ export function Header({ menus }: { menus: Menu[] }) {
     closeTimer.current = window.setTimeout(() => setActive(null), delay)
   }, [])
 
+  // The pill (and the menu panels) are positioned against the header bar.
   const movePill = (el: HTMLElement | null) => {
-    const list = listRef.current
-    if (!el || !list) return setPill(null)
+    const bar = barRef.current
+    if (!el || !bar) return setPill(null)
     const a = el.getBoundingClientRect()
-    const b = list.getBoundingClientRect()
-    setPill({ left: a.left - b.left, width: a.width })
+    const b = bar.getBoundingClientRect()
+    setPill({ left: a.left - b.left, top: a.top - b.top, width: a.width, height: a.height })
   }
 
   useEffect(() => {
@@ -135,10 +136,30 @@ export function Header({ menus }: { menus: Menu[] }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Lets sticky elements (e.g. the product tab bar) move up while the header is away.
   useEffect(() => {
-    document.documentElement.style.overflow = mobileOpen ? 'hidden' : ''
+    document.documentElement.dataset.header = hidden && !mobileOpen ? 'hidden' : 'shown'
+  }, [hidden, mobileOpen])
+
+  // Mobile menu: lock the page behind it, make it inert for keyboards and screen
+  // readers, move focus into the menu, and close it with Escape.
+  useEffect(() => {
+    if (!mobileOpen) return
+    const root = document.documentElement
+    const behind = [document.getElementById('main'), document.querySelector('body > footer')].filter(Boolean) as HTMLElement[]
+    root.style.overflow = 'hidden'
+    behind.forEach((el) => (el.inert = true))
+    document.querySelector<HTMLElement>('#mobile-nav summary, #mobile-nav a')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setMobileOpen(false)
+      document.querySelector<HTMLElement>('[aria-controls="mobile-nav"]')?.focus()
+    }
+    window.addEventListener('keydown', onKey)
     return () => {
-      document.documentElement.style.overflow = ''
+      root.style.overflow = ''
+      behind.forEach((el) => (el.inert = false))
+      window.removeEventListener('keydown', onKey)
     }
   }, [mobileOpen])
 
@@ -147,6 +168,8 @@ export function Header({ menus }: { menus: Menu[] }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
       setActive(null)
+      // Return focus to the trigger without its focus handler reopening the panel.
+      skipFocusOpen.current = true
       listRef.current?.querySelectorAll<HTMLElement>('[data-trigger]')[active]?.focus()
     }
     window.addEventListener('keydown', onKey)
@@ -173,6 +196,7 @@ export function Header({ menus }: { menus: Menu[] }) {
           Skip to content
         </a>
         <div
+          ref={barRef}
           className={`relative mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 pl-5 text-white transition-[background-color,border-color,box-shadow] duration-500 ${
             solid ? 'border-white/10 bg-ink-950/75 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl' : 'border-transparent bg-transparent'
           }`}
@@ -182,11 +206,12 @@ export function Header({ menus }: { menus: Menu[] }) {
           </Link>
 
           <nav aria-label="Main" className="hidden lg:block">
-            <ul ref={listRef} className="relative flex items-center" onMouseLeave={() => setPill(null)}>
+            {/* Each menu's panel sits right after its trigger, so keyboard users tab from the trigger straight into its links. */}
+            <ul ref={listRef} className="flex items-center" onMouseLeave={() => setPill(null)}>
               <span
                 aria-hidden="true"
-                className={`absolute inset-y-0 rounded-full bg-white/[0.07] transition-[left,width,opacity] duration-300 ease-out ${pill ? 'opacity-100' : 'opacity-0'}`}
-                style={pill ? { left: pill.left, width: pill.width } : undefined}
+                className={`absolute rounded-full bg-white/[0.07] transition-[left,top,width,height,opacity] duration-300 ease-out ${pill ? 'opacity-100' : 'opacity-0'}`}
+                style={pill ?? undefined}
               />
               {menus.map((menu, i) => {
                 const owner = menus.findIndex((m) => isActive(pathname, m.href))
@@ -209,7 +234,8 @@ export function Header({ menus }: { menus: Menu[] }) {
                       aria-current={pathname === menu.href ? 'page' : undefined}
                       onFocus={(e) => {
                         movePill(e.currentTarget.parentElement)
-                        if (menu.columns) open(i)
+                        if (skipFocusOpen.current) skipFocusOpen.current = false
+                        else if (menu.columns) open(i)
                         else setActive(null)
                       }}
                       className={`relative flex items-center gap-1 rounded-full px-3.5 py-2 text-sm transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
@@ -222,6 +248,18 @@ export function Header({ menus }: { menus: Menu[] }) {
                       )}
                       {current && <span aria-hidden="true" className="absolute inset-x-3.5 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />}
                     </Link>
+                    {menu.columns && (
+                      <div
+                        id={`menu-${i}`}
+                        className={`absolute inset-x-0 top-full pt-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
+                          active === i ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
+                        }`}
+                      >
+                        <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+                          <Panel menu={menu} pathname={pathname} />
+                        </div>
+                      </div>
+                    )}
                   </li>
                 )
               })}
@@ -252,26 +290,6 @@ export function Header({ menus }: { menus: Menu[] }) {
               </svg>
             </button>
           </div>
-        </div>
-
-        {/* Desktop mega-menus: each mounts on first use, so their images never load with the page. */}
-        <div className="relative mx-auto hidden max-w-6xl lg:block">
-          {menus.map((menu, i) =>
-            menu.columns && mounted.includes(i) ? (
-              <div
-                key={menu.label}
-                id={`menu-${i}`}
-                onMouseEnter={() => open(i)}
-                className={`absolute inset-x-0 top-0 pt-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
-                  active === i ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
-                }`}
-              >
-                <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
-                  <Panel menu={menu} pathname={pathname} />
-                </div>
-              </div>
-            ) : null,
-          )}
         </div>
 
         {mobileOpen && (

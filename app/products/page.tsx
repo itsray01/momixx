@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/site'
 import { productTabs } from './tabs'
 
 export const metadata = pageMetadata({
-  title: 'Products: silicone materials, machines and manufacturing',
+  title: 'Silicone materials, machines and services',
   description:
     'Fire-retardant, PFAS-free, waterproof, self-bonding and recycled silicone compounds; patented silicone cable extrusion machines; and ODM, OEM and medical component manufacturing.',
   path: '/products',
@@ -21,32 +21,35 @@ export default function ProductsPage() {
       <PageHeader
         crumbs={[{ href: '/products', label: 'Products' }]}
         eyebrow="Products & services"
-        title="Everything *we make*"
+        title="Materials, machines and *services*"
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
+        facts={order.map((cat) => ({ value: String(productsByCategory(cat).length), label: categoryLabels[cat].toLowerCase() }))}
       />
-      <TabNav tabs={productTabs} label="Products" />
-      {order.map((cat, i) => (
-        <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
-          <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {productsByCategory(cat).map((p) => (
-              <li key={p.slug}>
-                <LinkCard
-                  href={`/products/${p.slug}`}
-                  title={p.name}
-                  body={p.tagline}
-                  footer={
-                    p.stats?.[0] && (
-                      <>
-                        <span className="font-medium text-white">{p.stats[0].value}</span> {p.stats[0].label}
-                      </>
-                    )
-                  }
-                />
-              </li>
-            ))}
-          </ul>
-        </Section>
-      ))}
+      <TabNav tabs={productTabs} label="Products">
+        {order.map((cat, i) => (
+          <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
+            {/* Two or four cards sit in two columns, so a row is never left half empty. */}
+            <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${productsByCategory(cat).length % 3 === 0 || productsByCategory(cat).length > 4 ? 'lg:grid-cols-3' : ''}`}>
+              {productsByCategory(cat).map((p) => (
+                <li key={p.slug}>
+                  <LinkCard
+                    href={`/products/${p.slug}`}
+                    title={p.name}
+                    body={p.tagline}
+                    footer={
+                      p.stats?.[0] && (
+                        <>
+                          <span className="font-medium text-white">{p.stats[0].value}</span> {p.stats[0].label}
+                        </>
+                      )
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          </Section>
+        ))}
+      </TabNav>
       <CtaBand title="Looking for something *not listed?*" body="Most of our work is made to order. Tell us what you need and our research team will create it." />
       <JsonLd data={collectionPage('Momixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
     </>
