@@ -165,7 +165,7 @@ export default function HomePage() {
       <JourneyScroll
         eyebrow="From sand to silicone"
         title="Where *silicone* comes from"
-        intro="Silicone starts as ordinary sand. Momixx works mainly at step four, turning silicone into materials made for a specific job."
+        intro="Silicone starts as ordinary sand. Momixx works at three points along the way: we make silicone for specific jobs, build the machines that shape it, and recycle it at the end of its life."
       />
 
       {/* ── Applications ── */}

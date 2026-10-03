@@ -20,15 +20,11 @@ export function setupPins(): () => void {
     const hero = document.querySelector<HTMLElement>('[data-hero]')
     if (hero) {
       const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: hero,
-          start: 'top top',
-          end: '+=90%',
-          pin: true,
-          scrub: 0.6,
-          onUpdate: (self) => (heroProgress.value = self.progress),
-        },
+        scrollTrigger: { trigger: hero, start: 'top top', end: '+=90%', pin: true, scrub: 0.6 },
       })
+      // The 3D cable gets the raw scroll position and eases it once itself;
+      // feeding it the already-smoothed timeline made it trail behind the scroll.
+      ScrollTrigger.create({ trigger: hero, start: 'top top', end: '+=90%', onUpdate: (self) => (heroProgress.value = self.progress) })
       tl.to(hero.querySelectorAll('[data-hero-fade]'), { y: -80, autoAlpha: 0, ease: 'power1.in', duration: 1 }, 0)
       // Call-outs start hidden in CSS, so they never flash before this module loads.
       tl.fromTo(hero.querySelectorAll('[data-hero-label]'), { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.25, duration: 0.6, ease: 'power2.out' }, 0.25)

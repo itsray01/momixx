@@ -56,8 +56,10 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
   { title: 'Sand', body: 'Ordinary quartz sand, one of the most common materials on Earth.', model: 'sand' },
   { title: 'Silicon', body: 'Heated in a furnace, the sand becomes silicon: the same element that goes into computer chips.', model: 'chip' },
   { title: 'Silicone', body: 'Silicon is joined with oxygen, carbon and hydrogen into long, bendy chains.', model: 'molecule' },
-  { title: 'Momixx silicone', body: 'We mix in ingredients that add fire safety, colour, strength or a particular feel.', model: 'samples', momixx: true },
+  { title: 'Momixx silicone', body: 'We mix in ingredients that add flame retardancy, colour, strength or a particular feel.', model: 'samples', momixx: true },
+  { title: 'Shaped on our machines', body: 'Our patented vertical line coats wire with silicone at up to 100 metres a minute.', model: 'extruder-vertical', momixx: true },
   { title: 'Your product', body: 'Cables, seals, cases, medical parts and more, made by our customers.', model: 'data-cable' },
+  { title: 'Back to silicone', body: 'Scrap and used parts come back to us, and we rebuild them into certified recycled silicone.', model: 'recycle', momixx: true },
 ]
 
 /**
@@ -89,10 +91,10 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
             {journey.map((step, i) => (
               <li
                 key={step.title}
-                className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(56vh,500px)] lg:w-[min(380px,28vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
+                className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(62vh,560px)] lg:w-[min(420px,30vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
               >
                 <div className="relative flex h-52 items-center justify-center px-6 pt-6 lg:h-auto lg:flex-1">
-                  <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(30vh,280px)]" sizes="(min-width: 1024px) 28vw, 78vw" />
+                  <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(34vh,320px)]" sizes="(min-width: 1024px) 30vw, 78vw" />
                 </div>
                 <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
                   <div className="flex items-center justify-between">
