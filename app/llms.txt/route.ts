@@ -31,7 +31,7 @@ export function GET() {
     `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
     `- [Markets](${absoluteUrl('/markets')}): third-party market-size estimates with sources`,
     `- [About](${absoluteUrl('/about')}): history and milestones`,
-    `- [Locations](${absoluteUrl('/locations')}): Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485)`,
+    `- [Locations](${absoluteUrl('/locations')}): Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company})`,
     `- [Research & innovation](${absoluteUrl('/innovation')}): patents and research areas, including the vertical extrusion line`,
     `- [Glossary](${absoluteUrl('/insights/glossary')}): silicone and certification terms in plain English`,
     `- [Culture & careers](${absoluteUrl('/culture')}): how the company works, and roles it hires for`,

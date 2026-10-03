@@ -29,10 +29,40 @@ export const site = {
   locations: [
     { name: 'Singapore', role: 'Headquarters', detail: '22 New Industrial Road, Primax' },
     { name: 'Batu Kawan, Penang, Malaysia', role: 'Research and manufacturing', detail: 'Liquid silicone, certified medical parts and precision parts' },
+    { name: 'Perai, Penang, Malaysia', role: 'Manufacturing', detail: 'Momixx Malaysia Sdn. Bhd.' },
   ],
+  // Plant addresses, written as the company writes them. They feed /locations
+  // and the structured data. All are in Malaysia.
+  plants: {
+    batuKawan: {
+      lines: ['PT5889, Jalan Cassia Selatan 3/8', 'Taman Perindustrian Batu Kawan'],
+      postalCode: '14110',
+      locality: 'Simpang Ampat',
+      region: 'Pulau Pinang',
+    },
+    perai: {
+      company: 'Momixx Malaysia Sdn. Bhd.',
+      lines: ['No 5, Jalan Saga Jaya 1', 'Taman Perindustrian Saga Jaya'],
+      postalCode: '13600',
+      locality: 'Perai',
+      region: 'Penang',
+    },
+  },
   // Add LinkedIn etc. here once confirmed; they feed Organization.sameAs.
   sameAs: [] as string[],
 } as const
+
+type Plant = (typeof site.plants)[keyof typeof site.plants]
+
+/** A plant's address as printed lines, for the page. */
+export function plantLines(p: Plant) {
+  return [...p.lines, `${p.postalCode} ${p.locality}`, `${p.region}, Malaysia`]
+}
+
+/** A plant's address for structured data. */
+export function plantAddress(p: Plant) {
+  return { '@type': 'PostalAddress', streetAddress: p.lines.join(', '), postalCode: p.postalCode, addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MY' }
+}
 
 export function absoluteUrl(path = '/') {
   return new URL(path, site.url).toString()

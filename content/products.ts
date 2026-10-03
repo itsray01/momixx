@@ -439,7 +439,7 @@ export const products: Product[] = [
     summary:
       'Our factory in Batu Kawan, Penang, is certified to ISO 13485, the international quality-management standard for medical-device manufacturing. We have made silicone parts for medical-device makers since 2025, and in 2026 began making high-precision parts for the medical and semiconductor industries.',
     stats: [
-      { value: 'ISO 13485', label: 'certified quality system, Penang (2026)' },
+      { value: 'ISO 13485', label: 'certified quality system, Batu Kawan, Penang (2026)' },
       { value: '2025', label: 'first silicone parts for medical-device makers' },
     ],
     uses: ['Medical device parts', 'Parts for semiconductor equipment', 'High-purity moulded parts'],

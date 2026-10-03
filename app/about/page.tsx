@@ -33,8 +33,8 @@ export default function AboutPage() {
               independent third party has checked our product carbon footprint calculation.
             </p>
             <p>
-              Our headquarters is in Singapore. We make our products at our factory in Batu Kawan, Penang, Malaysia, and at a second large factory in
-              Asia. In 2026 the Penang factory’s quality system was certified to ISO 13485 for medical-device manufacturing, and it began making
+              Our headquarters is in Singapore. We make our products at our factories in Batu Kawan and Perai, Penang, Malaysia, and at a second large
+              factory in Asia. In 2026 the Batu Kawan factory’s quality system was certified to ISO 13485 for medical-device manufacturing, and it began making
               high-precision parts for the medical and semiconductor industries.
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="muted" id="locations" eyebrow="Locations" title="Our *sites*">
-        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
+        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {site.locations.map((l) => (
             <li key={l.name} data-tilt className="card lift p-7">
               <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{l.role}</p>

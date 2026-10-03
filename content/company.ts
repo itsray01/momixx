@@ -46,7 +46,7 @@ export const milestones: Array<{ year: number; items: string[] }> = [
     year: 2026,
     items: [
       'Volume production of liquid silicone began in Penang for South-East Asian customers',
-      'Penang factory’s quality system certified to ISO 13485, the medical-device quality standard',
+      'Batu Kawan, Penang factory’s quality system certified to ISO 13485, the medical-device quality standard',
       'Began making high-precision parts for the medical and semiconductor industries',
     ],
   },

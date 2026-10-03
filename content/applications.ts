@@ -113,7 +113,7 @@ export const applications: Application[] = [
     intro:
       'Silicone is one of the most widely used materials in medicine because it is stable, flexible and well tolerated by the body. It is used in tubing, seals, wearable monitors and many device parts. The quality system at our factory in Batu Kawan, Penang, is certified to ISO 13485.',
     maturity: 'Certified & scaling',
-    maturityNote: 'Making silicone parts for medical-device makers since 2025; Penang factory certified to ISO 13485 in 2026.',
+    maturityNote: 'Making silicone parts for medical-device makers since 2025; Batu Kawan, Penang factory certified to ISO 13485 in 2026.',
     whySilicone: [
       {
         title: 'Well tolerated',
@@ -123,7 +123,7 @@ export const applications: Application[] = [
       { title: 'Precise', body: 'Liquid silicone can be moulded into small, detailed parts with tight tolerances.' },
     ],
     ourRole: [
-      { title: 'Certified quality system', body: 'Our Penang factory’s quality system is certified to ISO 13485.' },
+      { title: 'Certified quality system', body: 'Our Batu Kawan, Penang factory’s quality system is certified to ISO 13485.' },
       { title: 'Parts for medical brands', body: 'Making silicone parts for medical-device makers since 2025.' },
       { title: 'High-purity materials', body: 'High-density grades made under strict cleanliness and purity controls.' },
     ],
@@ -195,7 +195,7 @@ export const applications: Application[] = [
         body: 'MM cable silicone has been tested for twisting in our lab. Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.',
       },
       { title: 'Soft-touch materials', body: 'High-density and self-bonding grades for grippers and covers.' },
-      { title: 'Precision parts', body: 'Moulded parts from our Penang factory.' },
+      { title: 'Precision parts', body: 'Moulded parts from our Batu Kawan, Penang factory.' },
     ],
     examples: ['Cables in joints and arms', 'Grip pads and fingertips', 'Soft outer covers', 'Seals for motors and sensors'],
     products: ['momixx-mm', 'momixx-high-density', 'momixx-seal', 'medical-precision-components'],
@@ -216,7 +216,7 @@ export const applications: Application[] = [
     intro:
       'The machines that make computer chips need parts that are extremely clean, precise and heat-resistant. In 2026 our factory in Batu Kawan, Penang, a major semiconductor hub, began making high-precision parts for the semiconductor and medical industries.',
     maturity: 'Certified & scaling',
-    maturityNote: 'Precision parts made at our Penang factory since 2026, under the same quality system as our ISO 13485-certified medical work.',
+    maturityNote: 'Precision parts made at our Batu Kawan, Penang factory since 2026, under the same quality system as our ISO 13485-certified medical work.',
     whySilicone: [
       { title: 'Clean', body: 'High-purity materials made under tight contamination control.' },
       { title: 'Heat-stable', body: 'Keeps working at the high temperatures used in chip-making.' },

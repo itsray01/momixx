@@ -47,6 +47,6 @@ AI data centres are a **new opportunity** for Momixx, not yet an established bus
 
 - **[MM flame-retardant silicone](/products/momixx-mm):** withstood 250 °C in Momixx testing, is designed for cables that pass the VW-1 flame test, and is already used in data cables.
 - **[Momixx Seal](/products/momixx-seal):** sealing silicone for waterproof enclosures and connectors.
-- **Precision moulded parts** from our Penang factory.
+- **Precision moulded parts** from our Batu Kawan, Penang factory.
 
 See [AI data centres](/applications/ai-data-centres) for market estimates and sources.

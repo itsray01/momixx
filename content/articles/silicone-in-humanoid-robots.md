@@ -57,6 +57,6 @@ Robotics is a **new opportunity** for Momixx, using materials we already make:
 
 - **Flexible cables:** in Momixx testing, [MM silicone](/products/momixx-mm) withstood 10,000 twisting cycles, about twice a standard cable made from TPE (a rubber-like plastic). Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.
 - **Soft-touch materials:** [High Density (MHD)](/products/momixx-high-density), plus self-bonding grades that stick to other parts as they set.
-- **Seals and precision parts:** [Momixx Seal](/products/momixx-seal) and [precision moulding](/products/medical-precision-components) from our Penang plant.
+- **Seals and precision parts:** [Momixx Seal](/products/momixx-seal) and [precision moulding](/products/medical-precision-components) from our Batu Kawan, Penang plant.
 
 See [Robotics & humanoids](/applications/robotics) for more.

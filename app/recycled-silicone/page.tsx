@@ -118,7 +118,7 @@ export default function RecycledSiliconePage() {
         </ul>
         {qualityCerts.length > 0 && (
           <p className="mt-8 text-sm text-slate-400">
-            Our Penang factory’s quality system is also certified to ISO 13485, the standard for medical-device manufacturing.{' '}
+            Our Batu Kawan factory’s quality system is also certified to ISO 13485, the standard for medical-device manufacturing.{' '}
             <ArrowLink href="/sustainability">All certifications</ArrowLink>
           </p>
         )}

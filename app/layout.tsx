@@ -8,7 +8,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
 import { geist, instrumentSerif } from '@/lib/fonts'
 import { buildMenus } from '@/lib/nav'
-import { absoluteUrl, site } from '@/lib/site'
+import { absoluteUrl, plantAddress, site } from '@/lib/site'
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -58,8 +58,14 @@ const organization = {
     {
       '@type': 'Place',
       name: `${site.name} R&D and manufacturing, Batu Kawan, Penang`,
-      url: absoluteUrl('/locations#penang'),
-      address: { '@type': 'PostalAddress', addressLocality: 'Batu Kawan', addressRegion: 'Penang', addressCountry: 'MY' },
+      url: absoluteUrl('/locations#batu-kawan'),
+      address: plantAddress(site.plants.batuKawan),
+    },
+    {
+      '@type': 'Place',
+      name: `${site.plants.perai.company}, Perai, Penang`,
+      url: absoluteUrl('/locations#perai'),
+      address: plantAddress(site.plants.perai),
     },
   ],
   address: {
