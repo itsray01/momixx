@@ -38,11 +38,14 @@ const legacyRedirects: Array<[string, string]> = [
 
 // Security headers for every response. Scripts and styles allow 'unsafe-inline'
 // because statically generated Next.js pages carry their data in inline
-// scripts (a nonce would force every page to render on demand). Forms may
-// post to Formspree, the contact form's delivery service.
+// scripts (a nonce would force every page to render on demand). In development
+// only, scripts may also use eval, which React needs for its debugging (error
+// stacks); production never allows it. Forms may post to Formspree, the
+// contact form's delivery service.
+const isDev = process.env.NODE_ENV === 'development'
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
