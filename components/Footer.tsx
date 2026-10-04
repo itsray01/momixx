@@ -27,6 +27,7 @@ const columns = [
       { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About us' },
       { href: '/newsroom', label: 'Newsroom' },
+      { href: '/governance', label: 'Governance' },
       ...(teamReady ? [{ href: '/team', label: 'Our team' }] : []),
       { href: '/culture', label: 'Culture & careers' },
       { href: '/innovation', label: 'Research & innovation' },

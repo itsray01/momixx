@@ -22,6 +22,8 @@ export const site = {
   careersEmail: '',
   // Media and press enquiries on /newsroom; falls back to `email` when empty.
   mediaEmail: '',
+  // Company and investor enquiries on /governance; falls back to `email` when empty.
+  investorEmail: '',
   address: {
     street: '22 New Industrial Road, #03-09/10 Primax',
     locality: 'Singapore',

@@ -35,6 +35,9 @@ Open questions for Dr Cheah. Each one blocks a change on the site; the answer de
 | 18 | **Navbar: "Request a sample" button** next to Contact us, if MoMixx sends samples. Confirm what can be sampled (materials, grades, quantities) and who handles requests. | `components/Header.tsx`; a "Samples" topic in `app/contact/ContactForm.tsx` | A direct call to action for buyers and engineers. |
 | 19 | **Announcement strip** above the navbar, for listing news or a certification line. Any "only company" claim needs your IPO advisers' sign-off first, since the strip appears on every page (see section 3). | `components/Header.tsx` | Puts the most important news in front of every visitor. |
 | 20 | **Press releases for the Newsroom:** date, title, summary and link for each, in `content/news.ts`. The Announcements section appears once there is one. | `content/news.ts` | Journalists and investors look for dated announcements. Never add one without a real publication date. |
+| 21 | **Board of directors and board committees:** names, roles, independence and short bios (on hold; shown on /governance once filled). | `content/governance.ts` → `board`, `committees` | Analysts and investors expect to see who sits on the board and its committees. Only final, approved details. |
+| 22 | **Governance policies to publish,** if the advisers want them (e.g. code of conduct, whistle-blowing), as approved PDFs. | `public/governance/` + `content/governance.ts` → `policies` | The Policies section on /governance appears once one is listed. |
+| 23 | **`investorEmail`,** once a dedicated inbox exists. | `lib/site.ts` → `investorEmail` | Company enquiries on /governance go to enquiries@ until then. |
 
 ## 2. Photos and files
 

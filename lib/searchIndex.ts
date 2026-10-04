@@ -28,6 +28,7 @@ const pages: Array<Omit<SearchEntry, 'group'>> = [
   { title: 'Glossary', href: '/insights/glossary', desc: 'Silicone terms in plain English', keywords: 'definitions terms dictionary' },
   { title: 'About us', href: '/about', desc: 'Our story, milestones and sites', keywords: 'company history milestones founded story' },
   { title: 'Newsroom', href: '/newsroom', desc: 'Announcements, recent milestones and media contacts', keywords: 'news press media announcements milestones' },
+  { title: 'Governance', href: '/governance', desc: 'Company information, certifications and policies', keywords: 'governance board directors committees policies registration UEN company information' },
   ...(teamReady ? [{ title: 'Our team', href: '/team', desc: 'Management', keywords: 'leadership management directors' }] : []),
   { title: 'Culture & careers', href: '/culture', desc: 'How we work, and joining us', keywords: 'careers jobs hiring vacancies work culture' },
   { title: 'Locations', href: '/locations', desc: 'Singapore headquarters and plants in Penang, Malaysia', keywords: 'address factory plant Singapore Penang Batu Kawan Perai Malaysia map' },
