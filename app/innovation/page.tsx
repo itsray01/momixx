@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { Render } from '@/components/Render'
+import type { ModelName } from '@/components/three/modelNames'
 import { CtaBand, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, patentsSummary } from '@/content/company'
 import { pageMetadata } from '@/lib/site'
@@ -10,7 +12,9 @@ export const metadata = pageMetadata({
   path: '/innovation',
 })
 
-const areas = [
+type Area = { id: string; title: string; items: Array<{ title: string; body: string; href?: string; render?: ModelName }> }
+
+const areas: Area[] = [
   {
     id: 'materials',
     title: 'Materials',
@@ -18,18 +22,22 @@ const areas = [
       {
         title: 'Exact colour matching',
         body: 'Any colour, including bright shades and see-through silicone, matched to within ΔE94 0.50, a difference most people cannot see. It stays just as flame-retardant and strong.',
+        render: 'samples',
       },
       {
         title: 'Flame-retardant without losing strength',
         body: 'The additives that make silicone flame-retardant usually reduce its strength. Our grades are designed for the UL 94 material flammability test and for cables that pass UL VW-1, while keeping their strength.',
+        render: 'data-cable',
       },
       {
         title: 'Free of “forever chemicals”',
         body: 'A dense, silky silicone that feels as good as premium fluorinated-rubber watch straps, and is as strong, without the PFAS.',
+        render: 'watchband',
       },
       {
         title: 'Chemical recycling',
         body: 'Breaking silicone scrap down into a liquid building block, then rebuilding it into new silicone, with certified chain-of-custody records for the recycled content.',
+        render: 'recycle',
       },
     ],
   },
@@ -40,10 +48,12 @@ const areas = [
       {
         title: 'Dust-free cables',
         body: 'Silicone is slightly sticky, so it picks up dust. Dipping cables in our coating leaves them soft to the touch, stain-resistant and long-lasting.',
+        render: 'coating',
       },
       {
         title: 'Tough phone-case finish',
         body: 'A dipped finish that resists scratches and wear, with fewer rejects in our production than UV-cured coatings.',
+        render: 'phone-case',
       },
     ],
   },
@@ -51,11 +61,11 @@ const areas = [
     id: 'equipment',
     title: 'Machines',
     items: [
-      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/vertical-extruder' },
-      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/energy-saving-oven' },
-      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/lsr-mixer' },
-      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/autowinder' },
-      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/dip-coating-machine' },
+      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/vertical-extruder', render: 'extruder-vertical' },
+      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/energy-saving-oven', render: 'oven' },
+      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/lsr-mixer', render: 'mixer' },
+      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/autowinder', render: 'winder' },
+      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/dip-coating-machine', render: 'coating' },
     ],
   },
 ]
@@ -93,14 +103,21 @@ export default function InnovationPage() {
         <Section key={area.id} id={area.id} tone={i % 2 === 0 ? 'muted' : 'white'} eyebrow="Research area" title={area.title} className="scroll-mt-20">
           <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
             {area.items.map((it) => (
-              <div key={it.title} className="card lift p-7">
-                <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
-                <p className="mt-2 leading-relaxed text-slate-400">{it.body}</p>
-                {'href' in it && it.href && (
-                  <Link href={it.href} className="mt-4 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
-                    Product details <span aria-hidden="true">→</span>
-                  </Link>
+              <div key={it.title} className={`card lift ${it.render ? 'flex flex-col overflow-hidden' : 'p-7'}`}>
+                {it.render && (
+                  <div className="mx-auto w-full max-w-[16rem]">
+                    <Render name={it.render} sizes="256px" />
+                  </div>
                 )}
+                <div className={it.render ? 'px-7 pb-7' : ''}>
+                  <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
+                  <p className="mt-2 leading-relaxed text-slate-400">{it.body}</p>
+                  {it.href && (
+                    <Link href={it.href} className="mt-4 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
+                      Product details <span aria-hidden="true">→</span>
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>

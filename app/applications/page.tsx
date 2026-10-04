@@ -19,8 +19,6 @@ const maturityText: Record<Maturity, string> = {
   'Certified & scaling': 'Products available, with production at an early stage.',
   'Emerging opportunity': 'New markets for MoMixx where our existing materials may fit; not yet established businesses.',
 }
-const columns: Record<number, string> = { 1: '', 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3' }
-
 export default function ApplicationsPage() {
   return (
     <>
@@ -42,10 +40,11 @@ export default function ApplicationsPage() {
                     <h2 className="text-2xl font-semibold tracking-[-0.03em]">{m}</h2>
                     <p className="mt-2 text-sm leading-relaxed text-slate-500">{maturityText[m]}</p>
                   </div>
-                  <ul data-reveal="stagger" className={`grid gap-5 ${columns[Math.min(items.length, 3)]}`}>
+                  {/* The same columns in every group, so the cards (and their renders) are one size throughout. */}
+                  <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                     {items.map((a) => (
                       <li key={a.slug}>
-                        <LinkCard href={`/applications/${a.slug}`} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
+                        <LinkCard href={`/applications/${a.slug}`} render={a.illustration} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
                       </li>
                     ))}
                   </ul>
