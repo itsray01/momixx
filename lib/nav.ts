@@ -98,6 +98,7 @@ export function buildMenus(): Menu[] {
           title: 'Company',
           links: [
             { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}` },
+            { href: '/newsroom', label: 'Newsroom', desc: 'Announcements and milestones' },
             // Listed once real names and photos are in content/team.ts.
             ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and joining us' },

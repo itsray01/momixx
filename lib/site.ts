@@ -20,6 +20,8 @@ export const site = {
   formspreeId: 'xqpareyg',
   // Optional dedicated inboxes; each falls back to the enquiries address when empty.
   careersEmail: '',
+  // Media and press enquiries on /newsroom; falls back to `email` when empty.
+  mediaEmail: '',
   address: {
     street: '22 New Industrial Road, #03-09/10 Primax',
     locality: 'Singapore',
