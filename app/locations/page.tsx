@@ -1,3 +1,4 @@
+import { RegionMap } from '@/components/RegionMap'
 import { ArrowLink, CtaBand, PageHeader, Section } from '@/components/ui'
 import { pageMetadata, plantLines, site } from '@/lib/site'
 
@@ -71,6 +72,12 @@ export default function LocationsPage() {
       />
 
       <Section eyebrow="Our sites" title="Where we *are*">
+        <div className="card overflow-hidden p-3 sm:p-8">
+          <RegionMap links={{ singapore: '#singapore', penang: '#batu-kawan' }} />
+        </div>
+      </Section>
+
+      <Section tone="muted">
         <ul className="grid gap-5 lg:grid-cols-2">
           {sites.map((s) => (
             <li key={s.id} id={s.id} className={`card flex scroll-mt-28 flex-col p-8 sm:p-10 ${'wide' in s ? 'lg:col-span-2' : ''}`}>
@@ -108,7 +115,7 @@ export default function LocationsPage() {
         </ul>
       </Section>
 
-      <Section tone="muted" eyebrow="Worldwide" title="Serving customers *worldwide*">
+      <Section eyebrow="Worldwide" title="Serving customers *worldwide*">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
           <p className="text-lg leading-relaxed text-slate-300">
             We build for international markets and international standards. Our recycled silicone is certified under GRS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
