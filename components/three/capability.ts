@@ -13,6 +13,11 @@ export function canRun3D() {
   if (capable !== undefined) return capable
   capable = false
   try {
+    // ?force3d runs live 3D regardless (for testing on machines that would get the still).
+    if (new URLSearchParams(window.location.search).has('force3d')) {
+      reason = 'forced on with ?force3d'
+      return (capable = true)
+    }
     // Touch screens and small windows: dragging a model fights with scrolling, and the download costs battery and data.
     if (!window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches) {
       reason = 'small window or touch screen'

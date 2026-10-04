@@ -76,10 +76,13 @@ export function Scene3D({ className = '' }: { className?: string }) {
   const { ref, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>('200px')
   const debug = useSyncExternalStore(noSubscribe, debugSnapshot, () => null)
   const index = useCableColour()
+  // If the live scene turns out too slow on this device, it hands back to the still.
+  const [slowFps, setSlowFps] = useState<number | null>(null)
+  const live = ready && slowFps === null
   // The live scene handles hover itself, on the cable, with motion. Otherwise
   // (the still is showing, e.g. no GPU, or motion is reduced) hovering the
-  // cable's area with a mouse cycles the colours here.
-  const liveHover = ready && !reduced
+  // cable's area with a mouse cycles the colours here, and the still floats up.
+  const liveHover = live && !reduced
   const [hovering, setHovering] = useState(false)
   const [preload, setPreload] = useState(false)
   useEffect(() => {
@@ -96,23 +99,30 @@ export function Scene3D({ className = '' }: { className?: string }) {
       onPointerEnter={(e) => {
         if (e.pointerType !== 'mouse') return
         setHovering(true)
-        if (!ready) setPreload(true)
+        if (!live) setPreload(true)
       }}
       onPointerLeave={() => setHovering(false)}
       className={`relative ${className}`}
     >
       {/* Until the live scene takes over, tapping the cable shows the next colour. */}
       <div
-        onClick={ready ? undefined : () => cableColourStore.next()}
-        className={`relative h-full w-full overflow-hidden transition-opacity duration-700 ${ready ? 'pointer-events-none opacity-0' : 'cursor-pointer opacity-100'}`}
+        onClick={live ? undefined : () => cableColourStore.next()}
+        style={{ transition: 'opacity 0.7s ease, scale 1.6s cubic-bezier(0.22, 1, 0.36, 1), translate 1.6s cubic-bezier(0.22, 1, 0.36, 1)' }}
+        className={`relative h-full w-full overflow-hidden ${live ? 'pointer-events-none opacity-0' : 'cursor-pointer opacity-100'} ${
+          !live && hovering && !reduced ? '-translate-y-2 scale-[1.025]' : ''
+        }`}
       >
         <HeroStillPicture colour={cableColours[0]} priority />
         <ColourStills index={index} preloadAll={preload} />
       </div>
-      {enabled && (
+      {enabled && slowFps === null && (
         <div aria-hidden="true" className={`pointer-events-none absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}>
           <CanvasBoundary>
-            <HeroScene animate={visible && !reduced} onReady={markReady} />
+            <HeroScene
+              animate={visible && !reduced}
+              onReady={markReady}
+              onTooSlow={(fps) => !new URLSearchParams(window.location.search).has('force3d') && setSlowFps(fps)}
+            />
           </CanvasBoundary>
         </div>
       )}
@@ -120,7 +130,8 @@ export function Scene3D({ className = '' }: { className?: string }) {
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-[rgb(5_7_10)] to-transparent lg:block" />
       {debug && (
         <p className="absolute top-24 right-4 z-30 max-w-sm rounded-lg bg-black/85 px-3 py-2 font-mono text-[11px] leading-relaxed text-white">
-          Live 3D: {ready ? 'running' : enabled ? 'loading…' : 'off, showing the still'}
+          Live 3D:{' '}
+          {live ? 'running' : slowFps !== null ? `off, too slow on this device (about ${slowFps} fps), showing the still` : enabled ? 'loading…' : 'off, showing the still'}
           {reduced && ' · reduce motion is on, so the cable stays still'}
           <br />
           {debug}

@@ -32,7 +32,7 @@ const overControl = (e: { nativeEvent: Event }) => e.nativeEvent.target instance
  * bounce. A click shows the next colour. With reduced motion the cable stays
  * still (the hero wrapper still cycles its colours on hover).
  */
-function LiveCable({ animate }: { animate: boolean }) {
+function LiveCable({ animate, onTooSlow }: { animate: boolean; onTooSlow?: (fps: number) => void }) {
   const ref = useRef<THREE.Group>(null)
   const sweep = useRef<THREE.DirectionalLight>(null)
   const invalidate = useThree((s) => s.invalidate)
@@ -40,6 +40,7 @@ function LiveCable({ animate }: { animate: boolean }) {
   const motion = useRef<CableMotion>({ amp: 0, time: 0, twist: 0 })
   // `level` eases between 0 (at rest) and 1 (alive); the motion uses it smoothed.
   const hover = useRef({ on: false, changedAt: 0, level: 0 })
+  const perf = useRef({ frames: 0, time: 0, chained: false, done: false })
 
   const setHovered = (on: boolean) => {
     const h = hover.current
@@ -108,7 +109,26 @@ function LiveCable({ animate }: { animate: boolean }) {
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
     g.position.z = damp(g.position.z, PIVOT[2] + z, 7, dt)
     const settling = Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.z - PIVOT[2] - z) > 1e-4
-    if ((settling || moving || alive) && animate) state.invalidate()
+    const busy = (settling || moving || alive) && animate
+    if (busy) state.invalidate()
+
+    // Measure real smoothness over the first stretch of continuous animation. If
+    // this device can't keep up (under about 24 fps, e.g. software rendering
+    // behind a browser that hides its graphics card), hand back to the still.
+    // Only frames that follow another animated frame count, so idle gaps never do.
+    const pf = perf.current
+    if (!pf.done) {
+      if (busy && pf.chained) {
+        pf.frames += 1
+        pf.time += Math.min(delta, 1)
+        if (pf.frames >= 40 || (pf.time >= 1.5 && pf.frames >= 4)) {
+          pf.done = true
+          const fps = pf.frames / pf.time
+          if (fps < 24) onTooSlow?.(Math.round(fps))
+        }
+      }
+      pf.chained = busy
+    }
   })
 
   return (
@@ -134,7 +154,7 @@ function LiveCable({ animate }: { animate: boolean }) {
   )
 }
 
-export default function HeroScene({ animate, onReady }: { animate: boolean; onReady?: () => void }) {
+export default function HeroScene({ animate, onReady, onTooSlow }: { animate: boolean; onReady?: () => void; onTooSlow?: (fps: number) => void }) {
   return (
     <Canvas
       dpr={[1, 1.5]}
@@ -157,7 +177,7 @@ export default function HeroScene({ animate, onReady }: { animate: boolean; onRe
       {/* A white rim light, so every cable colour reads true. */}
       <Studio rim="#ffffff" />
       <fog attach="fog" args={['#05070a', 9, 16]} />
-      <LiveCable animate={animate} />
+      <LiveCable animate={animate} onTooSlow={onTooSlow} />
       <Ready onReady={onReady} />
     </Canvas>
   )
