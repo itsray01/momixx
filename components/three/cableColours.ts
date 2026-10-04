@@ -35,6 +35,9 @@ export const cableColours: readonly CableColour[] = [
 
 export const cableColourById = (id: string | undefined) => cableColours.find((c) => c.id === id)
 
+/** How long each colour shows while the pointer rests on the cable. */
+export const CABLE_CYCLE_MS = 2400
+
 // The colour on show, shared by the swatches, the live scene and the stills.
 let current = 0
 const listeners = new Set<() => void>()

@@ -2,15 +2,20 @@
 
 import { getImageProps } from 'next/image'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CanvasBoundary } from './CanvasBoundary'
-import { cableColours, cableColourStore, useCableColour, type CableColour } from './cableColours'
+import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour, type CableColour } from './cableColours'
 import { useLazy3D } from './useLazy3D'
 
 // Three.js is only downloaded on desktop screens with a GPU, after the page has loaded.
 const HeroScene = dynamic(() => import('./HeroScene'), { ssr: false })
 
-/** The hero still in one colour: the same view as the live 3D on desktop, a compact cable on phones. */
+/**
+ * The hero still in one colour: the same view as the live 3D on desktop, a
+ * compact cable on phones. It is sized to the column's height and centred, as
+ * the 3D camera is, so the two line up exactly at any screen shape and the
+ * cable doesn't jump when the live scene takes over.
+ */
 function HeroStillPicture({ colour, priority, onLoad }: { colour: CableColour; priority?: boolean; onLoad?: () => void }) {
   const common = { alt: '', sizes: '(min-width: 1024px) 50vw, min(100vw, 560px)' }
   const {
@@ -23,7 +28,7 @@ function HeroStillPicture({ colour, priority, onLoad }: { colour: CableColour; p
     <picture>
       <source media="(min-width: 1024px)" srcSet={desktop} sizes="50vw" />
       <source srcSet={mobile} sizes="min(100vw, 560px)" />
-      <img {...rest} alt="" draggable={false} onLoad={onLoad} className="h-full w-full object-contain select-none lg:object-cover" />
+      <img {...rest} alt="" draggable={false} onLoad={onLoad} className="absolute inset-y-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 select-none" />
     </picture>
   )
 }
@@ -33,17 +38,19 @@ function HeroStillPicture({ colour, priority, onLoad }: { colour: CableColour; p
  * colour is only shown once its image has loaded, and the previous one stays
  * underneath while it fades in, so the cable never flashes back to teal.
  */
-function ColourStills({ index }: { index: number }) {
+function ColourStills({ index, preloadAll }: { index: number; preloadAll: boolean }) {
   const [requested, setRequested] = useState<number[]>([])
   const [loaded, setLoaded] = useState<number[]>([0])
   const [shown, setShown] = useState({ now: 0, before: 0 })
   if (index !== 0 && !requested.includes(index)) setRequested([...requested, index])
   const next = loaded.includes(index) ? index : shown.now
   if (next !== shown.now) setShown({ now: next, before: shown.now })
-  return requested.map((i) => (
+  // While someone hovers the still, every colour is fetched up front so the cycle never waits.
+  const layers = preloadAll ? cableColours.map((_, i) => i).slice(1) : requested
+  return layers.map((i) => (
     <div
       key={i}
-      className={`absolute inset-0 transition-opacity duration-500 ${i === shown.now ? 'z-10 opacity-100' : i === shown.before && shown.now !== 0 ? 'opacity-100' : 'opacity-0'}`}
+      className={`absolute inset-0 transition-opacity duration-700 ${i === shown.now ? 'z-10 opacity-100' : i === shown.before && shown.now !== 0 ? 'opacity-100' : 'opacity-0'}`}
     >
       <HeroStillPicture colour={cableColours[i]} onLoad={() => setLoaded((l) => (l.includes(i) ? l : [...l, i]))} />
     </div>
@@ -63,15 +70,38 @@ function ColourStills({ index }: { index: number }) {
 export function Scene3D({ className = '' }: { className?: string }) {
   const { ref, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>('200px')
   const index = useCableColour()
+  // The live scene handles hover itself, on the cable, with motion. Otherwise
+  // (the still is showing, e.g. no GPU, or motion is reduced) hovering the
+  // cable's area with a mouse cycles the colours here.
+  const liveHover = ready && !reduced
+  const [hovering, setHovering] = useState(false)
+  const [preload, setPreload] = useState(false)
+  useEffect(() => {
+    if (!hovering || liveHover) return
+    let id = window.setTimeout(function tick() {
+      cableColourStore.next()
+      id = window.setTimeout(tick, CABLE_CYCLE_MS)
+    }, CABLE_CYCLE_MS * 0.5)
+    return () => window.clearTimeout(id)
+  }, [hovering, liveHover])
   return (
-    <div ref={ref} className={`relative ${className}`}>
+    <div
+      ref={ref}
+      onPointerEnter={(e) => {
+        if (e.pointerType !== 'mouse') return
+        setHovering(true)
+        if (!ready) setPreload(true)
+      }}
+      onPointerLeave={() => setHovering(false)}
+      className={`relative ${className}`}
+    >
       {/* Until the live scene takes over, tapping the cable shows the next colour. */}
       <div
         onClick={ready ? undefined : () => cableColourStore.next()}
-        className={`relative h-full w-full transition-opacity duration-700 ${ready ? 'pointer-events-none opacity-0' : 'cursor-pointer opacity-100'}`}
+        className={`relative h-full w-full overflow-hidden transition-opacity duration-700 ${ready ? 'pointer-events-none opacity-0' : 'cursor-pointer opacity-100'}`}
       >
         <HeroStillPicture colour={cableColours[0]} priority />
-        <ColourStills index={index} />
+        <ColourStills index={index} preloadAll={preload} />
       </div>
       {enabled && (
         <div aria-hidden="true" className={`pointer-events-none absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}>

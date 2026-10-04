@@ -143,11 +143,12 @@ function StrippedEnd({ cut }: { cut: THREE.Material }) {
 
 // ── Flexing ──────────────────────────────────────────────────────────────
 //
-// The bend is a sum of waves running up the cable, zero at the far end (held,
-// off-screen) and growing towards the free, stripped end. Each ring of the
-// jacket moves with the wave and turns to follow the bent cable, so the
-// surface and its lighting stay smooth. flexOffset() below must match the
-// GLSL version exactly: the stripped end is placed with it on the CPU.
+// One slow, gentle bend drifting up the cable: zero at the far end (held,
+// off-screen) and growing towards the free, stripped end, with long periods
+// (around eight seconds) so it reads as a calm sway, never a wiggle. Each ring
+// of the jacket moves with the bend and turns to follow it, so the surface and
+// its lighting stay smooth. flexOffset() below must match the GLSL version
+// exactly: the stripped end is placed with it on the CPU.
 
 const FLEX_GLSL = /* glsl */ `
 uniform float uFlexTime;
@@ -160,9 +161,9 @@ vec3 flexOffset(float s) {
   float w = s * s * uFlexAmp;
   float t = uFlexTime;
   return w * vec3(
-    sin(s * 3.2 - t * 2.6) * 0.34 + sin(s * 6.1 - t * 3.9) * 0.08,
-    sin(s * 2.1 - t * 2.2) * 0.06,
-    cos(s * 2.4 - t * 2.0) * 0.24
+    sin(t * 0.8 - s * 1.6) * 0.22,
+    sin(t * 0.6 - s * 1.2) * 0.05,
+    cos(t * 0.7 - s * 1.4) * 0.14
   );
 }
 // The rotation that turns unit vector a onto unit vector b.
@@ -181,9 +182,9 @@ mat3 rotateOnto(vec3 a, vec3 b) {
 function flexOffset(s: number, time: number, amp: number, out: THREE.Vector3) {
   const w = s * s * amp
   return out.set(
-    w * (Math.sin(s * 3.2 - time * 2.6) * 0.34 + Math.sin(s * 6.1 - time * 3.9) * 0.08),
-    w * Math.sin(s * 2.1 - time * 2.2) * 0.06,
-    w * Math.cos(s * 2.4 - time * 2.0) * 0.24,
+    w * Math.sin(time * 0.8 - s * 1.6) * 0.22,
+    w * Math.sin(time * 0.6 - s * 1.2) * 0.05,
+    w * Math.cos(time * 0.7 - s * 1.4) * 0.14,
   )
 }
 
@@ -293,8 +294,9 @@ export function HeroCableModel({ path = 'hero', colour = cableColours[0], motion
 
   useFrame((state, delta) => {
     const m = cable.materials
-    // Blend towards the chosen colour.
-    const k = 1 - Math.exp(-Math.min(delta, 1 / 30) * 8)
+    // Blend towards the chosen colour: a soft cross-fade of about a second, on the
+    // real clock (not the capped motion step) so it keeps its pace if frames drop.
+    const k = 1 - Math.exp(-Math.min(delta, 0.1) * 3.5)
     let blending = false
     for (const [c, t] of [
       [m.jacket.color, target.jacket],

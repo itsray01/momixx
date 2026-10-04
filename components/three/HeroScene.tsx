@@ -6,7 +6,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { cableColours, cableColourStore, useCableColour } from './cableColours'
+import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour } from './cableColours'
 import { CableHitArea, HeroCableModel, type CableMotion } from './HeroCable'
 import { heroCamera, heroProgress } from './heroProgress'
 import { Ready } from './Ready'
@@ -16,8 +16,8 @@ import { Studio } from './Studio'
 // cut end turns towards you instead of swinging sideways.
 const PIVOT: [number, number, number] = [0.45, -0.6, 0.45]
 const damp = THREE.MathUtils.damp
-/** Seconds per colour while the pointer rests on the cable. */
-const CYCLE = 1.6
+/** Eases a 0–1 value in and out, so motion starts and stops softly. */
+const smooth = (x: number) => x * x * (3 - 2 * x)
 /** The scene hears pointer events from the whole page; ignore the cable while the pointer is on a button or link in front of it (the colour swatches). */
 const overControl = (e: { nativeEvent: Event }) => e.nativeEvent.target instanceof Element && !!e.nativeEvent.target.closest('a, button, input, select, textarea')
 
@@ -26,24 +26,27 @@ const overControl = (e: { nativeEvent: Event }) => e.nativeEvent.target instance
  * the pointer. Scroll progress arrives raw (unsmoothed) and is eased once here,
  * so the cable follows the scroll closely instead of trailing behind it.
  *
- * With the pointer on the cable, it comes alive: a wave runs along it, the
- * stripped end twists, and it moves through its colours. A click flicks it and
- * shows the next colour. When the pointer leaves it settles, with a little
- * wobble, like a real cable let go.
+ * With the pointer on the cable, it comes slowly alive: a gentle bend drifts
+ * along it, the stripped end turns, a soft highlight glides across the jacket,
+ * and it moves through its colours. Everything eases in and out, with no
+ * bounce. A click shows the next colour. With reduced motion the cable stays
+ * still (the hero wrapper still cycles its colours on hover).
  */
 function LiveCable({ animate }: { animate: boolean }) {
   const ref = useRef<THREE.Group>(null)
+  const sweep = useRef<THREE.DirectionalLight>(null)
   const invalidate = useThree((s) => s.invalidate)
   const colour = cableColours[useCableColour()]
   const motion = useRef<CableMotion>({ amp: 0, time: 0, twist: 0 })
-  const spring = useRef({ velocity: 0, hovered: false, changedAt: 0 })
+  // `level` eases between 0 (at rest) and 1 (alive); the motion uses it smoothed.
+  const hover = useRef({ on: false, changedAt: 0, level: 0 })
 
   const setHovered = (on: boolean) => {
-    const sp = spring.current
-    if (on === sp.hovered) return
-    sp.hovered = on
+    const h = hover.current
+    if (on === h.on) return
+    h.on = on
     // The first new colour arrives a little sooner than the rest.
-    if (on) sp.changedAt = performance.now() - CYCLE * 550
+    if (on) h.changedAt = performance.now() - CABLE_CYCLE_MS * 0.5
     document.body.style.cursor = on ? 'pointer' : ''
     invalidate()
   }
@@ -70,31 +73,37 @@ function LiveCable({ animate }: { animate: boolean }) {
     // After an idle pause the first delta is long; cap it so nothing jumps.
     const dt = Math.min(delta, 1 / 30)
     const m = motion.current
-    const sp = spring.current
-    const alive = sp.hovered && animate
+    const h = hover.current
+    const alive = h.on && animate
 
     // Colours change on the real clock, so they keep their pace even when frames drop.
-    if (alive && performance.now() - sp.changedAt >= CYCLE * 1000) {
-      sp.changedAt = performance.now()
+    if (alive && performance.now() - h.changedAt >= CABLE_CYCLE_MS) {
+      h.changedAt = performance.now()
       cableColourStore.next()
     }
 
-    // A soft spring drives the flex, so the cable eases in and settles with a wobble.
-    if (animate) {
-      sp.velocity += (38 * ((alive ? 1 : 0) - m.amp) - 6.5 * sp.velocity) * dt
-      m.amp += sp.velocity * dt
-    }
-    const moving = Math.abs(m.amp) > 0.0005 || Math.abs(sp.velocity) > 0.0005
+    // Ease towards 1 while hovered and back to 0 after, with no overshoot.
+    h.level = damp(h.level, alive ? 1 : 0, 2.2, dt)
+    if (h.level < 0.004 && !alive) h.level = 0
+    const moving = h.level > 0
     if (moving) m.time += dt
-    else m.amp = sp.velocity = 0
-    m.twist = Math.sin(m.time * 1.7) * 1.1 * m.amp
+    const e = smooth(Math.min(h.level, 1))
+    m.amp = e
+    m.twist = Math.sin(m.time * 0.5) * 0.7 * e
+
+    // A soft highlight glides slowly across the jacket while the cable is alive.
+    const l = sweep.current
+    if (l) {
+      l.intensity = 1.6 * e
+      l.position.set(Math.cos(m.time * 0.6) * 5, 3 + Math.sin(m.time * 0.4) * 1.5, 4 + Math.sin(m.time * 0.6) * 2)
+    }
 
     // The pointer is tracked across the whole page; only its position over the cable's column steers the lean.
     const px = THREE.MathUtils.clamp(state.pointer.x, -1, 1)
     const py = THREE.MathUtils.clamp(state.pointer.y, -1, 1)
-    const ry = 0.32 * p + px * 0.08 + Math.sin(m.time * 0.8) * 0.1 * m.amp
+    const ry = 0.32 * p + px * 0.08 + Math.sin(m.time * 0.4) * 0.06 * e
     const rx = 0.14 * p - py * 0.05
-    const z = 0.6 * p + 0.3 * m.amp
+    const z = 0.6 * p + 0.18 * e
     g.rotation.y = damp(g.rotation.y, ry, 7, dt)
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
     g.position.z = damp(g.position.z, PIVOT[2] + z, 7, dt)
@@ -103,23 +112,25 @@ function LiveCable({ animate }: { animate: boolean }) {
   })
 
   return (
-    <group ref={ref} position={PIVOT}>
-      <group position={[-PIVOT[0], -PIVOT[1], -PIVOT[2]]}>
-        <HeroCableModel colour={colour} motion={motion} />
-        <CableHitArea
-          onPointerOver={(e) => setHovered(!overControl(e))}
-          onPointerMove={(e) => setHovered(!overControl(e))}
-          onPointerOut={() => setHovered(false)}
-          onClick={(e) => {
-            if (overControl(e)) return
-            cableColourStore.next()
-            spring.current.changedAt = performance.now()
-            if (animate) spring.current.velocity += 5
-            invalidate()
-          }}
-        />
+    <>
+      <directionalLight ref={sweep} intensity={0} position={[5, 3, 4]} />
+      <group ref={ref} position={PIVOT}>
+        <group position={[-PIVOT[0], -PIVOT[1], -PIVOT[2]]}>
+          <HeroCableModel colour={colour} motion={motion} />
+          <CableHitArea
+            onPointerOver={(e) => setHovered(!overControl(e))}
+            onPointerMove={(e) => setHovered(!overControl(e))}
+            onPointerOut={() => setHovered(false)}
+            onClick={(e) => {
+              if (overControl(e)) return
+              cableColourStore.next()
+              hover.current.changedAt = performance.now()
+              invalidate()
+            }}
+          />
+        </group>
       </group>
-    </group>
+    </>
   )
 }
 
