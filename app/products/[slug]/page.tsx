@@ -5,7 +5,9 @@ import { notFound } from 'next/navigation'
 import { CompareBars, MarketCard } from '@/components/charts'
 import { CableAnatomy } from '@/components/CableAnatomy'
 import { ExtruderSection } from '@/components/ExtruderSection'
+import { StepFlow } from '@/components/infographics'
 import { JsonLd } from '@/components/JsonLd'
+import { Render } from '@/components/Render'
 import { TemperatureRange } from '@/components/TemperatureRange'
 import { TabNav } from '@/components/TabNav'
 import { Arrow, ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
@@ -63,14 +65,20 @@ export default async function ProductPage({ params }: Props) {
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
             <div>
-              <p className="eyebrow">Overview</p>
-              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{p.summary}</p>
-              {p.photo && (
-                <figure className="card relative mt-10 overflow-hidden">
-                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
+              {p.photo ? (
+                <figure className="card relative mb-10 overflow-hidden">
+                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" loading="eager" fetchPriority="high" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
                   <figcaption className="absolute bottom-4 left-5 text-xs text-slate-400">{p.photo.caption}</figcaption>
                 </figure>
+              ) : (
+                p.illustration && (
+                  <div className="card mb-10 aspect-[4/3] overflow-hidden">
+                    <Render name={p.illustration} alt={`3D illustration of the ${p.name}`} sizes="(min-width: 1152px) 640px, (min-width: 1024px) 55vw, 92vw" priority />
+                  </div>
+                )
               )}
+              <p className="eyebrow">Overview</p>
+              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{p.summary}</p>
               {p.recycledOption && (
                 <p className="mt-8 rounded-2xl border border-brand-400/25 bg-brand-400/10 p-5 text-sm text-brand-100">
                   <strong>Also available with recycled content.</strong> <Link href="/recycled-silicone" className="underline underline-offset-2">How our recycled silicone works</Link>
@@ -79,7 +87,35 @@ export default async function ProductPage({ params }: Props) {
             </div>
             <div className="space-y-6">
               {p.stats && <StatTiles stats={p.stats} cols={1} />}
-              {p.uses && (
+              {apps.length > 0 ? (
+                <div className="card p-7">
+                  <h2 className="text-base font-semibold">Used in</h2>
+                  <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
+                    {apps.map((a) => (
+                      <li key={a.slug}>
+                        <Link
+                          href={`/applications/${a.slug}`}
+                          className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition-colors hover:border-white/20 focus-visible:border-white/20"
+                        >
+                          <span className="block aspect-[4/3] overflow-hidden">
+                            <Render name={a.illustration} sizes="(min-width: 1024px) 12rem, (min-width: 640px) 30vw, 45vw" className="transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
+                          </span>
+                          <span className="px-3 pb-3 text-sm font-medium text-slate-200 group-hover:text-white">{a.tabLabel}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  {p.uses && (
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {p.uses.map((u) => (
+                        <li key={u} className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">
+                          {u}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ) : p.uses && (
                 <div className="card p-7">
                   <h2 className="text-base font-semibold">Used in</h2>
                   <ul className="mt-4 space-y-2.5 text-slate-300">
@@ -96,8 +132,14 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </Section>
 
+        {p.steps && (
+          <Section tone="muted" eyebrow="How it works" title="How it *works*">
+            <StepFlow steps={p.steps} />
+          </Section>
+        )}
+
         {p.benefits && (
-          <Section tone="muted" eyebrow="Why it matters" title="Key *benefits*">
+          <Section tone={p.steps ? 'white' : 'muted'} eyebrow="Why it matters" title="Key *benefits*">
             <FeatureGrid items={p.benefits} />
           </Section>
         )}

@@ -30,6 +30,26 @@ export function RecycleSteps({ compact = false }: { compact?: boolean }) {
   )
 }
 
+const flowCols: Record<number, string> = { 2: 'lg:grid-cols-2', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4', 5: 'lg:grid-cols-5' }
+
+/** A short numbered process: a vertical list on phones, a row of steps on a line on desktop. */
+export function StepFlow({ steps }: { steps: Array<{ title: string; body: string }> }) {
+  return (
+    <ol data-reveal="stagger" className={`grid lg:gap-8 ${flowCols[steps.length] ?? 'lg:grid-cols-4'}`}>
+      {steps.map((s, i) => (
+        <li key={s.title} className="relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0 lg:block lg:border-white/15 lg:py-0 lg:pt-6 lg:first:border-t">
+          <span aria-hidden="true" className="absolute -top-[3px] left-0 hidden h-1.5 w-1.5 rounded-full bg-brand-300 lg:block" />
+          <span className="font-mono text-sm text-slate-500">0{i + 1}</span>
+          <div className="lg:mt-4">
+            <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
 /** The five recycling steps as a row of cards. */
 export function RecycleFlow() {
   return (

@@ -34,6 +34,7 @@ export default function ProductsPage() {
                 <li key={p.slug}>
                   <LinkCard
                     href={`/products/${p.slug}`}
+                    render={p.illustration}
                     title={p.name}
                     body={p.tagline}
                     footer={

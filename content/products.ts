@@ -42,6 +42,8 @@ export type Comparison = {
     momixxText?: string
     otherText?: string
     better: 'higher' | 'lower'
+    /** Shown instead of the calculated advantage line. */
+    advantageText?: string
   }>
 }
 
@@ -53,6 +55,8 @@ export type Product = {
   tagline: string
   summary: string
   benefits?: Array<{ title: string; body: string }>
+  /** A short numbered flow, shown in a "How it works" section after the overview. */
+  steps?: Array<{ title: string; body: string }>
   uses?: string[]
   stats?: Stat[]
   models?: Array<{ model: string; type: string; properties: string }>
@@ -344,6 +348,12 @@ export const products: Product[] = [
     tagline: 'A precise, flexible line for silicone cable jackets.',
     summary:
       'Our horizontal line controls the silicone feed precisely and uses a high-precision crosshead (the head that forms the silicone around the wire) to make cable jackets of very even thickness. Our own team installs and maintains it.',
+    steps: [
+      { title: 'Feed', body: 'The silicone feed is controlled precisely, at screw speeds of up to 35 rpm.' },
+      { title: 'Form', body: 'A high-precision crosshead forms the silicone around the wire.' },
+      { title: 'Even jacket', body: 'Jackets as thin as 0.30 mm, with over 90% concentricity.' },
+      { title: 'Installed and serviced', body: 'Our own team installs and maintains the line.' },
+    ],
     stats: [
       { value: '30 m/min', label: 'line speed' },
       { value: '>90%', label: 'concentricity (jacket evenness)' },
@@ -367,6 +377,12 @@ export const products: Product[] = [
     tagline: 'Mixes liquid silicone evenly and empties each bucket.',
     summary:
       'Liquid silicone comes in two parts that must be mixed in equal amounts (1:1). In our experience, standard mixers leave about 4% of each bucket unused. Ours monitors the level closely and keeps pumping until the bucket is empty, then feeds the silicone straight into our vertical extrusion line.',
+    steps: [
+      { title: 'Two parts', body: 'Liquid silicone arrives as two parts that must be mixed 1:1.' },
+      { title: 'Watch the level', body: 'The mixer monitors the level in each bucket closely.' },
+      { title: 'Empty the bucket', body: 'It keeps pumping until the bucket is empty. In our experience, standard mixers leave about 4%.' },
+      { title: 'Straight to the line', body: 'The mixed silicone feeds straight into our vertical extrusion line.' },
+    ],
     stats: [{ value: '~4%', label: 'of each bucket no longer wasted' }],
     applications: ['consumer-electronics'],
     illustration: 'mixer',
@@ -379,6 +395,11 @@ export const products: Product[] = [
     tagline: 'A camera-guided machine that winds cable evenly onto spools.',
     summary:
       'Cable wound unevenly onto a spool can be stretched or damaged later in production. Our autowinder uses a camera and closed-loop control (continuous automatic correction) to adjust the cable position as it winds, so spools are wound evenly.',
+    steps: [
+      { title: 'Watch', body: 'A camera follows the cable as it winds onto the spool.' },
+      { title: 'Correct', body: 'Closed-loop control adjusts the cable’s position continuously.' },
+      { title: 'Even spools', body: 'Spools wound evenly, so the cable isn’t stretched or damaged later in production.' },
+    ],
     applications: ['consumer-electronics'],
     illustration: 'winder',
   },
@@ -394,6 +415,20 @@ export const products: Product[] = [
       { value: '30%', label: 'less electricity than a standard curing oven' },
       { value: '±5 °C', label: 'temperature control (standard: ±10 °C)' },
     ],
+    steps: [
+      { title: 'Cure', body: 'Once silicone is on the cable, the oven cures (sets) it.' },
+      { title: 'Smaller heated space', body: 'Less space to heat, with new heating modules.' },
+      { title: 'Sense and adjust', body: 'New sensing modules keep the temperature steady.' },
+    ],
+    comparison: {
+      title: 'Our curing oven against a standard one',
+      note: 'Electricity use is shown with a standard curing oven as 100.',
+      otherLabel: 'Standard curing oven',
+      rows: [
+        { metric: 'Electricity use', unit: 'relative', momixx: 70, other: 100, momixxText: '~70', otherText: '100', better: 'lower', advantageText: 'About 30% less electricity' },
+        { metric: 'Temperature variation', unit: '±\u00a0°C', momixx: 5, other: 10, momixxText: '±5', otherText: '±10', better: 'lower', advantageText: 'Half the temperature variation' },
+      ],
+    },
     illustration: 'oven',
   },
   {
@@ -405,6 +440,17 @@ export const products: Product[] = [
     summary:
       'Bare silicone attracts dust. Our machine dips cables in a thin, precisely controlled coating that feels soft, resists stains and lasts. Compared with spray coating, it releases up to 20 times less volatile organic compounds (VOCs, the solvent fumes that pollute air).',
     stats: [{ value: 'Up to 20×', label: 'lower VOC emissions than spray coating' }],
+    steps: [
+      { title: 'Dip', body: 'Cables pass through a thin, precisely controlled coating.' },
+      { title: 'Finish', body: 'The coating feels soft, resists stains and keeps dust off.' },
+      { title: 'Cleaner air', body: 'Up to 20 times lower VOC emissions than spray coating.' },
+    ],
+    comparison: {
+      title: 'Dip coating against spray coating',
+      note: 'VOC emissions are shown with our dip coating as 1.',
+      otherLabel: 'Spray coating',
+      rows: [{ metric: 'VOC emissions', unit: 'relative', momixx: 1, other: 20, momixxText: '1', otherText: 'up to 20', better: 'lower', advantageText: 'Up to 20× lower VOC emissions' }],
+    },
     applications: ['consumer-electronics'],
     illustration: 'coating',
   },
@@ -425,6 +471,12 @@ export const products: Product[] = [
       },
       { title: 'Made to measure', body: 'Formulations tuned for flame retardancy, chemical resistance or a particular feel.' },
       { title: 'Finishing', body: 'Dip coating for cables and cases, with an F-grade pencil-hardness surface.' },
+    ],
+    steps: [
+      { title: 'Formulate', body: 'We tune the silicone for the job: flame retardancy, chemical resistance or a particular feel.' },
+      { title: 'Match the colour', body: 'Matched to within ΔE94 0.50 of your target, even for vivid or translucent shades.' },
+      { title: 'Finish', body: 'Dip coating for cables and cases, with an F-grade pencil-hardness surface.' },
+      { title: 'Produce', body: 'Made in large volumes at our factories in Asia.' },
     ],
     uses: ['Phone and computer accessories', 'Wearables', 'Bio-leather and silicone composites'],
     applications: ['consumer-electronics'],

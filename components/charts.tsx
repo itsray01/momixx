@@ -62,7 +62,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
                   )
                 })}
               </div>
-              {winner && <p className="mt-3 text-xs font-medium text-brand-300">{advantage(row, comparison.otherLabel)}</p>}
+              {winner && <p className="mt-3 text-xs font-medium text-brand-300">{row.advantageText ?? advantage(row, comparison.otherLabel)}</p>}
             </div>
           )
         })}
