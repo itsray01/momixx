@@ -19,7 +19,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
   // A category can link to the page it is on, so the current page is looked up in `tabs` first.
   const current = tabs.find((t) => t.href === pathname) ?? primary.find((t) => t.href === pathname)
   const isActive = (t: Tab) => t.active ?? t === current
-  const centred = tabs.find(isActive) ?? primary.find(isActive)
+  const shown = tabs.find(isActive) ?? primary.find(isActive)
   const listRef = useRef<HTMLUListElement>(null)
   const activeRef = useRef<HTMLAnchorElement>(null)
   const [edges, setEdges] = useState({ left: false, right: false })
@@ -30,11 +30,18 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
     setEdges({ left: l.scrollLeft > 4, right: l.scrollLeft + l.clientWidth < l.scrollWidth - 4 })
   }, [])
 
-  // Centre the active tab horizontally without scrolling the page vertically.
+  // Scroll only as far as needed to show the active tab, so the start of the bar
+  // (e.g. the category switch) stays in view; never scrolls the page vertically.
   useEffect(() => {
     const list = listRef.current
     const el = activeRef.current
-    if (list && el) list.scrollLeft = el.offsetLeft - list.clientWidth / 2 + el.clientWidth / 2
+    if (list && el) {
+      const margin = 16
+      const start = el.offsetLeft - margin
+      const end = el.offsetLeft + el.offsetWidth + margin
+      if (start < list.scrollLeft) list.scrollLeft = start
+      else if (end > list.scrollLeft + list.clientWidth) list.scrollLeft = end - list.clientWidth
+    }
     measure()
   }, [pathname, measure])
 
@@ -77,7 +84,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
     return (
       <li key={key} className="flex shrink-0 items-center">
         <Link
-          ref={t === centred ? activeRef : undefined}
+          ref={t === shown ? activeRef : undefined}
           href={t.href}
           aria-current={here ? 'page' : active ? 'true' : undefined}
           className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
