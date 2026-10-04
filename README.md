@@ -60,6 +60,8 @@ You need Node.js 20.9 or newer.
 
 1. **Create the Vercel project.**
    - In Vercel, choose **Add New → Project** and import this GitHub repository. Vercel detects Next.js automatically.
+   - **Production branch:** `main`. Every push to `main` deploys to production; every other branch gets its own preview link.
+   - **Keep it private until launch:** under Settings → Deployment Protection, keep Vercel Authentication on (Standard Protection). The vercel.app addresses then need a Vercel login; the live domain becomes public only when it is added at go-live.
    - Under **Settings → Environment Variables**, add:
      - `NEXT_PUBLIC_SITE_URL` = `https://www.momixx.com` (the canonical address)
      - `REDIRECT_HOSTS` = every other hostname you own, comma-separated, for example `momixx.com,orionmomixx.com,www.orionmomixx.com`
