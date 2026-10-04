@@ -77,7 +77,7 @@ A listing candidate's website is usually treated as public communication during 
 
 ## 4. Go-live steps
 
-1. Vercel project created and the preview reviewed. Production branch: `main`. Keep Deployment Protection on until go-live.
+1. Vercel project created and the preview reviewed. Production branch: `main`. momixx.vercel.app is public for review.
 2. Environment variables set in Vercel: `NEXT_PUBLIC_SITE_URL` (https://www.momixx.com), `REDIRECT_HOSTS`. Never set `ENABLE_RENDER` in production.
 3. In the Vercel project, turn on **Web Analytics** and **Speed Insights** (cookie-free; the site already includes them).
 4. Domains added in Vercel, with the secondary domains set to redirect.
