@@ -11,6 +11,7 @@ import * as THREE from 'three'
 import { CableAnatomyModel } from './CableAnatomy'
 import { anatomyStillExplode } from './cableLayers'
 import { ExtruderLineModel } from './ExtruderLine'
+import type { CableColour } from './cableColours'
 import { HeroCableModel } from './HeroCable'
 import { DuneModel, HumanoidModel, MedicalTubingModel, SwatchFanModel, WaferModel } from './modelsDetailed'
 import { landDots } from './landDots'
@@ -705,9 +706,12 @@ export function GlobeModel({ spin = false }: { spin?: boolean }) {
   )
 }
 
-export const modelRegistry: Record<ModelName, () => React.JSX.Element> = {
-  'data-cable': () => <HeroCableModel path="card" />,
-  'cable-hero': () => <HeroCableModel path="hero" />,
+/** Options a model may take when rendered; only the cables use `colour`. */
+export type ModelOptions = { colour?: CableColour }
+
+export const modelRegistry: Record<ModelName, (options: ModelOptions) => React.JSX.Element> = {
+  'data-cable': ({ colour }) => <HeroCableModel path="card" colour={colour} />,
+  'cable-hero': ({ colour }) => <HeroCableModel path="hero" colour={colour} />,
   'ev-cable': () => <EvCableModel />,
   watchband: () => <WatchModel />,
   'phone-case': () => <PhoneCaseModel />,

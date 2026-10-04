@@ -1,9 +1,9 @@
-import { getImageProps } from 'next/image'
 import Link from 'next/link'
 import { ArticleCard } from '@/components/ArticleCard'
 import { MarketCard } from '@/components/charts'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
+import { CableColourPicker } from '@/components/CableColourPicker'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, ArrowLink, CtaBand, GridBackdrop, Marquee, Section, StatTiles, rich } from '@/components/ui'
 import { applications } from '@/content/applications'
@@ -38,24 +38,6 @@ const heroLabels = [
   { title: 'Up to 250 °C', sub: 'MoMixx MM grades, in our testing', pos: 'top-[12%] right-[14%]' },
 ]
 
-/** The hero still: the same view as the live 3D on desktop, a compact cable on phones. */
-function HeroStill() {
-  const common = { alt: '', sizes: '(min-width: 1024px) 50vw, min(100vw, 560px)' }
-  const {
-    props: { srcSet: desktop },
-  } = getImageProps({ ...common, src: '/renders/cable-hero.webp', width: 960, height: 1200 })
-  const {
-    props: { srcSet: mobile, ...rest },
-  } = getImageProps({ ...common, src: '/renders/data-cable.webp', width: 1200, height: 900, loading: 'eager', fetchPriority: 'high' })
-  return (
-    <picture>
-      <source media="(min-width: 1024px)" srcSet={desktop} sizes="50vw" />
-      <source srcSet={mobile} sizes="min(100vw, 560px)" />
-      <img {...rest} alt="" draggable={false} className="h-full w-full object-contain select-none lg:object-cover" />
-    </picture>
-  )
-}
-
 export default function HomePage() {
   return (
     <>
@@ -67,7 +49,8 @@ export default function HomePage() {
 
           {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
           <div className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" fallback={<HeroStill />} />
+            <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" />
+            <CableColourPicker className="relative z-20 mt-4 mb-12 lg:absolute lg:inset-x-0 lg:bottom-10 lg:my-0" />
             {heroLabels.map((l) => (
               <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block motion-reduce:lg:hidden ${l.pos}`}>
                 <p className="text-sm font-medium text-white">{l.title}</p>

@@ -7,9 +7,10 @@ import { RenderCanvas } from './RenderCanvas'
 export const dynamic = 'force-dynamic'
 export const metadata = { robots: { index: false, follow: false } }
 
-export default async function RenderPage({ params }: { params: Promise<{ model: string }> }) {
+export default async function RenderPage({ params, searchParams }: { params: Promise<{ model: string }>; searchParams: Promise<{ colour?: string }> }) {
   const { model } = await params
+  const { colour } = await searchParams
   const enabled = process.env.NODE_ENV === 'development' || process.env.ENABLE_RENDER === '1'
   if (!enabled || !modelNames.includes(model as ModelName)) notFound()
-  return <RenderCanvas name={model as ModelName} />
+  return <RenderCanvas name={model as ModelName} colour={colour} />
 }

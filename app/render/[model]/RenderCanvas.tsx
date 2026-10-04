@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useRef, type ReactNode } from 'react'
 import * as THREE from 'three'
 import { defaultView, renderViews } from '@/components/three/renderViews'
+import { cableColourById } from '@/components/three/cableColours'
 import { modelRegistry } from '@/components/three/models'
 import { Studio } from '@/components/three/Studio'
 import type { ModelName } from '@/components/three/modelNames'
@@ -37,8 +38,11 @@ function DoneAfter({ frames }: { frames: number }) {
 }
 
 // Studio shot of one model on a transparent background (4:3 unless the view says otherwise).
-export function RenderCanvas({ name }: { name: ModelName }) {
+// `colour` (the cables only) picks a colour from cableColours; colour variants are
+// lit with a neutral rim, like the live hero, so each colour reads true.
+export function RenderCanvas({ name, colour: colourId }: { name: ModelName; colour?: string }) {
   const Model = modelRegistry[name]
+  const colour = cableColourById(colourId)
   // Interactive models are framed exactly like their live view, so markers line up.
   const view = renderViews[name] ?? defaultView
   const [width, height] = view.size ?? [1200, 900]
@@ -54,10 +58,10 @@ export function RenderCanvas({ name }: { name: ModelName }) {
           gl.setClearColor(0x000000, 0)
         }}
       >
-        <Studio resolution={512} />
+        <Studio resolution={512} rim={colour ? '#ffffff' : undefined} />
         {view.fog && <fog attach="fog" args={['#05070a', ...view.fog]} />}
         <CastShadows>
-          <Model />
+          <Model colour={colour} />
         </CastShadows>
         {line ? (
           <ContactShadows position={[0.35, 0.001, -0.35]} opacity={0.55} scale={14} blur={2.4} far={4} resolution={1024} />
