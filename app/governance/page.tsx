@@ -6,7 +6,7 @@ import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
   title: 'Governance',
-  description: 'Company information, certified management systems and policies for MoMixx, headquartered in Singapore.',
+  description: 'Company information, certifications and policies for MoMixx, headquartered in Singapore.',
   path: '/governance',
 })
 
@@ -17,7 +17,7 @@ const companyInfo = [
   { label: 'Brand', value: [site.name] },
   ...(site.registrationNumber ? [{ label: 'Registration number', value: [`Singapore UEN ${site.registrationNumber}`] }] : []),
   { label: 'Headquarters', value: [site.address.street, `${site.address.locality} ${site.address.postalCode}`] },
-  { label: 'Malaysian subsidiary', value: [site.plants.perai.company] },
+  { label: 'Malaysian company', value: [site.plants.perai.company] },
   { label: 'Operations', value: site.locations.map((l) => `${l.name}: ${l.role}`) },
 ]
 
@@ -45,7 +45,7 @@ export default function GovernancePage() {
         ]}
         eyebrow="Governance"
         title="Corporate *governance*"
-        intro="Company information, certified management systems and policies."
+        intro="Company information, certifications and policies."
       />
 
       <Section id="information" tone={tone('information')} eyebrow="The company" title="Company *information*">
@@ -65,7 +65,7 @@ export default function GovernancePage() {
         </dl>
       </Section>
 
-      <Section id="certifications" tone={tone('certifications')} eyebrow="Certified" title="Certified management *systems*">
+      <Section id="certifications" tone={tone('certifications')} eyebrow="Certified" title="Certifications">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {formalCertifications.map((c) => (
             <CertCard key={c.id} cert={c} />
@@ -146,7 +146,7 @@ export default function GovernancePage() {
       <Section id="website-policies" tone={tone('website-policies')} eyebrow="This website" title="Website *policies*">
         <ul className="flex flex-wrap gap-x-8 gap-y-3 text-lg">
           <li>
-            <ArrowLink href="/privacy">Privacy policy</ArrowLink>
+            <ArrowLink href="/privacy">Privacy notice</ArrowLink>
           </li>
           <li>
             <ArrowLink href="/terms">Terms of use</ArrowLink>
