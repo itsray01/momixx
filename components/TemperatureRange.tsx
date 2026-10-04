@@ -17,7 +17,7 @@ const ticks = [-80, -40, 0, 40, 80, 120, 160, 200, 240, 280]
 const pct = (t: number) => ((t - LO) / (HI - LO)) * 100
 const deg = (t: number) => `${t < 0 ? '−' : ''}${Math.abs(t)} °C`
 
-const fill = { momixx: 'bg-[#1caa9e]', silicone: 'bg-[#1caa9e]/55', other: 'bg-[#5a6474]' }
+const fill = { momixx: 'bg-[#e4e4e7]', silicone: 'bg-[#a1a1aa]', other: 'bg-[#5a6474]' }
 
 export function TemperatureRange() {
   return (

@@ -5,7 +5,7 @@ import { JsonLd } from './JsonLd'
 
 /**
  * Headings support an editorial accent: wrap words in *asterisks* to set them
- * in the serif italic with the teal gradient, e.g. "Silicone that *comes back*".
+ * in the serif italic with the silver gradient, e.g. "Silicone that *comes back*".
  */
 export function rich(text: ReactNode): ReactNode {
   if (typeof text !== 'string') return text
@@ -176,7 +176,7 @@ export function StatTiles({
     <ul data-reveal="stagger" className={`card grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 ${lgCols[n]}`}>
       {stats.map((s) => (
         <li key={s.label} className="relative flex flex-col bg-ink-900 p-6 sm:p-7">
-          <span aria-hidden="true" className="mb-5 h-px w-8 bg-gradient-to-r from-brand-300 to-transparent" />
+          <span aria-hidden="true" className="mb-5 h-px w-8 bg-gradient-to-r from-white/50 to-transparent" />
           <p
             data-countup
             className={`font-display leading-none font-semibold tracking-[-0.04em] text-balance text-white ${s.value.length > 9 ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}
@@ -195,7 +195,7 @@ export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string;
     <div data-reveal="stagger" className={`grid gap-5 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
         <div key={it.title} data-tilt className="card lift p-7">
-          <span className="font-mono text-xs text-brand-300">{String(i + 1).padStart(2, '0')}</span>
+          <span className="font-mono text-xs text-slate-500">{String(i + 1).padStart(2, '0')}</span>
           <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
           <p className="mt-3 leading-relaxed text-slate-400">{it.body}</p>
         </div>

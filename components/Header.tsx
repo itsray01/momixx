@@ -66,7 +66,7 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
           href={menu.feature.href}
           className="group/feature relative flex flex-col self-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
         >
-          <span className="relative text-[11px] font-medium tracking-[0.16em] text-brand-300 uppercase">{menu.feature.eyebrow}</span>
+          <span className="relative text-[11px] font-medium tracking-[0.16em] text-slate-400 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
           <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-400">{menu.feature.body}</span>
           <span className="relative mt-auto pt-4 text-xs font-medium text-brand-300">
@@ -248,7 +248,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                           <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" />
                         </svg>
                       )}
-                      {current && <span aria-hidden="true" className="absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3.5 h-px bg-gradient-to-r from-transparent via-brand-300 to-transparent" />}
+                      {current && <span aria-hidden="true" className="absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3.5 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />}
                     </Link>
                     {menu.columns && (
                       <div

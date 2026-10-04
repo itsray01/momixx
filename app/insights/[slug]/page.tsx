@@ -81,7 +81,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="min-w-0 max-w-3xl">
             {a.takeaways.length > 0 && (
               <section aria-labelledby="takeaways" className="card mb-12 p-7 sm:p-8">
-                <h2 id="takeaways" className="text-sm font-medium tracking-[0.16em] text-brand-300 uppercase">
+                <h2 id="takeaways" className="text-sm font-medium tracking-[0.16em] text-slate-400 uppercase">
                   Key takeaways
                 </h2>
                 <ul className="mt-4 space-y-3 text-slate-200">

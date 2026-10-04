@@ -74,7 +74,7 @@ export default function LocationsPage() {
         <ul className="grid gap-5 lg:grid-cols-2">
           {sites.map((s) => (
             <li key={s.id} id={s.id} className={`card flex scroll-mt-28 flex-col p-8 sm:p-10 ${'wide' in s ? 'lg:col-span-2' : ''}`}>
-              <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{s.role}</p>
+              <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">{s.role}</p>
               <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">{s.name}</h3>
               <address className="mt-3 text-sm leading-relaxed text-slate-400 not-italic">
                 {s.address.map((line) => (

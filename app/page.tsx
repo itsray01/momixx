@@ -175,7 +175,7 @@ export default function HomePage() {
             <li key={a.slug}>
               <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full flex-col overflow-hidden">
                 <div className="flex flex-1 flex-col p-7">
-                  <span className="text-xs font-medium text-brand-300">{a.maturity}</span>
+                  <span className="text-xs font-medium text-slate-400">{a.maturity}</span>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{a.name}</h3>
                   <p className="mt-2 flex-1 text-slate-400">{a.tagline}</p>
                   <span className="mt-8 inline-flex items-center gap-1.5 border-t border-white/[0.06] pt-5 text-sm font-medium text-white">
@@ -263,7 +263,7 @@ function BentoTile({
 }) {
   return (
     <Link href={href} data-tilt className={`group card lift relative flex min-h-[240px] flex-col overflow-hidden p-7 sm:p-8 ${className}`}>
-      <p className="text-xs font-medium tracking-[0.16em] text-brand-300 uppercase">{kicker}</p>
+      <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">{kicker}</p>
       {tags && (
         <ul className="mt-6 flex flex-wrap gap-2">
           {tags.map((t) => (

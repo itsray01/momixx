@@ -48,7 +48,7 @@ export default function SiliconePage() {
         <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((p, i) => (
             <div key={p.title} className="bg-ink-950 p-8">
-              <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+              <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
               <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">{p.title}</h3>
               <p className="mt-2 leading-relaxed text-slate-400">{p.body}</p>
             </div>

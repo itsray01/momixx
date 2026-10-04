@@ -19,7 +19,7 @@ export function RecycleSteps({ compact = false }: { compact?: boolean }) {
     <ol data-reveal="stagger" className="relative space-y-0">
       {recycleSteps.map((s, i) => (
         <li key={s.title} className="group relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0">
-          <span className="font-mono text-sm text-brand-300">0{i + 1}</span>
+          <span className="font-mono text-sm text-slate-500">0{i + 1}</span>
           <div>
             <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
             {!compact && <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{s.body}</p>}
@@ -37,7 +37,7 @@ export function RecycleFlow() {
       <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-5">
         {recycleSteps.map((s, i) => (
           <li key={s.title} className="bg-ink-950 p-7">
-            <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+            <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
             <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-white">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.body}</p>
           </li>
@@ -82,7 +82,7 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
               <span>0{journey.length}</span>
             </div>
             <div className="mt-2 h-px bg-white/10">
-              <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-brand-300" />
+              <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-white/70" />
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
                 </div>
                 <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-brand-300">Step 0{i + 1}</span>
+                    <span className="font-mono text-xs text-slate-500">Step 0{i + 1}</span>
                     {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">MoMixx</span>}
                   </div>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>

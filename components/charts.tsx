@@ -1,11 +1,11 @@
 import type { Comparison } from '@/content/products'
 import { formatUsd, type Market } from '@/content/markets'
 
-// Emphasis palette for the dark surface, validated (dataviz validator, dark
-// mode, surface #0e131b): MoMixx teal #1caa9e vs comparison grey #5a6474 pass
-// lightness, colour-blind separation, normal-vision separation and 3:1
-// contrast. Every bar also carries a direct value label.
-const ACCENT = '#1caa9e'
+// Emphasis palette for the dark surface (#0e131b): MoMixx in near-white
+// #e4e4e7 against comparison grey #5a6474. Both clear 3:1 against the
+// surface and differ by lightness alone, so they stay distinct in greyscale
+// and for colour-blind readers. Every bar also carries a direct value label.
+const ACCENT = '#e4e4e7'
 const MUTED = '#5a6474'
 
 function advantage(row: Comparison['rows'][number], label: string) {
@@ -94,7 +94,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
               <span className="text-xs text-slate-500 tabular-nums">{market.current.year}</span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, #6dd5c9, ${ACCENT})` }} />
+              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, #ffffff, ${ACCENT})` }} />
               <span className="text-xs text-slate-500 tabular-nums">{market.forecast.year}</span>
             </div>
           </div>
@@ -149,7 +149,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
                 <div
                   data-grow
                   className="h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
-                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, #6dd5c9)` }}
+                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, #ffffff)` }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}
                 />
               </div>

@@ -178,7 +178,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
         <aside className="card flex flex-col p-6 sm:p-7" aria-label="Machine parts">
           {part && selected !== null ? (
             <div key={part.id} className="flex flex-1 flex-col motion-safe:animate-[fade-in_0.4s_ease-out]">
-              <p className="font-mono text-xs text-brand-300">
+              <p className="font-mono text-xs text-slate-500">
                 {pad(selected)} / {pad(n - 1)}
               </p>
               <h3 ref={cardHeading} tabIndex={-1} aria-live="polite" className="mt-3 text-2xl font-semibold tracking-[-0.03em] focus:outline-none">

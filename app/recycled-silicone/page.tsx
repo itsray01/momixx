@@ -82,7 +82,7 @@ export default function RecycledSiliconePage() {
                   <span className="text-slate-400">Chemically recycled</span>
                   <span className="font-semibold text-white">{recyclingFacts.recycledTonnes}</span>
                 </div>
-                <div data-grow className="mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] bg-[#1caa9e]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
+                <div data-grow className="mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] bg-[#e4e4e7]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
               </div>
             </div>
             <p className="mt-6 text-xs text-slate-400">

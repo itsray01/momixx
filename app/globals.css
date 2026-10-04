@@ -16,17 +16,19 @@
   --color-ink-800: #141b26;
   --color-ink-700: #222c3b;
 
-  /* Brand accent: "silicone teal", one hue light → dark */
-  --color-brand-50: #eefbf9;
-  --color-brand-100: #d3f4ef;
-  --color-brand-200: #a7e8df;
-  --color-brand-300: #6dd5c9;
-  --color-brand-400: #34bdb0;
-  --color-brand-500: #149f94;
-  --color-brand-600: #0b8078;
-  --color-brand-700: #0c6661;
-  --color-brand-800: #0e514e;
-  --color-brand-900: #0f4341;
+  /* UI accent: a neutral platinum, light → dark, so the interface stays
+     black, white and grey. The MoMixx teal appears only in the logo mark
+     and the product renders. */
+  --color-brand-50: #ffffff;
+  --color-brand-100: #fafafa;
+  --color-brand-200: #f4f4f5;
+  --color-brand-300: #e4e4e7;
+  --color-brand-400: #d4d4d8;
+  --color-brand-500: #a1a1aa;
+  --color-brand-600: #71717a;
+  --color-brand-700: #52525b;
+  --color-brand-800: #3f3f46;
+  --color-brand-900: #27272a;
 
   --color-copper: #c98a55;
 
@@ -101,18 +103,18 @@
   @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium tracking-wide text-slate-300;
   &::before {
     content: '';
-    @apply h-1.5 w-1.5 rounded-full bg-brand-300;
+    @apply h-1.5 w-1.5 rounded-full bg-slate-400;
   }
 }
 
-/* Editorial serif italic accent inside headings, with a teal gradient. */
+/* Editorial serif italic accent inside headings, in a soft silver gradient. */
 @utility accent {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
   padding-right: 0.06em;
-  background: linear-gradient(100deg, #a7f3e9 0%, var(--color-brand-300) 45%, var(--color-brand-400) 100%);
+  background: linear-gradient(100deg, #ffffff 0%, #d4d4d8 55%, #a1a1aa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

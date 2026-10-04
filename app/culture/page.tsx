@@ -44,7 +44,7 @@ export default function CulturePage() {
         <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {values.map((v, i) => (
             <li key={v.title} className="bg-ink-950 p-8 sm:p-10">
-              <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+              <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
               <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em]">{v.title}</h3>
               <p className="mt-3 leading-relaxed text-slate-400">{v.body}</p>
             </li>

@@ -91,7 +91,7 @@ export default function SustainabilityPage() {
                 <figcaption className="text-sm font-medium text-white">Recycled vs new silicone ({cmp.unit})</figcaption>
                 <div className="mt-5 space-y-3">
                   {[
-                    { label: 'MoMixx recycled', v: cmp.recycled, c: '#1caa9e' },
+                    { label: 'MoMixx recycled', v: cmp.recycled, c: '#e4e4e7' },
                     { label: 'New silicone', v: cmp.virgin, c: '#5a6474' },
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
@@ -109,7 +109,7 @@ export default function SustainabilityPage() {
             <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2">
               {carbonLevers.map((l, i) => (
                 <div key={l.title} data-tilt className="card lift p-6">
-                  <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+                  <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
                   <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{l.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-400">{l.body}</p>
                 </div>

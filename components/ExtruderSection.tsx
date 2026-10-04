@@ -25,7 +25,7 @@ export function ExtruderSection({ tone = 'white', links = false }: { tone?: 'whi
       <ul data-reveal="stagger" className="mt-5 grid gap-5 md:grid-cols-3">
         {points.map((p, i) => (
           <li key={p.title} className="card p-6 sm:p-7">
-            <span className="font-mono text-xs text-brand-300">0{i + 1}</span>
+            <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
             <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{p.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{p.body}</p>
           </li>
