@@ -8,6 +8,7 @@ import { ExtruderSection } from '@/components/ExtruderSection'
 import { StepFlow } from '@/components/infographics'
 import { JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
+import { SpinVideo } from '@/components/SpinVideo'
 import { TemperatureRange } from '@/components/TemperatureRange'
 import { TabNav } from '@/components/TabNav'
 import { Arrow, ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
@@ -73,7 +74,11 @@ export default async function ProductPage({ params }: Props) {
               ) : (
                 p.illustration && (
                   <div className="card mb-10 aspect-[4/3] overflow-hidden">
-                    <Render name={p.illustration} alt={`3D illustration of the ${p.name}`} sizes="(min-width: 1152px) 640px, (min-width: 1024px) 55vw, 92vw" priority />
+                    {p.video ? (
+                      <SpinVideo name={p.video} label={`Rotating 3D illustration of the ${p.name}`} />
+                    ) : (
+                      <Render name={p.illustration} alt={`3D illustration of the ${p.name}`} sizes="(min-width: 1152px) 640px, (min-width: 1024px) 55vw, 92vw" priority />
+                    )}
                   </div>
                 )
               )}

@@ -66,6 +66,8 @@ export type Product = {
   applications?: string[]
   /** Which 3D model represents this product (see components/three/models.tsx). */
   illustration?: ModelName
+  /** A rotating clip in /public/videos (name without extension), shown instead of the still render. */
+  video?: string
   /** Path under /public, e.g. /images/products/vertical-extruder.jpg */
   image?: string
   /** A real product photo shown in the overview, e.g. from the original site. */
@@ -368,6 +370,7 @@ export const products: Product[] = [
     ],
     applications: ['consumer-electronics'],
     illustration: 'extruder-horizontal',
+    video: 'extruder-horizontal',
   },
   {
     slug: 'lsr-mixer',
@@ -386,6 +389,7 @@ export const products: Product[] = [
     stats: [{ value: '~4%', label: 'of each bucket no longer wasted' }],
     applications: ['consumer-electronics'],
     illustration: 'mixer',
+    video: 'mixer',
   },
   {
     slug: 'autowinder',
@@ -402,6 +406,7 @@ export const products: Product[] = [
     ],
     applications: ['consumer-electronics'],
     illustration: 'winder',
+    video: 'winder',
   },
   {
     slug: 'energy-saving-oven',
@@ -430,6 +435,7 @@ export const products: Product[] = [
       ],
     },
     illustration: 'oven',
+    video: 'oven',
   },
   {
     slug: 'dip-coating-machine',
@@ -453,6 +459,7 @@ export const products: Product[] = [
     },
     applications: ['consumer-electronics'],
     illustration: 'coating',
+    video: 'coating',
   },
 
   // ───────────────────────────── Services ─────────────────────────────
