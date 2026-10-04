@@ -4,7 +4,7 @@ import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { categoryIntros, categoryLabels, products, productsByCategory, type ProductCategory } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
-import { productTabs } from './tabs'
+import { productNav } from './tabs'
 
 export const metadata = pageMetadata({
   title: 'Silicone materials, machines and services',
@@ -25,7 +25,7 @@ export default function ProductsPage() {
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
         facts={order.map((cat) => ({ value: String(productsByCategory(cat).length), label: categoryLabels[cat].toLowerCase() }))}
       />
-      <TabNav tabs={productTabs} label="Products">
+      <TabNav {...productNav()} label="Products">
         {order.map((cat, i) => (
           <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
             {/* Two or four cards sit in two columns, so a row is never left half empty. */}

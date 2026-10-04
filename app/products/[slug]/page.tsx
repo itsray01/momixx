@@ -13,7 +13,7 @@ import { getApplication } from '@/content/applications'
 import { getMarket } from '@/content/markets'
 import { categoryLabels, getProduct, products, productSeoTitles } from '@/content/products'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
-import { productTabs } from '../tabs'
+import { productNav } from '../tabs'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: Props) {
         title={p.name}
         intro={p.tagline}
       />
-      <TabNav tabs={productTabs} label="Products">
+      <TabNav {...productNav(p.slug)} label="Products">
 
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">

@@ -4,16 +4,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 
-export type Tab = { href: string; label: string; group?: string }
+/** `active`, when set, overrides matching the href against the current page (e.g. for a category). */
+export type Tab = { href: string; label: string; active?: boolean }
 
 /**
  * Sticky, horizontally scrollable tab bar. Each tab is a real page (good for
  * SEO and shareable links); this just shows where you are. It wraps the content
  * it belongs to, so it stops sticking before the closing call to action and the
- * footer, and it moves up when the site header slides away.
+ * footer, and it moves up when the site header slides away. Optional `primary`
+ * tabs (such as categories) come first, before a divider.
  */
-export function TabNav({ tabs, label, children }: { tabs: Tab[]; label: string; children?: ReactNode }) {
+export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[]; tabs: Tab[]; label: string; children?: ReactNode }) {
   const pathname = usePathname()
+  // A category can link to the page it is on, so the current page is looked up in `tabs` first.
+  const current = tabs.find((t) => t.href === pathname) ?? primary.find((t) => t.href === pathname)
+  const isActive = (t: Tab) => t.active ?? t === current
+  const centred = tabs.find(isActive) ?? primary.find(isActive)
   const listRef = useRef<HTMLUListElement>(null)
   const activeRef = useRef<HTMLAnchorElement>(null)
   const [edges, setEdges] = useState({ left: false, right: false })
@@ -65,6 +71,25 @@ export function TabNav({ tabs, label, children }: { tabs: Tab[]; label: string; 
 
   const fade = `${edges.left ? 'transparent 0, black 3rem' : 'black 0'}, ${edges.right ? 'black calc(100% - 3rem), transparent 100%' : 'black 100%'}`
 
+  const item = (t: Tab, key: string) => {
+    const active = isActive(t)
+    const here = t === current
+    return (
+      <li key={key} className="flex shrink-0 items-center">
+        <Link
+          ref={t === centred ? activeRef : undefined}
+          href={t.href}
+          aria-current={here ? 'page' : active ? 'true' : undefined}
+          className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
+            active && here ? 'bg-white text-ink-950' : active ? 'bg-white/[0.12] text-white' : 'text-slate-300 hover:bg-white/[0.06] hover:text-white'
+          }`}
+        >
+          {t.label}
+        </Link>
+      </li>
+    )
+  }
+
   return (
     <div className="relative">
       <nav aria-label={label} className="tabnav sticky z-40 -mt-7 mb-0 px-3 sm:px-4">
@@ -76,27 +101,9 @@ export function TabNav({ tabs, label, children }: { tabs: Tab[]; label: string; 
             style={{ maskImage: `linear-gradient(to right, ${fade})`, WebkitMaskImage: `linear-gradient(to right, ${fade})` }}
             className="relative flex items-center gap-1 overflow-x-auto px-2 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {tabs.map((t, i) => {
-              const active = pathname === t.href
-              const showGroup = t.group && t.group !== tabs[i - 1]?.group
-              return (
-                <li key={t.href} className="flex shrink-0 items-center">
-                  {showGroup && (
-                    <span className="mr-1 ml-3 hidden text-[10px] font-medium tracking-[0.18em] text-slate-500 uppercase md:inline">{t.group}</span>
-                  )}
-                  <Link
-                    ref={active ? activeRef : undefined}
-                    href={t.href}
-                    aria-current={active ? 'page' : undefined}
-                    className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
-                      active ? 'bg-white text-ink-950' : 'text-slate-300 hover:bg-white/[0.06] hover:text-white'
-                    }`}
-                  >
-                    {t.label}
-                  </Link>
-                </li>
-              )
-            })}
+            {primary.map((t) => item(t, `primary:${t.href}`))}
+            {primary.length > 0 && tabs.length > 0 && <li aria-hidden="true" className="mx-1.5 h-5 w-px shrink-0 bg-white/15" />}
+            {tabs.map((t) => item(t, `tab:${t.href}`))}
           </ul>
           {arrow(1)}
         </div>
