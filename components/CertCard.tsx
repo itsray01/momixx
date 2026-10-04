@@ -4,7 +4,7 @@ import type { Certification } from '@/content/company'
 /** A certification with its plain-English meaning and certificate link. */
 export function CertCard({ cert, featured = false }: { cert: Certification; featured?: boolean }) {
   return (
-    <li data-tilt className={`card lift flex flex-col ${featured ? 'p-8 sm:p-10' : 'p-7'}`}>
+    <li className={`card lift flex flex-col ${featured ? 'p-8 sm:p-10' : 'p-7'}`}>
       <div className="flex h-16 items-center">
         {cert.logo ? (
           <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="h-14 w-auto object-contain" />

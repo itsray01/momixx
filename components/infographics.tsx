@@ -137,7 +137,7 @@ export function SiliconVsSilicone() {
   return (
     <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
       {cols.map((c) => (
-        <div key={c.name} data-tilt className={`card lift overflow-hidden ${c.highlight ? 'border-brand-400/30' : ''}`}>
+        <div key={c.name} className={`card lift overflow-hidden ${c.highlight ? 'border-brand-400/30' : ''}`}>
           <div className="p-8">
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="display-md">{c.name}</h3>

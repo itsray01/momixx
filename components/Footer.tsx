@@ -72,16 +72,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Oversized wordmark */}
-      <div aria-hidden="true" className="pointer-events-none select-none">
-        <p
-          className="container-page -mb-[0.2em] text-center font-display text-[22vw] leading-none font-semibold tracking-[-0.06em] text-transparent lg:text-[17rem]"
-          style={{ backgroundImage: 'linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
-        >
-          {site.name}
-        </p>
-      </div>
-
       <div className="relative border-t border-white/[0.06]">
         <div className="container-page flex flex-col gap-3 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>

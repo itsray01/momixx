@@ -37,7 +37,6 @@
   --color-slate-500: #74869f;
 
   --animate-spin-slow: spin 60s linear infinite;
-  --animate-marquee: marquee 40s linear infinite;
 
   @keyframes fade-in {
     from {
@@ -47,15 +46,6 @@
     to {
       opacity: 1;
       transform: none;
-    }
-  }
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
     }
   }
 }
@@ -98,17 +88,18 @@
   @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
-/* Small pill label above headings: "● Silicone 101" */
+/* Small label above a heading, in plain grey text: "Silicone 101" */
 @utility eyebrow {
-  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium tracking-wide text-slate-300;
-  &::before {
-    content: '';
-    @apply h-1.5 w-1.5 rounded-full bg-slate-400;
-  }
+  @apply inline-block text-sm font-medium text-slate-400 sm:text-base;
 }
 
-/* Editorial serif italic accent inside headings, in a soft silver gradient. */
+/* The second tone of a two-tone heading: same typeface, in grey ("Silicone that *comes back*"). */
 @utility accent {
+  color: var(--color-brand-500);
+}
+
+/* The hero's serif italic accent, in a soft silver gradient. Used once, on the home page. */
+@utility accent-serif {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
@@ -250,42 +241,6 @@ html[data-header='hidden'] .tabnav {
 [data-hero-label] {
   opacity: 0;
   visibility: hidden;
-}
-
-/* Cards tilt towards the pointer, with a faint spotlight that follows it. */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  [data-tilt] {
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-    transition:
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.4s ease,
-      box-shadow 0.4s ease;
-  }
-  [data-tilt]:hover {
-    will-change: transform;
-  }
-  /* A tilting card that is also revealed on scroll needs both sets of transitions. */
-  [data-tilt][data-motion='in'] {
-    transition:
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--motion-delay, 0s),
-      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--motion-delay, 0s),
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.4s ease,
-      box-shadow 0.4s ease;
-  }
-}
-[data-tilt]::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.05), transparent 45%);
-}
-[data-tilt]:hover::after {
-  opacity: 1;
 }
 
 /* Long-form article typography (Insights) */

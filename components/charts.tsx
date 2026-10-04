@@ -77,7 +77,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
 export function MarketCard({ market, compact = false }: { market: Market; compact?: boolean }) {
   const max = market.forecast.usdBn
   return (
-    <article data-tilt className="card lift flex h-full flex-col p-7">
+    <article className="card lift flex h-full flex-col p-7">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold tracking-[-0.02em]">{market.name}</h3>
         {market.kind === 'context' && (

@@ -4,14 +4,17 @@ import { absoluteUrl } from '@/lib/site'
 import { JsonLd } from './JsonLd'
 
 /**
- * Headings support an editorial accent: wrap words in *asterisks* to set them
- * in the serif italic with the silver gradient, e.g. "Silicone that *comes back*".
+ * Two-tone headings: wrap words in *asterisks* to set them in grey, e.g.
+ * "Silicone that *comes back*". `serif` sets them in the silver serif italic
+ * instead, which only the home hero uses.
  */
-export function rich(text: ReactNode): ReactNode {
+export function rich(text: ReactNode, { serif = false }: { serif?: boolean } = {}): ReactNode {
   if (typeof text !== 'string') return text
+  // A heading that is all accent has no first tone to contrast with, so it stays plain white.
+  if (!serif && /^\*[^*]+\*$/.test(text)) return text.slice(1, -1)
   return text.split(/(\*[^*]+\*)/g).map((part, i) =>
     part.startsWith('*') && part.endsWith('*') ? (
-      <em key={i} className="accent">
+      <em key={i} className={serif ? 'accent-serif' : 'accent not-italic'}>
         {part.slice(1, -1)}
       </em>
     ) : (
@@ -96,7 +99,7 @@ export function PageHeader({
           {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
           <h1 className="display-lg mt-5">{rich(title)}</h1>
-          {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">{intro}</div>}
+          {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300 sm:text-xl">{intro}</div>}
           {children}
         </div>
         {facts && (
@@ -122,7 +125,7 @@ export function SectionHeading({ eyebrow, title, intro, align = 'left' }: { eyeb
     <div data-reveal className={`mb-12 max-w-3xl sm:mb-16 ${align === 'center' ? 'mx-auto text-center' : ''}`}>
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       {title && <h2 className="display-lg mt-5">{rich(title)}</h2>}
-      {intro && <div className="mt-5 text-lg leading-relaxed text-slate-400">{intro}</div>}
+      {intro && <div className="mt-5 text-lg leading-relaxed text-slate-300 sm:text-xl">{intro}</div>}
     </div>
   )
 }
@@ -166,24 +169,23 @@ export function StatTiles({
   stats,
   cols,
 }: {
-  stats: Array<{ value: string; label: string }>
-  /** Kept for compatibility; every tile is now dark glass. */
+  stats: Array<{ value: string; label: ReactNode }>
+  /** Kept for compatibility; tiles are now plain figures over a hairline. */
   tone?: 'light' | 'dark'
   cols?: keyof typeof lgCols
 }) {
   const n = cols ?? (Math.min(Math.max(stats.length, 1), 4) as keyof typeof lgCols)
   return (
-    <ul data-reveal="stagger" className={`card grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 ${lgCols[n]}`}>
+    <ul data-reveal="stagger" className={`grid ${n === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-x-8 gap-y-10 sm:grid-cols-2 ${lgCols[n]}`}>
       {stats.map((s) => (
-        <li key={s.label} className="relative flex flex-col bg-ink-900 p-6 sm:p-7">
-          <span aria-hidden="true" className="mb-5 h-px w-8 bg-gradient-to-r from-white/50 to-transparent" />
+        <li key={s.value} className="flex flex-col border-t border-white/15 pt-6">
           <p
             data-countup
-            className={`font-display leading-none font-semibold tracking-[-0.04em] text-balance text-white ${s.value.length > 9 ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}
+            className={`font-display leading-none font-semibold tracking-[-0.04em] text-balance text-white ${s.value.length > 9 ? 'text-3xl sm:text-4xl' : 'text-4xl sm:text-5xl'}`}
           >
             {s.value}
           </p>
-          <p className="mt-3 text-sm leading-snug text-slate-400">{s.label}</p>
+          <p className="mt-3 text-[15px] leading-snug text-slate-400">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -192,12 +194,12 @@ export function StatTiles({
 
 export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string; body: string }>; cols?: 2 | 3 }) {
   return (
-    <div data-reveal="stagger" className={`grid gap-5 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+    <div data-reveal="stagger" className={`grid gap-x-10 gap-y-12 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
-        <div key={it.title} data-tilt className="card lift p-7">
+        <div key={it.title} className="border-t border-white/15 pt-6">
           <span className="font-mono text-xs text-slate-500">{String(i + 1).padStart(2, '0')}</span>
-          <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
-          <p className="mt-3 leading-relaxed text-slate-400">{it.body}</p>
+          <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{it.title}</h3>
+          <p className="mt-3 text-base leading-relaxed text-slate-400 sm:text-[17px]">{it.body}</p>
         </div>
       ))}
     </div>
@@ -245,22 +247,18 @@ export function CtaBand({
   secondary?: { href: string; label: string }
 }) {
   return (
-    <section className="bg-ink-950 py-24 sm:py-32">
-      <div className="container-page">
-        <div data-reveal className="grain card relative overflow-hidden px-6 py-16 text-center sm:px-16 sm:py-24">
-          <GridBackdrop />
-          <div className="relative mx-auto max-w-3xl">
-            <h2 className="display-lg">{rich(title)}</h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">{body}</p>
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <Link href="/contact" className="group btn-primary px-6 py-3 text-base">
-                Get in touch <Arrow />
-              </Link>
-              <Link href={secondary.href} className="btn-ghost-dark px-6 py-3 text-base">
-                {secondary.label}
-              </Link>
-            </div>
-          </div>
+    <section className="relative bg-ink-950 py-28 sm:py-40">
+      <div className="hairline absolute inset-x-0 top-0" />
+      <div data-reveal className="container-page mx-auto max-w-3xl text-center">
+        <h2 className="display-lg">{rich(title)}</h2>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">{body}</p>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link href="/contact" className="group btn-primary px-6 py-3 text-base">
+            Get in touch <Arrow />
+          </Link>
+          <Link href={secondary.href} className="btn-ghost-dark px-6 py-3 text-base">
+            {secondary.label}
+          </Link>
         </div>
       </div>
     </section>
@@ -281,42 +279,5 @@ export function ArrowLink({ href, children, className = '' }: { href: string; ch
       {children}
       <Arrow />
     </Link>
-  )
-}
-
-/** Endless horizontal ticker. Pauses on hover; static for reduced motion. */
-export function Marquee({ items, className = '' }: { items: ReactNode[]; className?: string }) {
-  const row = (hidden: boolean) => (
-    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center gap-12 pr-12">
-      {items.map((it, i) => (
-        <li key={i} className="flex shrink-0 items-center gap-12 whitespace-nowrap">
-          {it}
-          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/25" />
-        </li>
-      ))}
-    </ul>
-  )
-  // Moving content needs a way to stop it (WCAG 2.2.2): a checkbox styled as a
-  // pause button works without JavaScript, and hovering also pauses.
-  return (
-    <div className={`group relative ${className}`}>
-      <div className="flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
-        <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] group-has-[input:checked]:[animation-play-state:paused]">
-          {row(false)}
-          {row(true)}
-        </div>
-      </div>
-      <label className="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center gap-1.5 rounded-full border border-white/10 bg-ink-950/90 px-2.5 py-1 text-[11px] text-slate-400 hover:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-300 motion-reduce:hidden">
-        <input type="checkbox" className="peer sr-only" />
-        <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 peer-checked:hidden" aria-hidden="true">
-          <path d="M3.5 2v8M8.5 2v8" stroke="currentColor" strokeWidth="1.6" />
-        </svg>
-        <svg viewBox="0 0 12 12" className="hidden h-2.5 w-2.5 peer-checked:block" aria-hidden="true">
-          <path d="M3 2l7 4-7 4z" fill="currentColor" />
-        </svg>
-        <span className="peer-checked:hidden">Pause</span>
-        <span className="hidden peer-checked:inline">Play</span>
-      </label>
-    </div>
   )
 }

@@ -67,7 +67,7 @@ export default function SiliconePage() {
       <Section tone="muted" eyebrow="Where you’ll find it" title="Where silicone is *used*">
         <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
-            <Link key={a.slug} href={`/applications/${a.slug}`} data-tilt className="group card lift flex items-center gap-5 overflow-hidden p-6">
+            <Link key={a.slug} href={`/applications/${a.slug}`} className="group card lift flex items-center gap-5 overflow-hidden p-6">
               <div className="min-w-0">
                 <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
                 <p className="mt-1 text-sm text-slate-400">{a.examples.slice(0, 3).join(' · ')}</p>

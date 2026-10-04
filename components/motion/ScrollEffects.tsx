@@ -8,8 +8,6 @@ import { useEffect } from 'react'
 //   data-reveal="stagger"  same, one child at a time
 //   data-grow / data-grow-y  bars grow from their baseline
 //   data-countup           numbers count up ("20+", "100 m/min", "30%")
-//   data-words             words light up one by one as you scroll through
-//   data-tilt              3D tilt with a light sheen that follows the pointer
 //   data-hero, data-hscroll  pinned, scroll-scrubbed sequences (desktop; see pins.ts)
 //
 // Everything except the pinned sequences is plain CSS transitions started by one
@@ -111,58 +109,6 @@ export function ScrollEffects() {
       sort.disconnect()
       reveal.disconnect()
     })
-
-    // ── Words that light up as the paragraph scrolls through the screen ──
-    const wordBlocks = Array.from(document.querySelectorAll<HTMLElement>('[data-words]'))
-    if (wordBlocks.length) {
-      let frame = 0
-      const update = () => {
-        frame = 0
-        const vh = window.innerHeight
-        for (const el of wordBlocks) {
-          const r = el.getBoundingClientRect()
-          if (r.bottom < 0 || r.top > vh) continue
-          // 0 when the top reaches 80% down the screen, 1 when the bottom passes 45%.
-          const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / (vh * 0.35 + r.height)))
-          const words = el.querySelectorAll<HTMLElement>('[data-word]')
-          const span = 1 + 0.1 * (words.length - 1)
-          words.forEach((w, i) => (w.style.opacity = String(0.4 + 0.6 * Math.min(1, Math.max(0, p * span - i * 0.1)))))
-        }
-      }
-      const onScroll = () => (frame ||= requestAnimationFrame(update))
-      onScroll()
-      window.addEventListener('scroll', onScroll, { passive: true })
-      cleanups.push(() => {
-        window.removeEventListener('scroll', onScroll)
-        cancelAnimationFrame(frame)
-        wordBlocks.forEach((el) => el.querySelectorAll<HTMLElement>('[data-word]').forEach((w) => (w.style.opacity = '')))
-      })
-    }
-
-    // ── Tilt and sheen on cards (mouse and trackpad only) ──
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
-        const move = (e: PointerEvent) => {
-          const r = el.getBoundingClientRect()
-          const px = (e.clientX - r.left) / r.width
-          const py = (e.clientY - r.top) / r.height
-          el.style.setProperty('--rx', `${(0.5 - py) * 4}deg`)
-          el.style.setProperty('--ry', `${(px - 0.5) * 5}deg`)
-          el.style.setProperty('--mx', `${px * 100}%`)
-          el.style.setProperty('--my', `${py * 100}%`)
-        }
-        const leave = () => {
-          el.style.setProperty('--rx', '0deg')
-          el.style.setProperty('--ry', '0deg')
-        }
-        el.addEventListener('pointermove', move)
-        el.addEventListener('pointerleave', leave)
-        cleanups.push(() => {
-          el.removeEventListener('pointermove', move)
-          el.removeEventListener('pointerleave', leave)
-        })
-      })
-    }
 
     // ── Pinned sequences: GSAP is only downloaded where one exists, on desktop ──
     let disposed = false

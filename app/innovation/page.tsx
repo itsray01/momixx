@@ -78,7 +78,7 @@ export default function InnovationPage() {
           <div>
             <p className="eyebrow">Patents</p>
             <h2 className="display-lg mt-5">
-              More than <em className="accent">20 patents</em>
+              More than <em className="accent not-italic">20 patents</em>
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-slate-300">{patentsSummary}</p>
           </div>
@@ -93,7 +93,7 @@ export default function InnovationPage() {
         <Section key={area.id} id={area.id} tone={i % 2 === 0 ? 'muted' : 'white'} eyebrow="Research area" title={area.title} className="scroll-mt-20">
           <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
             {area.items.map((it) => (
-              <div key={it.title} data-tilt className="card lift p-7">
+              <div key={it.title} className="card lift p-7">
                 <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
                 <p className="mt-2 leading-relaxed text-slate-400">{it.body}</p>
                 {'href' in it && it.href && (

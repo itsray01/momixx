@@ -140,6 +140,9 @@ const listNames = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1)
 /** e.g. "GRS, ISCC PLUS and SCS Global" */
 export const recyclingCertificationNames = listNames(recyclingCertifications.map((c) => c.short))
 
+/** Qualifier for "first vertical line" claims where it sits in a footnote, as on the home page. */
+export const firstLineFootnote = 'To our knowledge, the first vertical extrusion line built for silicone cable.'
+
 export const companyStats = [
   { value: String(site.foundingYear), label: 'founded in Singapore and Malaysia' },
   { value: '20+', label: 'patents, granted or pending' },

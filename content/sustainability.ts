@@ -8,6 +8,9 @@
  */
 export const certificationClaim = {
   headline: 'To our knowledge, the only silicone company certified under both GRS and ISCC PLUS.',
+  /** The same claim where the qualifier sits in a footnote (`footnote`), as on the home page. */
+  statement: 'The only silicone company certified under both GRS and ISCC PLUS.',
+  footnote: 'To our knowledge. Certification can be checked in the public GRS and ISCC PLUS certificate databases.',
   short: 'GRS + ISCC PLUS certified',
 }
 

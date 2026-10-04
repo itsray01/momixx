@@ -55,7 +55,7 @@ export default function CulturePage() {
       <Section tone="muted" eyebrow="Growing people" title="Shaping the *next generation*">
         <div data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           {growth.map((g) => (
-            <div key={g.title} data-tilt className="card lift p-7">
+            <div key={g.title} className="card lift p-7">
               <h3 className="text-xl font-semibold tracking-[-0.02em]">{g.title}</h3>
               <p className="mt-2 leading-relaxed text-slate-400">{g.body}</p>
             </div>

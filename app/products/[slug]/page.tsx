@@ -186,7 +186,7 @@ export default async function ProductPage({ params }: Props) {
               <ul data-reveal="stagger" className={`grid content-start gap-4 ${market ? '' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
                 {apps.map((a) => (
                   <li key={a.slug}>
-                    <Link href={`/applications/${a.slug}`} data-tilt className="group card lift flex h-full items-center justify-between gap-6 overflow-hidden p-6">
+                    <Link href={`/applications/${a.slug}`} className="group card lift flex h-full items-center justify-between gap-6 overflow-hidden p-6">
                       <div>
                         <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
                         <p className="mt-1 text-sm text-slate-400">{a.tagline}</p>

@@ -17,7 +17,7 @@ export function LinkCard({
   footer?: ReactNode
 }) {
   return (
-    <Link href={href} data-tilt className="group card lift flex h-full flex-col p-7">
+    <Link href={href} className="group card lift flex h-full flex-col p-7">
       {kicker && <span className="text-xs font-medium text-slate-400">{kicker}</span>}
       <h3 className={`text-xl font-semibold tracking-[-0.03em] ${kicker ? 'mt-3' : ''}`}>{title}</h3>
       {body && <p className="mt-3 flex-1 text-slate-400">{body}</p>}

@@ -73,7 +73,7 @@ export default function AboutPage() {
       <Section tone="muted" id="locations" eyebrow="Locations" title="Our *sites*">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {site.locations.map((l) => (
-            <li key={l.name} data-tilt className="card lift p-7">
+            <li key={l.name} className="card lift p-7">
               <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">{l.role}</p>
               <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{l.name}</h3>
               <p className="mt-2 text-sm text-slate-400">{l.detail}</p>
