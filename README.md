@@ -104,11 +104,11 @@ You need Node.js 20.9 or newer.
   - The header search (also Ctrl K / ⌘K) covers every product, application, article, glossary term and main page. Its index, `/search.json`, is generated from the content files and only downloaded when someone opens search. To add synonyms for a page, edit `lib/searchIndex.ts`.
   - `robots.txt` allows AI crawlers.
 - **Social sharing.** Every page has a 1200×630 PNG social image. Products, applications and articles each get their own, with the page title (`lib/og.tsx`); other pages share the site image.
-- **Performance.** Lighthouse scores 95–97 on mobile (Oct 2026).
+- **Performance.** Lighthouse scored 95–97 on mobile (Oct 2026), before the home hero's live 3D reached phones; re-check after the next deploy. Lab tools such as PageSpeed Insights usually draw without a graphics card, so they test the hero's `low` tier.
   - Pages are static. The stylesheet is one small cached file (about 15 KB compressed), shared by every page.
   - Ordinary pages ship no animation library: reveals and count-ups are CSS transitions started by one IntersectionObserver. GSAP loads only for the two pinned scroll sequences, on desktop.
   - Fonts are self-hosted with size-matched fallbacks, so nothing shifts as they load. Only the main font is preloaded.
-  - Live 3D loads only after the page, only on desktop screens, and only on devices with a real GPU (see "Design, 3D and motion").
+  - The home hero's 3D cable loads behind the welcome screen on every device that can draw WebGL. The other live 3D loads only after the page, only on desktop screens with a real GPU (see "Design, 3D and motion").
 - **Security.** Every response carries a Content-Security-Policy, HSTS and the other standard security headers (`next.config.ts`).
 
 **After launch:**
