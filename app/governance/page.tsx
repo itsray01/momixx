@@ -29,7 +29,7 @@ const shown = [
   committees.length > 0 && 'committees',
   policies.length > 0 && 'policies',
   'website-policies',
-  'enquiries',
+  'company-enquiries',
 ].filter(Boolean)
 const tone = (id: string) => (shown.indexOf(id) % 2 ? 'muted' : 'white')
 
@@ -39,10 +39,7 @@ export default function GovernancePage() {
   return (
     <>
       <PageHeader
-        crumbs={[
-          { href: '/about', label: 'Company' },
-          { href: '/governance', label: 'Governance' },
-        ]}
+        crumbs={[{ href: '/governance', label: 'Governance' }]}
         eyebrow="Governance"
         title="Corporate *governance*"
         intro="Company information, certifications and policies."
@@ -154,7 +151,7 @@ export default function GovernancePage() {
         </ul>
       </Section>
 
-      <Section id="enquiries" tone={tone('enquiries')} eyebrow="Contact" title="Company *enquiries*">
+      <Section id="company-enquiries" tone={tone('company-enquiries')} eyebrow="Contact" title="Company *enquiries*" className="scroll-mt-28">
         <p className="max-w-2xl text-lg leading-relaxed text-slate-300">
           For questions about MoMixx as a company, email{' '}
           <a

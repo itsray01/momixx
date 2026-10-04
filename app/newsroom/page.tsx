@@ -22,10 +22,7 @@ export default function NewsroomPage() {
   return (
     <>
       <PageHeader
-        crumbs={[
-          { href: '/about', label: 'Company' },
-          { href: '/newsroom', label: 'Newsroom' },
-        ]}
+        crumbs={[{ href: '/newsroom', label: 'Newsroom' }]}
         eyebrow="Newsroom"
         title="News from *MoMixx*"
         intro="Announcements, recent milestones and contacts for the media."

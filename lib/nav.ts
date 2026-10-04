@@ -98,14 +98,11 @@ export function buildMenus(): Menu[] {
           title: 'Company',
           links: [
             { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}` },
-            { href: '/newsroom', label: 'Newsroom', desc: 'Announcements and milestones' },
-            { href: '/governance', label: 'Governance', desc: 'Company information and certifications' },
             // Listed once real names and photos are in content/team.ts.
             ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and joining us' },
             { href: '/locations', label: 'Locations', desc: 'Singapore and Penang, Malaysia' },
             { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
-            { href: '/markets', label: 'Markets', desc: 'Where the growth is' },
           ],
         },
       ],
@@ -117,6 +114,22 @@ export function buildMenus(): Menu[] {
         model: 'globe',
       },
     },
+    {
+      label: 'Investors',
+      href: '/governance',
+      columns: [
+        {
+          title: 'Investors',
+          links: [
+            { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },
+            { href: '/markets', label: 'Markets', desc: 'Independent estimates for the industries we serve' },
+            { href: '/governance#company-enquiries', label: 'Company enquiries', desc: 'Contact the company' },
+          ],
+        },
+      ],
+    },
+    // A plain link: no columns, so no dropdown.
+    { label: 'Newsroom', href: '/newsroom' },
     {
       label: 'Silicone',
       href: '/silicone',

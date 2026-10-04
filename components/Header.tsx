@@ -171,8 +171,12 @@ export function Header({ menus }: { menus: Menu[] }) {
       if (e.key !== 'Escape') return
       setActive(null)
       // Return focus to the trigger without its focus handler reopening the panel.
-      skipFocusOpen.current = true
-      listRef.current?.querySelectorAll<HTMLElement>('[data-trigger]')[active]?.focus()
+      // If it already has focus no focus event fires, so the skip must not be armed.
+      const trigger = listRef.current?.querySelectorAll<HTMLElement>('[data-trigger]')[active]
+      if (trigger && document.activeElement !== trigger) {
+        skipFocusOpen.current = true
+        trigger.focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -199,7 +203,7 @@ export function Header({ menus }: { menus: Menu[] }) {
         </a>
         <div
           ref={barRef}
-          className={`relative mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full border px-3 pl-5 text-white transition-[background-color,border-color,box-shadow] duration-500 ${
+          className={`relative mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full border px-3 pl-5 text-white transition-[background-color,border-color,box-shadow] duration-500 ${
             solid ? 'border-white/10 bg-ink-950/75 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl' : 'border-transparent bg-transparent'
           }`}
         >
@@ -207,7 +211,7 @@ export function Header({ menus }: { menus: Menu[] }) {
             <Logo />
           </Link>
 
-          <nav aria-label="Main" className="hidden lg:block">
+          <nav aria-label="Main" className="hidden xl:block">
             {/* Each menu's panel sits right after its trigger, so keyboard users tab from the trigger straight into its links. */}
             <ul ref={listRef} className="flex items-center" onMouseLeave={() => setPill(null)}>
               <span
@@ -240,15 +244,10 @@ export function Header({ menus }: { menus: Menu[] }) {
                         else if (menu.columns) open(i)
                         else setActive(null)
                       }}
-                      className={`relative flex items-center gap-1 rounded-full px-2.5 py-2 text-sm xl:px-3.5 transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
+                      className={`relative flex items-center rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
                     >
                       {menu.label}
-                      {menu.columns && (
-                        <svg viewBox="0 0 12 12" className={`h-3 w-3 opacity-60 transition-transform duration-300 ${active === i ? 'rotate-180' : ''}`} aria-hidden="true">
-                          <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                        </svg>
-                      )}
-                      {current && <span aria-hidden="true" className="absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3.5 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />}
+                      {current && <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />}
                     </Link>
                     {menu.columns && (
                       <div
@@ -275,7 +274,7 @@ export function Header({ menus }: { menus: Menu[] }) {
             </Link>
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] lg:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] xl:hidden"
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
@@ -299,7 +298,7 @@ export function Header({ menus }: { menus: Menu[] }) {
           <nav
             id="mobile-nav"
             aria-label="Main"
-            className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-ink-950/[0.97] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl lg:hidden"
+            className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-ink-950/[0.97] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl xl:hidden"
           >
             <ul className="divide-y divide-white/[0.06] p-3">
               {menus.map((menu) => (
