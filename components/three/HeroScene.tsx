@@ -89,7 +89,7 @@ function LiveCable({ animate }: { animate: boolean }) {
     if (moving) m.time += dt
     const e = smooth(Math.min(h.level, 1))
     m.amp = e
-    m.twist = Math.sin(m.time * 0.5) * 0.7 * e
+    m.twist = Math.sin(m.time * 0.6) * 0.9 * e
 
     // A soft highlight glides slowly across the jacket while the cable is alive.
     const l = sweep.current
@@ -101,9 +101,9 @@ function LiveCable({ animate }: { animate: boolean }) {
     // The pointer is tracked across the whole page; only its position over the cable's column steers the lean.
     const px = THREE.MathUtils.clamp(state.pointer.x, -1, 1)
     const py = THREE.MathUtils.clamp(state.pointer.y, -1, 1)
-    const ry = 0.32 * p + px * 0.08 + Math.sin(m.time * 0.4) * 0.06 * e
+    const ry = 0.32 * p + px * 0.08 + Math.sin(m.time * 0.4) * 0.08 * e
     const rx = 0.14 * p - py * 0.05
-    const z = 0.6 * p + 0.18 * e
+    const z = 0.6 * p + 0.28 * e
     g.rotation.y = damp(g.rotation.y, ry, 7, dt)
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
     g.position.z = damp(g.position.z, PIVOT[2] + z, 7, dt)

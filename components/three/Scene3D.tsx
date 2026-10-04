@@ -2,10 +2,15 @@
 
 import { getImageProps } from 'next/image'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { CanvasBoundary } from './CanvasBoundary'
+import { why3D } from './capability'
 import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour, type CableColour } from './cableColours'
 import { useLazy3D } from './useLazy3D'
+
+// Add ?debug3d to the address to see whether live 3D runs on this device, and why not.
+const noSubscribe = () => () => {}
+const debugSnapshot = () => (new URLSearchParams(window.location.search).has('debug3d') ? why3D() : null)
 
 // Three.js is only downloaded on desktop screens with a GPU, after the page has loaded.
 const HeroScene = dynamic(() => import('./HeroScene'), { ssr: false })
@@ -69,6 +74,7 @@ function ColourStills({ index, preloadAll }: { index: number; preloadAll: boolea
  */
 export function Scene3D({ className = '' }: { className?: string }) {
   const { ref, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>('200px')
+  const debug = useSyncExternalStore(noSubscribe, debugSnapshot, () => null)
   const index = useCableColour()
   // The live scene handles hover itself, on the cable, with motion. Otherwise
   // (the still is showing, e.g. no GPU, or motion is reduced) hovering the
@@ -112,6 +118,14 @@ export function Scene3D({ className = '' }: { className?: string }) {
       )}
       {/* The cable fades into the page at the bottom. A plain gradient on top is far cheaper than a CSS mask on the live canvas. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-[rgb(5_7_10)] to-transparent lg:block" />
+      {debug && (
+        <p className="absolute top-24 right-4 z-30 max-w-sm rounded-lg bg-black/85 px-3 py-2 font-mono text-[11px] leading-relaxed text-white">
+          Live 3D: {ready ? 'running' : enabled ? 'loading…' : 'off, showing the still'}
+          {reduced && ' · reduce motion is on, so the cable stays still'}
+          <br />
+          {debug}
+        </p>
+      )}
     </div>
   )
 }

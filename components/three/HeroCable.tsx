@@ -145,7 +145,7 @@ function StrippedEnd({ cut }: { cut: THREE.Material }) {
 //
 // One slow, gentle bend drifting up the cable: zero at the far end (held,
 // off-screen) and growing towards the free, stripped end, with long periods
-// (around eight seconds) so it reads as a calm sway, never a wiggle. Each ring
+// (around seven seconds) so it reads as a calm sway, never a wiggle. Each ring
 // of the jacket moves with the bend and turns to follow it, so the surface and
 // its lighting stay smooth. flexOffset() below must match the GLSL version
 // exactly: the stripped end is placed with it on the CPU.
@@ -161,9 +161,9 @@ vec3 flexOffset(float s) {
   float w = s * s * uFlexAmp;
   float t = uFlexTime;
   return w * vec3(
-    sin(t * 0.8 - s * 1.6) * 0.22,
-    sin(t * 0.6 - s * 1.2) * 0.05,
-    cos(t * 0.7 - s * 1.4) * 0.14
+    sin(t * 0.9 - s * 1.6) * 0.32,
+    sin(t * 0.7 - s * 1.2) * 0.06,
+    cos(t * 0.8 - s * 1.4) * 0.2
   );
 }
 // The rotation that turns unit vector a onto unit vector b.
@@ -182,9 +182,9 @@ mat3 rotateOnto(vec3 a, vec3 b) {
 function flexOffset(s: number, time: number, amp: number, out: THREE.Vector3) {
   const w = s * s * amp
   return out.set(
-    w * Math.sin(time * 0.8 - s * 1.6) * 0.22,
-    w * Math.sin(time * 0.6 - s * 1.2) * 0.05,
-    w * Math.cos(time * 0.7 - s * 1.4) * 0.14,
+    w * Math.sin(time * 0.9 - s * 1.6) * 0.32,
+    w * Math.sin(time * 0.7 - s * 1.2) * 0.06,
+    w * Math.cos(time * 0.8 - s * 1.4) * 0.2,
   )
 }
 
