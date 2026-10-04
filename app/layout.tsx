@@ -99,7 +99,8 @@ const website = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${instrumentSerif.variable}`}>
+    // The welcome-screen script adds a class to <html> before React starts, so React would otherwise warn about it.
+    <html lang="en" className={`${geist.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <body>
         <JsonLd data={[organization, website]} />
         <Header menus={buildMenus()} />
