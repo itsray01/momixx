@@ -1,46 +1,85 @@
 'use client'
 
-// The live 3D cable in the home hero. Loaded lazily by <Scene3D>, only on
-// desktop screens with a GPU, once the page has loaded.
+// The live 3D cable in the home hero, on every device that can draw WebGL.
+// Loaded by <Scene3D>. It tunes its own quality while the welcome screen shows
+// (see "Quality" below) and only then reports that it is ready to be seen.
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
+import type { HeroTier } from './capability'
 import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour } from './cableColours'
 import { CableHitArea, HeroCableModel, type CableMotion } from './HeroCable'
-import { heroCamera, heroProgress } from './heroProgress'
-import { Ready } from './Ready'
+import { cardCamera, heroCamera, heroProgress } from './heroProgress'
 import { Studio } from './Studio'
+import { MATCAP_URL } from './studioMatcap'
 
-// The cable turns about its own middle rather than the scene's origin, so the
-// cut end turns towards you instead of swinging sideways.
-const PIVOT: [number, number, number] = [0.45, -0.6, 0.45]
+/** `hero`: the tall desktop column, turned by scrolling. `card`: the compact 4:3 phone framing. */
+export type HeroVariant = 'hero' | 'card'
+/** What the scene settled on, for the ?debug3d readout. */
+export type HeroQuality = { tier: HeroTier; dpr: number; fps: number }
+
+// Each framing's cable turns about its own middle, so the cut end turns towards
+// you instead of swinging sideways.
+const PIVOTS: Record<HeroVariant, [number, number, number]> = { hero: [0.45, -0.6, 0.45], card: [0.55, 0.35, 0.5] }
+/** The frame rate the scene keeps to; below it, it draws fewer pixels. */
+const TARGET_FPS = 50
+/** The lowest resolution it will go to, as a fraction of a CSS pixel. */
+const MIN_DPR = 0.5
+/** The longest warm-up before the scene shows itself anyway. */
+const WARMUP_MS = 2600
+/** How long a tap keeps a touch-screen cable moving. */
+const PULSE_MS = 2600
+
 const damp = THREE.MathUtils.damp
 /** Eases a 0–1 value in and out, so motion starts and stops softly. */
 const smooth = (x: number) => x * x * (3 - 2 * x)
 /** The scene hears pointer events from the whole page; ignore the cable while the pointer is on a button or link in front of it (the colour swatches). */
 const overControl = (e: { nativeEvent: Event }) => e.nativeEvent.target instanceof Element && !!e.nativeEvent.target.closest('a, button, input, select, textarea')
+const isMouse = (e: { nativeEvent: Event }) => (e.nativeEvent as PointerEvent).pointerType === 'mouse'
 
 /**
- * Turns the cut end towards you as the page scrolls, and leans slightly towards
- * the pointer. Scroll progress arrives raw (unsmoothed) and is eased once here,
- * so the cable follows the scroll closely instead of trailing behind it.
+ * On desktop, turns the cut end towards you as the page scrolls and leans
+ * slightly towards the pointer. With the pointer on the cable it comes slowly
+ * alive: a gentle bend drifts along it, the stripped end turns, a soft
+ * highlight glides across the jacket, and it moves through its colours.
+ * Everything eases in and out, with no bounce. A click or tap shows the next
+ * colour (on touch screens a tap also sets it moving for a moment). With
+ * reduced motion the cable stays still.
  *
- * With the pointer on the cable, it comes slowly alive: a gentle bend drifts
- * along it, the stripped end turns, a soft highlight glides across the jacket,
- * and it moves through its colours. Everything eases in and out, with no
- * bounce. A click shows the next colour. With reduced motion the cable stays
- * still (the hero wrapper still cycles its colours on hover).
+ * Quality: through a short warm-up, while the welcome screen still covers it,
+ * the scene draws continuously and measures its frame rate (the median frame,
+ * so a one-off pause such as preparing the shaders doesn't count). Below
+ * TARGET_FPS it lowers its resolution step by step until it is smooth, then
+ * calls onReady. Resolution only changes during the warm-up, never in front of
+ * the visitor. The `low` tier (no graphics card) skips this: its cost is in
+ * putting the picture on screen, which resolution barely changes.
  */
-function LiveCable({ animate, onTooSlow }: { animate: boolean; onTooSlow?: (fps: number) => void }) {
+function LiveCable({
+  animate,
+  tier,
+  variant,
+  matcap,
+  onReady,
+  onQuality,
+}: {
+  animate: boolean
+  tier: HeroTier
+  variant: HeroVariant
+  matcap?: THREE.Texture
+  onReady?: () => void
+  onQuality?: (q: HeroQuality) => void
+}) {
+  const pivot = PIVOTS[variant]
   const ref = useRef<THREE.Group>(null)
   const sweep = useRef<THREE.DirectionalLight>(null)
   const invalidate = useThree((s) => s.invalidate)
+  const setDpr = useThree((s) => s.setDpr)
   const colour = cableColours[useCableColour()]
   const motion = useRef<CableMotion>({ amp: 0, time: 0, twist: 0 })
   // `level` eases between 0 (at rest) and 1 (alive); the motion uses it smoothed.
-  const hover = useRef({ on: false, changedAt: 0, level: 0 })
-  const perf = useRef({ frames: 0, time: 0, chained: false, done: false })
+  const hover = useRef({ on: false, changedAt: 0, level: 0, pulseUntil: 0 })
+  const tune = useRef({ warm: true, started: 0, drawn: 0, frames: [] as number[], chained: false, settled: false })
 
   const setHovered = (on: boolean) => {
     const h = hover.current
@@ -52,38 +91,44 @@ function LiveCable({ animate, onTooSlow }: { animate: boolean; onTooSlow?: (fps:
     invalidate()
   }
 
-  // Draw a frame only when something changes: a scroll, a pointer move, or motion still settling.
+  // With frameloop="demand" nothing draws until asked to: start the warm-up.
+  useLayoutEffect(() => invalidate(), [invalidate])
+
+  // Draw a frame only when something changes: a scroll (desktop, where scrolling
+  // turns the cable), a pointer move, or motion still settling.
   useEffect(() => {
     if (!animate) return
     const kick = () => invalidate()
-    window.addEventListener('scroll', kick, { passive: true })
+    if (variant === 'hero') window.addEventListener('scroll', kick, { passive: true })
     window.addEventListener('pointermove', kick, { passive: true })
     kick()
     return () => {
       window.removeEventListener('scroll', kick)
       window.removeEventListener('pointermove', kick)
     }
-  }, [animate, invalidate])
+  }, [animate, invalidate, variant])
 
   useEffect(() => () => void (document.body.style.cursor = ''), [])
 
   useFrame((state, delta) => {
     const g = ref.current
     if (!g) return
-    const p = heroProgress.value
-    // After an idle pause the first delta is long; cap it so nothing jumps.
-    const dt = Math.min(delta, 1 / 30)
+    const p = variant === 'hero' ? heroProgress.value : 0
+    // After an idle pause the first delta is long; cap it so nothing jumps
+    // (but not so low that motion slows down on devices drawing fewer frames).
+    const dt = Math.min(delta, 0.1)
     const m = motion.current
     const h = hover.current
-    const alive = h.on && animate
+    const now = performance.now()
+    const alive = (h.on || now < h.pulseUntil) && animate
 
-    // Colours change on the real clock, so they keep their pace even when frames drop.
-    if (alive && performance.now() - h.changedAt >= CABLE_CYCLE_MS) {
-      h.changedAt = performance.now()
+    // Colours change on the real clock while hovered, so they keep their pace even when frames drop.
+    if (h.on && animate && now - h.changedAt >= CABLE_CYCLE_MS) {
+      h.changedAt = now
       cableColourStore.next()
     }
 
-    // Ease towards 1 while hovered and back to 0 after, with no overshoot.
+    // Ease towards 1 while alive and back to 0 after, with no overshoot.
     h.level = damp(h.level, alive ? 1 : 0, 2.2, dt)
     if (h.level < 0.004 && !alive) h.level = 0
     const moving = h.level > 0
@@ -107,44 +152,61 @@ function LiveCable({ animate, onTooSlow }: { animate: boolean; onTooSlow?: (fps:
     const z = 0.6 * p + 0.28 * e
     g.rotation.y = damp(g.rotation.y, ry, 7, dt)
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
-    g.position.z = damp(g.position.z, PIVOT[2] + z, 7, dt)
-    const settling = Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.z - PIVOT[2] - z) > 1e-4
+    g.position.z = damp(g.position.z, pivot[2] + z, 7, dt)
+    const settling = Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.z - pivot[2] - z) > 1e-4
     const busy = (settling || moving || alive) && animate
-    if (busy) state.invalidate()
 
-    // Measure real smoothness over the first stretch of continuous animation. If
-    // this device can't keep up (under about 24 fps, e.g. software rendering
-    // behind a browser that hides its graphics card), hand back to the still.
-    // Only frames that follow another animated frame count, so idle gaps never do.
-    const pf = perf.current
-    if (!pf.done) {
-      if (busy && pf.chained) {
-        pf.frames += 1
-        pf.time += Math.min(delta, 1)
-        if (pf.frames >= 40 || (pf.time >= 1.5 && pf.frames >= 4)) {
-          pf.done = true
-          const fps = pf.frames / pf.time
-          if (fps < 24) onTooSlow?.(Math.round(fps))
+    // ── Quality: measure and adapt ──
+    // Only frames that follow another drawn frame count, so idle gaps never do.
+    const t = tune.current
+    if (!t.started) t.started = now
+    t.drawn += 1
+    if (busy || t.warm) state.invalidate()
+    const measuring = t.warm || busy
+    if (measuring && t.chained) t.frames.push(delta)
+    t.chained = measuring
+    const n = t.frames.length
+    if (n >= 20 || (n >= 6 && t.frames.reduce((a, b) => a + b, 0) >= 0.6)) {
+      const fps = 1 / [...t.frames].sort((a, b) => a - b)[n >> 1]
+      let dpr = state.viewport.dpr
+      if (!t.settled) {
+        if (tier !== 'low' && t.warm && fps < TARGET_FPS && dpr > MIN_DPR + 0.01) {
+          dpr = Math.max(MIN_DPR, Math.round(dpr * 0.75 * 100) / 100)
+          setDpr(dpr)
+        } else {
+          t.settled = true
         }
       }
-      pf.chained = busy
+      // Keeps reporting (for ?debug3d) after settling, e.g. while the cable is hovered.
+      onQuality?.({ tier, dpr, fps: Math.round(fps) })
+      t.frames = []
+      t.chained = false
+    }
+    // Without a graphics card resolution makes little difference, so there is
+    // nothing to tune: the scene is ready once it has drawn.
+    const ready = tier === 'low' ? t.drawn >= 3 : t.settled
+    if (t.warm && (ready || now - t.started > WARMUP_MS)) {
+      t.warm = false
+      requestAnimationFrame(() => onReady?.())
     }
   })
 
   return (
     <>
       <directionalLight ref={sweep} intensity={0} position={[5, 3, 4]} />
-      <group ref={ref} position={PIVOT}>
-        <group position={[-PIVOT[0], -PIVOT[1], -PIVOT[2]]}>
-          <HeroCableModel colour={colour} motion={motion} />
+      <group ref={ref} position={pivot}>
+        <group position={[-pivot[0], -pivot[1], -pivot[2]]}>
+          <HeroCableModel path={variant} colour={colour} motion={motion} quality={tier} matcap={matcap} />
           <CableHitArea
-            onPointerOver={(e) => setHovered(!overControl(e))}
-            onPointerMove={(e) => setHovered(!overControl(e))}
+            path={variant}
+            onPointerOver={(e) => isMouse(e) && setHovered(!overControl(e))}
+            onPointerMove={(e) => isMouse(e) && setHovered(!overControl(e))}
             onPointerOut={() => setHovered(false)}
             onClick={(e) => {
               if (overControl(e)) return
               cableColourStore.next()
               hover.current.changedAt = performance.now()
+              if (!isMouse(e)) hover.current.pulseUntil = performance.now() + PULSE_MS
               invalidate()
             }}
           />
@@ -154,13 +216,55 @@ function LiveCable({ animate, onTooSlow }: { animate: boolean; onTooSlow?: (fps:
   )
 }
 
-export default function HeroScene({ animate, onReady, onTooSlow }: { animate: boolean; onReady?: () => void; onTooSlow?: (fps: number) => void }) {
+/**
+ * The baked studio lighting for the `low` tier (see studioMatcap). The scene
+ * waits for it, so the cable never appears unlit; if it can't be fetched, the
+ * cable falls back to real (simplified) lighting.
+ */
+function useMatcap(wanted: boolean) {
+  const [state, setState] = useState<{ texture?: THREE.Texture; failed: boolean }>({ failed: false })
+  useEffect(() => {
+    if (!wanted) return
+    let live = true
+    const texture = new THREE.TextureLoader().load(
+      MATCAP_URL,
+      () => live && setState({ texture, failed: false }),
+      undefined,
+      () => live && setState({ failed: true }),
+    )
+    texture.colorSpace = THREE.SRGBColorSpace
+    return () => {
+      live = false
+      texture.dispose()
+    }
+  }, [wanted])
+  return state
+}
+
+export default function HeroScene({
+  animate,
+  tier,
+  variant,
+  onReady,
+  onQuality,
+}: {
+  animate: boolean
+  tier: HeroTier
+  variant: HeroVariant
+  onReady?: () => void
+  onQuality?: (q: HeroQuality) => void
+}) {
+  const cam = variant === 'card' ? cardCamera : heroCamera
+  const baked = useMatcap(tier === 'low')
+  const waiting = tier === 'low' && !baked.texture && !baked.failed
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      // Up to 1.5× resolution (1× without a graphics card); the warm-up lowers it if needed.
+      dpr={tier === 'low' ? 1 : [1, 1.5]}
       frameloop="demand"
-      camera={{ position: heroCamera.position, fov: heroCamera.fov }}
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      camera={{ position: cam.position, fov: cam.fov }}
+      // Antialiasing costs too much without a graphics card.
+      gl={{ antialias: tier !== 'low', alpha: true, powerPreference: 'high-performance' }}
       // Track the pointer across the whole page, so the canvas never blocks clicks,
       // measuring it from the canvas (which sits in the right-hand column).
       eventSource={document.body}
@@ -174,11 +278,10 @@ export default function HeroScene({ animate, onReady, onTooSlow }: { animate: bo
         })
       }
     >
-      {/* A white rim light, so every cable colour reads true. */}
-      <Studio rim="#ffffff" />
-      <fog attach="fog" args={['#05070a', 9, 16]} />
-      <LiveCable animate={animate} onTooSlow={onTooSlow} />
-      <Ready onReady={onReady} />
+      {/* Studio lights with a white rim, so every cable colour reads true. The low tier has them baked in instead. */}
+      {!baked.texture && <Studio rim="#ffffff" lite={tier === 'low'} />}
+      {variant === 'hero' && <fog attach="fog" args={['#05070a', 9, 16]} />}
+      {!waiting && <LiveCable animate={animate} tier={tier} variant={variant} matcap={baked.texture} onReady={onReady} onQuality={onQuality} />}
     </Canvas>
   )
 }

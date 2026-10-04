@@ -14,16 +14,18 @@ export const TEAL_LIGHT = '#6dd5c9'
  * a large overhead softbox, white strip lights for crisp edge highlights, a teal
  * rim from behind and a soft floor bounce. `rim` swaps the teal for another
  * colour (the hero cable uses white, so every cable colour reads true).
+ * `lite` keeps only the key and rim lights (plus the reflections), for devices
+ * drawing without a graphics card: each light costs time on every pixel.
  */
-export function Studio({ resolution = 256, rim = TEAL_LIGHT }: { resolution?: number; rim?: string }) {
+export function Studio({ resolution = 256, rim = TEAL_LIGHT, lite = false }: { resolution?: number; rim?: string; lite?: boolean }) {
   return (
     <>
-      <ambientLight intensity={0.22} />
-      <hemisphereLight args={['#e6faf7', '#06090d', 0.45]} />
+      <ambientLight intensity={lite ? 0.35 : 0.22} />
+      <hemisphereLight args={['#e6faf7', '#06090d', lite ? 0.6 : 0.45]} />
       <directionalLight position={[4, 7, 6]} intensity={2.3} />
       <directionalLight position={[-6, 3, -5]} intensity={1.5} color={rim} />
-      <directionalLight position={[6, 2, -6]} intensity={0.9} />
-      <directionalLight position={[0, -4, 3]} intensity={0.3} />
+      {!lite && <directionalLight position={[6, 2, -6]} intensity={0.9} />}
+      {!lite && <directionalLight position={[0, -4, 3]} intensity={0.3} />}
       <Environment resolution={resolution} frames={1}>
         <Lightformer form="rect" intensity={3.4} position={[0, 7, 2]} rotation-x={Math.PI / 2} scale={[14, 6, 1]} />
         <Lightformer form="rect" intensity={2.6} position={[8, 1.5, 2]} rotation-y={-Math.PI / 2} scale={[1.2, 9, 1]} />

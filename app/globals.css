@@ -189,6 +189,13 @@
   }
 }
 
+/* Without a graphics card, every layer composited with the live hero cable costs
+   frame rate, so its decorative ones (the grain, grid and glow) go. See Scene3D. */
+.hero-lite [data-hero]::before,
+.hero-lite [data-hero] [data-decor] {
+  display: none;
+}
+
 @utility dots {
   background-image: radial-gradient(circle, rgb(255 255 255 / 0.06) 1px, transparent 1.2px);
   background-size: 24px 24px;
@@ -235,6 +242,74 @@ html[data-header='hidden'] .tabnav {
 }
 [data-motion-grow='in'] {
   transition: scale 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Welcome screen (components/Intro.tsx) ── */
+.intro-seen #intro {
+  display: none;
+}
+#intro {
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.9s;
+  /* A failsafe: it leaves on its own even if the page's scripts never run or are
+     held up. The fade runs off the main thread; visibility follows once it ends. */
+  animation:
+    intro-failsafe-fade 0.9s ease 4.6s forwards,
+    intro-failsafe-hide 0s linear 5.5s forwards;
+}
+#intro[data-state='leave'] {
+  opacity: 0;
+  visibility: hidden;
+}
+#intro[data-state='gone'] {
+  display: none;
+}
+#intro .intro-content {
+  animation: intro-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#intro[data-state='leave'] .intro-content {
+  scale: 1.04;
+}
+#intro .intro-bar {
+  scale: 0 1;
+  animation: intro-progress 3.4s cubic-bezier(0.3, 0.6, 0.2, 1) 0.3s forwards;
+}
+#intro[data-state='leave'] .intro-bar {
+  animation: none;
+  scale: 1 1;
+  transition: scale 0.35s ease;
+}
+@keyframes intro-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+@keyframes intro-progress {
+  to {
+    scale: 0.92 1;
+  }
+}
+@keyframes intro-failsafe-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes intro-failsafe-hide {
+  to {
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #intro .intro-content,
+  #intro .intro-bar {
+    animation: none;
+  }
+  #intro .intro-bar {
+    scale: 0.6 1;
+  }
 }
 
 /* Hero call-outs appear as the hero scrolls (components/motion/pins.ts); hidden until then. */

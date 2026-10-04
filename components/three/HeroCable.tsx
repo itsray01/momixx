@@ -12,7 +12,9 @@
 import { useFrame, type ThreeElements } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { cableColours, type CableColour } from './cableColours'
+import { studioMaterial } from './studioMatcap'
 
 const R = 0.3 // jacket outer radius
 const JACKET_IN = 0.245
@@ -75,40 +77,83 @@ const wires = [
   { at: [0.082, -0.082], color: '#2f8f55' },
 ] as const
 
-/** One insulated wire leaving the foil and splaying slightly, ending in bare copper strands. */
-function Wire({ at: [x, y], color }: { at: readonly [number, number]; color: string }) {
-  const { tube, end, quat, strands } = useMemo(() => {
-    const curve = new THREE.CatmullRomCurve3([v(x, y, 0.05), v(x, y, 0.46), v(x * 1.3, y * 1.3, 0.66), v(x * 1.65, y * 1.65, 0.86)])
-    const end = curve.getPoint(1)
-    const quat = new THREE.Quaternion().setFromUnitVectors(v(0, 0, 1), curve.getTangent(1).normalize())
+/**
+ * The four insulated wires leaving the foil and splaying slightly, each ending
+ * in bare copper strands. All the insulation is one mesh, coloured per vertex,
+ * and all the copper another: two draws instead of thirty-six, which matters
+ * most on devices drawing without a graphics card.
+ */
+function useWireGeometry() {
+  const geo = useMemo(() => {
+    const insulation: THREE.BufferGeometry[] = []
+    const copper: THREE.BufferGeometry[] = []
+    const m = new THREE.Matrix4()
+    const one = v(1, 1, 1)
+    const upright = new THREE.Quaternion().setFromAxisAngle(v(1, 0, 0), Math.PI / 2)
     const strands = [[0, 0], ...Array.from({ length: 6 }, (_, k) => [Math.cos((k * Math.PI) / 3) * 0.042, Math.sin((k * Math.PI) / 3) * 0.042])]
-    return { tube: new THREE.TubeGeometry(curve, 48, 0.066, 28, false), end, quat, strands }
-  }, [x, y])
-  useEffect(() => () => tube.dispose(), [tube])
-  return (
-    <group>
-      <mesh geometry={tube}>
-        <meshPhysicalMaterial color={color} roughness={0.38} clearcoat={0.35} clearcoatRoughness={0.3} />
-      </mesh>
-      <group position={end} quaternion={quat}>
-        <mesh>
-          <circleGeometry args={[0.066, 28]} />
-          <meshStandardMaterial color={color} roughness={0.6} />
-        </mesh>
-        {strands.map(([sx, sy], k) => (
-          <mesh key={k} position={[sx, sy, 0.085]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.019, 0.019, 0.17, 12]} />
-            <meshStandardMaterial color="#c97f4c" metalness={1} roughness={0.28} />
-          </mesh>
-        ))}
-      </group>
-    </group>
+    for (const { at: [x, y], color } of wires) {
+      const curve = new THREE.CatmullRomCurve3([v(x, y, 0.05), v(x, y, 0.46), v(x * 1.3, y * 1.3, 0.66), v(x * 1.65, y * 1.65, 0.86)])
+      const atEnd = new THREE.Matrix4().compose(curve.getPoint(1), new THREE.Quaternion().setFromUnitVectors(v(0, 0, 1), curve.getTangent(1).normalize()), one)
+      const rgb = new THREE.Color(color)
+      for (const g of [new THREE.TubeGeometry(curve, 48, 0.066, 28, false), new THREE.CircleGeometry(0.066, 28).applyMatrix4(atEnd)]) {
+        const colours = new Float32Array(g.attributes.position.count * 3)
+        for (let i = 0; i < colours.length; i += 3) rgb.toArray(colours, i)
+        g.setAttribute('color', new THREE.BufferAttribute(colours, 3))
+        insulation.push(g)
+      }
+      for (const [sx, sy] of strands) {
+        copper.push(new THREE.CylinderGeometry(0.019, 0.019, 0.17, 12).applyMatrix4(m.compose(v(sx, sy, 0.085), upright, one)).applyMatrix4(atEnd))
+      }
+    }
+    const merged = { insulation: mergeGeometries(insulation), copper: mergeGeometries(copper) }
+    for (const g of [...insulation, ...copper]) g.dispose()
+    return merged
+  }, [])
+  useEffect(
+    () => () => {
+      geo.insulation.dispose()
+      geo.copper.dispose()
+    },
+    [geo],
   )
+  return geo
+}
+
+/**
+ * Surfaces of the stripped end: lit by the scene's lights and reflections, or,
+ * given the baked studio (`matcap`, for devices without a graphics card), by that.
+ */
+function useEndMaterials(braid: THREE.Texture, matcap: THREE.Texture | undefined) {
+  const mats = useMemo(() => {
+    const double = THREE.DoubleSide
+    if (matcap) {
+      return {
+        braid: studioMaterial(matcap, { metal: true, map: braid, color: '#f2f5f8' }),
+        foilEdge: studioMaterial(matcap, { metal: true, color: '#8d969f' }),
+        foil: studioMaterial(matcap, { metal: true, color: '#e3e8ed' }),
+        filler: studioMaterial(matcap, { color: '#0c1117', gloss: 0.2 }),
+        insulation: studioMaterial(matcap, { vertexColors: true }),
+        copper: studioMaterial(matcap, { metal: true, color: '#c97f4c' }),
+      }
+    }
+    return {
+      braid: new THREE.MeshStandardMaterial({ map: braid, color: '#f2f5f8', metalness: 0.6, roughness: 0.32, side: double }),
+      foilEdge: new THREE.MeshStandardMaterial({ color: '#8d969f', metalness: 0.9, roughness: 0.4, side: double }),
+      foil: new THREE.MeshStandardMaterial({ color: '#e3e8ed', metalness: 1, roughness: 0.2, side: double }),
+      filler: new THREE.MeshStandardMaterial({ color: '#0c1117', roughness: 0.9 }),
+      insulation: new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.38, clearcoat: 0.35, clearcoatRoughness: 0.3 }),
+      copper: new THREE.MeshStandardMaterial({ color: '#c97f4c', metalness: 1, roughness: 0.28 }),
+    }
+  }, [braid, matcap])
+  useEffect(() => () => Object.values(mats).forEach((m) => m.dispose()), [mats])
+  return mats
 }
 
 /** The stripped end, built along +z from the jacket's cut face at z = 0. */
-function StrippedEnd({ cut }: { cut: THREE.Material }) {
+function StrippedEnd({ cut, matcap }: { cut: THREE.Material; matcap?: THREE.Texture }) {
   const braid = useBraidTexture()
+  const m = useEndMaterials(braid, matcap)
+  const wiring = useWireGeometry()
   return (
     <group>
       {/* Cut face of the silicone jacket: matte, slightly lighter than the moulded surface */}
@@ -116,27 +161,23 @@ function StrippedEnd({ cut }: { cut: THREE.Material }) {
         <ringGeometry args={[JACKET_IN, R, 64]} />
       </mesh>
       {/* Woven braid, exposed for a short step */}
-      <mesh position={[0, 0, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
+      <mesh position={[0, 0, 0.02]} rotation={[Math.PI / 2, 0, 0]} material={m.braid}>
         <cylinderGeometry args={[BRAID_R, BRAID_R, 0.44, 64, 1, true]} />
-        <meshStandardMaterial map={braid} color="#f2f5f8" metalness={0.6} roughness={0.32} side={THREE.DoubleSide} />
       </mesh>
-      <mesh position={[0, 0, 0.24]}>
+      <mesh position={[0, 0, 0.24]} material={m.foilEdge}>
         <ringGeometry args={[FOIL_R, BRAID_R + 0.004, 64]} />
-        <meshStandardMaterial color="#8d969f" metalness={0.9} roughness={0.4} side={THREE.DoubleSide} />
       </mesh>
       {/* Aluminium foil wrap */}
-      <mesh position={[0, 0, 0.15]} rotation={[Math.PI / 2, 0, 0]}>
+      <mesh position={[0, 0, 0.15]} rotation={[Math.PI / 2, 0, 0]} material={m.foil}>
         <cylinderGeometry args={[FOIL_R, FOIL_R, 0.5, 64, 1, true]} />
-        <meshStandardMaterial color="#e3e8ed" metalness={1} roughness={0.2} side={THREE.DoubleSide} />
       </mesh>
       {/* Dark filler behind the wires, so the open foil never shows daylight */}
-      <mesh position={[0, 0, 0.34]}>
+      <mesh position={[0, 0, 0.34]} material={m.filler}>
         <circleGeometry args={[FOIL_R * 0.98, 48]} />
-        <meshStandardMaterial color="#0c1117" roughness={0.9} />
       </mesh>
-      {wires.map((w) => (
-        <Wire key={w.color} at={w.at} color={w.color} />
-      ))}
+      {/* The four insulated wires and their bare copper strands */}
+      <mesh geometry={wiring.insulation} material={m.insulation} />
+      <mesh geometry={wiring.copper} material={m.copper} />
     </group>
   )
 }
@@ -190,9 +231,12 @@ function flexOffset(s: number, time: number, amp: number, out: THREE.Vector3) {
 
 type FlexUniforms = { uFlexTime: { value: number }; uFlexAmp: { value: number }; uFlexLength: { value: number } }
 
-/** Teaches a standard material to bend with the flex uniforms. */
+/** Teaches a material (standard, physical or baked studio) to bend with the flex uniforms. */
 function flexify<M extends THREE.Material>(mat: M, uniforms: FlexUniforms) {
-  mat.onBeforeCompile = (shader) => {
+  const before = mat.onBeforeCompile
+  const key = mat.customProgramCacheKey()
+  mat.onBeforeCompile = (shader, renderer) => {
+    before.call(mat, shader, renderer)
     Object.assign(shader.uniforms, uniforms)
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>\n${FLEX_GLSL}`)
@@ -205,7 +249,7 @@ function flexify<M extends THREE.Material>(mat: M, uniforms: FlexUniforms) {
       )
       .replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed = aCenter + flexOffset(aS) + flexR * (position - aCenter);')
   }
-  mat.customProgramCacheKey = () => 'cable-flex'
+  mat.customProgramCacheKey = () => `${key}|cable-flex`
   return mat
 }
 
@@ -237,21 +281,44 @@ function addFlexAttributes(geo: THREE.TubeGeometry, curve: THREE.Curve<THREE.Vec
 /** How strongly the cable is flexing (0 = at rest), the wave's clock, and the twist of the stripped end in radians. */
 export type CableMotion = { amp: number; time: number; twist: number }
 
-function buildCable(points: THREE.Vector3[], colour: CableColour) {
+/** How much detail the live cable draws: `low` is for devices without a graphics card. */
+export type CableQuality = 'high' | 'mid' | 'low'
+
+// Rings along the cable, segments around the jacket and its inner wall, and the
+// jacket's satin sheen and clearcoat. `low` skips those last two: it is drawn
+// with the baked studio (see studioMatcap), or with the plainer standard
+// surface if that image can't be fetched.
+const DETAIL: Record<CableQuality, { rings: number; around: number; innerAround: number; sheen: number; clearcoat: number }> = {
+  high: { rings: 320, around: 72, innerAround: 48, sheen: 0.55, clearcoat: 0.3 },
+  mid: { rings: 220, around: 48, innerAround: 32, sheen: 0.55, clearcoat: 0 },
+  low: { rings: 140, around: 32, innerAround: 24, sheen: 0, clearcoat: 0 },
+}
+
+function buildCable(points: THREE.Vector3[], colour: CableColour, quality: CableQuality, matcap?: THREE.Texture) {
+  const d = DETAIL[quality]
   const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal')
-  const jacket = new THREE.TubeGeometry(curve, 320, R, 72, false)
-  const inner = new THREE.TubeGeometry(curve, 320, JACKET_IN, 48, false)
+  const jacket = new THREE.TubeGeometry(curve, d.rings, R, d.around, false)
+  const inner = new THREE.TubeGeometry(curve, d.rings, JACKET_IN, d.innerAround, false)
   addFlexAttributes(jacket, curve)
   addFlexAttributes(inner, curve)
   const uniforms: FlexUniforms = { uFlexTime: { value: 0 }, uFlexAmp: { value: 0 }, uFlexLength: { value: curve.getLength() } }
-  const materials = {
-    jacket: flexify(
-      new THREE.MeshPhysicalMaterial({ color: colour.jacket, roughness: 0.42, sheen: 0.55, sheenRoughness: 0.55, sheenColor: colour.sheen, clearcoat: 0.3, clearcoatRoughness: 0.4 }),
-      uniforms,
-    ),
-    inner: flexify(new THREE.MeshStandardMaterial({ color: colour.inner, roughness: 0.8, side: THREE.BackSide }), uniforms),
-    cut: new THREE.MeshStandardMaterial({ color: colour.cut, roughness: 0.75, side: THREE.DoubleSide }),
-  }
+  const materials = matcap
+    ? {
+        // One-sided, like the lit versions below: the jacket is the largest surface.
+        jacket: flexify(studioMaterial(matcap, { color: colour.jacket, side: THREE.FrontSide }), uniforms),
+        inner: flexify(studioMaterial(matcap, { color: colour.inner, gloss: 0.3, side: THREE.BackSide }), uniforms),
+        cut: studioMaterial(matcap, { color: colour.cut, gloss: 0.3 }),
+      }
+    : {
+        jacket: flexify(
+          quality === 'low'
+            ? new THREE.MeshStandardMaterial({ color: colour.jacket, roughness: 0.42 })
+            : new THREE.MeshPhysicalMaterial({ color: colour.jacket, roughness: 0.42, sheen: d.sheen, sheenRoughness: 0.55, sheenColor: colour.sheen, clearcoat: d.clearcoat, clearcoatRoughness: 0.4 }),
+          uniforms,
+        ),
+        inner: flexify(new THREE.MeshStandardMaterial({ color: colour.inner, roughness: 0.8, side: THREE.BackSide }), uniforms),
+        cut: new THREE.MeshStandardMaterial({ color: colour.cut, roughness: 0.75, side: THREE.DoubleSide }),
+      }
   const end = curve.getPointAt(1)
   const endTangent = curve.getTangentAt(1)
   return {
@@ -281,9 +348,24 @@ const Z = v(0, 0, 1)
 /**
  * Silicone-jacketed data cable with a stepped, stripped end. `colour` changes
  * blend in smoothly; `motion` (live hero only) makes it flex and twist.
+ * `quality` sets its detail and surfaces, fixed once built; `matcap` (the
+ * baked studio, see studioMatcap) lights it without lights or reflections,
+ * for devices drawing without a graphics card.
  */
-export function HeroCableModel({ path = 'hero', colour = cableColours[0], motion }: { path?: keyof typeof cablePaths; colour?: CableColour; motion?: RefObject<CableMotion> }) {
-  const [cable] = useState(() => buildCable(cablePaths[path], colour))
+export function HeroCableModel({
+  path = 'hero',
+  colour = cableColours[0],
+  motion,
+  quality = 'high',
+  matcap,
+}: {
+  path?: keyof typeof cablePaths
+  colour?: CableColour
+  motion?: RefObject<CableMotion>
+  quality?: CableQuality
+  matcap?: THREE.Texture
+}) {
+  const [cable] = useState(() => buildCable(cablePaths[path], colour, quality, matcap))
   useEffect(() => () => cable.dispose(), [cable])
   const endRef = useRef<THREE.Group>(null)
 
@@ -298,12 +380,13 @@ export function HeroCableModel({ path = 'hero', colour = cableColours[0], motion
     // real clock (not the capped motion step) so it keeps its pace if frames drop.
     const k = 1 - Math.exp(-Math.min(delta, 0.1) * 3.5)
     let blending = false
-    for (const [c, t] of [
+    const pairs: Array<[THREE.Color, THREE.Color]> = [
       [m.jacket.color, target.jacket],
-      [m.jacket.sheenColor, target.sheen],
       [m.inner.color, target.inner],
       [m.cut.color, target.cut],
-    ] as const) {
+    ]
+    if (m.jacket instanceof THREE.MeshPhysicalMaterial) pairs.push([m.jacket.sheenColor, target.sheen])
+    for (const [c, t] of pairs) {
       if (Math.abs(c.r - t.r) + Math.abs(c.g - t.g) + Math.abs(c.b - t.b) < 0.002) c.copy(t)
       else {
         c.lerp(t, k)
@@ -333,7 +416,7 @@ export function HeroCableModel({ path = 'hero', colour = cableColours[0], motion
       <mesh geometry={cable.jacket} material={cable.materials.jacket} />
       <mesh geometry={cable.inner} material={cable.materials.inner} />
       <group ref={endRef} position={cable.end} quaternion={cable.endQuat}>
-        <StrippedEnd cut={cable.materials.cut} />
+        <StrippedEnd cut={cable.materials.cut} matcap={matcap} />
       </group>
     </group>
   )
@@ -352,9 +435,6 @@ export function CableHitArea({ path = 'hero', ...events }: { path?: keyof typeof
     return new THREE.TubeGeometry(new THREE.CatmullRomCurve3([...pts, tip], false, 'centripetal'), 48, R * 1.9, 8, false)
   }, [path])
   useEffect(() => () => geometry.dispose(), [geometry])
-  return (
-    <mesh geometry={geometry} {...events}>
-      <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
-    </mesh>
-  )
+  // Hidden, so it is never drawn: pointer hit-testing still finds it.
+  return <mesh geometry={geometry} visible={false} {...events} />
 }

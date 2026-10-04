@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { CableColourPicker } from '@/components/CableColourPicker'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { Fn, Footnotes } from '@/components/Footnotes'
+import { Intro } from '@/components/Intro'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, ArrowLink, CtaBand, GridBackdrop, Section, StatTiles, rich } from '@/components/ui'
@@ -93,11 +94,12 @@ const heroLabels = [
 export default function HomePage() {
   return (
     <>
+      <Intro />
       {/* ── Hero: pinned on desktop; scrolling turns the cable towards you ── */}
       <div>
         <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[720px]">
           <GridBackdrop />
-          <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_7_10)_30%,transparent)]" aria-hidden="true" />
+          <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_7_10)_30%,transparent)]" aria-hidden="true" />
 
           {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
           <div className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">

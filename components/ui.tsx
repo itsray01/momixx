@@ -65,6 +65,7 @@ export function GridBackdrop({ className = '' }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
+      data-decor=""
       className={`pointer-events-none absolute inset-0 opacity-[0.06] ${className}`}
       style={{
         backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',

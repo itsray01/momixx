@@ -7,11 +7,15 @@ import { Component, type ReactNode } from 'react'
  * to download) and renders nothing in its place, so the still image underneath
  * stays on screen instead of the whole page breaking.
  */
-export class CanvasBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+export class CanvasBoundary extends Component<{ children: ReactNode; onError?: () => void }, { failed: boolean }> {
   state = { failed: false }
 
   static getDerivedStateFromError() {
     return { failed: true }
+  }
+
+  componentDidCatch() {
+    this.props.onError?.()
   }
 
   render() {
