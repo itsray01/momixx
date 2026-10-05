@@ -3,16 +3,17 @@
 import { getImageProps } from 'next/image'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { preload } from 'react-dom'
 import { CanvasBoundary } from './CanvasBoundary'
-import { heroProfile, prefersLowData } from './capability'
+import { heroProfile } from './capability'
 import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour, type CableColour } from './cableColours'
 import { heroReady } from './heroReady'
 import type { HeroQuality } from './HeroScene'
 
-// The scene (and Three.js) starts downloading as soon as this script runs, alongside
-// the page's own start-up and the graphics check; the welcome screen covers the wait.
+// The scene (and Three.js) only downloads where it will run: it starts the
+// moment the graphics check says so. Without WebGL, with data saver or on 2G,
+// it is never fetched and the still stays.
 const loadHeroScene = () => import('./HeroScene')
-if (typeof window !== 'undefined' && !prefersLowData()) void loadHeroScene()
 const HeroScene = dynamic(loadHeroScene, { ssr: false })
 
 const noSubscribe = () => () => {}
@@ -26,26 +27,41 @@ const mediaStore = (query: string) => ({
 })
 const desktopMq = mediaStore('(min-width: 1024px)')
 const reducedMq = mediaStore('(prefers-reduced-motion: reduce)')
-const profileSnapshot = () => heroProfile()
+const profileSnapshot = () => {
+  const profile = heroProfile()
+  if (profile.run) void loadHeroScene()
+  return profile
+}
 // Add ?debug3d to the address to see how the hero's 3D runs on this device.
 const debugSnapshot = () => new URLSearchParams(window.location.search).has('debug3d')
 
+const DESKTOP = '(min-width: 1024px)'
+
 /**
- * The hero still in one colour, shown only where the live cable can't run (no
- * WebGL, data saver or a failed scene): the desktop view in a tall column, the
- * compact cable on phones, sized to the column's height and centred.
+ * The hero still in one colour: the desktop view in a tall column, the compact
+ * cable on phones, sized to the column's height and centred. With `priority`
+ * (the teal first frame) it loads straight away, and each screen size preloads
+ * only its own image.
  */
-function HeroStillPicture({ colour, onLoad }: { colour: CableColour; onLoad?: () => void }) {
-  const common = { alt: '', sizes: '(min-width: 1024px) 50vw, min(100vw, 560px)' }
+function HeroStillPicture({ colour, priority = false, onLoad }: { colour: CableColour; priority?: boolean; onLoad?: () => void }) {
+  const common = {
+    alt: '',
+    sizes: '(min-width: 1024px) 50vw, min(100vw, 560px)',
+    ...(priority ? { loading: 'eager', fetchPriority: 'high' } as const : {}),
+  }
   const {
-    props: { srcSet: desktop },
+    props: { srcSet: desktop, src: desktopSrc },
   } = getImageProps({ ...common, src: `/renders/cable-hero-${colour.id}.webp`, width: 960, height: 1200 })
   const {
     props: { srcSet: mobile, ...rest },
   } = getImageProps({ ...common, src: `/renders/data-cable-${colour.id}.webp`, width: 1200, height: 900 })
+  if (priority) {
+    preload(desktopSrc, { as: 'image', imageSrcSet: desktop, imageSizes: '50vw', media: DESKTOP, fetchPriority: 'high' })
+    preload(rest.src, { as: 'image', imageSrcSet: mobile, imageSizes: 'min(100vw, 560px)', media: `not all and ${DESKTOP}`, fetchPriority: 'high' })
+  }
   return (
     <picture>
-      <source media="(min-width: 1024px)" srcSet={desktop} sizes="50vw" />
+      <source media={DESKTOP} srcSet={desktop} sizes="50vw" />
       <source srcSet={mobile} sizes="min(100vw, 560px)" />
       <img {...rest} alt="" draggable={false} onLoad={onLoad} className="absolute inset-y-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 select-none" />
     </picture>
@@ -78,10 +94,13 @@ function ColourStills({ index, preloadAll }: { index: number; preloadAll: boolea
 
 /**
  * The home hero's live 3D cable, on every device that can draw WebGL: the tall
- * desktop framing beside the headline, the compact one on phones. It tunes its
- * own quality before showing (see HeroScene), then fades in, while the welcome
- * screen covers the first visit's wait. Only without WebGL, with data saver or
- * a 2G connection, or if the scene fails, does a still image stand in.
+ * desktop framing beside the headline, the compact one on phones. The teal
+ * still is the hero's first frame everywhere (it is in the page's HTML). Where
+ * the live cable runs, it tunes its own quality (see HeroScene), fades in over
+ * the still, and then the still fades away: both framings' stills line up with
+ * the live cable's first frame (see renderViews), so it is a clean cross-fade.
+ * The welcome screen covers the first visit's wait. Without WebGL, with data
+ * saver or a 2G connection, or if the scene fails, the still simply stays.
  *
  * The cable comes in several colours (see cableColours). Where the live scene
  * isn't animating (the still, or reduced motion), hovering its area with a
@@ -103,6 +122,8 @@ export function Scene3D({ className = '' }: { className?: string }) {
 
   const showStill = !!profile && (!profile.run || failed)
   const live = ready && !showStill
+  // Once the live cable has taken over, the faded-out still leaves the page.
+  const [stillGone, setStillGone] = useState(false)
 
   // Keep animating only while the hero is on screen. One callback can carry
   // several entries (the pinned hero briefly measures zero while the page
@@ -122,6 +143,13 @@ export function Scene3D({ className = '' }: { className?: string }) {
     return () => root.classList.remove('hero-lite')
   }, [profile])
 
+  // The still's fade, after the live cable's own 700 ms fade-in, ends 1.4 s after it is ready.
+  useEffect(() => {
+    if (!live) return
+    const id = window.setTimeout(() => setStillGone(true), 1400)
+    return () => window.clearTimeout(id)
+  }, [live])
+
   // Tell the welcome screen once there is something to see.
   useEffect(() => {
     if (live || showStill) heroReady.set()
@@ -130,7 +158,7 @@ export function Scene3D({ className = '' }: { className?: string }) {
   // Hover colour cycling where the live scene isn't doing it itself.
   const liveHover = live && !reduced
   const [hovering, setHovering] = useState(false)
-  const [preload, setPreload] = useState(false)
+  const [fetchAll, setFetchAll] = useState(false)
   useEffect(() => {
     if (!hovering || liveHover) return
     let id = window.setTimeout(function tick() {
@@ -146,19 +174,23 @@ export function Scene3D({ className = '' }: { className?: string }) {
       onPointerEnter={(e) => {
         if (e.pointerType !== 'mouse') return
         setHovering(true)
-        if (showStill) setPreload(true)
+        if (showStill) setFetchAll(true)
       }}
       onPointerLeave={() => setHovering(false)}
       className={`relative ${className}`}
     >
-      {showStill && (
+      {(showStill || !stillGone) && (
         <div
-          onClick={() => cableColourStore.next()}
-          style={{ transition: 'scale 1.6s cubic-bezier(0.22, 1, 0.36, 1), translate 1.6s cubic-bezier(0.22, 1, 0.36, 1)' }}
-          className={`relative h-full w-full cursor-pointer overflow-hidden ${hovering && !reduced ? '-translate-y-2 scale-[1.025]' : ''}`}
+          className={`absolute inset-0 transition-opacity duration-700 ${live ? 'opacity-0 delay-700' : 'opacity-100'} ${showStill ? '' : 'pointer-events-none'}`}
         >
-          <HeroStillPicture colour={cableColours[0]} />
-          <ColourStills index={index} preloadAll={preload} />
+          <div
+            onClick={showStill ? () => cableColourStore.next() : undefined}
+            style={{ transition: 'scale 1.6s cubic-bezier(0.22, 1, 0.36, 1), translate 1.6s cubic-bezier(0.22, 1, 0.36, 1)' }}
+            className={`relative h-full w-full overflow-hidden ${showStill ? 'cursor-pointer' : ''} ${showStill && hovering && !reduced ? '-translate-y-2 scale-[1.025]' : ''}`}
+          >
+            <HeroStillPicture colour={cableColours[0]} priority />
+            <ColourStills index={index} preloadAll={showStill && fetchAll} />
+          </div>
         </div>
       )}
       {profile?.run && !failed && (
