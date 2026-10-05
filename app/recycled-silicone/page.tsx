@@ -1,4 +1,5 @@
 import { CertCard } from '@/components/CertCard'
+import { Render } from '@/components/Render'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { certifications, recyclingCertifications } from '@/content/company'
@@ -56,6 +57,7 @@ export default function RecycledSiliconePage() {
           { value: String(recyclingCertifications.length), label: 'recycled-content certifications' },
           { value: String(recycleSteps.length), label: 'steps from scrap to new silicone' },
         ]}
+        visual={<Render name="recycle" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section eyebrow="The problem" title="Very little silicone is *recycled today*">

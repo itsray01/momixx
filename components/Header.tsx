@@ -196,7 +196,7 @@ export function Header({ menus }: { menus: Menu[] }) {
         onBlur={(e) => {
           if (!headerRef.current?.contains(e.relatedTarget as Node)) setActive(null)
         }}
-        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${hidden && !mobileOpen ? '-tranzinc-y-[120%]' : 'tranzinc-y-0'}`}
+        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${hidden && !mobileOpen ? '-translate-y-[120%]' : 'translate-y-0'}`}
       >
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-ink-950">
           Skip to content
@@ -253,7 +253,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                       <div
                         id={`menu-${i}`}
                         className={`absolute inset-x-0 top-full pt-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
-                          active === i ? 'visible tranzinc-y-0 opacity-100' : 'invisible -tranzinc-y-2 opacity-0'
+                          active === i ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                         }`}
                       >
                         <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">

@@ -32,6 +32,7 @@ export default function SustainabilityPage() {
           { value: String(recyclingCertifications.length), label: 'recycled-content certifications' },
           { value: '~30%', label: 'less electricity in our curing ovens' },
         ]}
+        background={{ src: '/images/sustainability-banner.jpg', alt: 'Aerial view of dense green forest beside a dark river' }}
       >
         <p className="mt-8 inline-flex max-w-xl items-start gap-3 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100">
           <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />

@@ -1,3 +1,4 @@
+import { Render } from '@/components/Render'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
 import { teamReady } from '@/content/team'
@@ -18,6 +19,7 @@ export default function AboutPage() {
         eyebrow="About us"
         title={`Precision silicone, *since ${site.foundingYear}*`}
         intro={`MoMixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
+        visual={<Render name="extruder-line" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section>

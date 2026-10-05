@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CableAnatomy } from '@/components/CableAnatomy'
+import { Render } from '@/components/Render'
 import { MarketCard } from '@/components/charts'
 import { TabNav } from '@/components/TabNav'
 import { TemperatureRange } from '@/components/TemperatureRange'
@@ -45,6 +46,7 @@ export default async function ApplicationPage({ params }: Props) {
         eyebrow="Application"
         title={a.name}
         intro={a.tagline}
+        visual={<Render name={a.illustration} alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       >
         <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-400/10 px-3.5 py-1.5 text-xs font-medium text-brand-200">
           <span className="h-1.5 w-1.5 rounded-full bg-brand-300" aria-hidden="true" />

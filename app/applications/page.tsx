@@ -1,4 +1,5 @@
 import { collectionPage, JsonLd } from '@/components/JsonLd'
+import { Render } from '@/components/Render'
 import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
@@ -27,6 +28,7 @@ export default function ApplicationsPage() {
         eyebrow="Applications"
         title="One material, *many futures*"
         intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where MoMixx supplies today, and which markets are still new for us."
+        visual={<Render name="datacentre" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
       <TabNav tabs={applicationTabs} label="Applications">
         <Section>

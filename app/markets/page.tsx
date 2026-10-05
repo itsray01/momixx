@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Render } from '@/components/Render'
 import { GrowthChart, MarketCard } from '@/components/charts'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { applications } from '@/content/applications'
@@ -24,6 +25,7 @@ export default function MarketsPage() {
         eyebrow="Markets"
         title="The growth behind *silicone*"
         intro="Electrification, AI, healthcare and robotics all need materials that handle heat, movement and the human body. Here is how large those markets are expected to become, according to independent research firms."
+        visual={<Render name="globe" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section eyebrow="At a glance" title="Expected *growth*">

@@ -184,7 +184,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
         }}
         // A click on the dimmed page around the panel closes it.
         onClick={(e) => e.target === e.currentTarget && closeSearch()}
-        className="mx-auto mt-3 mb-auto w-[calc(100%-1.5rem)] max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-ink-950/95 p-0 text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-[opacity,translate] duration-300 ease-out backdrop:bg-ink-950/60 backdrop:backdrop-blur-[2px] starting:-tranzinc-y-2 starting:opacity-0 sm:mt-4 sm:w-[calc(100%-2rem)]"
+        className="mx-auto mt-3 mb-auto w-[calc(100%-1.5rem)] max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-ink-950/95 p-0 text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-[opacity,translate] duration-300 ease-out backdrop:bg-ink-950/60 backdrop:backdrop-blur-[2px] starting:-translate-y-2 starting:opacity-0 sm:mt-4 sm:w-[calc(100%-2rem)]"
       >
         <div className="flex items-center gap-3 border-b border-white/[0.08] py-2 pr-2 pl-5 sm:pl-6">
           <SearchIcon className="h-5 w-5 shrink-0 text-zinc-400" />

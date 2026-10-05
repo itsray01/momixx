@@ -133,7 +133,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
                     </option>
                   ))}
                 </select>
-                <svg viewBox="0 0 12 12" className="pointer-events-none absolute top-1/2 right-3 h-3 w-3 -tranzinc-y-1/2 text-white" aria-hidden="true">
+                <svg viewBox="0 0 12 12" className="pointer-events-none absolute top-1/2 right-3 h-3 w-3 -translate-y-1/2 text-white" aria-hidden="true">
                   <path d="M3.5 4.5l2.5 2.5 2.5-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
               </li>

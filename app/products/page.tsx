@@ -1,4 +1,5 @@
 import { collectionPage, JsonLd } from '@/components/JsonLd'
+import { Render } from '@/components/Render'
 import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
@@ -24,6 +25,7 @@ export default function ProductsPage() {
         title="Materials, machines and *services*"
         intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
         facts={order.map((cat) => ({ value: String(productsByCategory(cat).length), label: categoryLabels[cat].toLowerCase() }))}
+        visual={<Render name="samples" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
       <TabNav {...productNav()} label="Products">
         {order.map((cat, i) => (

@@ -92,7 +92,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     aria-label={`${i + 1}. ${p.name}`}
                     aria-pressed={selected === i}
                     style={{ left: `${p.photo.x}%`, top: `${p.photo.y}%`, scale: spot ? 1 / zoom : 1 }}
-                    className={`absolute flex h-8 w-8 -tranzinc-x-1/2 -tranzinc-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
+                    className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
                     {selected === null && <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full border border-brand-300/40 [animation-duration:2.4s]" />}
                     {i + 1}

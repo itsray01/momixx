@@ -81,6 +81,7 @@ export default function InnovationPage() {
         eyebrow="Research & innovation"
         title="Setting new standards *in silicone*"
         intro="Our research covers everything from what goes into the silicone, to how its surface looks and feels, to the machines that shape it."
+        visual={<Render name="extruder-vertical" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section>

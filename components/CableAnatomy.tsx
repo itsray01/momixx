@@ -84,7 +84,7 @@ export function CableAnatomy() {
                 onMouseEnter={() => setActive(l.id)}
                 onMouseLeave={() => setActive(null)}
                 style={{ left: `${h.x}%`, top: `${h.y}%` }}
-                className={`absolute -tranzinc-x-1/2 -tranzinc-y-1/2 ${markerClass(l.id, l.momixx)}`}
+                className={`absolute -translate-x-1/2 -translate-y-1/2 ${markerClass(l.id, l.momixx)}`}
               >
                 {i + 1}
               </span>

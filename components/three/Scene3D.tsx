@@ -47,7 +47,7 @@ function HeroStillPicture({ colour, onLoad }: { colour: CableColour; onLoad?: ()
     <picture>
       <source media="(min-width: 1024px)" srcSet={desktop} sizes="50vw" />
       <source srcSet={mobile} sizes="min(100vw, 560px)" />
-      <img {...rest} alt="" draggable={false} onLoad={onLoad} className="absolute inset-y-0 left-1/2 h-full w-auto max-w-none -tranzinc-x-1/2 select-none" />
+      <img {...rest} alt="" draggable={false} onLoad={onLoad} className="absolute inset-y-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 select-none" />
     </picture>
   )
 }
@@ -155,7 +155,7 @@ export function Scene3D({ className = '' }: { className?: string }) {
         <div
           onClick={() => cableColourStore.next()}
           style={{ transition: 'scale 1.6s cubic-bezier(0.22, 1, 0.36, 1), translate 1.6s cubic-bezier(0.22, 1, 0.36, 1)' }}
-          className={`relative h-full w-full cursor-pointer overflow-hidden ${hovering && !reduced ? '-tranzinc-y-2 scale-[1.025]' : ''}`}
+          className={`relative h-full w-full cursor-pointer overflow-hidden ${hovering && !reduced ? '-translate-y-2 scale-[1.025]' : ''}`}
         >
           <HeroStillPicture colour={cableColours[0]} />
           <ColourStills index={index} preloadAll={preload} />

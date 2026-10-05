@@ -56,6 +56,8 @@ The site has almost no photography. Real photos of the factory, machines, produc
 
 Then set the `photo`, `image`, `logo` or `file` field on the matching entry. See the README.
 
+Confirm the company holds the rights to the sustainability banner photo from the old website (it may be a stock image the previous agency licensed). It is served from `public/images/sustainability-banner.jpg`.
+
 ## 3. Claims for IPO counsel to review
 
 A listing candidate's website is usually treated as public communication during the IPO process. Have your advisers review these before launch. The wording on the site is already cautious ("to our knowledge", "in MoMixx testing"); each item below still needs evidence on file.

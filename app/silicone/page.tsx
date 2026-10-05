@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Render } from '@/components/Render'
 import { CableAnatomy } from '@/components/CableAnatomy'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
 import { TemperatureRange } from '@/components/TemperatureRange'
@@ -31,6 +32,7 @@ export default function SiliconePage() {
         eyebrow="Silicone 101"
         title="What is silicone, and why does it *matter?*"
         intro="Silicone is a flexible, heat-proof material made mostly from silicon and oxygen. You rarely notice it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
+        visual={<Render name="molecule" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section eyebrow="Not the same thing" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">

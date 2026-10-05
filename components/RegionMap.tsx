@@ -53,7 +53,7 @@ export function RegionMap({ links, className = '' }: { links?: Record<PinKey, st
       {pins.map((p) => {
         const href = links?.[p.key]
         const props = {
-          className: 'group absolute flex -tranzinc-x-[7px] -tranzinc-y-1/2 items-center gap-2.5 rounded-full outline-none',
+          className: 'group absolute flex -translate-x-[7px] -translate-y-1/2 items-center gap-2.5 rounded-full outline-none',
           style: { left: `${(x(p.lon) / view.width) * 100}%`, top: `${((y(p.lat) - view.top) / view.height) * 100}%` },
         }
         const content = (
