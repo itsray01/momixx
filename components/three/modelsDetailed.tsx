@@ -8,18 +8,18 @@ import { RoundedBox } from '@react-three/drei'
 import { useMemo } from 'react'
 import * as THREE from 'three'
 
-const TEAL = '#149f94'
-const TEAL_DARK = '#0e514e'
-const TEAL_LIGHT = '#6dd5c9'
+const SILICONE = '#e6e7e9'
+const GRAPHITE = '#3a3d42'
+const HIGHLIGHT = '#f4f5f6'
 
-function SiliconeSkin({ color = TEAL, roughness = 0.42 }: { color?: string; roughness?: number }) {
+function SiliconeSkin({ color = SILICONE, roughness = 0.42 }: { color?: string; roughness?: number }) {
   return <meshPhysicalMaterial color={color} roughness={roughness} sheen={0.8} sheenRoughness={0.5} sheenColor="#ffffff" clearcoat={0.35} clearcoatRoughness={0.4} />
 }
-function Shell({ color = '#eef2f5' }: { color?: string }) {
+function Shell({ color = '#eeeff1' }: { color?: string }) {
   return <meshPhysicalMaterial color={color} roughness={0.28} metalness={0.05} clearcoat={0.9} clearcoatRoughness={0.15} />
 }
 function Joint() {
-  return <meshStandardMaterial color="#1e2733" metalness={0.75} roughness={0.32} />
+  return <meshStandardMaterial color="#2a2c30" metalness={0.75} roughness={0.32} />
 }
 
 const up = new THREE.Vector3(0, 1, 0)
@@ -46,7 +46,7 @@ function Bellows({ p, r, rings, gap, rot = [0, 0, 0] }: { p: [number, number, nu
     <group position={p} rotation={rot}>
       <mesh>
         <cylinderGeometry args={[r * 0.82, r * 0.82, gap * rings, 32]} />
-        <SiliconeSkin color={TEAL_DARK} />
+        <SiliconeSkin color={GRAPHITE} />
       </mesh>
       {Array.from({ length: rings }, (_, k) => (
         <mesh key={k} position={[0, -((rings - 1) * gap) / 2 + k * gap, 0]} rotation={[Math.PI / 2, 0, 0]}>
@@ -71,12 +71,12 @@ export function HumanoidModel() {
         </mesh>
         <mesh scale={[0.635, 0.735, 0.675]}>
           <sphereGeometry args={[1, 64, 32, -0.85, 1.7, 1.05, 0.8]} />
-          <meshPhysicalMaterial color="#04070b" roughness={0.04} metalness={0.2} clearcoat={1} side={THREE.DoubleSide} />
+          <meshPhysicalMaterial color="#050505" roughness={0.04} metalness={0.2} clearcoat={1} side={THREE.DoubleSide} />
         </mesh>
         {[-0.2, 0.2].map((x) => (
           <mesh key={x} position={[x, 0.04, 0.6]} rotation={[0, 0, Math.PI / 2]}>
             <capsuleGeometry args={[0.035, 0.14, 6, 12]} />
-            <meshStandardMaterial color={TEAL_LIGHT} emissive={TEAL_LIGHT} emissiveIntensity={2.4} toneMapped={false} />
+            <meshStandardMaterial color={HIGHLIGHT} emissive={HIGHLIGHT} emissiveIntensity={2.4} toneMapped={false} />
           </mesh>
         ))}
         {[-1, 1].map((side) => (
@@ -93,16 +93,16 @@ export function HumanoidModel() {
         <Shell />
       </RoundedBox>
       <RoundedBox args={[0.9, 0.42, 0.06]} radius={0.03} smoothness={4} position={[0, 0.3, 0.41]}>
-        <meshPhysicalMaterial color="#04070b" roughness={0.05} clearcoat={1} />
+        <meshPhysicalMaterial color="#050505" roughness={0.05} clearcoat={1} />
       </RoundedBox>
       <mesh position={[0, 0.3, 0.448]}>
         <boxGeometry args={[0.62, 0.035, 0.01]} />
-        <meshStandardMaterial color={TEAL_LIGHT} emissive={TEAL_LIGHT} emissiveIntensity={2} toneMapped={false} />
+        <meshStandardMaterial color={HIGHLIGHT} emissive={HIGHLIGHT} emissiveIntensity={2} toneMapped={false} />
       </mesh>
       {/* Waist boot and hips */}
       <Bellows p={[0, -0.62, 0]} r={0.42} rings={4} gap={0.09} />
       <RoundedBox args={[1.1, 0.42, 0.7]} radius={0.18} smoothness={5} position={[0, -1.05, 0]}>
-        <Shell color="#dfe5ea" />
+        <Shell color="#e0e2e5" />
       </RoundedBox>
       {/* Shoulders */}
       {[-1, 1].map((side) => (
@@ -145,7 +145,7 @@ export function HumanoidModel() {
       </Limb>
       <group position={wrist} rotation={[-0.2, 0.75, -0.15]}>
         <RoundedBox args={[0.34, 0.12, 0.36]} radius={0.05} smoothness={4} position={[0, 0, 0.16]}>
-          <SiliconeSkin color="#2a3a44" roughness={0.6} />
+          <SiliconeSkin color="#3a3d42" roughness={0.6} />
         </RoundedBox>
         {[-0.12, -0.04, 0.04, 0.12].map((x, k) => (
           <group key={x} position={[x, 0, 0.36]} rotation={[-0.25 - k * 0.04, 0, 0]}>
@@ -185,7 +185,7 @@ export function WaferModel() {
     <group rotation={[0.95, -0.35, 0.12]} position={[0, -0.25, 0]} scale={1.08}>
       <mesh>
         <cylinderGeometry args={[1.75, 1.75, 0.05, 128]} />
-        <meshPhysicalMaterial color="#9aa7ba" metalness={0.85} roughness={0.16} iridescence={1} iridescenceIOR={1.6} iridescenceThicknessRange={[180, 620]} clearcoat={1} />
+        <meshPhysicalMaterial color="#a7acb2" metalness={0.85} roughness={0.16} iridescence={1} iridescenceIOR={1.6} iridescenceThicknessRange={[180, 620]} clearcoat={1} />
       </mesh>
       <instancedMesh
         args={[undefined, undefined, dies.length]}
@@ -200,19 +200,19 @@ export function WaferModel() {
         }}
       >
         <boxGeometry args={[0.235, 0.014, 0.235]} />
-        <meshPhysicalMaterial color="#5f7088" metalness={0.8} roughness={0.22} iridescence={1} iridescenceIOR={2} iridescenceThicknessRange={[260, 820]} />
+        <meshPhysicalMaterial color="#6e747c" metalness={0.8} roughness={0.22} iridescence={1} iridescenceIOR={2} iridescenceThicknessRange={[260, 820]} />
       </instancedMesh>
-      {/* The lifted chip, in a teal silicone-sealed package */}
+      {/* The lifted chip, in a graphite silicone-sealed package */}
       <group position={[0.85, 0.75, 0.75]} rotation={[-0.75, 0.5, 0.2]} scale={1.7}>
         <RoundedBox args={[0.62, 0.08, 0.62]} radius={0.02} smoothness={4}>
-          <meshStandardMaterial color="#173a33" roughness={0.6} />
+          <meshStandardMaterial color="#2a2c30" roughness={0.6} />
         </RoundedBox>
         <RoundedBox args={[0.4, 0.07, 0.4]} radius={0.015} smoothness={4} position={[0, 0.07, 0]}>
           <meshPhysicalMaterial color="#9aa5b6" metalness={1} roughness={0.15} iridescence={0.8} iridescenceIOR={1.8} />
         </RoundedBox>
         <mesh position={[0, 0.045, 0]} rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.27, 0.02, 10, 48]} />
-          <SiliconeSkin color={TEAL_LIGHT} />
+          <SiliconeSkin color={HIGHLIGHT} />
         </mesh>
       </group>
     </group>
@@ -283,11 +283,11 @@ export function DuneModel() {
         <group key={i} position={c.p} rotation={c.rot}>
           <mesh position={[0, c.h / 2, 0]}>
             <cylinderGeometry args={[c.r, c.r * 1.05, c.h, 6]} />
-            <meshPhysicalMaterial color="#e3f6f4" roughness={0.08} metalness={0.1} clearcoat={1} transparent opacity={0.78} emissive="#9fe3da" emissiveIntensity={0.08} />
+            <meshPhysicalMaterial color="#e8eaed" roughness={0.08} metalness={0.1} clearcoat={1} transparent opacity={0.78} emissive="#d5d8dc" emissiveIntensity={0.08} />
           </mesh>
           <mesh position={[0, c.h + c.r * 0.9, 0]}>
             <coneGeometry args={[c.r, c.r * 1.8, 6]} />
-            <meshPhysicalMaterial color="#e3f6f4" roughness={0.08} metalness={0.1} clearcoat={1} transparent opacity={0.78} emissive="#9fe3da" emissiveIntensity={0.08} />
+            <meshPhysicalMaterial color="#e8eaed" roughness={0.08} metalness={0.1} clearcoat={1} transparent opacity={0.78} emissive="#d5d8dc" emissiveIntensity={0.08} />
           </mesh>
         </group>
       ))}
@@ -310,7 +310,7 @@ export function SwatchFanModel() {
             </RoundedBox>
             <mesh position={[0, 0.1, 0.03]}>
               <circleGeometry args={[0.07, 24]} />
-              <meshStandardMaterial color="#0b1118" metalness={0.6} roughness={0.3} />
+              <meshStandardMaterial color="#121416" metalness={0.6} roughness={0.3} />
             </mesh>
           </group>
         )
@@ -340,10 +340,10 @@ export function MedicalTubingModel() {
   return (
     <group rotation={[0.2, -0.3, 0]} position={[0, 0, 0]}>
       <mesh geometry={tube}>
-        <meshPhysicalMaterial color="#eaf7f5" roughness={0.2} clearcoat={0.9} transparent opacity={0.5} depthWrite={false} />
+        <meshPhysicalMaterial color="#e8eaed" roughness={0.2} clearcoat={0.9} transparent opacity={0.5} depthWrite={false} />
       </mesh>
       <mesh geometry={inner}>
-        <meshStandardMaterial color="#34bdb0" roughness={0.35} transparent opacity={0.55} />
+        <meshStandardMaterial color="#c5c8cc" roughness={0.35} transparent opacity={0.55} />
       </mesh>
       {/* Luer connector at the free end */}
       <group position={[0.2, 1.5, 0.45]} rotation={[0, 0, 1.1]}>
@@ -353,7 +353,7 @@ export function MedicalTubingModel() {
         </mesh>
         <mesh position={[0, 0.42, 0]}>
           <cylinderGeometry args={[0.22, 0.22, 0.12, 6]} />
-          <meshPhysicalMaterial color={TEAL} roughness={0.35} clearcoat={0.5} />
+          <meshPhysicalMaterial color={SILICONE} roughness={0.35} clearcoat={0.5} />
         </mesh>
         <mesh position={[0, 0.56, 0]}>
           <coneGeometry args={[0.08, 0.22, 24]} />
@@ -364,11 +364,11 @@ export function MedicalTubingModel() {
       <group position={[1.6, -1.1, 0.9]} rotation={[0.3, 0.4, -0.2]}>
         <mesh>
           <cylinderGeometry args={[0.3, 0.3, 0.12, 40]} />
-          <SiliconeSkin color={TEAL} />
+          <SiliconeSkin color={SILICONE} />
         </mesh>
         <mesh position={[0, 0.22, 0]} scale={[1, 1.1, 0.55]}>
           <sphereGeometry args={[0.22, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
-          <SiliconeSkin color={TEAL_LIGHT} />
+          <SiliconeSkin color={HIGHLIGHT} />
         </mesh>
       </group>
     </group>

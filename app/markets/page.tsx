@@ -28,7 +28,7 @@ export default function MarketsPage() {
 
       <Section eyebrow="At a glance" title="Expected *growth*">
         <GrowthChart markets={addressable} />
-        <p className="mt-4 text-xs text-slate-400">Humanoid robots are not shown: the source gives a market size for 2035, not a growth rate.</p>
+        <p className="mt-4 text-xs text-zinc-400">Humanoid robots are not shown: the source gives a market size for 2035, not a growth rate.</p>
       </Section>
 
       <Section tone="muted" eyebrow="Market by market" title="Market sizes and *sources*">
@@ -37,7 +37,7 @@ export default function MarketsPage() {
             <div key={m.id} className="flex flex-col gap-2">
               <MarketCard market={m} />
               {appsFor(m.id).length > 0 && (
-                <p className="px-1 text-xs text-slate-500">
+                <p className="px-1 text-xs text-zinc-500">
                   Related:{' '}
                   {appsFor(m.id).map((a, i) => (
                     <span key={a.slug}>
@@ -61,9 +61,9 @@ export default function MarketsPage() {
           ))}
           <article className="card flex flex-col p-6">
             <h3 className="text-lg font-semibold">Recycled silicone</h3>
-            <p className="mt-1 text-sm text-slate-500">An early-stage market with no reliable published size yet.</p>
-            <p className="mt-5 text-sm leading-relaxed text-slate-400">{recyclingFacts.summary}</p>
-            <p className="mt-auto pt-5 text-xs text-slate-400">
+            <p className="mt-1 text-sm text-zinc-500">An early-stage market with no reliable published size yet.</p>
+            <p className="mt-5 text-sm leading-relaxed text-zinc-400">{recyclingFacts.summary}</p>
+            <p className="mt-auto pt-5 text-xs text-zinc-400">
               Source:{' '}
               <a href={recyclingFacts.source.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                 {recyclingFacts.source.publisher}
@@ -78,7 +78,7 @@ export default function MarketsPage() {
         <div className="card overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
             <caption className="sr-only">Market size estimates and sources</caption>
-            <thead className="border-b border-white/10 bg-white/[0.03] text-xs tracking-wide text-slate-500 uppercase">
+            <thead className="border-b border-white/10 bg-white/[0.03] text-xs tracking-wide text-zinc-500 uppercase">
               <tr>
                 <th scope="col" className="px-5 py-3 font-semibold">Market</th>
                 <th scope="col" className="px-5 py-3 text-right font-semibold">Current</th>
@@ -98,14 +98,14 @@ export default function MarketsPage() {
                     <a href={m.source.url} target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:underline">
                       {m.source.publisher}
                     </a>
-                    <span className="text-slate-400">, {m.source.date}</span>
+                    <span className="text-zinc-400">, {m.source.date}</span>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="mt-6 max-w-4xl text-xs leading-relaxed text-slate-500">{marketDisclaimer}</p>
+        <p className="mt-6 max-w-4xl text-xs leading-relaxed text-zinc-500">{marketDisclaimer}</p>
       </Section>
 
       <CtaBand title="Materials for *your industry*" body="Talk to our team about silicone for your market, from charging cables to medical parts." secondary={{ href: '/applications', label: 'All applications' }} />

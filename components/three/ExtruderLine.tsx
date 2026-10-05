@@ -8,7 +8,7 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { Box, Glass, Heat, Mat, Part, Screen, Wheel, type Finish, type PartState } from './machineParts'
-import { TEAL, TEAL_LIGHT } from './Studio'
+import { HIGHLIGHT, SILICONE } from './Studio'
 
 const v = (x: number, y: number, z = 0) => new THREE.Vector3(x, y, z)
 
@@ -157,11 +157,11 @@ export function ExtruderLineModel({
       {/* Floor plinth */}
       <mesh position={tower ? [-1.75, -0.08, -0.4] : [0.35, -0.08, -0.35]} receiveShadow>
         <boxGeometry args={tower ? [3.4, 0.16, 2.2] : [11.2, 0.16, 2.6]} />
-        <meshStandardMaterial color="#0c1219" metalness={0.3} roughness={0.7} />
+        <meshStandardMaterial color="#101214" metalness={0.3} roughness={0.7} />
       </mesh>
       <mesh position={tower ? [-1.75, 0.002, 0.7] : [0.35, 0.002, 0.95]}>
         <boxGeometry args={[tower ? 3.4 : 11.2, 0.004, 0.02]} />
-        <meshStandardMaterial color={TEAL_LIGHT} emissive={TEAL_LIGHT} emissiveIntensity={0.8} toneMapped={false} />
+        <meshStandardMaterial color={HIGHLIGHT} emissive={HIGHLIGHT} emissiveIntensity={0.8} toneMapped={false} />
       </mesh>
 
       {/* Bare wire in, silicone cable out, with markings that travel along it */}
@@ -169,7 +169,7 @@ export function ExtruderLineModel({
         <meshStandardMaterial key={lineState} color="#d08a52" metalness={0.6} roughness={0.3} transparent={lineState === 'dim'} opacity={lineState === 'dim' ? 0.55 : 1} />
       </mesh>
       <mesh geometry={cableGeo}>
-        <meshStandardMaterial key={lineState} color={TEAL} roughness={0.35} metalness={0.05} transparent={lineState === 'dim'} opacity={lineState === 'dim' ? 0.55 : 1} />
+        <meshStandardMaterial key={lineState} color={SILICONE} roughness={0.35} metalness={0.05} transparent={lineState === 'dim'} opacity={lineState === 'dim' ? 0.55 : 1} />
       </mesh>
       <instancedMesh ref={marks} args={[undefined, undefined, markCount]}>
         <torusGeometry args={[0.036, 0.008, 6, 20]} />
@@ -195,7 +195,7 @@ export function ExtruderLineModel({
         <Box p={[-2.75, 0.12, -0.95]} size={[1.0, 0.24, 0.62]} f="graphite" s={st(1)} />
         {[
           { x: -3.0, f: 'white' as Finish },
-          { x: -2.5, f: 'teal' as Finish },
+          { x: -2.5, f: 'silicone' as Finish },
         ].map((d, k) => (
           <group key={d.x} position={[d.x, 0.62, -0.95]}>
             <mesh>
@@ -218,7 +218,7 @@ export function ExtruderLineModel({
         ))}
         <Box p={[-2.75, 0.5, -0.55]} size={[0.32, 0.3, 0.24]} f="panel" s={st(1)} />
         <mesh geometry={hoseGeo}>
-          <Mat f="teal" s={st(1)} />
+          <Mat f="silicone" s={st(1)} />
         </mesh>
       </Part>
 
@@ -327,7 +327,7 @@ export function ExtruderLineModel({
       {show(5) && (
         <Part i={5} s={st(5)} onSelect={onSelect} onHover={onHover}>
         <Box p={[4.3, 0.47, -0.1]} size={[1.05, 0.94, 0.7]} f="cabinet" s={st(5)} />
-        <Box p={[4.1, 1.15, 0]} size={[0.5, 0.42, 0.5]} f="teal" s={st(5)} />
+        <Box p={[4.1, 1.15, 0]} size={[0.5, 0.42, 0.5]} f="silicone" s={st(5)} />
         <mesh position={[4.1, 1.27, 0.252]}>
           <boxGeometry args={[0.32, 0.1, 0.01]} />
           <Screen s={st(5)} />
@@ -351,7 +351,7 @@ export function ExtruderLineModel({
       {show(6) && (
         <Part i={6} s={st(6)} onSelect={onSelect} onHover={onHover}>
         <Box p={[5.15, 0.06, -0.05]} size={[1.1, 0.12, 1.05]} f="cabinet" s={st(6)} />
-        <Spool p={[5.15, 0.72, 0]} flange={0.48} core={0.14} wound={0.38} windFinish="teal" s={st(6)} spin={winder} />
+        <Spool p={[5.15, 0.72, 0]} flange={0.48} core={0.14} wound={0.38} windFinish="silicone" s={st(6)} spin={winder} />
         <Box p={[5.62, 1.15, -0.4]} size={[0.06, 1.6, 0.06]} f="brushed" s={st(6)} />
         <Box p={[5.35, 1.9, -0.4]} size={[0.6, 0.06, 0.06]} f="brushed" s={st(6)} />
         <Box p={[5.12, 1.82, -0.2]} size={[0.16, 0.14, 0.34]} f="dark" s={st(6)} />

@@ -18,13 +18,13 @@ export function CableColourPicker({ className = '' }: { className?: string }) {
             onClick={() => cableColourStore.set(i)}
             style={{ backgroundColor: c.swatch }}
             className={`h-6 w-6 rounded-full transition-[box-shadow,scale] duration-200 hover:scale-110 lg:h-5 lg:w-5 ${
-              i === index ? 'shadow-[0_0_0_2px_#05070a,0_0_0_3.5px_#ffffff]' : 'shadow-[inset_0_0_0_1px_rgb(255_255_255/0.2)]'
+              i === index ? 'shadow-[0_0_0_2px_#050505,0_0_0_3.5px_#ffffff]' : 'shadow-[inset_0_0_0_1px_rgb(255_255_255/0.2)]'
             }`}
           />
         ))}
       </div>
-      <p aria-live="polite" className="text-center text-xs text-slate-500">
-        <span className="font-medium text-slate-200">{cableColours[index].name}</span>
+      <p aria-live="polite" className="text-center text-xs text-zinc-500">
+        <span className="font-medium text-zinc-200">{cableColours[index].name}</span>
         <span className="mx-1.5" aria-hidden="true">
           ·
         </span>

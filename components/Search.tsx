@@ -169,7 +169,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
         onFocus={prefetch}
         aria-label="Search"
         aria-haspopup="dialog"
-        className="inline-flex h-10 w-10 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] text-slate-300 transition-colors hover:text-white lg:w-auto lg:border-transparent lg:bg-transparent lg:px-3 lg:hover:bg-white/[0.06]"
+        className="inline-flex h-10 w-10 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] text-zinc-300 transition-colors hover:text-white lg:w-auto lg:border-transparent lg:bg-transparent lg:px-3 lg:hover:bg-white/[0.06]"
       >
         <SearchIcon className="h-[18px] w-[18px]" />
         <span className="hidden text-sm xl:inline">Search</span>
@@ -184,10 +184,10 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
         }}
         // A click on the dimmed page around the panel closes it.
         onClick={(e) => e.target === e.currentTarget && closeSearch()}
-        className="mx-auto mt-3 mb-auto w-[calc(100%-1.5rem)] max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-ink-950/95 p-0 text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-[opacity,translate] duration-300 ease-out backdrop:bg-ink-950/60 backdrop:backdrop-blur-[2px] starting:-translate-y-2 starting:opacity-0 sm:mt-4 sm:w-[calc(100%-2rem)]"
+        className="mx-auto mt-3 mb-auto w-[calc(100%-1.5rem)] max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-ink-950/95 p-0 text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-[opacity,translate] duration-300 ease-out backdrop:bg-ink-950/60 backdrop:backdrop-blur-[2px] starting:-tranzinc-y-2 starting:opacity-0 sm:mt-4 sm:w-[calc(100%-2rem)]"
       >
         <div className="flex items-center gap-3 border-b border-white/[0.08] py-2 pr-2 pl-5 sm:pl-6">
-          <SearchIcon className="h-5 w-5 shrink-0 text-slate-400" />
+          <SearchIcon className="h-5 w-5 shrink-0 text-zinc-400" />
           <input
             ref={inputRef}
             type="search"
@@ -206,13 +206,13 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
             aria-autocomplete="list"
             autoComplete="off"
             spellCheck={false}
-            className="h-12 min-w-0 flex-1 bg-transparent text-lg font-medium tracking-[-0.01em] text-white placeholder:font-normal placeholder:text-slate-500 focus:outline-none sm:text-xl [&::-webkit-search-cancel-button]:hidden"
+            className="h-12 min-w-0 flex-1 bg-transparent text-lg font-medium tracking-[-0.01em] text-white placeholder:font-normal placeholder:text-zinc-500 focus:outline-none sm:text-xl [&::-webkit-search-cancel-button]:hidden"
           />
           <button
             type="button"
             onClick={closeSearch}
             aria-label="Close search"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-slate-300 transition-colors hover:text-white"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-zinc-300 transition-colors hover:text-white"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -221,9 +221,9 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
         </div>
 
         <div ref={resultsRef} className="max-h-[min(62vh,34rem)] overflow-y-auto px-3 py-5 sm:px-4">
-          {!index && !failed && <p className="px-3 text-sm text-slate-500">Loading…</p>}
+          {!index && !failed && <p className="px-3 text-sm text-zinc-500">Loading…</p>}
           {failed && (
-            <p className="px-3 text-sm text-slate-400">
+            <p className="px-3 text-sm text-zinc-400">
               Search isn’t available right now.{' '}
               <button type="button" onClick={prefetch} className="text-brand-300 underline underline-offset-2">
                 Try again
@@ -232,15 +232,15 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
           )}
           {index && typed && !flat.length && (
             <div className="px-3">
-              <p className="text-[15px] text-slate-200">No results for “{typed}”.</p>
-              <p className="mt-1 text-[13px] text-slate-500">Try a product name, a material such as LSR, or a topic such as recycling.</p>
+              <p className="text-[15px] text-zinc-200">No results for “{typed}”.</p>
+              <p className="mt-1 text-[13px] text-zinc-500">Try a product name, a material such as LSR, or a topic such as recycling.</p>
             </div>
           )}
           {flat.length > 0 && (
             <div id="search-results" role="listbox" aria-label="Search results" className={`grid gap-x-6 gap-y-6 ${typed ? 'lg:grid-cols-2' : ''}`}>
               {sections.map((s, si) => (
                 <div key={s.title} role="group" aria-labelledby={`search-group-${si}`} className="min-w-0">
-                  <p id={`search-group-${si}`} className="px-3 text-[11px] font-medium tracking-[0.16em] text-slate-500 uppercase">
+                  <p id={`search-group-${si}`} className="px-3 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">
                     {s.title}
                   </p>
                   <div className={`mt-2 grid grid-cols-1 gap-0.5 ${typed ? '' : 'sm:grid-cols-2'}`}>
@@ -261,8 +261,8 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
                           className={`flex min-w-0 items-center justify-between gap-4 rounded-xl px-3 py-2.5 transition-colors ${on ? 'bg-white/[0.06]' : ''}`}
                         >
                           <span className="min-w-0">
-                            <span className="block truncate text-[15px] font-medium text-slate-100">{r.title}</span>
-                            {r.desc && <span className="mt-0.5 line-clamp-1 text-[13px] text-slate-500">{r.desc}</span>}
+                            <span className="block truncate text-[15px] font-medium text-zinc-100">{r.title}</span>
+                            {r.desc && <span className="mt-0.5 line-clamp-1 text-[13px] text-zinc-500">{r.desc}</span>}
                           </span>
                           <span aria-hidden="true" className={`shrink-0 text-brand-300 transition-opacity ${on ? 'opacity-100' : 'opacity-0'}`}>
                             →
@@ -277,7 +277,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
           )}
         </div>
 
-        <p className="border-t border-white/[0.08] px-6 py-4 text-[13px] text-slate-400">
+        <p className="border-t border-white/[0.08] px-6 py-4 text-[13px] text-zinc-400">
           Can’t find what you need?{' '}
           <Link href="/contact" onClick={closeSearch} className="font-medium text-brand-300 hover:text-brand-200">
             Contact our team <span aria-hidden="true">→</span>

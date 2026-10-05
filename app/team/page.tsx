@@ -52,9 +52,9 @@ export default function TeamPage() {
                   </div>
                 )}
               </div>
-              <h2 className={`mt-5 text-xl font-semibold ${m.placeholder ? 'text-slate-400' : ''}`}>{m.name}</h2>
+              <h2 className={`mt-5 text-xl font-semibold ${m.placeholder ? 'text-zinc-400' : ''}`}>{m.name}</h2>
               <p className="text-sm font-semibold text-brand-300">{m.role}</p>
-              <p className={`mt-3 text-sm leading-relaxed ${m.placeholder ? 'text-slate-400 italic' : 'text-slate-400'}`}>{m.bio}</p>
+              <p className={`mt-3 text-sm leading-relaxed ${m.placeholder ? 'text-zinc-400 italic' : 'text-zinc-400'}`}>{m.bio}</p>
               {m.linkedin && (
                 <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm font-semibold text-brand-300 hover:underline">
                   LinkedIn

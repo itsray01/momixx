@@ -33,12 +33,12 @@ export default function NewsroomPage() {
           <ul className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
             {announcements.map((n) => (
               <li key={n.slug} id={n.slug} className="grid scroll-mt-28 gap-3 py-8 sm:grid-cols-[12rem_1fr] sm:gap-10">
-                <time dateTime={n.date} className="text-sm text-slate-400">
+                <time dateTime={n.date} className="text-sm text-zinc-400">
                   {formatDate(n.date)}
                 </time>
                 <div>
                   <h3 className="text-2xl font-semibold tracking-[-0.03em]">{n.title}</h3>
-                  <p className="mt-3 max-w-3xl leading-relaxed text-slate-300">{n.summary}</p>
+                  <p className="mt-3 max-w-3xl leading-relaxed text-zinc-300">{n.summary}</p>
                   {n.href && (
                     <a
                       href={n.href}
@@ -63,7 +63,7 @@ export default function NewsroomPage() {
                 <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-300" />
                 {m.year}
               </h3>
-              <ul className="space-y-2 text-lg text-slate-300">
+              <ul className="space-y-2 text-lg text-zinc-300">
                 {m.items.map((it) => (
                   <li key={it}>{it}</li>
                 ))}
@@ -92,7 +92,7 @@ export default function NewsroomPage() {
       )}
 
       <Section id="media" tone={mediaTone} eyebrow="Media" title="Media *enquiries*">
-        <p className="max-w-2xl text-lg leading-relaxed text-slate-300">
+        <p className="max-w-2xl text-lg leading-relaxed text-zinc-300">
           For interviews, information and images, email{' '}
           <a
             href={`mailto:${mediaEmail}?subject=${encodeURIComponent('Media enquiry')}`}

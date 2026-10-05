@@ -81,20 +81,20 @@ export default function LocationsPage() {
         <ul className="grid gap-5 lg:grid-cols-2">
           {sites.map((s) => (
             <li key={s.id} id={s.id} className={`card flex scroll-mt-28 flex-col p-8 sm:p-10 ${'wide' in s ? 'lg:col-span-2' : ''}`}>
-              <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">{s.role}</p>
+              <p className="text-xs font-medium tracking-[0.16em] text-zinc-400 uppercase">{s.role}</p>
               <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">{s.name}</h3>
-              <address className="mt-3 text-sm leading-relaxed text-slate-400 not-italic">
+              <address className="mt-3 text-sm leading-relaxed text-zinc-400 not-italic">
                 {s.address.map((line) => (
                   <span key={line} className="block">
                     {line}
                   </span>
                 ))}
               </address>
-              <p className="mt-6 leading-relaxed text-slate-300">{s.summary}</p>
+              <p className="mt-6 leading-relaxed text-zinc-300">{s.summary}</p>
               <dl className={`mt-8 grid flex-1 content-start gap-x-6 gap-y-4 border-t border-white/[0.08] pt-6 sm:grid-cols-2 ${'wide' in s ? 'lg:grid-cols-3' : ''}`}>
                 {s.facts.map((f) => (
                   <div key={f.label}>
-                    <dt className="text-xs text-slate-500">{f.label}</dt>
+                    <dt className="text-xs text-zinc-500">{f.label}</dt>
                     <dd className="mt-1 text-sm font-medium text-white">
                       {'href' in f && f.href ? (
                         <a href={f.href} className="underline decoration-white/20 underline-offset-4 hover:decoration-brand-300">
@@ -117,7 +117,7 @@ export default function LocationsPage() {
 
       <Section eyebrow="Worldwide" title="Serving customers *worldwide*">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-          <p className="text-lg leading-relaxed text-slate-300">
+          <p className="text-lg leading-relaxed text-zinc-300">
             We build for international markets and international standards. Our recycled silicone is certified under GRS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
           </p>
           <div className="flex flex-wrap gap-6 lg:justify-end">

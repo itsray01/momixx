@@ -22,7 +22,7 @@ export default function AboutPage() {
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
-          <div className="space-y-5 text-lg leading-relaxed text-slate-200">
+          <div className="space-y-5 text-lg leading-relaxed text-zinc-200">
             <p>
               We started by making flame-retardant silicone for smartphone charging cables. Within a year, it was qualified by a leading smartphone
               brand. Since then we have grown into three connected businesses: silicone materials, the machines that shape them, and making finished
@@ -60,7 +60,7 @@ export default function AboutPage() {
                 <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-300" />
                 {m.year}
               </h3>
-              <ul className="space-y-2 text-lg text-slate-300">
+              <ul className="space-y-2 text-lg text-zinc-300">
                 {m.items.map((it) => (
                   <li key={it}>{it}</li>
                 ))}
@@ -74,9 +74,9 @@ export default function AboutPage() {
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {site.locations.map((l) => (
             <li key={l.name} className="card lift p-7">
-              <p className="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">{l.role}</p>
+              <p className="text-xs font-medium tracking-[0.16em] text-zinc-400 uppercase">{l.role}</p>
               <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{l.name}</h3>
-              <p className="mt-2 text-sm text-slate-400">{l.detail}</p>
+              <p className="mt-2 text-sm text-zinc-400">{l.detail}</p>
             </li>
           ))}
         </ul>

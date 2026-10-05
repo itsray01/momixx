@@ -48,9 +48,9 @@ export default function SiliconePage() {
         <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((p, i) => (
             <div key={p.title} className="bg-ink-950 p-8">
-              <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
+              <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
               <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">{p.title}</h3>
-              <p className="mt-2 leading-relaxed text-slate-400">{p.body}</p>
+              <p className="mt-2 leading-relaxed text-zinc-400">{p.body}</p>
             </div>
           ))}
         </div>
@@ -70,9 +70,9 @@ export default function SiliconePage() {
             <Link key={a.slug} href={`/applications/${a.slug}`} className="group card lift flex items-center gap-5 overflow-hidden p-6">
               <div className="min-w-0">
                 <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
-                <p className="mt-1 text-sm text-slate-400">{a.examples.slice(0, 3).join(' · ')}</p>
+                <p className="mt-1 text-sm text-zinc-400">{a.examples.slice(0, 3).join(' · ')}</p>
               </div>
-              <Arrow className="ml-auto shrink-0 text-slate-500 group-hover:text-brand-300" />
+              <Arrow className="ml-auto shrink-0 text-zinc-500 group-hover:text-brand-300" />
             </Link>
           ))}
         </div>

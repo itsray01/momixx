@@ -69,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
               {p.photo ? (
                 <figure className="card relative mb-10 overflow-hidden">
                   <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" loading="eager" fetchPriority="high" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
-                  <figcaption className="absolute bottom-4 left-5 text-xs text-slate-400">{p.photo.caption}</figcaption>
+                  <figcaption className="absolute bottom-4 left-5 text-xs text-zinc-400">{p.photo.caption}</figcaption>
                 </figure>
               ) : (
                 p.illustration && (
@@ -83,7 +83,7 @@ export default async function ProductPage({ params }: Props) {
                 )
               )}
               <p className="eyebrow">Overview</p>
-              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{p.summary}</p>
+              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-zinc-100 sm:text-[1.7rem]">{p.summary}</p>
               {p.recycledOption && (
                 <p className="mt-8 rounded-2xl border border-brand-400/25 bg-brand-400/10 p-5 text-sm text-brand-100">
                   <strong>Also available with recycled content.</strong> <Link href="/recycled-silicone" className="underline underline-offset-2">How our recycled silicone works</Link>
@@ -105,7 +105,7 @@ export default async function ProductPage({ params }: Props) {
                           <span className="block aspect-[4/3] overflow-hidden">
                             <Render name={a.illustration} sizes="(min-width: 1024px) 12rem, (min-width: 640px) 30vw, 45vw" className="transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
                           </span>
-                          <span className="px-3 pb-3 text-sm font-medium text-slate-200 group-hover:text-white">{a.tabLabel}</span>
+                          <span className="px-3 pb-3 text-sm font-medium text-zinc-200 group-hover:text-white">{a.tabLabel}</span>
                         </Link>
                       </li>
                     ))}
@@ -113,7 +113,7 @@ export default async function ProductPage({ params }: Props) {
                   {p.uses && (
                     <ul className="mt-5 flex flex-wrap gap-2">
                       {p.uses.map((u) => (
-                        <li key={u} className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">
+                        <li key={u} className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300">
                           {u}
                         </li>
                       ))}
@@ -123,7 +123,7 @@ export default async function ProductPage({ params }: Props) {
               ) : p.uses && (
                 <div className="card p-7">
                   <h2 className="text-base font-semibold">Used in</h2>
-                  <ul className="mt-4 space-y-2.5 text-slate-300">
+                  <ul className="mt-4 space-y-2.5 text-zinc-300">
                     {p.uses.map((u) => (
                       <li key={u} className="flex gap-2.5">
                         <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
@@ -173,7 +173,7 @@ export default async function ProductPage({ params }: Props) {
               {p.models && (
                 <div className="card overflow-x-auto">
                   <table className="w-full text-left text-sm">
-                    <thead className="border-b border-white/10 text-xs tracking-[0.14em] text-slate-500 uppercase">
+                    <thead className="border-b border-white/10 text-xs tracking-[0.14em] text-zinc-500 uppercase">
                       <tr>
                         <th scope="col" className="px-6 py-4 font-medium">Version</th>
                         <th scope="col" className="px-6 py-4 font-medium">Form</th>
@@ -189,7 +189,7 @@ export default async function ProductPage({ params }: Props) {
                               {types[m.type]?.name ?? m.type}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-slate-200">{m.properties}</td>
+                          <td className="px-6 py-4 text-zinc-200">{m.properties}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -200,14 +200,14 @@ export default async function ProductPage({ params }: Props) {
                 <dl className="card grid gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
                   {p.specs.map((s) => (
                     <div key={s.label} className="bg-ink-900 p-6">
-                      <dt className="text-xs tracking-[0.14em] text-slate-500 uppercase">{s.label}</dt>
+                      <dt className="text-xs tracking-[0.14em] text-zinc-500 uppercase">{s.label}</dt>
                       <dd className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{s.value}</dd>
                     </div>
                   ))}
                 </dl>
               )}
               {p.models && (
-                <div className="space-y-4 text-sm text-slate-400">
+                <div className="space-y-4 text-sm text-zinc-400">
                   {p.processing && (
                     <p>
                       <span className="font-semibold text-white">How it’s used:</span> {p.processing}
@@ -236,7 +236,7 @@ export default async function ProductPage({ params }: Props) {
                     <Link href={`/applications/${a.slug}`} className="group card lift flex h-full items-center justify-between gap-6 overflow-hidden p-6">
                       <div>
                         <h3 className="font-semibold tracking-[-0.02em]">{a.name}</h3>
-                        <p className="mt-1 text-sm text-slate-400">{a.tagline}</p>
+                        <p className="mt-1 text-sm text-zinc-400">{a.tagline}</p>
                       </div>
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors group-hover:border-brand-300 group-hover:bg-brand-300 group-hover:text-ink-950">
                         <Arrow />

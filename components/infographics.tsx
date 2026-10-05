@@ -19,10 +19,10 @@ export function RecycleSteps({ compact = false }: { compact?: boolean }) {
     <ol data-reveal="stagger" className="relative space-y-0">
       {recycleSteps.map((s, i) => (
         <li key={s.title} className="group relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0">
-          <span className="font-mono text-sm text-slate-500">0{i + 1}</span>
+          <span className="font-mono text-sm text-zinc-500">0{i + 1}</span>
           <div>
             <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
-            {!compact && <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{s.body}</p>}
+            {!compact && <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{s.body}</p>}
           </div>
         </li>
       ))}
@@ -39,10 +39,10 @@ export function StepFlow({ steps }: { steps: Array<{ title: string; body: string
       {steps.map((s, i) => (
         <li key={s.title} className="relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0 lg:block lg:border-white/15 lg:py-0 lg:pt-6 lg:first:border-t">
           <span aria-hidden="true" className="absolute -top-[3px] left-0 hidden h-1.5 w-1.5 rounded-full bg-brand-300 lg:block" />
-          <span className="font-mono text-sm text-slate-500">0{i + 1}</span>
+          <span className="font-mono text-sm text-zinc-500">0{i + 1}</span>
           <div className="lg:mt-4">
             <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{s.body}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{s.body}</p>
           </div>
         </li>
       ))}
@@ -57,13 +57,13 @@ export function RecycleFlow() {
       <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-5">
         {recycleSteps.map((s, i) => (
           <li key={s.title} className="bg-ink-950 p-7">
-            <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
+            <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
             <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-white">{s.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.body}</p>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">{s.body}</p>
           </li>
         ))}
       </ol>
-      <p className="mt-6 text-sm text-slate-400">
+      <p className="mt-6 text-sm text-zinc-400">
         Recycled content certified under <span className="text-white">{recyclingCertificationNames}</span>
       </p>
     </div>
@@ -94,10 +94,10 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
           <div className="max-w-2xl">
             <p className="eyebrow">{eyebrow}</p>
             <h2 className="display-lg mt-5">{rich(title)}</h2>
-            <p className="mt-4 text-lg leading-relaxed text-slate-400">{intro}</p>
+            <p className="mt-4 text-lg leading-relaxed text-zinc-400">{intro}</p>
           </div>
           <div className="hidden w-64 shrink-0 lg:block" aria-hidden="true">
-            <div className="flex justify-between font-mono text-xs text-slate-500">
+            <div className="flex justify-between font-mono text-xs text-zinc-500">
               <span>01</span>
               <span>0{journey.length}</span>
             </div>
@@ -118,11 +118,11 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
                 </div>
                 <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-slate-500">Step 0{i + 1}</span>
+                    <span className="font-mono text-xs text-zinc-500">Step 0{i + 1}</span>
                     {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">MoMixx</span>}
                   </div>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">{step.body}</p>
                 </div>
               </li>
             ))}
@@ -161,7 +161,7 @@ export function SiliconVsSilicone() {
           <div className="p-8">
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="display-md">{c.name}</h3>
-              <span className="font-serif text-2xl text-slate-400 italic">{c.formula}</span>
+              <span className="font-serif text-2xl text-zinc-400 italic">{c.formula}</span>
             </div>
             <dl className="mt-6 space-y-4 text-sm">
               {(
@@ -172,8 +172,8 @@ export function SiliconVsSilicone() {
                 ] as const
               ).map(([k, val]) => (
                 <div key={k} className="grid grid-cols-[9rem_1fr] gap-4 border-t border-white/[0.06] pt-4">
-                  <dt className="text-slate-500">{k}</dt>
-                  <dd className="leading-relaxed text-slate-200">{val}</dd>
+                  <dt className="text-zinc-500">{k}</dt>
+                  <dd className="leading-relaxed text-zinc-200">{val}</dd>
                 </div>
               ))}
             </dl>

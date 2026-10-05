@@ -60,7 +60,7 @@ export default function RecycledSiliconePage() {
 
       <Section eyebrow="The problem" title="Very little silicone is *recycled today*">
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="space-y-4 text-lg leading-relaxed text-slate-200">
+          <div className="space-y-4 text-lg leading-relaxed text-zinc-200">
             <p>{recyclingFacts.summary}</p>
             <p>{recyclingFacts.landfill.text}</p>
             <p>
@@ -72,20 +72,20 @@ export default function RecycledSiliconePage() {
             <div className="mt-6 space-y-5">
               <div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Produced worldwide</span>
+                  <span className="text-zinc-400">Produced worldwide</span>
                   <span className="font-semibold text-white">{recyclingFacts.producedTonnes}</span>
                 </div>
                 <div data-grow className="mt-3 h-7 w-full rounded-r-[4px] bg-[#5a6474]" role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
               </div>
               <div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Chemically recycled</span>
+                  <span className="text-zinc-400">Chemically recycled</span>
                   <span className="font-semibold text-white">{recyclingFacts.recycledTonnes}</span>
                 </div>
                 <div data-grow className="mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] bg-[#e4e4e7]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
               </div>
             </div>
-            <p className="mt-6 text-xs text-slate-400">
+            <p className="mt-6 text-xs text-zinc-400">
               Bars to scale. Source:{' '}
               <a href={recyclingFacts.source.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                 {recyclingFacts.source.publisher}
@@ -101,11 +101,11 @@ export default function RecycledSiliconePage() {
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           <div className="card p-7">
             <h3 className="font-semibold">Factory scrap</h3>
-            <p className="mt-2 text-slate-400">Offcuts and rejected parts collected from factories before the silicone ever reaches a shop.</p>
+            <p className="mt-2 text-zinc-400">Offcuts and rejected parts collected from factories before the silicone ever reaches a shop.</p>
           </div>
           <div className="card p-7">
             <h3 className="font-semibold">Used products</h3>
-            <p className="mt-2 text-slate-400">Silicone products that have been used and thrown away, given a second life.</p>
+            <p className="mt-2 text-zinc-400">Silicone products that have been used and thrown away, given a second life.</p>
           </div>
         </div>
       </Section>
@@ -117,7 +117,7 @@ export default function RecycledSiliconePage() {
           ))}
         </ul>
         {qualityCerts.length > 0 && (
-          <p className="mt-8 text-sm text-slate-400">
+          <p className="mt-8 text-sm text-zinc-400">
             Our Batu Kawan factory’s quality system is also certified to ISO 13485, the standard for medical-device manufacturing.{' '}
             <ArrowLink href="/sustainability">All certifications</ArrowLink>
           </p>

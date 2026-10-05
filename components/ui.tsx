@@ -32,13 +32,13 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   const all = [{ href: '/', label: 'Home' }, ...items]
   return (
     <>
-      <nav aria-label="Breadcrumb" className="text-xs text-slate-500">
+      <nav aria-label="Breadcrumb" className="text-xs text-zinc-500">
         <ol className="flex flex-wrap items-center gap-1.5">
           {all.map((c, i) => (
             <li key={c.href} className="flex items-center gap-1.5">
               {i > 0 && <span aria-hidden="true">/</span>}
               {i === all.length - 1 ? (
-                <span aria-current="page" className="text-slate-300">
+                <span aria-current="page" className="text-zinc-300">
                   {c.label}
                 </span>
               ) : (
@@ -100,7 +100,7 @@ export function PageHeader({
           {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
           <h1 className="display-lg mt-5">{rich(title)}</h1>
-          {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300 sm:text-xl">{intro}</div>}
+          {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 sm:text-xl">{intro}</div>}
           {children}
         </div>
         {facts && (
@@ -108,7 +108,7 @@ export function PageHeader({
             {facts.map((f) => (
               // Label first for screen readers; shown under the value.
               <div key={f.label} className="flex flex-col-reverse bg-ink-950/80 px-5 py-4 backdrop-blur">
-                <dt className="mt-0.5 text-xs leading-snug text-slate-400">{f.label}</dt>
+                <dt className="mt-0.5 text-xs leading-snug text-zinc-400">{f.label}</dt>
                 <dd className="text-2xl font-semibold tracking-[-0.03em] text-white">{f.value}</dd>
               </div>
             ))}
@@ -126,7 +126,7 @@ export function SectionHeading({ eyebrow, title, intro, align = 'left' }: { eyeb
     <div data-reveal className={`mb-12 max-w-3xl sm:mb-16 ${align === 'center' ? 'mx-auto text-center' : ''}`}>
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       {title && <h2 className="display-lg mt-5">{rich(title)}</h2>}
-      {intro && <div className="mt-5 text-lg leading-relaxed text-slate-300 sm:text-xl">{intro}</div>}
+      {intro && <div className="mt-5 text-lg leading-relaxed text-zinc-300 sm:text-xl">{intro}</div>}
     </div>
   )
 }
@@ -186,7 +186,7 @@ export function StatTiles({
           >
             {s.value}
           </p>
-          <p className="mt-3 text-[15px] leading-snug text-slate-400">{s.label}</p>
+          <p className="mt-3 text-[15px] leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -198,9 +198,9 @@ export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string;
     <div data-reveal="stagger" className={`grid gap-x-10 gap-y-12 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
         <div key={it.title} className="border-t border-white/15 pt-6">
-          <span className="font-mono text-xs text-slate-500">{String(i + 1).padStart(2, '0')}</span>
+          <span className="font-mono text-xs text-zinc-500">{String(i + 1).padStart(2, '0')}</span>
           <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{it.title}</h3>
-          <p className="mt-3 text-base leading-relaxed text-slate-400 sm:text-[17px]">{it.body}</p>
+          <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[17px]">{it.body}</p>
         </div>
       ))}
     </div>
@@ -222,7 +222,7 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
                 +
               </span>
             </summary>
-            <p className="mt-4 max-w-3xl leading-relaxed text-slate-400">{f.a}</p>
+            <p className="mt-4 max-w-3xl leading-relaxed text-zinc-400">{f.a}</p>
           </details>
         ))}
       </div>
@@ -252,7 +252,7 @@ export function CtaBand({
       <div className="hairline absolute inset-x-0 top-0" />
       <div data-reveal className="container-page mx-auto max-w-3xl text-center">
         <h2 className="display-lg">{rich(title)}</h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">{body}</p>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">{body}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link href="/contact" className="group btn-primary px-6 py-3 text-base">
             Get in touch <Arrow />
@@ -268,7 +268,7 @@ export function CtaBand({
 
 export function Arrow({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" className={`h-4 w-4 transition-transform group-hover:translate-x-0.5 ${className}`} aria-hidden="true">
+    <svg viewBox="0 0 16 16" className={`h-4 w-4 transition-transform group-hover:tranzinc-x-0.5 ${className}`} aria-hidden="true">
       <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )

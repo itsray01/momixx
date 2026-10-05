@@ -97,7 +97,7 @@ export default function CulturePage() {
               <div className="flex items-center gap-3">
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-7 w-7 text-slate-200"
+                  className="h-7 w-7 text-zinc-200"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.5"
@@ -107,10 +107,10 @@ export default function CulturePage() {
                 >
                   {v.icon}
                 </svg>
-                <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
+                <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
               </div>
               <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em]">{v.title}</h3>
-              <p className="mt-3 leading-relaxed text-slate-400">{v.body}</p>
+              <p className="mt-3 leading-relaxed text-zinc-400">{v.body}</p>
             </li>
           ))}
         </ol>
@@ -121,7 +121,7 @@ export default function CulturePage() {
           {growth.map((g) => (
             <div key={g.title} className="card lift p-7">
               <h3 className="text-xl font-semibold tracking-[-0.02em]">{g.title}</h3>
-              <p className="mt-2 leading-relaxed text-slate-400">{g.body}</p>
+              <p className="mt-2 leading-relaxed text-zinc-400">{g.body}</p>
             </div>
           ))}
         </div>
@@ -130,7 +130,7 @@ export default function CulturePage() {
       <Section eyebrow="Careers" title="Build the future of *silicone* with us" intro="We hire engineers, scientists and business people who want to work on hard problems and see their work reach real products.">
         <ul data-reveal="stagger" className="flex flex-wrap gap-3">
           {teams.map((t) => (
-            <li key={t} className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-slate-200">
+            <li key={t} className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-zinc-200">
               {t}
             </li>
           ))}

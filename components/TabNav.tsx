@@ -77,7 +77,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
       onClick={() => nudge(dir)}
       aria-label={dir > 0 ? 'More tabs' : 'Previous tabs'}
       tabIndex={-1}
-      className={`absolute inset-y-0 z-10 hidden w-10 items-center justify-center text-slate-300 transition-opacity hover:text-white md:flex ${dir > 0 ? 'right-0' : 'left-0'} ${
+      className={`absolute inset-y-0 z-10 hidden w-10 items-center justify-center text-zinc-300 transition-opacity hover:text-white md:flex ${dir > 0 ? 'right-0' : 'left-0'} ${
         (dir > 0 ? edges.right : edges.left) ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
     >
@@ -99,7 +99,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
           href={t.href}
           aria-current={here ? 'page' : active ? 'true' : undefined}
           className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
-            active && here ? 'bg-white text-ink-950' : active ? 'bg-white/[0.12] text-white' : 'text-slate-300 hover:bg-white/[0.06] hover:text-white'
+            active && here ? 'bg-white text-ink-950' : active ? 'bg-white/[0.12] text-white' : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
           }`}
         >
           {t.label}
@@ -133,7 +133,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
                     </option>
                   ))}
                 </select>
-                <svg viewBox="0 0 12 12" className="pointer-events-none absolute top-1/2 right-3 h-3 w-3 -translate-y-1/2 text-white" aria-hidden="true">
+                <svg viewBox="0 0 12 12" className="pointer-events-none absolute top-1/2 right-3 h-3 w-3 -tranzinc-y-1/2 text-white" aria-hidden="true">
                   <path d="M3.5 4.5l2.5 2.5 2.5-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
               </li>

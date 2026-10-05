@@ -78,7 +78,7 @@ export default async function TopicPage({ params }: Props) {
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-semibold tracking-[-0.02em] text-white">{topics[o.topic].label}</h3>
-                    <p className="mt-1 text-sm leading-snug text-slate-400">{topics[o.topic].blurb}</p>
+                    <p className="mt-1 text-sm leading-snug text-zinc-400">{topics[o.topic].blurb}</p>
                   </div>
                 </Link>
               </li>

@@ -38,7 +38,7 @@ export default function ApplicationsPage() {
                 <div key={m} className="grid gap-6 border-t border-white/10 pt-8 lg:grid-cols-[15rem_1fr] lg:gap-12">
                   <div>
                     <h2 className="text-2xl font-semibold tracking-[-0.03em]">{m}</h2>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-500">{maturityText[m]}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-500">{maturityText[m]}</p>
                   </div>
                   {/* The same columns in every group, so the cards (and their renders) are one size throughout. */}
                   <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">

@@ -19,7 +19,7 @@ function glow(id: string, h: Highlight) {
   return h === id ? { emissiveIntensity: 0.18, opacity: 1 } : { emissiveIntensity: 0, opacity: 0.22 }
 }
 
-function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
+function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side, emissive = '#f4f5f6' }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side; emissive?: string }) {
   const g = glow(id, h)
   const dim = g.opacity < 1
   return (
@@ -32,7 +32,7 @@ function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side
       sheenColor="#ffffff"
       sheenRoughness={0.5}
       clearcoat={sheen ? 0.4 : 0}
-      emissive="#6dd5c9"
+      emissive={emissive}
       emissiveIntensity={g.emissiveIntensity}
       transparent={dim}
       opacity={g.opacity}
@@ -121,14 +121,14 @@ export function CableAnatomyModel({
       {/* 5 · Silicone jacket (hollow, cut end visible) */}
       <group ref={jacket}>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.78} open>
-          <Mat id="jacket" h={h} color="#149f94" roughness={0.38} sheen side={THREE.DoubleSide} />
+          <Mat id="jacket" h={h} color="#149f94" roughness={0.38} sheen side={THREE.DoubleSide} emissive="#6dd5c9" />
         </Rod>
         <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
           <ringGeometry args={[0.63, 0.78, 64]} />
-          <Mat id="jacket" h={h} color="#34bdb0" roughness={0.5} sheen side={THREE.DoubleSide} />
+          <Mat id="jacket" h={h} color="#34bdb0" roughness={0.5} sheen side={THREE.DoubleSide} emissive="#6dd5c9" />
         </mesh>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.63} open>
-          <Mat id="jacket" h={h} color="#0e514e" roughness={0.6} side={THREE.BackSide} />
+          <Mat id="jacket" h={h} color="#0e514e" roughness={0.6} side={THREE.BackSide} emissive="#6dd5c9" />
         </Rod>
       </group>
 

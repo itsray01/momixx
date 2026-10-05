@@ -37,7 +37,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h2 className="text-lg font-semibold">Headquarters</h2>
-              <address className="mt-1 text-slate-400 not-italic">
+              <address className="mt-1 text-zinc-400 not-italic">
                 {site.address.street}
                 <br />
                 {site.address.locality} {site.address.postalCode}
@@ -45,7 +45,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h2 className="text-lg font-semibold">Manufacturing</h2>
-              <ul className="mt-1 space-y-1 text-slate-400">
+              <ul className="mt-1 space-y-1 text-zinc-400">
                 {site.locations
                   .filter((l) => l.role !== 'Headquarters')
                   .map((l) => (

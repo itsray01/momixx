@@ -57,14 +57,14 @@ export default async function ApplicationPage({ params }: Props) {
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
             <div>
               <p className="eyebrow">The big picture</p>
-              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-slate-100 sm:text-[1.7rem]">{a.intro}</p>
-              <p className="mt-6 text-sm text-slate-500">
-                <span className="font-semibold text-slate-200">Where we are:</span> {a.maturityNote}
+              <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-zinc-100 sm:text-[1.7rem]">{a.intro}</p>
+              <p className="mt-6 text-sm text-zinc-500">
+                <span className="font-semibold text-zinc-200">Where we are:</span> {a.maturityNote}
               </p>
             </div>
             <div className="card p-7">
               <h2 className="text-base font-semibold">Examples</h2>
-              <ul className="mt-4 space-y-2.5 text-slate-300">
+              <ul className="mt-4 space-y-2.5 text-zinc-300">
                 {a.examples.map((e) => (
                   <li key={e} className="flex gap-2.5">
                     <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
@@ -97,7 +97,7 @@ export default async function ApplicationPage({ params }: Props) {
               <MarketCard key={m.id} market={m} />
             ))}
           </div>
-          <p className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-400">{marketDisclaimer}</p>
+          <p className="mt-6 max-w-3xl text-xs leading-relaxed text-zinc-400">{marketDisclaimer}</p>
           <ArrowLink href="/markets" className="mt-4 text-sm">
             Compare all markets
           </ArrowLink>
@@ -111,7 +111,7 @@ export default async function ApplicationPage({ params }: Props) {
               <ul className="mt-4 flex flex-wrap gap-2">
                 {relatedProducts.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/products/${p.slug}`} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-slate-100 hover:border-brand-500 hover:text-brand-300">
+                    <Link href={`/products/${p.slug}`} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:border-brand-500 hover:text-brand-300">
                       {p.name}
                     </Link>
                   </li>

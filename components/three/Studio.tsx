@@ -5,23 +5,23 @@
 
 import { Environment, Lightformer } from '@react-three/drei'
 
-export const TEAL = '#149f94'
-export const TEAL_DARK = '#0e514e'
-export const TEAL_LIGHT = '#6dd5c9'
+export const SILICONE = '#e6e7e9'
+export const GRAPHITE = '#3a3d42'
+export const HIGHLIGHT = '#f4f5f6'
 
 /**
  * Studio lighting with glossy reflections, generated locally (no HDR downloads):
- * a large overhead softbox, white strip lights for crisp edge highlights, a teal
- * rim from behind and a soft floor bounce. `rim` swaps the teal for another
+ * a large overhead softbox, white strip lights for crisp edge highlights, a white
+ * rim from behind and a soft floor bounce. `rim` swaps that rim for another
  * colour (the hero cable uses white, so every cable colour reads true).
  * `lite` keeps only the key and rim lights (plus the reflections), for devices
  * drawing without a graphics card: each light costs time on every pixel.
  */
-export function Studio({ resolution = 256, rim = TEAL_LIGHT, lite = false }: { resolution?: number; rim?: string; lite?: boolean }) {
+export function Studio({ resolution = 256, rim = '#ffffff', lite = false }: { resolution?: number; rim?: string; lite?: boolean }) {
   return (
     <>
       <ambientLight intensity={lite ? 0.35 : 0.22} />
-      <hemisphereLight args={['#e6faf7', '#06090d', lite ? 0.6 : 0.45]} />
+      <hemisphereLight args={['#f4f5f6', '#0b0b0c', lite ? 0.6 : 0.45]} />
       <directionalLight position={[4, 7, 6]} intensity={2.3} />
       <directionalLight position={[-6, 3, -5]} intensity={1.5} color={rim} />
       {!lite && <directionalLight position={[6, 2, -6]} intensity={0.9} />}

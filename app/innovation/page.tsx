@@ -90,7 +90,7 @@ export default function InnovationPage() {
             <h2 className="display-lg mt-5">
               More than <em className="accent not-italic">20 patents</em>
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-slate-300">{patentsSummary}</p>
+            <p className="mt-6 text-lg leading-relaxed text-zinc-300">{patentsSummary}</p>
           </div>
           <StatTiles
             cols={1}
@@ -111,7 +111,7 @@ export default function InnovationPage() {
                 )}
                 <div className={it.render ? 'px-7 pb-7' : ''}>
                   <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
-                  <p className="mt-2 leading-relaxed text-slate-400">{it.body}</p>
+                  <p className="mt-2 leading-relaxed text-zinc-400">{it.body}</p>
                   {it.href && (
                     <Link href={it.href} className="mt-4 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
                       Product details <span aria-hidden="true">→</span>

@@ -32,7 +32,7 @@ export default function GlossaryPage() {
       <Section>
         <nav aria-label="Letters" className="mb-12 flex flex-wrap gap-2">
           {letters.map((l) => (
-            <a key={l} href={`#letter-${l}`} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm text-slate-300 hover:border-brand-300 hover:text-white">
+            <a key={l} href={`#letter-${l}`} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm text-zinc-300 hover:border-brand-300 hover:text-white">
               {l}
             </a>
           ))}
@@ -45,9 +45,9 @@ export default function GlossaryPage() {
                 <dt>
                   {first && <span id={`letter-${t.term[0].toUpperCase()}`} className="block scroll-mt-28" />}
                   <span className="text-xl font-semibold tracking-[-0.02em] text-white">{t.term}</span>
-                  {t.also && <span className="mt-1 block text-sm text-slate-500">{t.also}</span>}
+                  {t.also && <span className="mt-1 block text-sm text-zinc-500">{t.also}</span>}
                 </dt>
-                <dd className="leading-relaxed text-slate-300">
+                <dd className="leading-relaxed text-zinc-300">
                   {t.definition}
                   {t.link && (
                     <Link href={t.link} className="ml-2 text-sm text-brand-300 hover:text-brand-200">

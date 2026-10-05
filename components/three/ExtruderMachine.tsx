@@ -11,7 +11,7 @@ import * as THREE from 'three'
 import { Box, Mat, Part, Wheel, type PartState } from './machineParts'
 import { extruderParts } from './extruderParts'
 
-const TEAL = '#149f94'
+const SILICONE = '#e6e7e9'
 const index = (id: string) => extruderParts.findIndex((p) => p.id === id)
 const EXTRUDER = index('extruder')
 const CAPSTAN = index('capstan')
@@ -175,7 +175,7 @@ export function ExtruderMachineModel({
         <meshStandardMaterial color="#d08a52" metalness={0.6} roughness={0.3} />
       </mesh>
       <mesh geometry={cableGeo}>
-        <meshStandardMaterial color={TEAL} roughness={0.35} metalness={0.05} />
+        <meshStandardMaterial color={SILICONE} roughness={0.35} metalness={0.05} />
       </mesh>
 
       {/* 3 · Extruder: drive housing, barrel and crosshead */}

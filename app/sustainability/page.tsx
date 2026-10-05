@@ -57,11 +57,11 @@ export default function SustainabilityPage() {
       <Section id="carbon-footprint" tone="muted" eyebrow="Carbon footprint" title="Our carbon *footprint*">
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
           <div data-reveal className="lg:sticky lg:top-28">
-            <p className="text-lg leading-relaxed text-slate-300">
+            <p className="text-lg leading-relaxed text-zinc-300">
               We calculate the greenhouse gases released in making our silicone, and an independent third party has checked the calculation. The
               validation statement, with its scope and method, is available on request.
             </p>
-            <p className="mt-4 leading-relaxed text-slate-400">How we reduce our footprint:</p>
+            <p className="mt-4 leading-relaxed text-zinc-400">How we reduce our footprint:</p>
             {carbonCert?.file && (
               <a href={carbonCert.file} target="_blank" rel="noopener" className="mt-6 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
                 View validation statement (PDF) <span aria-hidden="true">→</span>
@@ -74,13 +74,13 @@ export default function SustainabilityPage() {
               <dl data-reveal="stagger" className="card grid gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2">
                 {carbonMetrics.map((m) => (
                   <div key={m.label} className="flex flex-col-reverse gap-2 bg-ink-900 p-7">
-                    <dt className="text-sm text-slate-400">
+                    <dt className="text-sm text-zinc-400">
                       {m.label}
-                      {m.note && <span className="mt-1 block text-xs text-slate-500">{m.note}</span>}
+                      {m.note && <span className="mt-1 block text-xs text-zinc-500">{m.note}</span>}
                     </dt>
                     <dd className="font-display text-4xl font-semibold tracking-[-0.04em] text-white">
                       {m.value}
-                      {m.unit && <span className="ml-1.5 text-base font-normal text-slate-400">{m.unit}</span>}
+                      {m.unit && <span className="ml-1.5 text-base font-normal text-zinc-400">{m.unit}</span>}
                     </dd>
                   </div>
                 ))}
@@ -92,16 +92,16 @@ export default function SustainabilityPage() {
                 <div className="mt-5 space-y-3">
                   {[
                     { label: 'MoMixx recycled', v: cmp.recycled, c: '#e4e4e7' },
-                    { label: 'New silicone', v: cmp.virgin, c: '#5a6474' },
+                    { label: 'New silicone', v: cmp.virgin, c: '#71717a' },
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
-                      <span className="w-36 shrink-0 text-sm text-slate-300">{b.label}</span>
+                      <span className="w-36 shrink-0 text-sm text-zinc-300">{b.label}</span>
                       <div data-grow className="h-7 rounded-r-[4px]" style={{ width: `${(b.v / Math.max(cmp.recycled, cmp.virgin)) * 70}%`, background: b.c }} />
                       <span className="text-sm font-medium text-white tabular-nums">{b.v}</span>
                     </div>
                   ))}
                 </div>
-                <p className="mt-4 text-xs text-slate-500">
+                <p className="mt-4 text-xs text-zinc-500">
                   {cmp.boundary}. Source: {cmp.source}.
                 </p>
               </figure>
@@ -109,9 +109,9 @@ export default function SustainabilityPage() {
             <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2">
               {carbonLevers.map((l, i) => (
                 <div key={l.title} className="card lift p-6">
-                  <span className="font-mono text-xs text-slate-500">0{i + 1}</span>
+                  <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
                   <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{l.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{l.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">{l.body}</p>
                 </div>
               ))}
             </div>
@@ -123,7 +123,7 @@ export default function SustainabilityPage() {
       <Section eyebrow="Circular silicone" title="From waste to *new silicone*">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
-            <p className="text-lg leading-relaxed text-slate-300">{recyclingFacts.summary}</p>
+            <p className="text-lg leading-relaxed text-zinc-300">{recyclingFacts.summary}</p>
             <ArrowLink href="/recycled-silicone" className="mt-8">
               How our recycled silicone works
             </ArrowLink>
@@ -139,7 +139,7 @@ export default function SustainabilityPage() {
             {greenPhotos.map((p) => (
               <li key={p.src} className="card break-inside-avoid overflow-hidden">
                 <Image src={p.src} alt={p.alt} width={p.width ?? 1200} height={p.height ?? 900} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="h-auto w-full" />
-                {p.caption && <p className="p-5 text-sm text-slate-400">{p.caption}</p>}
+                {p.caption && <p className="p-5 text-sm text-zinc-400">{p.caption}</p>}
               </li>
             ))}
           </ul>

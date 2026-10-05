@@ -16,15 +16,15 @@ import { HeroCableModel } from './HeroCable'
 import { DuneModel, HumanoidModel, MedicalTubingModel, SwatchFanModel, WaferModel } from './modelsDetailed'
 import { landDots } from './landDots'
 import type { ModelName } from './modelNames'
-import { TEAL, TEAL_DARK, TEAL_LIGHT } from './Studio'
+import { GRAPHITE, HIGHLIGHT, SILICONE } from './Studio'
 
 const COPPER = '#c98a55'
-const GRAPHITE = '#1c2533'
+const CHARCOAL = '#222428'
 const STEEL = '#c3ccd6'
 
 // ───────────────────────── Materials ─────────────────────────
 
-export function Silicone({ color = TEAL, opacity = 1 }: { color?: string; opacity?: number }) {
+export function Silicone({ color = SILICONE, opacity = 1 }: { color?: string; opacity?: number }) {
   return (
     <meshPhysicalMaterial
       color={color}
@@ -40,18 +40,18 @@ export function Silicone({ color = TEAL, opacity = 1 }: { color?: string; opacit
   )
 }
 const Steel = ({ color = STEEL }: { color?: string }) => <meshStandardMaterial color={color} metalness={0.9} roughness={0.28} />
-const Graphite = () => <meshStandardMaterial color={GRAPHITE} metalness={0.4} roughness={0.45} />
+const Graphite = () => <meshStandardMaterial color={CHARCOAL} metalness={0.4} roughness={0.45} />
 const Copper = () => <meshStandardMaterial color={COPPER} metalness={1} roughness={0.25} />
-const Glow = ({ color = TEAL_LIGHT, intensity = 2 }: { color?: string; intensity?: number }) => (
+const Glow = ({ color = HIGHLIGHT, intensity = 2 }: { color?: string; intensity?: number }) => (
   <meshStandardMaterial color={color} emissive={color} emissiveIntensity={intensity} toneMapped={false} />
 )
-const Clear = ({ tint = '#eef8f7', opacity = 0.5 }: { tint?: string; opacity?: number }) => (
+const Clear = ({ tint = '#f4f5f6', opacity = 0.5 }: { tint?: string; opacity?: number }) => (
   <meshPhysicalMaterial color={tint} roughness={0.05} metalness={0} clearcoat={1} transparent opacity={opacity} depthWrite={false} />
 )
 
 const v = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z)
 
-function Tube({ points, radius, color = TEAL, segments = 160 }: { points: THREE.Vector3[]; radius: number; color?: string; segments?: number }) {
+function Tube({ points, radius, color = SILICONE, segments = 160 }: { points: THREE.Vector3[]; radius: number; color?: string; segments?: number }) {
   const curve = useMemo(() => new THREE.CatmullRomCurve3(points), [points])
   return (
     <mesh>
@@ -128,7 +128,7 @@ function EvCableModel() {
         </mesh>
         <mesh position={[0, 0, 1.64]}>
           <circleGeometry args={[0.7, 64]} />
-          <meshStandardMaterial color="#0b121c" roughness={0.6} />
+          <meshStandardMaterial color="#121416" roughness={0.6} />
         </mesh>
         {pins.map(([x, y, r], i) => (
           <mesh key={i} position={[x, y, 1.66]} rotation={[Math.PI / 2, 0, 0]}>
@@ -147,11 +147,11 @@ function WatchModel() {
   return (
     <group rotation={[1.05, -0.5, 0.15]} position={[0, -0.35, 0]}>
       <mesh geometry={strap}>
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </mesh>
       <group position={[0, 1.55, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <RoundedBox args={[1.45, 1.7, 0.5]} radius={0.28} smoothness={6}>
-          <meshStandardMaterial color="#2a3442" metalness={0.85} roughness={0.25} />
+          <meshStandardMaterial color="#3a3d42" metalness={0.85} roughness={0.25} />
         </RoundedBox>
         <RoundedBox args={[1.25, 1.5, 0.08]} radius={0.22} smoothness={6} position={[0, 0, 0.24]}>
           <meshPhysicalMaterial color="#05070a" roughness={0.05} clearcoat={1} />
@@ -178,7 +178,7 @@ function PhoneCaseModel() {
   return (
     <group rotation={[0.15, Math.PI - 0.6, 0.12]} scale={0.9}>
       <RoundedBox args={[2, 3.9, 0.36]} radius={0.3} smoothness={6}>
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </RoundedBox>
       <RoundedBox args={[1.8, 3.7, 0.3]} radius={0.26} smoothness={6} position={[0, 0, 0.06]}>
         <meshPhysicalMaterial color="#05070a" roughness={0.08} clearcoat={1} />
@@ -186,7 +186,7 @@ function PhoneCaseModel() {
       {/* camera module on the back */}
       <group position={[-0.42, 1.25, -0.2]} rotation={[Math.PI, 0, 0]}>
         <RoundedBox args={[0.95, 0.95, 0.12]} radius={0.22} smoothness={5}>
-          <Silicone color={TEAL_DARK} />
+          <Silicone color={GRAPHITE} />
         </RoundedBox>
         {[
           [-0.2, 0.2],
@@ -196,18 +196,18 @@ function PhoneCaseModel() {
           <group key={i} position={[x, y, 0.07]}>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.15, 0.15, 0.06, 32]} />
-              <Steel color="#8b97a6" />
+              <Steel color="#8e949a" />
             </mesh>
             <mesh position={[0, 0, 0.032]}>
               <circleGeometry args={[0.1, 32]} />
-              <meshPhysicalMaterial color="#020617" roughness={0} clearcoat={1} />
+              <meshPhysicalMaterial color="#111113" roughness={0} clearcoat={1} />
             </mesh>
           </group>
         ))}
       </group>
       {/* side buttons moulded in the case */}
       <RoundedBox args={[0.08, 0.55, 0.14]} radius={0.03} position={[1.02, 0.7, 0]}>
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </RoundedBox>
     </group>
   )
@@ -231,16 +231,16 @@ function SealModel() {
   return (
     <group rotation={[0.35, -0.5, 0]} position={[0, -0.3, 0]}>
       <mesh geometry={gasket} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.85, 0]}>
-        <Silicone color="#e8eef3" />
+        <Silicone color="#e8e9eb" />
       </mesh>
       <mesh position={[0.4, 1.7, 0.2]} rotation={[0.2, 0.5, 0.15]}>
         <torusGeometry args={[0.85, 0.2, 48, 96]} />
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </mesh>
       {drops.map(([x, y, z, r], i) => (
         <mesh key={i} position={[x, y + r * 0.55, z]} scale={[1, 0.62, 1]}>
           <sphereGeometry args={[r, 32, 32]} />
-          <meshPhysicalMaterial color="#cdeefe" roughness={0} clearcoat={1} transparent opacity={0.55} />
+          <meshPhysicalMaterial color="#e6e8eb" roughness={0} clearcoat={1} transparent opacity={0.55} />
         </mesh>
       ))}
     </group>
@@ -249,7 +249,7 @@ function SealModel() {
 
 /** Raw silicone compound: fanned sheets and pellets. */
 function CompoundModel() {
-  const sheets = [TEAL, '#e8eef3', TEAL_DARK]
+  const sheets = [SILICONE, '#e8e9eb', GRAPHITE]
   return (
     <group rotation={[0.55, -0.6, 0]} position={[0, -0.3, 0]}>
       {sheets.map((c, i) => (
@@ -258,9 +258,9 @@ function CompoundModel() {
         </RoundedBox>
       ))}
       {[
-        [-1.4, 0.8, 1.2, TEAL_LIGHT],
-        [-0.9, 0.82, 1.5, TEAL],
-        [-1.7, 0.78, 0.7, '#e8eef3'],
+        [-1.4, 0.8, 1.2, HIGHLIGHT],
+        [-0.9, 0.82, 1.5, SILICONE],
+        [-1.7, 0.78, 0.7, '#e8e9eb'],
         [1.6, 0.9, 1.0, '#f97316'],
       ].map(([x, y, z, c], i) => (
         <RoundedBox key={i} args={[0.42, 0.42, 0.42]} radius={0.12} smoothness={4} position={[x as number, y as number, z as number]} rotation={[i, i * 0.7, 0]}>
@@ -271,11 +271,11 @@ function CompoundModel() {
   )
 }
 
-/** A silicone ring with material flowing round it: scrap (grey) becomes new silicone (teal). */
+/** A silicone ring with material flowing round it: scrap (grey) becomes new silicone (white). */
 export function LoopModel({ particles = 90, tilt = true }: { particles?: number; tilt?: boolean }) {
   const data = useMemo(() => {
-    const gray = new THREE.Color('#8b97a6')
-    const teal = new THREE.Color('#34bdb0')
+    const gray = new THREE.Color('#8a8e94')
+    const white = new THREE.Color(SILICONE)
     return Array.from({ length: particles }, (_, i) => {
       const u = (i / particles) * Math.PI * 2
       const w = u * 6 + i
@@ -283,7 +283,7 @@ export function LoopModel({ particles = 90, tilt = true }: { particles?: number;
       return {
         p: [Math.cos(u) * r, Math.sin(u) * r, Math.sin(w) * 0.62] as [number, number, number],
         s: 0.09 + (i % 3) * 0.025,
-        c: gray.clone().lerp(teal, Math.min(1, Math.max(0, (i / particles - 0.15) / 0.6))),
+        c: gray.clone().lerp(white, Math.min(1, Math.max(0, (i / particles - 0.15) / 0.6))),
       }
     })
   }, [particles])
@@ -303,7 +303,7 @@ export function LoopModel({ particles = 90, tilt = true }: { particles?: number;
   )
 }
 
-/** Clear PCTG bottle with a teal cap. */
+/** Clear PCTG bottle with a white silicone cap. */
 function BottleModel() {
   const profile = useMemo(
     () =>
@@ -328,15 +328,15 @@ function BottleModel() {
       </mesh>
       <mesh position={[0, -0.6, 0]}>
         <cylinderGeometry args={[0.84, 0.84, 1.9, 64]} />
-        <meshPhysicalMaterial color="#5ee0d2" roughness={0.1} transparent opacity={0.22} depthWrite={false} />
+        <meshPhysicalMaterial color="#d8dbdf" roughness={0.1} transparent opacity={0.22} depthWrite={false} />
       </mesh>
       <mesh position={[0, 1.72, 0]}>
         <cylinderGeometry args={[0.44, 0.44, 0.42, 48]} />
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </mesh>
       <mesh position={[0, 0.2, 0]} rotation={[0, 0, 0]}>
         <cylinderGeometry args={[0.92, 0.92, 0.7, 64, 1, true]} />
-        <meshStandardMaterial color="#e8eef3" roughness={0.6} side={THREE.DoubleSide} transparent opacity={0.9} />
+        <meshStandardMaterial color="#e8e9eb" roughness={0.6} side={THREE.DoubleSide} transparent opacity={0.9} />
       </mesh>
     </group>
   )
@@ -356,19 +356,19 @@ function HorizontalExtruderModel() {
       {[-1.4, -0.7, 0, 0.7].map((x) => (
         <mesh key={x} position={[x, 0.15, 0]} rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.47, 0.47, 0.2, 48]} />
-          <meshStandardMaterial color="#e8eef3" roughness={0.5} />
+          <meshStandardMaterial color="#e8e9eb" roughness={0.5} />
         </mesh>
       ))}
       <mesh position={[-1.2, 1.05, 0]}>
         <cylinderGeometry args={[0.65, 0.22, 1, 48]} />
-        <Steel color="#9aa7b6" />
+        <Steel color="#9aa0a6" />
       </mesh>
       <RoundedBox args={[0.7, 1.1, 0.9]} radius={0.08} position={[1.35, 0.15, 0]}>
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </RoundedBox>
       <mesh position={[2.75, 0.15, 0]} rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.14, 0.14, 2.2, 32]} />
-        <Silicone color={TEAL} />
+        <Silicone color={SILICONE} />
       </mesh>
     </group>
   )
@@ -379,8 +379,8 @@ function MixerModel() {
   return (
     <group rotation={[0.3, -0.5, 0]} position={[0, -0.4, 0]}>
       {[
-        [-0.95, TEAL],
-        [0.95, '#e8eef3'],
+        [-0.95, SILICONE],
+        [0.95, '#e8e9eb'],
       ].map(([x, c]) => (
         <group key={x as number} position={[x as number, 0, 0]}>
           <mesh>
@@ -393,15 +393,15 @@ function MixerModel() {
           </mesh>
         </group>
       ))}
-      <Tube points={[v(-0.95, 1.05, 0), v(-0.6, 1.7, 0.3), v(0, 1.85, 0.7)]} radius={0.08} color="#9aa7b6" />
-      <Tube points={[v(0.95, 1.05, 0), v(0.6, 1.7, 0.3), v(0, 1.85, 0.7)]} radius={0.08} color="#9aa7b6" />
+      <Tube points={[v(-0.95, 1.05, 0), v(-0.6, 1.7, 0.3), v(0, 1.85, 0.7)]} radius={0.08} color="#9aa0a6" />
+      <Tube points={[v(0.95, 1.05, 0), v(0.6, 1.7, 0.3), v(0, 1.85, 0.7)]} radius={0.08} color="#9aa0a6" />
       <mesh position={[0, 1.4, 0.8]}>
         <cylinderGeometry args={[0.16, 0.08, 1.0, 32]} />
         <Steel />
       </mesh>
       <mesh position={[0, 0.82, 0.8]}>
         <sphereGeometry args={[0.13, 24, 24]} />
-        <Silicone color={TEAL_LIGHT} />
+        <Silicone color={HIGHLIGHT} />
       </mesh>
       <RoundedBox args={[3.4, 0.25, 1.9]} radius={0.06} position={[0, -1.1, 0]}>
         <Graphite />
@@ -441,7 +441,7 @@ function OvenModel() {
   return (
     <group rotation={[0.3, -0.6, 0]} position={[0, -0.2, 0]}>
       <RoundedBox args={[3.6, 1.3, 1.4]} radius={0.12} smoothness={4}>
-        <meshStandardMaterial color="#e8eef3" roughness={0.45} metalness={0.25} />
+        <meshStandardMaterial color="#e8e9eb" roughness={0.45} metalness={0.25} />
       </RoundedBox>
       <mesh position={[0, 0.1, 0.71]}>
         <planeGeometry args={[2.8, 0.36]} />
@@ -450,7 +450,7 @@ function OvenModel() {
       {[-1.2, -0.4, 0.4, 1.2].map((x) => (
         <mesh key={x} position={[x, -0.36, 0.71]}>
           <planeGeometry args={[0.5, 0.06]} />
-          <meshStandardMaterial color="#94a3b8" />
+          <meshStandardMaterial color="#a1a1aa" />
         </mesh>
       ))}
       <mesh rotation={[0, 0, Math.PI / 2]} position={[0, 0.1, 0]}>
@@ -471,11 +471,11 @@ function CoatingModel() {
     <group rotation={[0.3, -0.5, 0]} position={[0, -0.2, 0]}>
       <Tube points={path} radius={0.11} />
       <RoundedBox args={[2.6, 1.0, 1.3]} radius={0.1} position={[0, -0.75, 0]}>
-        <meshStandardMaterial color="#e8eef3" roughness={0.4} metalness={0.3} transparent opacity={0.55} />
+        <meshStandardMaterial color="#e8e9eb" roughness={0.4} metalness={0.3} transparent opacity={0.55} />
       </RoundedBox>
       <mesh position={[0, -0.4, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[2.45, 1.15]} />
-        <meshPhysicalMaterial color={TEAL_LIGHT} roughness={0.05} clearcoat={1} transparent opacity={0.85} />
+        <meshPhysicalMaterial color={HIGHLIGHT} roughness={0.05} clearcoat={1} transparent opacity={0.85} />
       </mesh>
       {[-1.2, 1.2].map((x) => (
         <mesh key={x} position={[x, 1.42, 0]} rotation={[Math.PI / 2, 0, 0]}>
@@ -495,7 +495,7 @@ function OemModel() {
         <Steel />
       </RoundedBox>
       <RoundedBox args={[2.6, 0.7, 2]} radius={0.06} position={[0, 1.35, -0.5]} rotation={[-0.45, 0, 0]}>
-        <Steel color="#9aa7b6" />
+        <Steel color="#9aa0a6" />
       </RoundedBox>
       <RoundedBox args={[1.5, 0.22, 1.0]} radius={0.1} smoothness={5} position={[0, 0.07, 0]}>
         <Silicone />
@@ -503,12 +503,12 @@ function OemModel() {
       {[-0.45, 0, 0.45].map((x) => (
         <mesh key={x} position={[x, 0.2, 0]}>
           <cylinderGeometry args={[0.13, 0.13, 0.1, 32]} />
-          <Silicone color={TEAL_LIGHT} />
+          <Silicone color={HIGHLIGHT} />
         </mesh>
       ))}
       {[
         [-1.8, -0.62, 1.3, '#f97316'],
-        [-1.2, -0.62, 1.5, '#e8eef3'],
+        [-1.2, -0.62, 1.5, '#e8e9eb'],
       ].map(([x, y, z, c], i) => (
         <RoundedBox key={i} args={[0.55, 0.12, 0.4]} radius={0.05} position={[x as number, y as number, z as number]} rotation={[0, i * 0.5, 0]}>
           <Silicone color={c as string} />
@@ -523,24 +523,24 @@ function DatacentreModel() {
   return (
     <group rotation={[0.12, -0.55, 0]} position={[-0.3, -0.1, 0]}>
       <RoundedBox args={[1.9, 4, 1.6]} radius={0.06}>
-        <meshStandardMaterial color="#111827" metalness={0.6} roughness={0.35} />
+        <meshStandardMaterial color="#141416" metalness={0.6} roughness={0.35} />
       </RoundedBox>
       {Array.from({ length: 8 }, (_, i) => (
         <group key={i} position={[0, 1.6 - i * 0.44, 0.81]}>
           <mesh>
             <planeGeometry args={[1.66, 0.34]} />
-            <meshStandardMaterial color="#1f2937" metalness={0.5} roughness={0.4} />
+            <meshStandardMaterial color="#222426" metalness={0.5} roughness={0.4} />
           </mesh>
           {[0, 1, 2].map((k) => (
             <mesh key={k} position={[0.55 + k * 0.1, 0, 0.01]}>
               <circleGeometry args={[0.025, 12]} />
-              <Glow color={k === 2 && i % 3 === 0 ? '#f97316' : TEAL_LIGHT} />
+              <Glow color={k === 2 && i % 3 === 0 ? '#f97316' : HIGHLIGHT} />
             </mesh>
           ))}
         </group>
       ))}
       <Tube points={[v(0.95, 1.2, 0.5), v(1.6, 0.8, 0.9), v(1.8, -0.8, 1.2), v(2.3, -1.9, 0.6)]} radius={0.09} />
-      <Tube points={[v(0.95, 0.4, 0.5), v(1.45, 0, 0.8), v(1.55, -1.2, 1.0), v(1.9, -2, 0.4)]} radius={0.09} color="#e8eef3" />
+      <Tube points={[v(0.95, 0.4, 0.5), v(1.45, 0, 0.8), v(1.55, -1.2, 1.0), v(1.9, -2, 0.4)]} radius={0.09} color="#e8e9eb" />
       <Tube points={[v(0.95, -0.4, 0.5), v(1.3, -0.8, 0.7), v(1.3, -1.6, 0.8), v(1.5, -2.1, 0.2)]} radius={0.09} color="#f97316" />
     </group>
   )
@@ -569,7 +569,7 @@ export function MoleculeModel() {
     }
     return { list, bonds }
   }, [])
-  const style = { Si: { r: 0.48, c: '#34bdb0' }, O: { r: 0.34, c: '#f87171' }, C: { r: 0.3, c: '#e8eef3' } }
+  const style = { Si: { r: 0.48, c: '#c8ccd1' }, O: { r: 0.34, c: '#f87171' }, C: { r: 0.3, c: '#e8e9eb' } }
   return (
     <group scale={0.62} rotation={[0.3, -0.3, 0.1]}>
       {atoms.bonds.map(([a, b], i) => {
@@ -581,7 +581,7 @@ export function MoleculeModel() {
             quaternion={new THREE.Quaternion().setFromUnitVectors(v(0, 1, 0), dir.clone().normalize())}
           >
             <cylinderGeometry args={[0.07, 0.07, dir.length(), 12]} />
-            <meshStandardMaterial color="#64748b" roughness={0.5} />
+            <meshStandardMaterial color="#71717a" roughness={0.5} />
           </mesh>
         )
       })}
@@ -595,7 +595,7 @@ export function MoleculeModel() {
   )
 }
 
-const swatches = ['#149f94', '#0e514e', '#e8eef3', '#0b121c', '#f97316', '#34bdb0', '#6dd5c9', '#c98a55', '#f87171']
+const swatches = ['#149f94', '#0e514e', '#e8e9eb', '#0b121c', '#f97316', '#34bdb0', '#6dd5c9', '#c98a55', '#f87171']
 
 /** Colour-matched silicone samples. */
 export function SamplesModel({ float }: { float?: (i: number, node: React.ReactNode) => React.ReactNode }) {
@@ -635,7 +635,7 @@ function latLon(lat: number, lon: number, r = GLOBE_R) {
 }
 
 const atmosphereShader = {
-  uniforms: { color: { value: new THREE.Color(TEAL_LIGHT) } },
+  uniforms: { color: { value: new THREE.Color(HIGHLIGHT) } },
   vertexShader: 'varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
   fragmentShader: 'uniform vec3 color; varying vec3 vN; void main(){ float i = pow(0.72 - dot(vN, vec3(0.0, 0.0, 1.0)), 3.0); gl_FragColor = vec4(color, 1.0) * i; }',
 }
@@ -668,11 +668,11 @@ export function GlobeModel({ spin = false }: { spin?: boolean }) {
       <group ref={turn} rotation={[0, facing, 0]}>
         <mesh>
           <sphereGeometry args={[GLOBE_R, 96, 96]} />
-          <meshStandardMaterial color="#0a1420" emissive="#04201d" roughness={0.55} metalness={0.35} />
+          <meshStandardMaterial color="#101214" emissive="#1c1e22" roughness={0.55} metalness={0.35} />
         </mesh>
         <instancedMesh ref={dots} args={[undefined, undefined, count]}>
           <circleGeometry args={[0.019, 8]} />
-          <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.9} />
+          <meshBasicMaterial color={HIGHLIGHT} toneMapped={false} transparent opacity={0.9} />
         </instancedMesh>
         {globeSites.map((s) => {
           const p = latLon(s.lat, s.lon, GLOBE_R * 1.01)
@@ -684,11 +684,11 @@ export function GlobeModel({ spin = false }: { spin?: boolean }) {
               </mesh>
               <mesh>
                 <ringGeometry args={[0.08, 0.1, 48]} />
-                <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} />
+                <meshBasicMaterial color={HIGHLIGHT} toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} />
               </mesh>
               <mesh position={[0, 0, 0.18]} rotation={[Math.PI / 2, 0, 0]}>
                 <cylinderGeometry args={[0.006, 0.006, 0.36, 8]} />
-                <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} />
+                <meshBasicMaterial color={HIGHLIGHT} toneMapped={false} />
               </mesh>
             </group>
           )
@@ -700,7 +700,7 @@ export function GlobeModel({ spin = false }: { spin?: boolean }) {
       </mesh>
       <mesh rotation={[Math.PI / 2 - 0.28, 0.18, 0]}>
         <torusGeometry args={[GLOBE_R * 1.32, 0.006, 8, 200]} />
-        <meshBasicMaterial color={TEAL_LIGHT} toneMapped={false} transparent opacity={0.35} />
+        <meshBasicMaterial color={HIGHLIGHT} toneMapped={false} transparent opacity={0.35} />
       </mesh>
     </group>
   )

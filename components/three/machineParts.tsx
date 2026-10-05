@@ -9,22 +9,22 @@ import type * as THREE from 'three'
 
 export type PartState = 'idle' | 'hover' | 'selected' | 'dim'
 
-const TEAL = '#149f94'
-const TEAL_LIGHT = '#6dd5c9'
+const SILICONE = '#e6e7e9'
+const HIGHLIGHT = '#f4f5f6'
 
 const finishes = {
   steel: { color: '#d3dae2', metalness: 0.92, roughness: 0.24 },
   brushed: { color: '#b9c2cc', metalness: 0.85, roughness: 0.38 },
   panel: { color: '#d7dde2', metalness: 0.08, roughness: 0.62 },
-  cabinet: { color: '#2a3442', metalness: 0.35, roughness: 0.5 },
-  graphite: { color: '#1c2533', metalness: 0.45, roughness: 0.45 },
-  dark: { color: '#0d131b', metalness: 0.4, roughness: 0.5 },
-  teal: { color: TEAL, metalness: 0.05, roughness: 0.38 },
+  cabinet: { color: '#3a3d42', metalness: 0.35, roughness: 0.5 },
+  graphite: { color: '#2a2c30', metalness: 0.45, roughness: 0.45 },
+  dark: { color: '#141618', metalness: 0.4, roughness: 0.5 },
+  silicone: { color: SILICONE, metalness: 0.05, roughness: 0.38 },
   white: { color: '#f1f4f5', metalness: 0, roughness: 0.42 },
   copper: { color: '#d08a52', metalness: 0.6, roughness: 0.32 },
-  rubber: { color: '#20262e', metalness: 0, roughness: 0.8 },
-  blue: { color: '#2569c4', metalness: 0.15, roughness: 0.42 },
-  hose: { color: '#4fb3ea', metalness: 0, roughness: 0.3 },
+  rubber: { color: '#202226', metalness: 0, roughness: 0.8 },
+  blue: { color: '#d0d3d6', metalness: 0.15, roughness: 0.42 },
+  hose: { color: '#b7bcc2', metalness: 0, roughness: 0.3 },
   red: { color: '#d6312b', metalness: 0.1, roughness: 0.4 },
 }
 export type Finish = keyof typeof finishes
@@ -34,16 +34,16 @@ export function Mat({ f, s }: { f: Finish; s: PartState }) {
   const glow = s === 'selected' ? 0.12 : s === 'hover' ? 0.1 : 0
   const dim = s === 'dim'
   // Keyed, because switching a material to transparent needs a new material.
-  return <meshStandardMaterial key={dim ? 'dim' : 'solid'} {...finishes[f]} emissive={TEAL_LIGHT} emissiveIntensity={glow} transparent={dim} opacity={dim ? 0.14 : 1} depthWrite={!dim} />
+  return <meshStandardMaterial key={dim ? 'dim' : 'solid'} {...finishes[f]} emissive={HIGHLIGHT} emissiveIntensity={glow} transparent={dim} opacity={dim ? 0.14 : 1} depthWrite={!dim} />
 }
 export function Glass({ s }: { s: PartState }) {
-  return <meshPhysicalMaterial color="#d8f1ee" roughness={0.06} metalness={0} clearcoat={1} transparent opacity={s === 'dim' ? 0.04 : 0.2} depthWrite={false} />
+  return <meshPhysicalMaterial color="#e8eaed" roughness={0.06} metalness={0} clearcoat={1} transparent opacity={s === 'dim' ? 0.04 : 0.2} depthWrite={false} />
 }
 export function Heat({ s, intensity = 1.6 }: { s: PartState; intensity?: number }) {
   return <meshStandardMaterial color="#ff9a5c" emissive="#ff6a2a" emissiveIntensity={s === 'dim' ? 0.15 : intensity} toneMapped={false} transparent opacity={s === 'dim' ? 0.25 : 1} />
 }
 export function Screen({ s }: { s: PartState }) {
-  return <meshStandardMaterial color="#0b2d2a" emissive={TEAL_LIGHT} emissiveIntensity={s === 'dim' ? 0.1 : 0.9} toneMapped={false} transparent opacity={s === 'dim' ? 0.2 : 1} />
+  return <meshStandardMaterial color="#16181b" emissive={HIGHLIGHT} emissiveIntensity={s === 'dim' ? 0.1 : 0.9} toneMapped={false} transparent opacity={s === 'dim' ? 0.2 : 1} />
 }
 
 type PartProps = {

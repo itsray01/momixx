@@ -20,7 +20,7 @@ const markerClass = (selected: number | null, hovered: number | null, i: number)
   selected === i
     ? 'border-brand-200 bg-brand-300 text-ink-950'
     : selected !== null
-      ? 'border-white/20 bg-ink-950/60 text-slate-300 opacity-60 hover:opacity-100'
+      ? 'border-white/20 bg-ink-950/60 text-zinc-300 opacity-60 hover:opacity-100'
       : hovered === i
         ? 'border-brand-200 bg-brand-400 text-ink-950'
         : 'border-brand-300/60 bg-ink-950/70 text-brand-100'
@@ -92,7 +92,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     aria-label={`${i + 1}. ${p.name}`}
                     aria-pressed={selected === i}
                     style={{ left: `${p.photo.x}%`, top: `${p.photo.y}%`, scale: spot ? 1 / zoom : 1 }}
-                    className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
+                    className={`absolute flex h-8 w-8 -tranzinc-x-1/2 -tranzinc-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
                     {selected === null && <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full border border-brand-300/40 [animation-duration:2.4s]" />}
                     {i + 1}
@@ -148,7 +148,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     type="button"
                     aria-pressed={view === v}
                     onClick={() => setView(v)}
-                    className={`rounded-full px-3 py-1 transition-colors ${view === v ? 'bg-white text-ink-950' : 'text-slate-300 hover:text-white'}`}
+                    className={`rounded-full px-3 py-1 transition-colors ${view === v ? 'bg-white text-ink-950' : 'text-zinc-300 hover:text-white'}`}
                   >
                     {v === '3d' ? '3D' : 'Photo'}
                   </button>
@@ -156,12 +156,12 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
               </div>
             )}
             {part && !onMachine && (
-              <p className="pointer-events-none rounded-full border border-white/10 bg-ink-950/70 px-3 py-1.5 text-xs text-slate-300 backdrop-blur">
+              <p className="pointer-events-none rounded-full border border-white/10 bg-ink-950/70 px-3 py-1.5 text-xs text-zinc-300 backdrop-blur">
                 Not in this photo · part of the full vertical line
               </p>
             )}
           </div>
-          <p className="pointer-events-none absolute bottom-4 left-4 rounded-full border border-white/10 bg-ink-950/60 px-3 py-1.5 text-xs text-slate-300 backdrop-blur">
+          <p className="pointer-events-none absolute bottom-4 left-4 rounded-full border border-white/10 bg-ink-950/60 px-3 py-1.5 text-xs text-zinc-300 backdrop-blur">
             {live ? '3D model · drag to turn the machine, click a part to explore' : 'The real machine · select a numbered part to explore'}
           </p>
           {selected !== null && (
@@ -178,19 +178,19 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
         <aside className="card flex flex-col p-6 sm:p-7" aria-label="Machine parts">
           {part && selected !== null ? (
             <div key={part.id} className="flex flex-1 flex-col motion-safe:animate-[fade-in_0.4s_ease-out]">
-              <p className="font-mono text-xs text-slate-500">
+              <p className="font-mono text-xs text-zinc-500">
                 {pad(selected)} / {pad(n - 1)}
               </p>
               <h3 ref={cardHeading} tabIndex={-1} aria-live="polite" className="mt-3 text-2xl font-semibold tracking-[-0.03em] focus:outline-none">
                 {part.name}
               </h3>
               <p className="mt-1 text-sm text-brand-200">{part.short}</p>
-              <p className="mt-4 leading-relaxed text-slate-300">{part.body}</p>
+              <p className="mt-4 leading-relaxed text-zinc-300">{part.body}</p>
               {partSpecs.length > 0 && (
                 <dl className="mt-6 divide-y divide-white/[0.06] border-y border-white/[0.06]">
                   {partSpecs.map((s) => (
                     <div key={s.label} className="flex items-baseline justify-between gap-4 py-2.5 text-sm">
-                      <dt className="text-slate-400">{s.label}</dt>
+                      <dt className="text-zinc-400">{s.label}</dt>
                       <dd className="text-right font-medium text-white">{s.value}</dd>
                     </div>
                   ))}
@@ -212,7 +212,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
             </div>
           ) : (
             <>
-              <p className="text-xs font-medium tracking-[0.16em] text-slate-500 uppercase">Follow the cable</p>
+              <p className="text-xs font-medium tracking-[0.16em] text-zinc-500 uppercase">Follow the cable</p>
               <ol className="mt-4 -mx-2 flex-1 space-y-0.5">
                 {extruderParts.map((p, i) => (
                   <li key={p.id}>
@@ -228,14 +228,14 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     >
                       <span
                         className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] transition-colors ${
-                          focus === i ? 'border-brand-300 bg-brand-300 text-ink-950' : 'border-white/15 text-slate-300'
+                          focus === i ? 'border-brand-300 bg-brand-300 text-ink-950' : 'border-white/15 text-zinc-300'
                         }`}
                       >
                         {i + 1}
                       </span>
                       <span className="min-w-0">
                         <span className="block text-sm font-medium text-white">{p.name}</span>
-                        <span className="block text-xs text-slate-500">{p.short}</span>
+                        <span className="block text-xs text-zinc-500">{p.short}</span>
                       </span>
                     </button>
                   </li>
@@ -254,7 +254,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
             const i = extruderParts.findIndex((p) => p.id === specPart[s.label])
             return (
               <div key={s.label}>
-                <dt className="text-xs text-slate-400">
+                <dt className="text-xs text-zinc-400">
                   {i >= 0 ? (
                     <button
                       type="button"

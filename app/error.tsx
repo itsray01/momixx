@@ -14,7 +14,7 @@ export default function Error({ error, retry }: { error: Error & { digest?: stri
     <section className="container-page pt-40 pb-32">
       <p className="eyebrow">Error</p>
       <h1 className="display-lg mt-6">Something went wrong on this page</h1>
-      <p className="mt-6 max-w-xl text-lg text-slate-300">Please try again. If it keeps happening, the rest of the site is still available.</p>
+      <p className="mt-6 max-w-xl text-lg text-zinc-300">Please try again. If it keeps happening, the rest of the site is still available.</p>
       <div className="mt-10 flex flex-wrap gap-3">
         <button type="button" onClick={() => retry()} className="btn-primary">
           Try again

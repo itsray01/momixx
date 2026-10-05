@@ -51,9 +51,9 @@ export default async function ArticlePage({ params }: Props) {
               />
               <p className="eyebrow mt-8">{topic.label}</p>
               <h1 className="display-lg mt-5">{a.title}</h1>
-              <p className="mt-6 max-w-2xl text-xl leading-relaxed text-slate-300">{a.description}</p>
+              <p className="mt-6 max-w-2xl text-xl leading-relaxed text-zinc-300">{a.description}</p>
               {/* A visible date and author help readers, search engines and AI answers judge how current and credible the article is. */}
-              <p className="mt-6 text-sm text-slate-500">
+              <p className="mt-6 text-sm text-zinc-500">
                 Updated <time dateTime={a.updated ?? a.date}>{formatDate(a.updated ?? a.date)}</time> · {a.author ? a.author.name : `${site.name} technical team`}
               </p>
             </div>
@@ -64,11 +64,11 @@ export default async function ArticlePage({ params }: Props) {
           <aside className="hidden lg:block">
             {a.headings.length > 2 && (
               <nav aria-label="On this page" className="sticky top-28">
-                <p className="text-xs font-medium tracking-[0.16em] text-slate-500 uppercase">On this page</p>
+                <p className="text-xs font-medium tracking-[0.16em] text-zinc-500 uppercase">On this page</p>
                 <ol className="mt-4 space-y-2.5 border-l border-white/10 text-sm">
                   {a.headings.map((h) => (
                     <li key={h.id}>
-                      <a href={`#${h.id}`} className="-ml-px block border-l border-transparent pl-4 text-slate-400 transition-colors hover:border-brand-300 hover:text-white">
+                      <a href={`#${h.id}`} className="-ml-px block border-l border-transparent pl-4 text-zinc-400 transition-colors hover:border-brand-300 hover:text-white">
                         {h.text}
                       </a>
                     </li>
@@ -81,10 +81,10 @@ export default async function ArticlePage({ params }: Props) {
           <div className="min-w-0 max-w-3xl">
             {a.takeaways.length > 0 && (
               <section aria-labelledby="takeaways" className="card mb-12 p-7 sm:p-8">
-                <h2 id="takeaways" className="text-sm font-medium tracking-[0.16em] text-slate-400 uppercase">
+                <h2 id="takeaways" className="text-sm font-medium tracking-[0.16em] text-zinc-400 uppercase">
                   Key takeaways
                 </h2>
-                <ul className="mt-4 space-y-3 text-slate-200">
+                <ul className="mt-4 space-y-3 text-zinc-200">
                   {a.takeaways.map((t) => (
                     <li key={t} className="flex gap-3">
                       <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-300" />
@@ -106,8 +106,8 @@ export default async function ArticlePage({ params }: Props) {
 
             {a.sources.length > 0 && (
               <section className="mt-16 border-t border-white/[0.08] pt-8">
-                <h2 className="text-sm font-medium tracking-[0.16em] text-slate-500 uppercase">Sources</h2>
-                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-slate-400 marker:text-slate-500">
+                <h2 className="text-sm font-medium tracking-[0.16em] text-zinc-500 uppercase">Sources</h2>
+                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-zinc-400 marker:text-zinc-500">
                   {a.sources.map((s) => (
                     <li key={s.url}>
                       <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-white">
@@ -119,7 +119,7 @@ export default async function ArticlePage({ params }: Props) {
               </section>
             )}
 
-            <p className="mt-12 text-sm text-slate-500">
+            <p className="mt-12 text-sm text-zinc-500">
               More in{' '}
               <Link href={`/insights/topic/${a.topic}`} className="text-brand-300 underline decoration-brand-300/40 underline-offset-4 hover:text-brand-200">
                 {topic.label}

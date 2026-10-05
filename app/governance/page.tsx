@@ -49,7 +49,7 @@ export default function GovernancePage() {
         <dl className="max-w-4xl divide-y divide-white/[0.08] border-y border-white/[0.08]">
           {companyInfo.map((row) => (
             <div key={row.label} className="grid gap-1 py-5 sm:grid-cols-[14rem_1fr] sm:gap-10">
-              <dt className="text-sm text-slate-400">{row.label}</dt>
+              <dt className="text-sm text-zinc-400">{row.label}</dt>
               <dd className="text-lg text-white">
                 {row.value.map((line) => (
                   <span key={line} className="block">
@@ -90,7 +90,7 @@ export default function GovernancePage() {
                   {d.role}
                   {d.independent && ' · Independent'}
                 </p>
-                {d.bio && <p className="mt-4 text-sm leading-relaxed text-slate-400">{d.bio}</p>}
+                {d.bio && <p className="mt-4 text-sm leading-relaxed text-zinc-400">{d.bio}</p>}
               </li>
             ))}
           </ul>
@@ -103,17 +103,17 @@ export default function GovernancePage() {
             {committees.map((c) => (
               <li key={c.name} className="card p-7">
                 <h3 className="text-xl font-semibold tracking-[-0.02em]">{c.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-400">{c.remit}</p>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400">{c.remit}</p>
                 <dl className="mt-6 space-y-3 border-t border-white/[0.08] pt-5 text-sm">
                   {c.chair && (
                     <div>
-                      <dt className="text-xs text-slate-500">Chair</dt>
+                      <dt className="text-xs text-zinc-500">Chair</dt>
                       <dd className="mt-0.5 text-white">{c.chair}</dd>
                     </div>
                   )}
                   {c.members.length > 0 && (
                     <div>
-                      <dt className="text-xs text-slate-500">Members</dt>
+                      <dt className="text-xs text-zinc-500">Members</dt>
                       <dd className="mt-0.5 text-white">{c.members.join(', ')}</dd>
                     </div>
                   )}
@@ -130,7 +130,7 @@ export default function GovernancePage() {
             {policies.map((p) => (
               <li key={p.href} className="card flex flex-col p-7">
                 <h3 className="text-xl font-semibold tracking-[-0.02em]">{p.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{p.summary}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400">{p.summary}</p>
                 <a href={p.href} target="_blank" rel="noopener" className="mt-6 self-start text-sm font-medium text-brand-300 hover:text-brand-200">
                   Read the policy <span aria-hidden="true">→</span>
                 </a>
@@ -152,7 +152,7 @@ export default function GovernancePage() {
       </Section>
 
       <Section id="company-enquiries" tone={tone('company-enquiries')} eyebrow="Contact" title="Company *enquiries*" className="scroll-mt-28">
-        <p className="max-w-2xl text-lg leading-relaxed text-slate-300">
+        <p className="max-w-2xl text-lg leading-relaxed text-zinc-300">
           For questions about MoMixx as a company, email{' '}
           <a
             href={`mailto:${investorEmail}?subject=${encodeURIComponent('Company enquiry')}`}

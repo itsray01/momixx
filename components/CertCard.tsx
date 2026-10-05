@@ -17,20 +17,20 @@ export function CertCard({ cert, featured = false }: { cert: Certification; feat
         )}
       </div>
       <h3 className={`mt-5 font-semibold tracking-[-0.02em] text-white ${featured ? 'text-2xl' : ''}`}>{cert.name}</h3>
-      <p className="mt-1 text-xs text-slate-500">
+      <p className="mt-1 text-xs text-zinc-500">
         {cert.schemeOwner && `Standard: ${cert.schemeOwner} · `}
         {cert.issuer}
         {cert.year ? ` · since ${cert.year}` : ''}
         {cert.number ? ` · No. ${cert.number}` : ''}
       </p>
-      <p className={`mt-4 flex-1 leading-relaxed text-slate-400 ${featured ? 'text-base' : 'text-sm'}`}>{cert.plain}</p>
+      <p className={`mt-4 flex-1 leading-relaxed text-zinc-400 ${featured ? 'text-base' : 'text-sm'}`}>{cert.plain}</p>
       <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
         {cert.file ? (
           <a href={cert.file} target="_blank" rel="noopener" className="text-brand-300 hover:text-brand-200">
             View certificate (PDF) <span aria-hidden="true">→</span>
           </a>
         ) : (
-          <span className="font-normal text-slate-500">Certificate available on request</span>
+          <span className="font-normal text-zinc-500">Certificate available on request</span>
         )}
         {cert.verifyUrl && (
           <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:text-brand-200">

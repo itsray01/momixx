@@ -39,7 +39,7 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="grain relative overflow-hidden border-t border-white/[0.06] bg-ink-950 text-slate-400">
+    <footer className="grain relative overflow-hidden border-t border-white/[0.06] bg-ink-950 text-zinc-400">
       <div className="container-page grid gap-12 pt-20 pb-12 lg:grid-cols-[1.2fr_2fr]">
         <div className="space-y-6">
           <Logo className="text-white" />
@@ -59,11 +59,11 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="text-xs font-medium tracking-[0.18em] text-slate-500 uppercase">{col.title}</h2>
+              <h2 className="text-xs font-medium tracking-[0.18em] text-zinc-500 uppercase">{col.title}</h2>
               <ul className="mt-4 space-y-1 text-sm">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="inline-block py-1.5 text-slate-300 transition-colors hover:text-white">
+                    <Link href={l.href} className="inline-block py-1.5 text-zinc-300 transition-colors hover:text-white">
                       {l.label}
                     </Link>
                   </li>
@@ -75,7 +75,7 @@ export function Footer() {
       </div>
 
       <div className="relative border-t border-white/[0.06]">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {site.legalName}
             {site.registrationNumber && ` (UEN ${site.registrationNumber})`}. All rights reserved.

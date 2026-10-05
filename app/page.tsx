@@ -99,7 +99,7 @@ export default function HomePage() {
       <div>
         <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[720px]">
           <GridBackdrop />
-          <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_7_10)_30%,transparent)]" aria-hidden="true" />
+          <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
 
           {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
           <div className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
@@ -108,7 +108,7 @@ export default function HomePage() {
             {heroLabels.map((l) => (
               <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block motion-reduce:lg:hidden ${l.pos}`}>
                 <p className="text-sm font-medium text-white">{l.title}</p>
-                <p className="text-xs text-slate-400">{l.sub}</p>
+                <p className="text-xs text-zinc-400">{l.sub}</p>
               </div>
             ))}
           </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,38rem)]">
               <p className="eyebrow">A tech-driven silicone company</p>
               <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
                 We develop, recycle and process high-performance silicone for the things the world now runs on: phone cables, electric vehicles, medical
                 devices, AI data centres and robots.
               </p>
@@ -133,9 +133,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div data-hero-fade aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-slate-500 uppercase lg:flex">
+          <div data-hero-fade aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -tranzinc-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-zinc-500 uppercase lg:flex">
             Scroll
-            <span className="h-10 w-px bg-gradient-to-b from-slate-500 to-transparent" />
+            <span className="h-10 w-px bg-gradient-to-b from-zinc-500 to-transparent" />
           </div>
         </section>
       </div>
@@ -168,9 +168,9 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8">
-                  <p className="text-sm font-medium text-slate-400">{b.kicker}</p>
+                  <p className="text-sm font-medium text-zinc-400">{b.kicker}</p>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{b.title}</h3>
-                  <p className="mt-3 flex-1 text-base leading-relaxed text-slate-400 sm:text-[17px]">{b.body}</p>
+                  <p className="mt-3 flex-1 text-base leading-relaxed text-zinc-400 sm:text-[17px]">{b.body}</p>
                   <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white">
                     {b.cta} <Arrow />
                   </span>
@@ -179,7 +179,7 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-        <p className="mt-12 max-w-3xl text-lg leading-relaxed text-slate-300">
+        <p className="mt-12 max-w-3xl text-lg leading-relaxed text-zinc-300">
           Our silicone goes into phones, electric vehicles, medical devices, AI data centres, robots and chip-making machines.{' '}
           <ArrowLink href="/applications">Where it goes</ArrowLink>
         </p>
@@ -200,7 +200,7 @@ export default function HomePage() {
               {certificationClaim.statement}
               <Fn n={2} />
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-slate-300">
+            <p className="mt-6 text-lg leading-relaxed text-zinc-300">
               Most silicone waste ends up in landfill. We break it down into its basic building blocks and rebuild it into new silicone that performs like
               new. Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.
             </p>

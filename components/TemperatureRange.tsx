@@ -17,14 +17,14 @@ const ticks = [-80, -40, 0, 40, 80, 120, 160, 200, 240, 280]
 const pct = (t: number) => ((t - LO) / (HI - LO)) * 100
 const deg = (t: number) => `${t < 0 ? '−' : ''}${Math.abs(t)} °C`
 
-const fill = { momixx: 'bg-[#e4e4e7]', silicone: 'bg-[#a1a1aa]', other: 'bg-[#5a6474]' }
+const fill = { momixx: 'bg-[#e4e4e7]', silicone: 'bg-[#a1a1aa]', other: 'bg-[#71717a]' }
 
 export function TemperatureRange() {
   return (
     <figure className="card p-6 sm:p-8">
       <figcaption>
         <p className="text-lg font-semibold tracking-[-0.02em] text-white">Silicone cable is rated from −60 °C to 180 °C; MoMixx MV reached 250 °C in our testing</p>
-        <p className="mt-1 text-sm text-slate-400">Temperature range by cable material: catalogue ratings, and MoMixx MV in testing</p>
+        <p className="mt-1 text-sm text-zinc-400">Temperature range by cable material: catalogue ratings, and MoMixx MV in testing</p>
       </figcaption>
 
       <div className="relative mt-8">
@@ -35,7 +35,7 @@ export function TemperatureRange() {
             { t: 100, label: 'Water boils' },
           ].map((r) => (
             <div key={r.t} className="absolute inset-y-0 border-l border-dashed border-white/15" style={{ left: `${pct(r.t)}%` }}>
-              <span className="absolute -top-6 -translate-x-1/2 text-[11px] whitespace-nowrap text-slate-500">{r.label}</span>
+              <span className="absolute -top-6 -tranzinc-x-1/2 text-[11px] whitespace-nowrap text-zinc-500">{r.label}</span>
             </div>
           ))}
         </div>
@@ -44,21 +44,21 @@ export function TemperatureRange() {
           {rows.map((r) => (
             <li key={r.name} className="sm:flex sm:items-center sm:gap-0">
               <div className="mb-2 sm:mb-0 sm:w-56 sm:shrink-0 sm:pr-6">
-                <p className={`text-sm font-medium ${r.tone === 'momixx' ? 'text-white' : 'text-slate-200'}`}>{r.name}</p>
-                <p className="text-xs text-slate-500">{r.detail}</p>
+                <p className={`text-sm font-medium ${r.tone === 'momixx' ? 'text-white' : 'text-zinc-200'}`}>{r.name}</p>
+                <p className="text-xs text-zinc-500">{r.detail}</p>
               </div>
               <div className="relative mr-2 ml-12 h-9 flex-1 sm:mr-0 sm:ml-0">
                 <div aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-white/[0.06]" />
                 <div
                   title={`${r.name}: ${deg(r.min)} to ${deg(r.max)}`}
                   data-grow
-                  className={`absolute top-1/2 h-3 -translate-y-1/2 rounded-full ${fill[r.tone]}`}
+                  className={`absolute top-1/2 h-3 -tranzinc-y-1/2 rounded-full ${fill[r.tone]}`}
                   style={{ left: `${pct(r.min)}%`, width: `${pct(r.max) - pct(r.min)}%` }}
                 />
-                <span className="absolute top-1/2 -translate-x-full -translate-y-1/2 pr-2 text-xs whitespace-nowrap text-slate-300" style={{ left: `${pct(r.min)}%` }}>
+                <span className="absolute top-1/2 -tranzinc-x-full -tranzinc-y-1/2 pr-2 text-xs whitespace-nowrap text-zinc-300" style={{ left: `${pct(r.min)}%` }}>
                   {deg(r.min)}
                 </span>
-                <span className={`absolute top-1/2 -translate-y-1/2 pl-2 text-xs font-medium whitespace-nowrap ${r.tone === 'momixx' ? 'text-white' : 'text-slate-300'}`} style={{ left: `${pct(r.max)}%` }}>
+                <span className={`absolute top-1/2 -tranzinc-y-1/2 pl-2 text-xs font-medium whitespace-nowrap ${r.tone === 'momixx' ? 'text-white' : 'text-zinc-300'}`} style={{ left: `${pct(r.max)}%` }}>
                   {deg(r.max)}
                 </span>
               </div>
@@ -69,7 +69,7 @@ export function TemperatureRange() {
         {/* Axis */}
         <div aria-hidden="true" className="relative mt-4 mr-2 ml-12 h-5 sm:mr-0 sm:ml-56">
           {ticks.map((t) => (
-            <span key={t} className={`absolute -translate-x-1/2 text-[11px] text-slate-500 ${t % 80 === 0 || t === 0 ? '' : 'hidden sm:inline'}`} style={{ left: `${pct(t)}%` }}>
+            <span key={t} className={`absolute -tranzinc-x-1/2 text-[11px] text-zinc-500 ${t % 80 === 0 || t === 0 ? '' : 'hidden sm:inline'}`} style={{ left: `${pct(t)}%` }}>
               {t}°
             </span>
           ))}
@@ -77,9 +77,9 @@ export function TemperatureRange() {
       </div>
 
       <details className="mt-6 text-sm">
-        <summary className="cursor-pointer text-slate-400 hover:text-white">View as table</summary>
-        <table className="mt-3 w-full text-left text-slate-300">
-          <thead className="text-xs text-slate-500">
+        <summary className="cursor-pointer text-zinc-400 hover:text-white">View as table</summary>
+        <table className="mt-3 w-full text-left text-zinc-300">
+          <thead className="text-xs text-zinc-500">
             <tr>
               <th className="py-1.5 font-medium">Material</th>
               <th className="py-1.5 font-medium">Lowest</th>
@@ -90,7 +90,7 @@ export function TemperatureRange() {
             {rows.map((r) => (
               <tr key={r.name} className="border-t border-white/[0.06]">
                 <td className="py-1.5">
-                  {r.name} <span className="text-slate-500">({r.detail})</span>
+                  {r.name} <span className="text-zinc-500">({r.detail})</span>
                 </td>
                 <td className="py-1.5">{deg(r.min)}</td>
                 <td className="py-1.5">{deg(r.max)}</td>
@@ -99,7 +99,7 @@ export function TemperatureRange() {
           </tbody>
         </table>
       </details>
-      <p className="mt-4 text-xs leading-relaxed text-slate-500">
+      <p className="mt-4 text-xs leading-relaxed text-zinc-500">
         The three cable ratings come from one maker&apos;s catalogue:{' '}
         <a href="https://products.lappgroup.com/online-catalogue/power-and-control-cables/expanded-ambient-temperatures/silicone-cables/oelflex-heat-180-sihf.html" target="_blank" rel="noopener noreferrer" className="underline decoration-white/20 underline-offset-2 hover:text-white">
           LAPP ÖLFLEX catalogue

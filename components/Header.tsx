@@ -20,7 +20,7 @@ function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; path
   const listCols = cards ? (many ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2') : alone && many ? 'grid-cols-3' : col.links.length > 6 ? 'grid-cols-2' : ''
   return (
     <div>
-      <p className="px-2.5 text-[11px] font-medium tracking-[0.16em] text-slate-500 uppercase">
+      <p className="px-2.5 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">
         {col.href ? (
           <Link href={col.href} className="hover:text-white">
             {col.title}
@@ -38,10 +38,10 @@ function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; path
               className="group/link flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.05] focus-visible:bg-white/[0.05]"
             >
               <span className="min-w-0">
-                <span className={`block text-sm font-medium transition-colors group-hover/link:text-white ${isActive(pathname, l.href) ? 'text-white' : 'text-slate-200'}`}>
+                <span className={`block text-sm font-medium transition-colors group-hover/link:text-white ${isActive(pathname, l.href) ? 'text-white' : 'text-zinc-200'}`}>
                   {l.label}
                 </span>
-                {l.desc && <span className="mt-0.5 block text-xs leading-snug text-slate-500 group-hover/link:text-slate-400">{l.desc}</span>}
+                {l.desc && <span className="mt-0.5 block text-xs leading-snug text-zinc-500 group-hover/link:text-zinc-400">{l.desc}</span>}
               </span>
             </Link>
           </li>
@@ -66,9 +66,9 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
           href={menu.feature.href}
           className="group/feature relative flex flex-col self-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
         >
-          <span className="relative text-[11px] font-medium tracking-[0.16em] text-slate-400 uppercase">{menu.feature.eyebrow}</span>
+          <span className="relative text-[11px] font-medium tracking-[0.16em] text-zinc-400 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
-          <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-400">{menu.feature.body}</span>
+          <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-400">{menu.feature.body}</span>
           <span className="relative mt-auto pt-4 text-xs font-medium text-brand-300">
             {menu.feature.cta ?? 'Explore'} <span aria-hidden="true">→</span>
           </span>
@@ -196,7 +196,7 @@ export function Header({ menus }: { menus: Menu[] }) {
         onBlur={(e) => {
           if (!headerRef.current?.contains(e.relatedTarget as Node)) setActive(null)
         }}
-        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${hidden && !mobileOpen ? '-translate-y-[120%]' : 'translate-y-0'}`}
+        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${hidden && !mobileOpen ? '-tranzinc-y-[120%]' : 'tranzinc-y-0'}`}
       >
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-ink-950">
           Skip to content
@@ -244,7 +244,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                         else if (menu.columns) open(i)
                         else setActive(null)
                       }}
-                      className={`relative flex items-center rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-slate-300'}`}
+                      className={`relative flex items-center rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-zinc-300'}`}
                     >
                       {menu.label}
                       {current && <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />}
@@ -253,7 +253,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                       <div
                         id={`menu-${i}`}
                         className={`absolute inset-x-0 top-full pt-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
-                          active === i ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
+                          active === i ? 'visible tranzinc-y-0 opacity-100' : 'invisible -tranzinc-y-2 opacity-0'
                         }`}
                       >
                         <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
@@ -305,7 +305,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                 <li key={menu.label}>
                   {menu.columns ? (
                     <details className="group" open={isActive(pathname, menu.href) || undefined}>
-                      <summary className="flex cursor-pointer list-none items-center justify-between rounded-2xl px-4 py-3.5 text-lg font-medium text-slate-100">
+                      <summary className="flex cursor-pointer list-none items-center justify-between rounded-2xl px-4 py-3.5 text-lg font-medium text-zinc-100">
                         {menu.label}
                         <svg viewBox="0 0 12 12" className="h-3.5 w-3.5 opacity-60 transition-transform group-open:rotate-180" aria-hidden="true">
                           <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -314,17 +314,17 @@ export function Header({ menus }: { menus: Menu[] }) {
                       <div className="space-y-4 px-2 pb-4">
                         {menu.columns.map((c) => (
                           <div key={c.title}>
-                            {menu.columns!.length > 1 && <p className="px-3 pb-1 text-[11px] font-medium tracking-[0.16em] text-slate-500 uppercase">{c.title}</p>}
+                            {menu.columns!.length > 1 && <p className="px-3 pb-1 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">{c.title}</p>}
                             <ul className={`grid gap-0.5 ${c.links.every((l) => !l.desc) ? 'grid-cols-2' : 'sm:grid-cols-2'}`}>
                               {c.links.map((l) => (
                                 <li key={l.href}>
                                   <Link
                                     href={l.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className={`block rounded-xl px-3 py-2.5 ${isActive(pathname, l.href) && !l.href.includes('#') ? 'bg-white/[0.06] text-white' : 'text-slate-300'}`}
+                                    className={`block rounded-xl px-3 py-2.5 ${isActive(pathname, l.href) && !l.href.includes('#') ? 'bg-white/[0.06] text-white' : 'text-zinc-300'}`}
                                   >
                                     <span className="block text-[15px]">{l.label}</span>
-                                    {l.desc && <span className="block text-xs text-slate-500">{l.desc}</span>}
+                                    {l.desc && <span className="block text-xs text-zinc-500">{l.desc}</span>}
                                   </Link>
                                 </li>
                               ))}
@@ -334,7 +334,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                       </div>
                     </details>
                   ) : (
-                    <Link href={menu.href} className="block rounded-2xl px-4 py-3.5 text-lg font-medium text-slate-100">
+                    <Link href={menu.href} className="block rounded-2xl px-4 py-3.5 text-lg font-medium text-zinc-100">
                       {menu.label}
                     </Link>
                   )}

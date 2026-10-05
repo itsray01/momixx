@@ -45,7 +45,7 @@ export function RegionMap({ links, className = '' }: { links?: Record<PinKey, st
         <path
           d={dots}
           fill="none"
-          stroke="#94a3b8"
+          stroke="#a1a1aa"
           strokeLinecap="round"
           className="[stroke-opacity:0.38] [stroke-width:0.42] @max-xl:[stroke-opacity:0.5] @max-xl:[stroke-width:0.6]"
         />
@@ -53,7 +53,7 @@ export function RegionMap({ links, className = '' }: { links?: Record<PinKey, st
       {pins.map((p) => {
         const href = links?.[p.key]
         const props = {
-          className: 'group absolute flex -translate-x-[7px] -translate-y-1/2 items-center gap-2.5 rounded-full outline-none',
+          className: 'group absolute flex -tranzinc-x-[7px] -tranzinc-y-1/2 items-center gap-2.5 rounded-full outline-none',
           style: { left: `${(x(p.lon) / view.width) * 100}%`, top: `${((y(p.lat) - view.top) / view.height) * 100}%` },
         }
         const content = (
