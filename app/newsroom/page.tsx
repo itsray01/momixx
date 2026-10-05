@@ -1,4 +1,5 @@
 import { ArticleCard } from '@/components/ArticleCard'
+import { Timeline } from '@/components/infographics'
 import { ArrowLink, PageHeader, Section } from '@/components/ui'
 import { milestones } from '@/content/company'
 import { news } from '@/content/news'
@@ -13,7 +14,7 @@ export const metadata = pageMetadata({
 
 export default function NewsroomPage() {
   const announcements = [...news].sort((a, b) => b.date.localeCompare(a.date))
-  const recentMilestones = [...milestones].sort((a, b) => a.year - b.year).slice(-3).reverse()
+  const recentMilestones = [...milestones].sort((a, b) => a.year - b.year).slice(-3)
   const latestArticles = getArticles().slice(0, 3)
   const mediaEmail = site.mediaEmail || site.email
   // Alternate section backgrounds whether or not Announcements is shown.
@@ -56,21 +57,7 @@ export default function NewsroomPage() {
       )}
 
       <Section id="milestones" tone={milestonesTone} eyebrow="Our journey" title="Recent *milestones*">
-        <ol data-reveal="stagger" className="relative">
-          {recentMilestones.map((m) => (
-            <li key={m.year} className="grid items-start gap-3 border-t border-white/[0.08] py-8 sm:grid-cols-[12rem_1fr] sm:gap-10">
-              <h3 className="display-md flex items-center gap-4 leading-none text-white">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-300" />
-                {m.year}
-              </h3>
-              <ul className="space-y-2 text-lg text-zinc-300">
-                {m.items.map((it) => (
-                  <li key={it}>{it}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
+        <Timeline years={recentMilestones} columns={3} />
         <div className="mt-10">
           <ArrowLink href="/about#milestones">All milestones since {site.foundingYear}</ArrowLink>
         </div>

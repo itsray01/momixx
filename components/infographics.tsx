@@ -209,10 +209,10 @@ function isCertifiedLine(line: string) {
  * Horizontal rail through the dot. It runs across the gap to the next card and
  * stops at the end of each row, so it never sticks out of the grid.
  */
-function railClass(index: number, count: number) {
+function railClass(index: number, count: number, columns: 3 | 4) {
   const n = index + 1
   const endMd = n % 2 === 0 || n === count
-  const endLg = n % 4 === 0 || n === count
+  const endLg = n % columns === 0 || n === count
   return [
     'pointer-events-none absolute top-[5px] left-0 z-0 hidden h-px bg-white/15 md:block',
     endMd ? 'md:right-0' : 'md:-right-10',
@@ -220,18 +220,18 @@ function railClass(index: number, count: number) {
   ].join(' ')
 }
 
-/** Year cards: one column on phones, two on tablets, four from 1024 px. */
-export function Timeline({ years }: { years: Array<{ year: number; items: string[] }> }) {
+/** Year cards: one column on phones, two on tablets, and `columns` (default four) from 1024 px. */
+export function Timeline({ years, columns = 4 }: { years: Array<{ year: number; items: string[] }>; columns?: 3 | 4 }) {
   return (
     <ol
       data-reveal="stagger"
-      className="relative grid grid-cols-1 gap-y-10 before:absolute before:top-3 before:bottom-8 before:left-[5px] before:w-px before:bg-white/15 before:content-[''] md:grid-cols-2 md:gap-x-10 md:gap-y-14 md:before:hidden lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16"
+      className={`relative grid grid-cols-1 gap-y-10 before:absolute before:top-3 before:bottom-8 before:left-[5px] before:w-px before:bg-white/15 before:content-[''] md:grid-cols-2 md:gap-x-10 md:gap-y-14 md:before:hidden ${columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'} lg:gap-x-8 lg:gap-y-16`}
     >
       {years.map((m, i) => {
         const Icon = yearIcons[m.year]
         return (
           <li key={m.year} className="relative pl-8 md:pt-8 md:pl-0">
-            <span aria-hidden="true" className={railClass(i, years.length)} />
+            <span aria-hidden="true" className={railClass(i, years.length, columns)} />
             <span aria-hidden="true" className="absolute top-1.5 left-0 z-10 size-2.5 rounded-full bg-brand-300 md:top-0" />
             <h3 className="text-3xl leading-none font-semibold tracking-[-0.04em] text-white">{m.year}</h3>
             {Icon && (
