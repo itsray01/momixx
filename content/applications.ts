@@ -7,6 +7,29 @@
 // 180–200 °C. Keep the "10,000 twisting cycles" figure to one mention here
 // (consumer electronics) plus the MM product page.
 
+import type { LucideIcon } from 'lucide-react'
+import {
+  Cable,
+  ClipboardCheck,
+  Clock,
+  Cog,
+  CircleDot,
+  Crosshair,
+  Droplets,
+  Factory,
+  Filter,
+  Hand,
+  HeartPulse,
+  Leaf,
+  MapPin,
+  Recycle,
+  RefreshCcw,
+  Repeat,
+  Route,
+  Shield,
+  Smartphone,
+  Thermometer,
+} from 'lucide-react'
 import type { ModelName } from '@/components/three/modelNames'
 
 export type Maturity = 'In mass production' | 'Certified & scaling' | 'Emerging opportunity'
@@ -19,8 +42,8 @@ export type Application = {
   intro: string
   maturity: Maturity
   maturityNote: string
-  whySilicone: Array<{ title: string; body: string }>
-  ourRole: Array<{ title: string; body: string }>
+  whySilicone: Array<{ title: string; body: string; icon?: LucideIcon }>
+  ourRole: Array<{ title: string; body: string; icon?: LucideIcon }>
   examples: string[]
   products: string[]
   /** ids from content/markets.ts */
@@ -41,17 +64,18 @@ export const applications: Application[] = [
     maturity: 'In mass production',
     maturityNote: 'Qualified by a leading smartphone brand since 2019 and made in volume at our factories in Asia.',
     whySilicone: [
-      { title: 'Soft and tangle-free', body: 'Silicone has low hardness and almost no “memory” (it does not hold a bent shape), so cables lie flat instead of kinking.' },
-      { title: 'Lasts longer', body: 'In MoMixx testing, MM silicone cable jackets withstood 10,000 twisting cycles, about twice as many as a standard TPE cable.' },
+      { icon: Cable, title: 'Soft and tangle-free', body: 'Silicone has low hardness and almost no “memory” (it does not hold a bent shape), so cables lie flat instead of kinking.' },
+      { icon: Repeat, title: 'Lasts longer', body: 'In MoMixx testing, MM silicone cable jackets withstood 10,000 twisting cycles, about twice as many as a standard TPE cable.' },
       {
+        icon: Thermometer,
         title: 'Handles heat',
         body: 'Standard silicone cable is typically rated to about 180–200 °C, against about 105 °C for a TPE cable (LAPP catalogue). In MoMixx testing, MM silicone withstood 250 °C.',
       },
     ],
     ourRole: [
-      { title: 'Cable silicone', body: 'Our MM range: flame-retardant silicone for USB-C data and charging cables.' },
-      { title: 'Cases and straps', body: 'Self-bonding silicone for phone cases, and PFAS-free high-density silicone for watch straps.' },
-      { title: 'Machines', body: 'Our patented vertical extrusion line makes silicone cable at up to 100 metres a minute.' },
+      { icon: Cable, title: 'Cable silicone', body: 'Our MM range: flame-retardant silicone for USB-C data and charging cables.' },
+      { icon: Smartphone, title: 'Cases and straps', body: 'Self-bonding silicone for phone cases, and PFAS-free high-density silicone for watch straps.' },
+      { icon: Cog, title: 'Machines', body: 'Our patented vertical extrusion line makes silicone cable at up to 100 metres a minute.' },
     ],
     examples: ['USB-C charging and data cables', 'Laptop power cords', 'Phone and tablet cases', 'Smartwatch straps', 'Seals for IP68-rated devices'],
     products: ['momixx-mm', 'momixx-procase', 'momixx-high-density', 'momixx-seal', 'vertical-extruder', 'odm-oem'],
@@ -79,16 +103,17 @@ export const applications: Application[] = [
     maturityNote: 'MV silicone has been tested by MoMixx under conditions harsher than normal electric-car operation.',
     whySilicone: [
       {
+        icon: Thermometer,
         title: 'Wide temperature range',
         body: 'In MoMixx testing, MV silicone worked from −60 °C to 250 °C. In the same tests, XLPO, the plastic usually used, withstood about 150 °C.',
       },
-      { title: 'Easier to route', body: 'Softer cables bend more tightly, which simplifies wiring in compact cars.' },
-      { title: 'PFAS-free', body: 'High-density silicone can replace fluorinated rubber (FKM) in many seals and parts where fuel and oil resistance is not critical.' },
+      { icon: Route, title: 'Easier to route', body: 'Softer cables bend more tightly, which simplifies wiring in compact cars.' },
+      { icon: Leaf, title: 'PFAS-free', body: 'High-density silicone can replace fluorinated rubber (FKM) in many seals and parts where fuel and oil resistance is not critical.' },
     ],
     ourRole: [
-      { title: 'EV cable silicone', body: 'Our MV range for high-voltage power and charging cables.' },
-      { title: 'FKM alternative', body: 'MHD high-density silicone as a PFAS-free option for seals and parts.' },
-      { title: 'Recycled option', body: 'Certified recycled silicone for carmakers with recycled-content targets.' },
+      { icon: Cable, title: 'EV cable silicone', body: 'Our MV range for high-voltage power and charging cables.' },
+      { icon: Leaf, title: 'FKM alternative', body: 'MHD high-density silicone as a PFAS-free option for seals and parts.' },
+      { icon: Recycle, title: 'Recycled option', body: 'Certified recycled silicone for carmakers with recycled-content targets.' },
     ],
     examples: ['High-voltage battery cables', 'Charging cables', 'Motor and inverter wiring', 'Seals and gaskets'],
     products: ['momixx-move', 'momixx-high-density', 'recycled-silicone', 'crimson'],
@@ -116,16 +141,17 @@ export const applications: Application[] = [
     maturityNote: 'Making silicone parts for medical-device makers since 2025; Batu Kawan, Penang factory certified to ISO 13485 in 2026.',
     whySilicone: [
       {
+        icon: HeartPulse,
         title: 'Well tolerated',
         body: 'Medical-grade silicone is chemically stable and widely used on the skin and inside the body. Each finished device still needs its own biocompatibility testing, usually under ISO 10993.',
       },
-      { title: 'Sterilisable', body: 'It can be sterilised at high temperature again and again without breaking down.' },
-      { title: 'Precise', body: 'Liquid silicone can be moulded into small, detailed parts with tight tolerances.' },
+      { icon: RefreshCcw, title: 'Sterilisable', body: 'It can be sterilised at high temperature again and again without breaking down.' },
+      { icon: Crosshair, title: 'Precise', body: 'Liquid silicone can be moulded into small, detailed parts with tight tolerances.' },
     ],
     ourRole: [
-      { title: 'Certified quality system', body: 'Our Batu Kawan, Penang factory’s quality system is certified to ISO 13485.' },
-      { title: 'Parts for medical brands', body: 'Making silicone parts for medical-device makers since 2025.' },
-      { title: 'High-purity materials', body: 'High-density grades made under strict cleanliness and purity controls.' },
+      { icon: ClipboardCheck, title: 'Certified quality system', body: 'Our Batu Kawan, Penang factory’s quality system is certified to ISO 13485.' },
+      { icon: Factory, title: 'Parts for medical brands', body: 'Making silicone parts for medical-device makers since 2025.' },
+      { icon: Filter, title: 'High-purity materials', body: 'High-density grades made under strict cleanliness and purity controls.' },
     ],
     examples: ['Wearable health monitors', 'Seals and valves in devices', 'Tubing and connectors', 'Soft-touch grips'],
     products: ['medical-precision-components', 'momixx-high-density', 'selix'],
@@ -153,16 +179,17 @@ export const applications: Application[] = [
     maturityNote: 'A new market for MoMixx: we are offering our existing high-temperature cable and sealing materials.',
     whySilicone: [
       {
+        icon: Thermometer,
         title: 'Runs hot, stays safe',
         body: 'Silicone cable is typically rated to about 180–200 °C, well above common plastic cable, and can be made flame-retardant.',
       },
-      { title: 'Ages slowly', body: 'Holds up to constant heat in equipment that runs 24 hours a day.' },
-      { title: 'Keeps liquid out', body: 'Waterproof silicone seals suit servers cooled with liquid.' },
+      { icon: Clock, title: 'Ages slowly', body: 'Holds up to constant heat in equipment that runs 24 hours a day.' },
+      { icon: Droplets, title: 'Keeps liquid out', body: 'Waterproof silicone seals suit servers cooled with liquid.' },
     ],
     ourRole: [
-      { title: 'Cable silicone', body: 'High-temperature, flame-retardant MM silicone for network and power cables.' },
-      { title: 'Seals', body: 'MMS silicone for seals in waterproof enclosures and connectors.' },
-      { title: 'Scale', body: 'High-speed extrusion lines and two factories for volume orders.' },
+      { icon: Cable, title: 'Cable silicone', body: 'High-temperature, flame-retardant MM silicone for network and power cables.' },
+      { icon: CircleDot, title: 'Seals', body: 'MMS silicone for seals in waterproof enclosures and connectors.' },
+      { icon: Factory, title: 'Scale', body: 'High-speed extrusion lines and two factories for volume orders.' },
     ],
     examples: ['High-temperature network cables', 'Power cables', 'Seals for liquid cooling', 'Connector seals'],
     products: ['momixx-mm', 'momixx-seal', 'vertical-extruder'],
@@ -185,17 +212,18 @@ export const applications: Application[] = [
     maturity: 'Emerging opportunity',
     maturityNote: 'A new market for MoMixx: we are offering our flexible cable, sealing and soft-touch materials.',
     whySilicone: [
-      { title: 'Flexes repeatedly', body: 'Silicone cable jackets tolerate repeated twisting and bending better than many plastics.' },
-      { title: 'Skin-like touch', body: 'Soft, high-density silicone gives robot hands and “skin” a natural feel and is easy to clean.' },
-      { title: 'Protects joints', body: 'Seals keep dust and water out of motors and sensors.' },
+      { icon: Repeat, title: 'Flexes repeatedly', body: 'Silicone cable jackets tolerate repeated twisting and bending better than many plastics.' },
+      { icon: Hand, title: 'Skin-like touch', body: 'Soft, high-density silicone gives robot hands and “skin” a natural feel and is easy to clean.' },
+      { icon: Shield, title: 'Protects joints', body: 'Seals keep dust and water out of motors and sensors.' },
     ],
     ourRole: [
       {
+        icon: Cable,
         title: 'Flexible cables',
         body: 'MM cable silicone has been tested for twisting in our lab. Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.',
       },
-      { title: 'Soft-touch materials', body: 'High-density and self-bonding grades for grippers and covers.' },
-      { title: 'Precision parts', body: 'Moulded parts from our Batu Kawan, Penang factory.' },
+      { icon: Hand, title: 'Soft-touch materials', body: 'High-density and self-bonding grades for grippers and covers.' },
+      { icon: Crosshair, title: 'Precision parts', body: 'Moulded parts from our Batu Kawan, Penang factory.' },
     ],
     examples: ['Cables in joints and arms', 'Grip pads and fingertips', 'Soft outer covers', 'Seals for motors and sensors'],
     products: ['momixx-mm', 'momixx-high-density', 'momixx-seal', 'medical-precision-components'],
@@ -218,14 +246,14 @@ export const applications: Application[] = [
     maturity: 'Certified & scaling',
     maturityNote: 'Precision parts made at our Batu Kawan, Penang factory since 2026, under the same quality system as our ISO 13485-certified medical work.',
     whySilicone: [
-      { title: 'Clean', body: 'High-purity materials made under tight contamination control.' },
-      { title: 'Heat-stable', body: 'Keeps working at the high temperatures used in chip-making.' },
-      { title: 'Precise', body: 'Moulded to tight tolerances for equipment parts.' },
+      { icon: Filter, title: 'Clean', body: 'High-purity materials made under tight contamination control.' },
+      { icon: Thermometer, title: 'Heat-stable', body: 'Keeps working at the high temperatures used in chip-making.' },
+      { icon: Crosshair, title: 'Precise', body: 'Moulded to tight tolerances for equipment parts.' },
     ],
     ourRole: [
-      { title: 'Penang location', body: 'Based in one of Asia’s leading semiconductor regions.' },
-      { title: 'Precision moulding', body: 'Making high-precision parts since 2026.' },
-      { title: 'Quality system', body: 'The same quality system as our ISO 13485-certified medical work.' },
+      { icon: MapPin, title: 'Penang location', body: 'Based in one of Asia’s leading semiconductor regions.' },
+      { icon: Crosshair, title: 'Precision moulding', body: 'Making high-precision parts since 2026.' },
+      { icon: ClipboardCheck, title: 'Quality system', body: 'The same quality system as our ISO 13485-certified medical work.' },
     ],
     examples: ['Equipment seals and O-rings', 'Precision moulded parts', 'Protective and handling parts'],
     products: ['medical-precision-components'],

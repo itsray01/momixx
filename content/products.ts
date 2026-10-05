@@ -8,6 +8,8 @@
 // MoMixx's own testing and must say so. Spec labels on the extrusion lines must
 // match the keys in components/three/extruderParts.ts (specPart).
 
+import type { LucideIcon } from 'lucide-react'
+import { Cable, ClipboardCheck, Cpu, Crosshair, Flame, FlaskConical, Gauge, Hand, Leaf, Link, Paintbrush, Palette, Recycle, Repeat, Route, Scale, Thermometer, Wind } from 'lucide-react'
 import type { ModelName } from '@/components/three/modelNames'
 import { recyclingCertificationNames, recyclingCertifications } from './company'
 
@@ -54,7 +56,7 @@ export type Product = {
   category: ProductCategory
   tagline: string
   summary: string
-  benefits?: Array<{ title: string; body: string }>
+  benefits?: Array<{ title: string; body: string; icon?: LucideIcon }>
   /** A short numbered flow, shown in a "How it works" section after the overview. */
   steps?: Array<{ title: string; body: string }>
   uses?: string[]
@@ -87,14 +89,17 @@ export const products: Product[] = [
       'Our flagship cable silicone. It forms the soft outer jacket of USB-C and charging cables. Compared with TPE, the thermoplastic most cable jackets use, it is softer and more flexible, and in MoMixx testing it withstood twice as many twisting cycles and much higher temperatures. It is flame-retardant: it stops burning once the flame is removed.',
     benefits: [
       {
+        icon: Flame,
         title: 'Flame-retardant',
         body: 'Stops burning once the flame is removed. MM grades are designed for cables that pass the UL VW-1 flame test, which is carried out on the finished cable.',
       },
       {
+        icon: Repeat,
         title: 'Lasts longer',
         body: 'In MoMixx twisting tests, MM cable jackets lasted about twice as long as a standard TPE cable.',
       },
       {
+        icon: Cable,
         title: 'Soft and supple',
         body: 'Low hardness and almost no “memory” (it does not hold a bent shape), so cables lie flat instead of kinking.',
       },
@@ -142,9 +147,10 @@ export const products: Product[] = [
     summary:
       'Premium watch straps and some car parts are often made from fluorinated rubber (FKM). FKM is a PFAS, one of the “forever chemicals” the EU is working to restrict. MHD is a dense, silky silicone with a similar look, feel and toughness, made without fluorine.',
     benefits: [
-      { title: 'PFAS-free', body: 'Made without fluorine, so it is not a PFAS under the definition used in the EU restriction proposal.' },
-      { title: 'Premium feel', body: 'A soft, smooth, dense feel similar to premium FKM watch straps.' },
+      { icon: Leaf, title: 'PFAS-free', body: 'Made without fluorine, so it is not a PFAS under the definition used in the EU restriction proposal.' },
+      { icon: Hand, title: 'Premium feel', body: 'A soft, smooth, dense feel similar to premium FKM watch straps.' },
       {
+        icon: Scale,
         title: 'Similar performance',
         body: 'Similar strength and durability to FKM and HNBR rubbers in many uses. FKM still resists fuels and oils better, so check chemical resistance for your application.',
       },
@@ -175,9 +181,9 @@ export const products: Product[] = [
     summary:
       'Electric cars carry high power through hot, cramped spaces. In MoMixx testing, MV silicone kept working from −60 °C to 250 °C, beyond the roughly 180–200 °C rating typical of standard silicone cable. It is also much softer and more flexible than XLPO, the cross-linked plastic usually used, so cables can be routed through tighter spaces.',
     benefits: [
-      { title: 'Wide temperature range', body: 'Stayed flexible from −60 °C to 250 °C in MoMixx testing.' },
-      { title: 'Easier to route', body: 'Lower hardness means tighter bends and simpler wiring layouts.' },
-      { title: 'Tested beyond normal use', body: 'Tested by MoMixx under conditions harsher than normal electric-car operation.' },
+      { icon: Thermometer, title: 'Wide temperature range', body: 'Stayed flexible from −60 °C to 250 °C in MoMixx testing.' },
+      { icon: Route, title: 'Easier to route', body: 'Lower hardness means tighter bends and simpler wiring layouts.' },
+      { icon: FlaskConical, title: 'Tested beyond normal use', body: 'Tested by MoMixx under conditions harsher than normal electric-car operation.' },
     ],
     uses: ['High-voltage power cables in electric cars', 'Charging cables', 'Battery, motor and inverter wiring'],
     stats: [
@@ -207,9 +213,9 @@ export const products: Product[] = [
     summary:
       'Silicone normally needs a chemical primer before it will bond to plastic. MPC bonds to the hard plastic shell of a protective case by itself. That removes a production step, along with its chemicals and a common source of defects.',
     benefits: [
-      { title: 'No primer', body: 'Bonds directly to plastic, removing a manufacturing step.' },
-      { title: 'Cleaner process', body: 'Fewer chemicals and less handling on the production line.' },
-      { title: 'Tough finish', body: 'Works with our dip coating for a smooth, scratch-resistant surface.' },
+      { icon: Link, title: 'No primer', body: 'Bonds directly to plastic, removing a manufacturing step.' },
+      { icon: Wind, title: 'Cleaner process', body: 'Fewer chemicals and less handling on the production line.' },
+      { icon: Paintbrush, title: 'Tough finish', body: 'Works with our dip coating for a smooth, scratch-resistant surface.' },
     ],
     uses: ['Phone cases', 'Tablet cases', 'Products that combine silicone and plastic (over-moulding)'],
     models: [{ model: 'M14', type: 'LSR', properties: 'Self-bonding to plastic' }],
@@ -275,12 +281,14 @@ export const products: Product[] = [
     tagline: 'Certified recycled silicone that performs like new.',
     summary: `We turn factory offcuts (post-industrial, PIR) and used silicone products (post-consumer, PCR) back into new, high-quality silicone. Because we recycle chemically, the result performs like new material. Our recycled content is certified under ${recyclingCertificationNames}, with certified chain-of-custody records from collected waste to finished silicone.`,
     benefits: [
-      { title: 'Performs like new', body: 'Rebuilt from its basic building blocks, so it performs like new silicone, not a ground-up filler.' },
+      { icon: Recycle, title: 'Performs like new', body: 'Rebuilt from its basic building blocks, so it performs like new silicone, not a ground-up filler.' },
       {
+        icon: ClipboardCheck,
         title: 'Certified chain of custody',
         body: 'Independent audits cover our recycled content from collected waste to finished silicone. Ask us which chain-of-custody model applies to your order.',
       },
       {
+        icon: Leaf,
         title: 'Lower footprint',
         body: 'Keeps silicone out of landfill and skips the energy-intensive step of making new silicon. Published studies show lower emissions than new silicone.',
       },
@@ -317,12 +325,13 @@ export const products: Product[] = [
     summary:
       'Most silicone cable lines run horizontally and are fed by hand. We developed a vertical line that is automated from mixing the liquid silicone to inspecting the finished cable. It runs at up to 100 metres a minute, and its customers include a Fortune Global 500 company.',
     benefits: [
-      { title: 'Fast', body: 'Up to 100 metres a minute, more than three times our horizontal line (30 metres a minute).' },
+      { icon: Gauge, title: 'Fast', body: 'Up to 100 metres a minute, more than three times our horizontal line (30 metres a minute).' },
       {
+        icon: Crosshair,
         title: 'Precise',
         body: 'Over 90% concentricity (how evenly the jacket surrounds the wire), with jackets as thin as 0.30 mm.',
       },
-      { title: 'Automated', body: 'Built-in liquid silicone mixing replaces hand-feeding solid silicone from a roll mill.' },
+      { icon: Cpu, title: 'Automated', body: 'Built-in liquid silicone mixing replaces hand-feeding solid silicone from a roll mill.' },
     ],
     stats: [
       { value: '100 m/min', label: 'line speed' },
@@ -473,11 +482,12 @@ export const products: Product[] = [
       'We develop and make finished silicone parts for other brands (known in the industry as ODM or OEM manufacturing). We match any colour, add properties such as flame retardancy, finish the surface, and produce in large volumes at our factories in Asia.',
     benefits: [
       {
+        icon: Palette,
         title: 'Exact colour',
         body: 'Matched to within ΔE94 0.50 of the target colour, a difference most people cannot see, even for vivid or translucent shades.',
       },
-      { title: 'Made to measure', body: 'Formulations tuned for flame retardancy, chemical resistance or a particular feel.' },
-      { title: 'Finishing', body: 'Dip coating for cables and cases, with an F-grade pencil-hardness surface.' },
+      { icon: FlaskConical, title: 'Made to measure', body: 'Formulations tuned for flame retardancy, chemical resistance or a particular feel.' },
+      { icon: Paintbrush, title: 'Finishing', body: 'Dip coating for cables and cases, with an F-grade pencil-hardness surface.' },
     ],
     steps: [
       { title: 'Formulate', body: 'We tune the silicone for the job: flame retardancy, chemical resistance or a particular feel.' },

@@ -1,3 +1,4 @@
+import { DraftingCompass, Recycle, Wrench } from 'lucide-react'
 import Link from 'next/link'
 import { getProduct } from '@/content/products'
 import { ExtruderExplorer } from './ExtruderExplorer'
@@ -5,9 +6,9 @@ import { Arrow, FeatureGrid, Section } from './ui'
 
 // Points carried over from the original site's extruder section.
 const points = [
-  { title: 'Designed by us', body: 'We design the hardware and software ourselves, so each machine can be built around the way you work.' },
-  { title: 'Backed by our engineers', body: 'An experienced team sets it up, fixes problems and keeps it running.' },
-  { title: 'Pair it with recycled silicone', body: 'Run it with our certified recycled silicone, which performs like new.' },
+  { icon: DraftingCompass, title: 'Designed by us', body: 'We design the hardware and software ourselves, so each machine can be built around the way you work.' },
+  { icon: Wrench, title: 'Backed by our engineers', body: 'An experienced team sets it up, fixes problems and keeps it running.' },
+  { icon: Recycle, title: 'Pair it with recycled silicone', body: 'Run it with our certified recycled silicone, which performs like new.' },
 ]
 
 /** The interactive vertical extrusion line, with its specification and service points. */

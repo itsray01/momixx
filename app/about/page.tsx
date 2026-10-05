@@ -1,3 +1,4 @@
+import { Cog, FlaskConical, Recycle } from 'lucide-react'
 import { Render } from '@/components/Render'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
@@ -47,9 +48,9 @@ export default function AboutPage() {
       <Section tone="muted" eyebrow="What we do" title="Three capabilities, *one company*">
         <FeatureGrid
           items={[
-            { title: 'Create and make silicone', body: 'Flame-retardant, waterproof, high-density and colour-matched silicone, and self-bonding silicone, in liquid and solid form.' },
-            { title: 'Recycle silicone waste', body: 'Our own chemical process turns scrap silicone back into new silicone.' },
-            { title: 'Design and build machines', body: 'We make the hardware and software ourselves, from our patented vertical extrusion line to energy-saving ovens and camera-guided winders.' },
+            { icon: FlaskConical, title: 'Create and make silicone', body: 'Flame-retardant, waterproof, high-density and colour-matched silicone, and self-bonding silicone, in liquid and solid form.' },
+            { icon: Recycle, title: 'Recycle silicone waste', body: 'Our own chemical process turns scrap silicone back into new silicone.' },
+            { icon: Cog, title: 'Design and build machines', body: 'We make the hardware and software ourselves, from our patented vertical extrusion line to energy-saving ovens and camera-guided winders.' },
           ]}
         />
       </Section>

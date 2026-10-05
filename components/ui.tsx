@@ -1,3 +1,4 @@
+import type { LucideIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
@@ -231,12 +232,28 @@ export function StatTiles({
   )
 }
 
-export function FeatureGrid({ items, cols = 3 }: { items: Array<{ title: string; body: string }>; cols?: 2 | 3 }) {
+export type FeatureItem = { title: string; body: string; icon?: LucideIcon }
+
+/** The "01" index, with an optional line icon in a fixed tile so the row does not shift after paint. */
+export function FeatureMark({ icon: Icon, index }: { icon?: LucideIcon; index: number }) {
+  const number = <span className="font-mono text-xs text-zinc-500">{String(index + 1).padStart(2, '0')}</span>
+  if (!Icon) return number
+  return (
+    <div className="flex items-center gap-3">
+      <span aria-hidden="true" className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-200">
+        <Icon className="size-[22px]" strokeWidth={1.5} />
+      </span>
+      {number}
+    </div>
+  )
+}
+
+export function FeatureGrid({ items, cols = 3 }: { items: FeatureItem[]; cols?: 2 | 3 }) {
   return (
     <div data-reveal="stagger" className={`grid gap-x-10 gap-y-12 ${cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
       {items.map((it, i) => (
         <div key={it.title} className="border-t border-white/15 pt-6">
-          <span className="font-mono text-xs text-zinc-500">{String(i + 1).padStart(2, '0')}</span>
+          <FeatureMark icon={it.icon} index={i} />
           <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{it.title}</h3>
           <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[17px]">{it.body}</p>
         </div>

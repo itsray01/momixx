@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { CertCard } from '@/components/CertCard'
 import { RecycleSteps } from '@/components/infographics'
-import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section } from '@/components/ui'
+import { Leaf, Recycle, ClipboardCheck } from 'lucide-react'
+import { ArrowLink, CtaBand, FeatureGrid, FeatureMark, PageHeader, Section } from '@/components/ui'
 import { certifications, recyclingCertifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
 import { carbonComparison, carbonLevers, carbonMetrics, certificationClaim, greenPhotos } from '@/content/sustainability'
@@ -110,7 +111,7 @@ export default function SustainabilityPage() {
             <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2">
               {carbonLevers.map((l, i) => (
                 <div key={l.title} className="card lift p-6">
-                  <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
+                  <FeatureMark icon={l.icon} index={i} />
                   <h3 className="mt-4 text-lg font-semibold tracking-[-0.02em]">{l.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-400">{l.body}</p>
                 </div>
@@ -150,9 +151,9 @@ export default function SustainabilityPage() {
       <Section tone={greenPhotos.length > 0 ? 'white' : 'muted'} eyebrow="Beyond recycling" title="Safer *materials*">
         <FeatureGrid
           items={[
-            { title: 'PFAS-free', body: 'Standard silicone rubber contains no fluorine, so it is not a PFAS (“forever chemical”). Our high-density silicone can replace fluorinated rubber (FKM) in many watch straps, seals and car parts.' },
-            { title: 'Recycled option', body: 'Any MoMixx silicone can be supplied with recycled content on request.' },
-            { title: 'Certified chain of custody', body: 'Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.' },
+            { icon: Leaf, title: 'PFAS-free', body: 'Standard silicone rubber contains no fluorine, so it is not a PFAS (“forever chemical”). Our high-density silicone can replace fluorinated rubber (FKM) in many watch straps, seals and car parts.' },
+            { icon: Recycle, title: 'Recycled option', body: 'Any MoMixx silicone can be supplied with recycled content on request.' },
+            { icon: ClipboardCheck, title: 'Certified chain of custody', body: 'Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.' },
           ]}
         />
       </Section>

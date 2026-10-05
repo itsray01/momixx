@@ -1,3 +1,4 @@
+import { Leaf, Package, Sun } from 'lucide-react'
 import { CertCard } from '@/components/CertCard'
 import { Render } from '@/components/Render'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
@@ -131,9 +132,9 @@ export default function RecycledSiliconePage() {
         <div className="mt-10">
           <FeatureGrid
             items={[
-              { title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
-              { title: 'Silicone scrap collection', body: 'We collect silicone scrap and used products for recycling. Contact us about the type and amount you have.' },
-              { title: 'PFAS-free alternatives', body: 'Our dense silicone replaces rubbers that contain “forever chemicals”.' },
+              { icon: Sun, title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
+              { icon: Package, title: 'Silicone scrap collection', body: 'We collect silicone scrap and used products for recycling. Contact us about the type and amount you have.' },
+              { icon: Leaf, title: 'PFAS-free alternatives', body: 'Our dense silicone replaces rubbers that contain “forever chemicals”.' },
             ]}
           />
         </div>

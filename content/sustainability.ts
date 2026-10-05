@@ -1,6 +1,9 @@
 // Sustainability content: the certification headline, carbon footprint and
 // the green-initiative photo gallery. Shown on /sustainability and the home page.
 
+import type { LucideIcon } from 'lucide-react'
+import { Droplet, Leaf, Recycle, Sun, Wind, Zap } from 'lucide-react'
+
 /**
  * Headline certification claim.
  * ⚠️ An "only" claim must be verifiable before launch (see docs/LAUNCH-CHECKLIST.md).
@@ -28,13 +31,13 @@ export const carbonMetrics: Array<{ value: string; unit?: string; label: string;
 export const carbonComparison: null | { unit: string; recycled: number; virgin: number; boundary: string; source: string } = null
 
 /** How we reduce our footprint today: factual levers already described on the site. */
-export const carbonLevers = [
-  { title: 'Recycled silicone', body: 'Silicone rebuilt from scrap avoids making new silicon, the largest source of emissions in producing new silicone.' },
-  { title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
-  { title: '30% less oven energy', body: 'Our redesigned curing ovens use about 30% less electricity than a standard curing oven.' },
-  { title: 'Less waste', body: 'Our mixer uses the roughly 4% of liquid silicone that standard mixers leave in each bucket.' },
-  { title: 'Cleaner coating', body: 'Dip coating releases up to 20 times less VOCs (solvent fumes) than spray coating.' },
-  { title: 'PFAS-free materials', body: 'Our high-density silicone can replace fluorinated rubber (FKM), which is a PFAS, in many uses.' },
+export const carbonLevers: Array<{ title: string; body: string; icon: LucideIcon }> = [
+  { icon: Recycle, title: 'Recycled silicone', body: 'Silicone rebuilt from scrap avoids making new silicon, the largest source of emissions in producing new silicone.' },
+  { icon: Sun, title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
+  { icon: Zap, title: '30% less oven energy', body: 'Our redesigned curing ovens use about 30% less electricity than a standard curing oven.' },
+  { icon: Droplet, title: 'Less waste', body: 'Our mixer uses the roughly 4% of liquid silicone that standard mixers leave in each bucket.' },
+  { icon: Wind, title: 'Cleaner coating', body: 'Dip coating releases up to 20 times less VOCs (solvent fumes) than spray coating.' },
+  { icon: Leaf, title: 'PFAS-free materials', body: 'Our high-density silicone can replace fluorinated rubber (FKM), which is a PFAS, in many uses.' },
 ]
 
 /**
