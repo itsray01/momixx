@@ -132,10 +132,10 @@ export default async function ArticlePage({ params }: Props) {
 
       {related.length > 0 && (
         <Section tone="muted" eyebrow="Keep reading" title="Related *insights*">
-          <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul data-reveal="stagger" className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
-              <li key={r.slug}>
-                <ArticleCard article={r} />
+              <li key={r.slug} className="flex">
+                <ArticleCard article={r} showRender />
               </li>
             ))}
           </ul>

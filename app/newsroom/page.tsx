@@ -78,10 +78,10 @@ export default function NewsroomPage() {
 
       {latestArticles.length > 0 && (
         <Section id="insights" tone={insightsTone} eyebrow="Insights" title="Latest *insights*">
-          <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <ul data-reveal="stagger" className="grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
             {latestArticles.map((a) => (
-              <li key={a.slug}>
-                <ArticleCard article={a} />
+              <li key={a.slug} className="flex">
+                <ArticleCard article={a} showRender />
               </li>
             ))}
           </ul>

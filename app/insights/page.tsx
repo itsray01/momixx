@@ -33,13 +33,13 @@ export default function InsightsPage() {
         <h2 className="sr-only">Latest articles</h2>
         {featured && (
           <div data-reveal className="mb-5">
-            <ArticleCard article={featured} large />
+            <ArticleCard article={featured} large showRender />
           </div>
         )}
-        <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul data-reveal="stagger" className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {rest.map((a) => (
-            <li key={a.slug}>
-              <ArticleCard article={a} />
+            <li key={a.slug} className="flex">
+              <ArticleCard article={a} showRender />
             </li>
           ))}
         </ul>
