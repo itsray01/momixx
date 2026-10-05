@@ -1,4 +1,5 @@
 import { Cog, FlaskConical, Recycle } from 'lucide-react'
+import { Timeline } from '@/components/infographics'
 import { Render } from '@/components/Render'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
@@ -56,21 +57,7 @@ export default function AboutPage() {
       </Section>
 
       <Section id="milestones" eyebrow="Our journey" title="*Milestones*">
-        <ol data-reveal="stagger" className="relative">
-          {milestones.map((m) => (
-            <li key={m.year} className="grid items-start gap-3 border-t border-white/[0.08] py-8 sm:grid-cols-[12rem_1fr] sm:gap-10">
-              <h3 className="display-md flex items-center gap-4 leading-none text-white">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brand-300" />
-                {m.year}
-              </h3>
-              <ul className="space-y-2 text-lg text-zinc-300">
-                {m.items.map((it) => (
-                  <li key={it}>{it}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
+        <Timeline years={milestones} />
       </Section>
 
       <Section tone="muted" id="locations" eyebrow="Locations" title="Our *sites*">

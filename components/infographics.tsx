@@ -1,3 +1,5 @@
+import type { LucideIcon } from 'lucide-react'
+import { Building2, Cable, ClipboardCheck, Factory, FlaskConical, Recycle } from 'lucide-react'
 import { recyclingCertificationNames } from '@/content/company'
 import { Render } from './Render'
 import { rich } from './ui'
@@ -181,5 +183,80 @@ export function SiliconVsSilicone() {
         </div>
       ))}
     </div>
+  )
+}
+
+// ───────────────────────── Company timeline ─────────────────────────
+
+/** One icon per year, chosen to summarise that year's events. */
+const yearIcons: Record<number, LucideIcon> = {
+  2019: Factory,
+  2020: FlaskConical,
+  2021: Cable,
+  2022: Building2,
+  2023: Recycle,
+  2024: ClipboardCheck,
+  2025: Factory,
+  2026: ClipboardCheck,
+}
+
+/** Certification and quality-system lines. The milestone wording itself is unchanged. */
+function isCertifiedLine(line: string) {
+  return line.includes('GRS') || line.includes('ISCC PLUS') || line.includes('ISO 13485')
+}
+
+/**
+ * Horizontal rail through the dot. It runs across the gap to the next card and
+ * stops at the end of each row, so it never sticks out of the grid.
+ */
+function railClass(index: number, count: number) {
+  const n = index + 1
+  const endMd = n % 2 === 0 || n === count
+  const endLg = n % 4 === 0 || n === count
+  return [
+    'pointer-events-none absolute top-[5px] left-0 z-0 hidden h-px bg-white/15 md:block',
+    endMd ? 'md:right-0' : 'md:-right-10',
+    endLg ? 'lg:right-0' : 'lg:-right-8',
+  ].join(' ')
+}
+
+/** Year cards: one column on phones, two on tablets, four from 1024 px. */
+export function Timeline({ years }: { years: Array<{ year: number; items: string[] }> }) {
+  return (
+    <ol
+      data-reveal="stagger"
+      className="relative grid grid-cols-1 gap-y-10 before:absolute before:top-3 before:bottom-8 before:left-[5px] before:w-px before:bg-white/15 before:content-[''] md:grid-cols-2 md:gap-x-10 md:gap-y-14 md:before:hidden lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16"
+    >
+      {years.map((m, i) => {
+        const Icon = yearIcons[m.year]
+        return (
+          <li key={m.year} className="relative pl-8 md:pt-8 md:pl-0">
+            <span aria-hidden="true" className={railClass(i, years.length)} />
+            <span aria-hidden="true" className="absolute top-1.5 left-0 z-10 size-2.5 rounded-full bg-brand-300 md:top-0" />
+            <h3 className="text-3xl leading-none font-semibold tracking-[-0.04em] text-white">{m.year}</h3>
+            {Icon && (
+              <span aria-hidden="true" className="mt-4 flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-200">
+                <Icon className="size-[22px]" strokeWidth={1.5} />
+              </span>
+            )}
+            <ul className="mt-4 space-y-2">
+              {m.items.map((line) => (
+                <li key={line} className="flex items-start gap-2 text-sm leading-snug text-zinc-400">
+                  <span aria-hidden="true" className="mt-[0.45rem] size-1 shrink-0 rounded-full bg-zinc-500" />
+                  <span className="min-w-0">
+                    {line}
+                    {isCertifiedLine(line) && (
+                      <span className="ml-2 inline-block align-middle rounded-full border border-white/15 bg-white/10 px-2 py-0.5 text-[11px] font-medium tracking-wide text-zinc-100">
+                        Certified
+                      </span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        )
+      })}
+    </ol>
   )
 }
