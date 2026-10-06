@@ -12,7 +12,8 @@ import type { HeroQuality } from './HeroScene'
 
 // The scene (and Three.js) only downloads where it will run: it starts the
 // moment the graphics check says so. Without WebGL, with data saver or on 2G,
-// it is never fetched and the still stays.
+// or with software rendering on a small screen, it is never fetched and the
+// still stays.
 const loadHeroScene = () => import('./HeroScene')
 const HeroScene = dynamic(loadHeroScene, { ssr: false })
 
@@ -100,7 +101,8 @@ function ColourStills({ index, preloadAll }: { index: number; preloadAll: boolea
  * the still, and then the still fades away: both framings' stills line up with
  * the live cable's first frame (see renderViews), so it is a clean cross-fade.
  * The welcome screen covers the first visit's wait. Without WebGL, with data
- * saver or a 2G connection, or if the scene fails, the still simply stays.
+ * saver or a 2G connection, with software rendering on a small screen, or if
+ * the scene fails, the still simply stays.
  *
  * The cable comes in several colours (see cableColours). Where the live scene
  * isn't animating (the still, or reduced motion), hovering its area with a

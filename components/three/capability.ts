@@ -61,8 +61,12 @@ let hero: HeroProfile | undefined
  * (no usable graphics card), `mid` for phones, tablets and low-memory devices,
  * `high` for desktops with a real GPU. The scene then measures itself and
  * lowers its resolution further if it still can't hold a smooth frame rate.
- * Only without WebGL, or with data saver or a 2G connection, does the hero
- * fall back to its still image. Add ?tier=low|mid|high to try a tier.
+ * The still image stands in without WebGL, with data saver or a 2G connection,
+ * and with software rendering on a phone, tablet or small window: there the
+ * live cable blocks the main thread for seconds, while a desktop-sized screen
+ * with software rendering still runs at the `low` tier. Add ?tier=low|mid|high
+ * to try a tier; that still forces the live cable, including on a small screen
+ * with software rendering.
  */
 export function heroProfile(): HeroProfile {
   if (hero) return hero
@@ -87,6 +91,8 @@ export function heroProfile(): HeroProfile {
     if (forced === 'low' || forced === 'mid' || forced === 'high') {
       tier = forced
       reason += ` · tier set to ${forced} by ?tier`
+    } else if (SOFTWARE.test(renderer) && !desktopWithMouse()) {
+      return (hero = { run: false, tier: 'low', reason: 'software rendering on a small screen' })
     }
     return (hero = { run: true, tier, reason })
   } catch {
