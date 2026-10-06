@@ -27,19 +27,23 @@ export function useLazy3D<T extends HTMLElement>(rootMargin = '300px') {
     const onMq = () => setReduced(mq.matches)
     onMq()
     mq.addEventListener('change', onMq)
+    let stopped = false
     let io: IntersectionObserver | undefined
     const cancel = afterLoadIdle(() => {
-      if (!canRun3D()) return
-      io = new IntersectionObserver(
-        ([entry]) => {
-          setVisible(entry.isIntersecting)
-          if (entry.isIntersecting) setEnabled(true)
-        },
-        { rootMargin },
-      )
-      io.observe(el)
+      void canRun3D().then((ok) => {
+        if (stopped || !ok) return
+        io = new IntersectionObserver(
+          ([entry]) => {
+            setVisible(entry.isIntersecting)
+            if (entry.isIntersecting) setEnabled(true)
+          },
+          { rootMargin },
+        )
+        io.observe(el)
+      })
     })
     return () => {
+      stopped = true
       cancel()
       io?.disconnect()
       mq.removeEventListener('change', onMq)

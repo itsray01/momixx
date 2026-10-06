@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { preload } from 'react-dom'
 import { CanvasBoundary } from './CanvasBoundary'
-import { heroProfile } from './capability'
+import { heroProfile, subscribeHero } from './capability'
 import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour, type CableColour } from './cableColours'
 import { heroReady } from './heroReady'
 import type { HeroQuality } from './HeroScene'
@@ -30,7 +30,7 @@ const desktopMq = mediaStore('(min-width: 1024px)')
 const reducedMq = mediaStore('(prefers-reduced-motion: reduce)')
 const profileSnapshot = () => {
   const profile = heroProfile()
-  if (profile.run) void loadHeroScene()
+  if (profile?.run) void loadHeroScene()
   return profile
 }
 // Add ?debug3d to the address to see how the hero's 3D runs on this device.
@@ -110,8 +110,9 @@ function ColourStills({ index, preloadAll }: { index: number; preloadAll: boolea
  */
 export function Scene3D({ className = '' }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
-  // Null on the server: the scene is decided in the browser.
-  const profile = useSyncExternalStore(noSubscribe, profileSnapshot, () => null)
+  // Null on the server, and until the background graphics check answers. The
+  // still is already on screen, so nothing moves when the decision arrives.
+  const profile = useSyncExternalStore(subscribeHero, profileSnapshot, () => null)
   const desktop = useSyncExternalStore(desktopMq.subscribe, desktopMq.get, () => true)
   const reduced = useSyncExternalStore(reducedMq.subscribe, reducedMq.get, () => false)
   const debug = useSyncExternalStore(noSubscribe, debugSnapshot, () => false)

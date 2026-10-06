@@ -41,7 +41,8 @@ const legacyRedirects: Array<[string, string]> = [
 // scripts (a nonce would force every page to render on demand). In development
 // only, scripts may also use eval, which React needs for its debugging (error
 // stacks); production never allows it. Forms may post to Formspree, the
-// contact form's delivery service.
+// contact form's delivery service. The graphics check is a same-origin worker
+// file, so workers are limited to this site.
 const isDev = process.env.NODE_ENV === 'development'
 const csp = [
   "default-src 'self'",
@@ -50,7 +51,7 @@ const csp = [
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "connect-src 'self' https://formspree.io",
-  "worker-src 'self' blob:",
+  "worker-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self' https://formspree.io",
