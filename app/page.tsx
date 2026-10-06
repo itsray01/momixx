@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { CableColourPicker } from '@/components/CableColourPicker'
+import { HeroCallouts } from '@/components/HeroCallouts'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
@@ -84,13 +85,6 @@ const businesses: Array<{ href: string; model: string; kicker: string; title: st
   },
 ]
 
-// Call-outs that appear around the cable as the hero scrolls (desktop only).
-const heroLabels = [
-  { title: 'MoMixx silicone jacket', sub: 'Flame-retardant, for UL VW-1 cables', pos: 'top-[46%] right-[8%]' },
-  { title: '10,000 twisting cycles', sub: 'In MoMixx testing', pos: 'bottom-[22%] left-[6%]' },
-  { title: 'Up to 250 °C', sub: 'MoMixx MM grades, in our testing', pos: 'top-[12%] right-[14%]' },
-]
-
 export default function HomePage() {
   return (
     <>
@@ -102,15 +96,10 @@ export default function HomePage() {
           <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
 
           {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
-          <div className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+          <div data-hero-stage className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
             <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" />
+            <HeroCallouts />
             <CableColourPicker className="relative z-20 mt-4 mb-12 lg:absolute lg:inset-x-0 lg:bottom-10 lg:my-0" />
-            {heroLabels.map((l) => (
-              <div key={l.title} data-hero-label aria-hidden="true" className={`glass absolute hidden rounded-2xl px-4 py-3 lg:block motion-reduce:lg:hidden ${l.pos}`}>
-                <p className="text-sm font-medium text-white">{l.title}</p>
-                <p className="text-xs text-zinc-400">{l.sub}</p>
-              </div>
-            ))}
           </div>
 
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}

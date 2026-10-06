@@ -312,10 +312,10 @@ html[data-header='hidden'] .tabnav {
   }
 }
 
-/* Hero call-outs appear as the hero scrolls (components/motion/pins.ts); hidden until then. */
-[data-hero-label] {
+/* Spec-callout leaders stay invisible until the scroll sequence draws them. */
+[data-hero-callouts] line,
+[data-hero-callouts] circle {
   opacity: 0;
-  visibility: hidden;
 }
 
 /* Long-form article typography (Insights) */

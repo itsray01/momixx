@@ -9,8 +9,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { HeroTier } from './capability'
 import { CABLE_CYCLE_MS, cableColours, cableColourStore, useCableColour } from './cableColours'
-import { CableHitArea, HeroCableModel, type CableMotion } from './HeroCable'
+import { CableHitArea, HeroCableModel, heroJacketCentre, JACKET_RADIUS, type CableMotion } from './HeroCable'
 import { cardCamera, heroCamera, heroProgress } from './heroProgress'
+import { heroAnchorFeed, type CalloutAnchors, type CalloutId } from '../calloutAnchors'
 import { Studio } from './Studio'
 import { MATCAP_URL } from './studioMatcap'
 
@@ -30,6 +31,60 @@ const MIN_DPR = 0.5
 const WARMUP_MS = 2600
 /** How long a tap keeps a touch-screen cable moving. */
 const PULSE_MS = 2600
+
+/** Jacket samples for the spec callouts: upper jacket, mid-jacket, lower bend. */
+const CALLOUT_SAMPLES: Array<{ id: CalloutId; t: number; side: 'left' | 'right' }> = [
+  { id: 'heat', t: 0.935, side: 'right' },
+  { id: 'fire', t: 0.84, side: 'left' },
+  { id: 'flex', t: 0.62, side: 'left' },
+]
+const projectScratch = {
+  point: new THREE.Vector3(),
+  tangent: new THREE.Vector3(),
+  local: new THREE.Vector3(),
+  tip: new THREE.Vector3(),
+  camera: new THREE.Vector3(),
+  toward: new THREE.Vector3(),
+  side: new THREE.Vector3(),
+  right: new THREE.Vector3(),
+  left: new THREE.Vector3(),
+  ndc: new THREE.Vector3(),
+}
+
+/** Projects the three jacket points into the cable column. Runs inside the scene's existing frame. */
+function publishCalloutAnchors(space: THREE.Object3D, camera: THREE.Camera, canvas: HTMLCanvasElement, motion: CableMotion) {
+  const stage = canvas.closest('[data-hero-stage]')
+  if (!stage) return
+  space.updateWorldMatrix(true, true)
+  const stageRect = stage.getBoundingClientRect()
+  const canvasRect = canvas.getBoundingClientRect()
+  const s = projectScratch
+  camera.getWorldPosition(s.camera)
+  const anchors = {} as CalloutAnchors
+  for (const sample of CALLOUT_SAMPLES) {
+    heroJacketCentre(sample.t, motion, s.point, s.tangent)
+    s.local.copy(s.point)
+    space.localToWorld(s.point)
+    space.localToWorld(s.tip.copy(s.local).add(s.tangent))
+    s.tangent.copy(s.tip).sub(s.point).normalize()
+    s.toward.copy(s.camera).sub(s.point).normalize()
+    s.side.crossVectors(s.tangent, s.toward).normalize()
+    s.right.copy(s.point).addScaledVector(s.side, JACKET_RADIUS)
+    s.left.copy(s.point).addScaledVector(s.side, -JACKET_RADIUS)
+    const right = toColumn(s.right, camera, canvasRect, stageRect, s.ndc)
+    const left = toColumn(s.left, camera, canvasRect, stageRect, s.ndc)
+    anchors[sample.id] = sample.side === 'right' ? (right.x > left.x ? right : left) : right.x < left.x ? right : left
+  }
+  heroAnchorFeed.listener?.(anchors)
+}
+
+function toColumn(point: THREE.Vector3, camera: THREE.Camera, canvasRect: DOMRect, stageRect: DOMRect, ndc: THREE.Vector3) {
+  ndc.copy(point).project(camera)
+  return {
+    x: (ndc.x * 0.5 + 0.5) * canvasRect.width + canvasRect.left - stageRect.left,
+    y: (-ndc.y * 0.5 + 0.5) * canvasRect.height + canvasRect.top - stageRect.top,
+  }
+}
 
 const damp = THREE.MathUtils.damp
 /** Eases a 0–1 value in and out, so motion starts and stops softly. */
@@ -72,6 +127,7 @@ function LiveCable({
 }) {
   const pivot = PIVOTS[variant]
   const ref = useRef<THREE.Group>(null)
+  const cableSpace = useRef<THREE.Group>(null)
   const sweep = useRef<THREE.DirectionalLight>(null)
   const invalidate = useThree((s) => s.invalidate)
   const setDpr = useThree((s) => s.setDpr)
@@ -99,14 +155,20 @@ function LiveCable({
   useEffect(() => {
     if (!animate) return
     const kick = () => invalidate()
-    if (variant === 'hero') window.addEventListener('scroll', kick, { passive: true })
+    if (variant === 'hero') {
+      window.addEventListener('scroll', kick, { passive: true })
+      heroAnchorFeed.kick = kick
+    }
     window.addEventListener('pointermove', kick, { passive: true })
     kick()
     return () => {
       window.removeEventListener('scroll', kick)
       window.removeEventListener('pointermove', kick)
+      if (variant === 'hero' && heroAnchorFeed.kick === kick) heroAnchorFeed.kick = null
     }
   }, [animate, invalidate, variant])
+
+  useEffect(() => () => void (variant === 'hero' && heroAnchorFeed.listener?.(null)), [variant])
 
   useEffect(() => () => void (document.body.style.cursor = ''), [])
 
@@ -153,6 +215,7 @@ function LiveCable({
     g.rotation.y = damp(g.rotation.y, ry, 7, dt)
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
     g.position.z = damp(g.position.z, pivot[2] + z, 7, dt)
+    if (variant === 'hero' && heroAnchorFeed.listener && cableSpace.current) publishCalloutAnchors(cableSpace.current, state.camera, state.gl.domElement, m)
     const settling = Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.z - pivot[2] - z) > 1e-4
     const busy = (settling || moving || alive) && animate
 
@@ -195,7 +258,7 @@ function LiveCable({
     <>
       <directionalLight ref={sweep} intensity={0} position={[5, 3, 4]} />
       <group ref={ref} position={pivot}>
-        <group position={[-pivot[0], -pivot[1], -pivot[2]]}>
+        <group ref={cableSpace} position={[-pivot[0], -pivot[1], -pivot[2]]}>
           <HeroCableModel path={variant} colour={colour} motion={motion} quality={tier} matcap={matcap} />
           <CableHitArea
             path={variant}

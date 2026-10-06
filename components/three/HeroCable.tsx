@@ -16,7 +16,9 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { cableColours, type CableColour } from './cableColours'
 import { studioMaterial } from './studioMatcap'
 
-const R = 0.3 // jacket outer radius
+/** Jacket outer radius, shared with the hero callout dots so they sit on the surface. */
+export const JACKET_RADIUS = 0.3
+const R = JACKET_RADIUS
 const JACKET_IN = 0.245
 const BRAID_R = 0.236
 const FOIL_R = 0.222
@@ -227,6 +229,19 @@ function flexOffset(s: number, time: number, amp: number, out: THREE.Vector3) {
     w * Math.sin(time * 0.7 - s * 1.2) * 0.06,
     w * Math.cos(time * 0.8 - s * 1.4) * 0.2,
   )
+}
+
+const heroCurve = new THREE.CatmullRomCurve3(cablePaths.hero, false, 'centripetal')
+const flexScratch = new THREE.Vector3()
+
+/**
+ * Centre of the home-hero jacket at `t` (0 is the lower end, 1 is the cut),
+ * in the cable's own space, including the live flex when the cable is moving.
+ */
+export function heroJacketCentre(t: number, motion: { time: number; amp: number } | undefined, point: THREE.Vector3, tangent: THREE.Vector3) {
+  heroCurve.getPointAt(t, point)
+  heroCurve.getTangentAt(t, tangent).normalize()
+  if (motion && motion.amp > 0) point.add(flexOffset(t, motion.time, motion.amp, flexScratch))
 }
 
 type FlexUniforms = { uFlexTime: { value: number }; uFlexAmp: { value: number }; uFlexLength: { value: number } }
