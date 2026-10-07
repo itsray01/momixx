@@ -8,13 +8,18 @@ import { CanvasBoundary } from './three/CanvasBoundary'
 import { useLazy3D } from './three/useLazy3D'
 import { extruderParts, specPart } from './three/extruderParts'
 
-// Three.js only downloads when the explorer scrolls near the viewport, on devices that can run it.
+// Three.js and the model only download when someone presses "View in 3D".
 const MachineCanvas = dynamic(() => import('./three/MachineCanvas'), { ssr: false })
 
 type Spec = { label: string; value: string }
 const n = extruderParts.length
 const pad = (i: number) => String(i + 1).padStart(2, '0')
 const zoom = 1.6
+// The photo's width on the stage times the zoom on a chosen part, so it stays sharp
+// when zoomed: about 380 px from 1280 px up, a quarter of the screen down to 1024 px.
+// Below that it is about 70% of the screen; the full width covers most of the zoom
+// without sending phones the largest file.
+const photoSizes = `(min-width: 1280px) ${Math.round(382 * zoom)}px, (min-width: 1024px) ${Math.round(25 * zoom)}vw, 100vw`
 
 const markerClass = (selected: number | null, hovered: number | null, i: number) =>
   selected === i
@@ -26,14 +31,14 @@ const markerClass = (selected: number | null, hovered: number | null, i: number)
         : 'border-brand-300/60 bg-ink-950/70 text-brand-100'
 
 /**
- * The vertical extruder, part by part. On capable devices it is a 3D model you
- * can drag to turn around; everyone else (and the first paint) sees the photo of
- * the real machine with the same markers. Pick a part to zoom to it and read
- * what it does. Parts of the full line that are not on this machine are listed
- * without a marker.
+ * The vertical extruder, part by part, on the photo of the real machine. Pick a
+ * part to zoom to it and read what it does. On capable devices, "View in 3D"
+ * swaps in a 3D model with the same markers that you can drag to turn around.
+ * Parts of the full line that are not on this machine are listed without a marker.
  */
 export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src: string; alt: string } }) {
-  const { ref: stage, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>()
+  const { ref: stage, capable, enabled, load, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>({ onDemand: true })
+  const [failed, setFailed] = useState(false)
   const markers = useRef<Array<HTMLButtonElement | null>>([])
   // Keyboard focus follows the selection when the control that was used disappears
   // (choosing from the list swaps it for the part card, and back again).
@@ -42,7 +47,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
   const focusNext = useRef<'card' | number | null>(null)
   const [selected, setSelected] = useState<number | null>(null)
   const [hovered, setHovered] = useState<number | null>(null)
-  const [view, setView] = useState<'3d' | 'photo'>('3d')
+  const [view, setView] = useState<'3d' | 'photo'>('photo')
 
   const part = selected === null ? null : extruderParts[selected]
   const partSpecs = part ? specs.filter((s) => specPart[s.label] === part.id) : []
@@ -62,8 +67,13 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
     else if (typeof f === 'number') listButtons.current[f]?.focus({ preventScroll: true })
   }, [selected])
   const focus = selected ?? hovered
-  const live = ready && view === '3d'
+  const want3d = view === '3d' && !failed
+  const live = ready && want3d
   const spot = live ? undefined : part?.photo
+  const toggleView = () => {
+    if (!want3d) load()
+    setView(want3d ? 'photo' : '3d')
+  }
   const onMachine = live ? Boolean(part?.machine) : Boolean(part?.photo)
 
   return (
@@ -73,13 +83,13 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
         <div ref={stage} className="card relative aspect-[4/5] overflow-hidden sm:aspect-[4/3]">
           <div className="dots absolute inset-0 opacity-40 [mask-image:radial-gradient(70%_70%_at_50%_50%,black,transparent)]" />
 
-          {/* Photo of the real machine: what search engines, devices without WebGL and the first paint see */}
+          {/* Photo of the real machine: the default view on every device */}
           <div className={`absolute inset-0 flex items-center justify-center p-4 transition-opacity duration-700 sm:p-6 ${live ? 'pointer-events-none opacity-0' : 'opacity-100'}`}>
             <div
               className="relative aspect-[526/806] h-full transition-transform duration-700 ease-out"
               style={spot ? { transform: `translate(${(50 - spot.x) * zoom}%, ${(50 - spot.y) * zoom}%) scale(${zoom})` } : undefined}
             >
-              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 40vw, 80vw" className="object-contain mix-blend-lighten" />
+              <Image src={photo.src} alt={photo.alt} fill sizes={photoSizes} className="object-contain" />
               {extruderParts.map((p, i) =>
                 p.photo ? (
                   <button
@@ -104,13 +114,13 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
 
           {enabled && (
             <div className={`absolute inset-0 transition-opacity duration-700 ${live ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-              <CanvasBoundary>
+              <CanvasBoundary onError={() => setFailed(true)}>
                 <MachineCanvas
                   selected={selected}
                   hovered={hovered}
                   onSelect={setSelected}
                   onHover={setHovered}
-                  animate={visible && !reduced && view === '3d'}
+                  animate={visible && !reduced && want3d}
                   onReady={markReady}
                   markers={markers}
                 />
@@ -140,20 +150,10 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
           )}
 
           <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
-            {ready && (
-              <div role="group" aria-label="View" className="flex rounded-full border border-white/10 bg-ink-950/70 p-0.5 text-xs backdrop-blur">
-                {(['3d', 'photo'] as const).map((v) => (
-                  <button
-                    key={v}
-                    type="button"
-                    aria-pressed={view === v}
-                    onClick={() => setView(v)}
-                    className={`rounded-full px-3 py-1 transition-colors ${view === v ? 'bg-white text-ink-950' : 'text-zinc-300 hover:text-white'}`}
-                  >
-                    {v === '3d' ? '3D' : 'Photo'}
-                  </button>
-                ))}
-              </div>
+            {capable && !failed && (
+              <button type="button" onClick={toggleView} className="btn-ghost-dark py-1.5 text-xs">
+                {want3d ? 'View photo' : 'View in 3D'}
+              </button>
             )}
             {part && !onMachine && (
               <p className="pointer-events-none rounded-full border border-white/10 bg-ink-950/70 px-3 py-1.5 text-xs text-zinc-300 backdrop-blur">
@@ -162,7 +162,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
             )}
           </div>
           <p className="pointer-events-none absolute bottom-4 left-4 rounded-full border border-white/10 bg-ink-950/60 px-3 py-1.5 text-xs text-zinc-300 backdrop-blur">
-            {live ? '3D model · drag to turn the machine, click a part to explore' : 'The real machine · select a numbered part to explore'}
+            {live ? '3D model · drag to turn the machine, click a part to explore' : want3d ? 'Loading the 3D model…' : 'The real machine · select a numbered part to explore'}
           </p>
           {selected !== null && (
             <button type="button" onClick={backToMachine} className="btn-ghost-dark absolute top-4 right-4 py-1.5 text-xs">
