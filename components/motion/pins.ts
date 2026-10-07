@@ -31,7 +31,9 @@ export function setupPins(): () => void {
             // This progress turns the cable and reveals the callouts. A second
             // trigger on the pinned element barely advances, so both stay here.
             heroProgress.value = self.progress
-            if (self.progress >= 0.25) revealHeroCallouts()
+            // The headline fades across the whole pin. Callouts wait until it has
+            // mostly gone, so they never sit on top of "what's next."
+            if (self.progress >= 0.8) revealHeroCallouts()
           },
         },
       })

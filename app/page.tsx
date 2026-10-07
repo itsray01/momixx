@@ -122,7 +122,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div data-hero-fade aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-zinc-500 uppercase lg:flex">
+          <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
             Scroll
             <span className="h-10 w-px bg-gradient-to-b from-zinc-500 to-transparent" />
           </div>

@@ -12,29 +12,39 @@ const TOTAL_MS = (ORDER.length - 1) * STAGGER_MS + LINE_MS + TEXT_MS
 const copy = {
   heat: {
     index: '01 · Heat',
+    prefix: 'Up to',
     figure: '250\u00A0°C',
-    caption: 'Up to 250\u00A0°C · MoMixx MM grades, in our testing',
+    caption: 'MoMixx MM grades, in\u00A0our\u00A0testing',
+    captionWidth: 'max-w-[9rem]',
     count: 250,
-    // Upper jacket, in the open space to its right.
-    place: 'right-2 top-[14%] w-max max-w-[16.5rem] text-right',
+    // Beside the upper jacket. The right edge matches Contact us, and stops
+    // at 18rem where a wider window would lay the figure on the cable.
+    place: 'top-[6.5rem] w-max max-w-[12rem] text-right',
+    edge: 'min(18rem, calc(1.75rem + max(0px, (100vw - 74rem) / 2)))',
     side: 'right' as const,
   },
   fire: {
     index: '02 · Fire safety',
+    prefix: null,
     figure: 'UL VW-1',
     caption: 'Flame-retardant MoMixx silicone jacket, for UL VW-1 cables',
+    captionWidth: 'max-w-[15rem]',
     count: null,
-    // Mid-jacket, in the open space to its left.
-    place: 'left-2 top-[42%] w-max max-w-[16.5rem] text-left',
+    // Mid-jacket, far enough right that the headline keeps a clear gap.
+    place: 'top-[42%] left-14 w-max max-w-[15rem] text-left',
+    edge: null,
     side: 'left' as const,
   },
   flex: {
     index: '03 · Durability',
+    prefix: null,
     figure: '10,000',
     caption: 'Twisting cycles, in MoMixx testing',
+    captionWidth: 'max-w-[15rem]',
     count: 10000,
-    // Lower bend, above the colour swatches, in the open space to its left.
-    place: 'bottom-[8.25rem] left-2 w-max max-w-[16.5rem] text-left',
+    // Lower bend, above the colour swatches, on the same left line as fire safety.
+    place: 'bottom-[8.25rem] left-14 w-max max-w-[15rem] text-left',
+    edge: null,
     side: 'left' as const,
   },
 }
@@ -97,9 +107,10 @@ export function HeroCallouts() {
         const shown = prog.line > 0 || prog.text > 0
         const stageRect = stage.getBoundingClientRect()
         const block = node.getBoundingClientRect()
-        // Meet the cable-facing side of the whole callout, so the line touches the text and misses the glyphs.
+        const figureBox = figure.getBoundingClientRect()
+        // Stop just under the figure, on the cable-facing side, so the line meets the callout and misses the glyphs.
         const portX = (copy[id].side === 'left' ? block.right : block.left) - stageRect.left
-        const portY = block.top + block.height / 2 - stageRect.top
+        const portY = figureBox.bottom + 4 - stageRect.top
         const dotPoint = anchors[id]
         const x = dotPoint.x + (portX - dotPoint.x) * prog.line
         const y = dotPoint.y + (portY - dotPoint.y) * prog.line
@@ -137,6 +148,8 @@ export function HeroCallouts() {
       if (played) return
       played = true
       stage.dataset.shown = 'true'
+      const hint = document.querySelector<HTMLElement>('[data-scroll-hint]')
+      if (hint) hint.style.opacity = '0'
       attach()
       heroAnchorFeed.kick?.()
       if (reduced) {
@@ -156,7 +169,19 @@ export function HeroCallouts() {
 
     desktop.addEventListener('change', attach)
 
+    // The stylesheet inset matches the nav button. Measure the button too, so a
+    // scrollbar cannot leave the figure a few pixels past Contact us.
+    const alignHeat = () => {
+      const heat = stage.querySelector<HTMLElement>('[data-callout="heat"]')
+      const button = [...document.querySelectorAll('header a[href="/contact"]')].find((el) => el.getClientRects().length > 0)
+      if (!heat || !button) return
+      const inset = Math.min(18 * 16, window.innerWidth - button.getBoundingClientRect().right)
+      heat.style.right = `${inset}px`
+    }
+    alignHeat()
+
     const resize = new ResizeObserver(() => {
+      alignHeat()
       heroAnchorFeed.kick?.()
       if (elapsed >= 0) draw()
     })
@@ -191,10 +216,11 @@ export function HeroCallouts() {
       {ORDER.map((id) => {
         const item = copy[id]
         return (
-          <div key={id} data-callout={id} className={`absolute ${item.place}`}>
+          <div key={id} data-callout={id} style={item.edge ? { right: item.edge } : undefined} className={`absolute ${item.place}`}>
             <div data-copy className="opacity-0">
-              <p className="font-mono text-[11px] font-medium tracking-[0.22em] text-zinc-500 uppercase">{item.index}</p>
-              <p className="relative mt-1.5 font-display text-[clamp(2.75rem,2.9vw,3.5rem)] leading-none font-semibold tracking-[-0.045em] text-white tabular-nums">
+              <p className="font-mono text-[11px] font-medium tracking-[0.22em] text-zinc-400 uppercase">{item.index}</p>
+              {item.prefix && <p className="mt-2 text-sm font-medium text-zinc-400">{item.prefix}</p>}
+              <p className="relative mt-1 font-display text-[clamp(2.75rem,2.9vw,3.5rem)] leading-none font-semibold tracking-[-0.045em] text-white tabular-nums">
                 {item.count !== null ? (
                   <>
                     <span className="invisible whitespace-nowrap">{item.figure}</span>
@@ -208,7 +234,7 @@ export function HeroCallouts() {
                   </span>
                 )}
               </p>
-              <p className={`mt-2 max-w-[15.5rem] text-[13px] leading-snug text-zinc-400 ${item.side === 'right' ? 'ml-auto' : ''}`}>{item.caption}</p>
+              <p className={`mt-2 text-[13px] leading-snug text-balance text-zinc-400 ${item.captionWidth} ${item.side === 'right' ? 'ml-auto' : ''}`}>{item.caption}</p>
             </div>
           </div>
         )
