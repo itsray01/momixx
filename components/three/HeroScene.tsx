@@ -32,11 +32,11 @@ const WARMUP_MS = 2600
 /** How long a tap keeps a touch-screen cable moving. */
 const PULSE_MS = 2600
 
-/** Jacket samples for the spec callouts: upper jacket, mid-jacket, lower bend. */
-const CALLOUT_SAMPLES: Array<{ id: CalloutId; t: number; side: 'left' | 'right' }> = [
-  { id: 'heat', t: 0.935, side: 'right' },
-  { id: 'fire', t: 0.84, side: 'left' },
-  { id: 'flex', t: 0.62, side: 'left' },
+/** Jacket samples for the spec callouts: the upper jacket by the conductors, the jacket mid-way, the bend. */
+const CALLOUT_SAMPLES: Array<{ id: CalloutId; t: number }> = [
+  { id: 'heat', t: 0.95 },
+  { id: 'fire', t: 0.8 },
+  { id: 'flex', t: 0.64 },
 ]
 const projectScratch = {
   point: new THREE.Vector3(),
@@ -51,13 +51,12 @@ const projectScratch = {
   ndc: new THREE.Vector3(),
 }
 
-/** Projects the three jacket points into the cable column. Runs inside the scene's existing frame. */
-function publishCalloutAnchors(space: THREE.Object3D, camera: THREE.Camera, canvas: HTMLCanvasElement, motion: CableMotion) {
-  const stage = canvas.closest('[data-hero-stage]')
-  if (!stage) return
+/**
+ * Projects the three jacket points onto the canvas, on the jacket's left edge
+ * (the side facing the specs). Runs inside the scene's existing frame.
+ */
+function publishCalloutAnchors(space: THREE.Object3D, camera: THREE.Camera, size: { width: number; height: number }, motion: CableMotion) {
   space.updateWorldMatrix(true, true)
-  const stageRect = stage.getBoundingClientRect()
-  const canvasRect = canvas.getBoundingClientRect()
   const s = projectScratch
   camera.getWorldPosition(s.camera)
   const anchors = {} as CalloutAnchors
@@ -71,30 +70,60 @@ function publishCalloutAnchors(space: THREE.Object3D, camera: THREE.Camera, canv
     s.side.crossVectors(s.tangent, s.toward).normalize()
     s.right.copy(s.point).addScaledVector(s.side, JACKET_RADIUS)
     s.left.copy(s.point).addScaledVector(s.side, -JACKET_RADIUS)
-    const right = toColumn(s.right, camera, canvasRect, stageRect, s.ndc)
-    const left = toColumn(s.left, camera, canvasRect, stageRect, s.ndc)
-    anchors[sample.id] = sample.side === 'right' ? (right.x > left.x ? right : left) : right.x < left.x ? right : left
+    const right = toCanvas(s.right, camera, size, s.ndc)
+    const left = toCanvas(s.left, camera, size, s.ndc)
+    anchors[sample.id] = right.x < left.x ? right : left
   }
   heroAnchorFeed.listener?.(anchors)
 }
 
-function toColumn(point: THREE.Vector3, camera: THREE.Camera, canvasRect: DOMRect, stageRect: DOMRect, ndc: THREE.Vector3) {
+function toCanvas(point: THREE.Vector3, camera: THREE.Camera, size: { width: number; height: number }, ndc: THREE.Vector3) {
   ndc.copy(point).project(camera)
-  return {
-    x: (ndc.x * 0.5 + 0.5) * canvasRect.width + canvasRect.left - stageRect.left,
-    y: (-ndc.y * 0.5 + 0.5) * canvasRect.height + canvasRect.top - stageRect.top,
-  }
+  return { x: (ndc.x * 0.5 + 0.5) * size.width, y: (-ndc.y * 0.5 + 0.5) * size.height }
 }
 
 const damp = THREE.MathUtils.damp
 /** Eases a 0–1 value in and out, so motion starts and stops softly. */
 const smooth = (x: number) => x * x * (3 - 2 * x)
+
+type Pose = { rx: number; ry: number; x: number; y: number; z: number }
+const POSE_KEYS = ['rx', 'ry', 'x', 'y', 'z'] as const
+/**
+ * The desktop cable's pose at each step of the scroll story (see heroProgress):
+ * a turn about its middle, in radians, and a shift, in scene units. Each shows
+ * the part its spec describes, and keeps the whole cable, conductors included,
+ * clear of the site header on every screen from 1280 × 720 up.
+ */
+const STORY_POSES: Pose[] = [
+  // The headline: exactly as on the still.
+  { rx: 0, ry: 0, x: 0, y: 0, z: 0 },
+  // Heat: the cut end turns towards you, showing the upper jacket and the conductors.
+  { rx: 0.06, ry: 0.3, x: 0, y: -0.2, z: 0.25 },
+  // Fire safety: back round to the side of the jacket, mid-way along.
+  { rx: 0, ry: -0.15, x: 0, y: -0.1, z: 0.1 },
+  // Durability: turned further, so the bend reads in profile.
+  { rx: -0.1, ry: -0.35, x: -0.25, y: 0.05, z: -0.25 },
+  // The hand-over: held, so nothing moves as the page scrolls on.
+  { rx: -0.1, ry: -0.35, x: -0.25, y: 0.05, z: -0.25 },
+]
+const REST_POSE = STORY_POSES[0]
+const storyScratch: Pose = { ...REST_POSE }
+
+/** The pose between two steps, eased so the cable settles softly on each one. */
+function storyPose(step: number) {
+  const last = STORY_POSES.length - 1
+  const s = THREE.MathUtils.clamp(step, 0, last)
+  const i = Math.min(Math.floor(s), last - 1)
+  const f = smooth(s - i)
+  for (const k of POSE_KEYS) storyScratch[k] = STORY_POSES[i][k] + (STORY_POSES[i + 1][k] - STORY_POSES[i][k]) * f
+  return storyScratch
+}
 /** The scene hears pointer events from the whole page; ignore the cable while the pointer is on a button or link in front of it (the colour swatches). */
 const overControl = (e: { nativeEvent: Event }) => e.nativeEvent.target instanceof Element && !!e.nativeEvent.target.closest('a, button, input, select, textarea')
 const isMouse = (e: { nativeEvent: Event }) => (e.nativeEvent as PointerEvent).pointerType === 'mouse'
 
 /**
- * On desktop, turns the cut end towards you as the page scrolls and leans
+ * On desktop, eases between the scroll story's poses (STORY_POSES) and leans
  * slightly towards the pointer. With the pointer on the cable it comes slowly
  * alive: a gentle bend drifts along it, the stripped end turns, a soft
  * highlight glides across the jacket, and it moves through its colours.
@@ -155,18 +184,24 @@ function LiveCable({
   useEffect(() => {
     if (!animate) return
     const kick = () => invalidate()
-    if (variant === 'hero') {
-      window.addEventListener('scroll', kick, { passive: true })
-      heroAnchorFeed.kick = kick
-    }
+    if (variant === 'hero') window.addEventListener('scroll', kick, { passive: true })
     window.addEventListener('pointermove', kick, { passive: true })
     kick()
     return () => {
       window.removeEventListener('scroll', kick)
       window.removeEventListener('pointermove', kick)
-      if (variant === 'hero' && heroAnchorFeed.kick === kick) heroAnchorFeed.kick = null
     }
   }, [animate, invalidate, variant])
+
+  // The callouts ask for a frame when their lines appear, with reduced motion too.
+  useEffect(() => {
+    if (variant !== 'hero') return
+    const kick = () => invalidate()
+    heroAnchorFeed.kick = kick
+    return () => {
+      if (heroAnchorFeed.kick === kick) heroAnchorFeed.kick = null
+    }
+  }, [invalidate, variant])
 
   useEffect(() => () => void (variant === 'hero' && heroAnchorFeed.listener?.(null)), [variant])
 
@@ -175,7 +210,7 @@ function LiveCable({
   useFrame((state, delta) => {
     const g = ref.current
     if (!g) return
-    const p = variant === 'hero' ? heroProgress.value : 0
+    const pose = variant === 'hero' ? storyPose(heroProgress.value) : REST_POSE
     // After an idle pause the first delta is long; cap it so nothing jumps
     // (but not so low that motion slows down on devices drawing fewer frames).
     const dt = Math.min(delta, 0.1)
@@ -209,14 +244,19 @@ function LiveCable({
     // The pointer is tracked across the whole page; only its position over the cable's column steers the lean.
     const px = THREE.MathUtils.clamp(state.pointer.x, -1, 1)
     const py = THREE.MathUtils.clamp(state.pointer.y, -1, 1)
-    const ry = 0.32 * p + px * 0.08 + Math.sin(m.time * 0.4) * 0.08 * e
-    const rx = 0.14 * p - py * 0.05
-    const z = 0.6 * p + 0.28 * e
+    const ry = pose.ry + px * 0.08 + Math.sin(m.time * 0.4) * 0.08 * e
+    const rx = pose.rx - py * 0.05
+    const x = pivot[0] + pose.x
+    const y = pivot[1] + pose.y
+    const z = pivot[2] + pose.z + 0.28 * e
     g.rotation.y = damp(g.rotation.y, ry, 7, dt)
     g.rotation.x = damp(g.rotation.x, rx, 7, dt)
-    g.position.z = damp(g.position.z, pivot[2] + z, 7, dt)
-    if (variant === 'hero' && heroAnchorFeed.listener && cableSpace.current) publishCalloutAnchors(cableSpace.current, state.camera, state.gl.domElement, m)
-    const settling = Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.z - pivot[2] - z) > 1e-4
+    g.position.x = damp(g.position.x, x, 7, dt)
+    g.position.y = damp(g.position.y, y, 7, dt)
+    g.position.z = damp(g.position.z, z, 7, dt)
+    if (variant === 'hero' && heroAnchorFeed.listener && cableSpace.current) publishCalloutAnchors(cableSpace.current, state.camera, state.size, m)
+    const settling =
+      Math.abs(g.rotation.y - ry) + Math.abs(g.rotation.x - rx) + Math.abs(g.position.x - x) + Math.abs(g.position.y - y) + Math.abs(g.position.z - z) > 1e-4
     const busy = (settling || moving || alive) && animate
 
     // ── Quality: measure and adapt ──

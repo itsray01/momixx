@@ -95,15 +95,17 @@ export default function HomePage() {
           <GridBackdrop />
           <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
 
-          {/* The cable: its own right-hand column on desktop, so it never runs under the text */}
-          <div data-hero-stage className="relative order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" />
-            <HeroCallouts />
-            <CableColourPicker className="relative z-20 mt-4 mb-12 lg:absolute lg:inset-x-0 lg:bottom-10 lg:my-0" />
+          {/* The cable: its own right-hand column on desktop, so it never runs under the text. It starts below the
+              site header, so the conductors stay in view at every step of the scroll. */}
+          <div data-hero-stage className="relative order-2 lg:absolute lg:top-10 lg:right-0 lg:bottom-0 lg:w-1/2">
+            <div data-hero-sticky className="lg:absolute lg:inset-0">
+              <Scene3D className="mx-auto aspect-[4/3] w-full max-w-[560px] lg:aspect-auto lg:h-full lg:max-w-none" />
+              <CableColourPicker className="relative z-20 mt-4 mb-12 lg:absolute lg:inset-x-0 lg:bottom-10 lg:my-0" />
+            </div>
           </div>
 
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
-          <div className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
+          <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,38rem)]">
               <p className="eyebrow">A tech-driven silicone company</p>
               <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
@@ -121,6 +123,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          <HeroCallouts />
 
           <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
             Scroll

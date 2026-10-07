@@ -312,10 +312,68 @@ html[data-header='hidden'] .tabnav {
   }
 }
 
-/* Spec-callout leaders stay invisible until the scroll sequence draws them. */
+/* ── Home hero spec story (components/HeroCallouts.tsx) ── */
+/* Lines stay invisible until the story draws them. */
 [data-hero-callouts] line,
 [data-hero-callouts] circle {
   opacity: 0;
+}
+/* Each spec's lines rise into its slot one after another; specs already shown dim. */
+[data-spec] {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-spec][data-state='active'] {
+  opacity: 1;
+}
+[data-spec][data-state='past'] {
+  opacity: 0.6;
+}
+[data-spec] > * {
+  opacity: 0;
+  translate: 0 2.5rem;
+  transition:
+    opacity 0.3s ease,
+    translate 0.3s ease;
+}
+[data-spec]:is([data-state='active'], [data-state='past']) > * {
+  opacity: 1;
+  translate: none;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 70ms),
+    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 70ms);
+}
+/* With reduced motion the hero doesn't pin. It is two screens tall instead: the
+   cable stays in view while the headline scrolls away and the specs follow it,
+   a static list in the same column. */
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  [data-hero] {
+    height: calc(2 * max(100svh, 720px));
+    overflow: clip;
+  }
+  [data-hero-copy] {
+    height: max(100svh, 720px);
+  }
+  [data-hero-sticky] {
+    position: sticky;
+    inset: auto;
+    top: 2.5rem;
+    height: calc(max(100svh, 720px) - 2.5rem);
+  }
+  [data-spec-column] {
+    top: max(100svh, 720px);
+    height: max(100svh, 720px);
+  }
+  [data-spec],
+  [data-spec] > * {
+    opacity: 1;
+    translate: none;
+  }
+  [data-scroll-hint] {
+    top: calc(max(100svh, 720px) - 2rem);
+    bottom: auto;
+    translate: -50% -100%;
+  }
 }
 
 /* Long-form article typography (Insights) */

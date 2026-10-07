@@ -1,5 +1,6 @@
-// The two pinned, scroll-scrubbed sequences: the home hero (the 3D cable turns
-// towards you) and the sideways "sand to silicone" story. They need GSAP's
+// The two pinned, scroll-scrubbed sequences: the home hero (the headline gives
+// way to three specs, one step at a time, as the 3D cable turns to each) and the
+// sideways "sand to silicone" story. They need GSAP's
 // ScrollTrigger, so this module is only downloaded on desktop pages that have
 // one, after the page has loaded. Everything else on the site animates with CSS.
 //
@@ -8,10 +9,12 @@
 
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { revealHeroCallouts } from '@/components/calloutAnchors'
-import { heroProgress } from '@/components/three/heroProgress'
+import { HERO_LAST_STEP, setHeroProgress } from '@/components/three/heroProgress'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/** The home hero's story, one label per step (see heroProgress). */
+const HERO_STEPS = ['intro', 'heat', 'fire', 'flex', 'release']
 
 /** Sets up the pinned sequences on the current page; returns a cleanup. */
 export function setupPins(): () => void {
@@ -21,23 +24,27 @@ export function setupPins(): () => void {
     const hero = document.querySelector<HTMLElement>('[data-hero]')
     if (hero) {
       const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        // The scrubbed playhead, in steps, poses the cable and brings in the specs.
+        onUpdate: () => setHeroProgress(tl.time()),
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
-          end: '+=90%',
+          // One screen per step: Page Down or Space (seven-eighths of a screen)
+          // lands just short of the next step, and the snap settles it there.
+          end: `+=${HERO_LAST_STEP * 100}%`,
           pin: true,
-          scrub: 0.6,
-          onUpdate: (self) => {
-            // This progress turns the cable and reveals the callouts. A second
-            // trigger on the pinned element barely advances, so both stay here.
-            heroProgress.value = self.progress
-            // The headline fades across the whole pin. Callouts wait until it has
-            // mostly gone, so they never sit on top of "what's next."
-            if (self.progress >= 0.8) revealHeroCallouts()
-          },
+          scrub: 0.5,
+          // Once scrolling stops, settle on the next step in the direction of
+          // travel, so it never jumps back. Any scroll cancels it, and it only
+          // acts inside the pinned range: the rest of the page never snaps.
+          snap: { snapTo: 'labelsDirectional', duration: { min: 0.4, max: 0.6 }, delay: 0.15, ease: 'power2.inOut', inertia: false },
         },
       })
-      tl.to(hero.querySelectorAll('[data-hero-fade]'), { y: -80, autoAlpha: 0, ease: 'power1.in', duration: 1 }, 0)
+      HERO_STEPS.forEach((label, step) => tl.addLabel(label, step))
+      // The headline, intro and buttons leave first; the specs take their place from step 1.
+      tl.to(hero.querySelectorAll('[data-hero-fade]'), { y: -80, autoAlpha: 0, duration: 0.6 }, 0)
+      tl.set({}, {}, HERO_LAST_STEP)
     }
 
     const hscrollCleanups = gsap.utils.toArray<HTMLElement>('[data-hscroll]').map((wrap) => {
@@ -72,7 +79,7 @@ export function setupPins(): () => void {
     })
 
     return () => {
-      heroProgress.value = 0
+      setHeroProgress(0)
       hscrollCleanups.forEach((c) => c())
     }
   })
