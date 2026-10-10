@@ -6,7 +6,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Menu, MenuColumn } from '@/lib/nav'
 import { site } from '@/lib/site'
 import { Logo } from './Logo'
+import { scriptedScroll } from './motion/scriptedScroll'
 import { Search } from './Search'
+
+/** How far the visitor must keep scrolling one way before the bar hides or returns. */
+const TURN = 24
+/** Above this, the bar always shows. */
+const NEAR_TOP = 240
 
 function isActive(pathname: string, href: string) {
   const path = href.split('#')[0]
@@ -78,8 +84,9 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
   )
 }
 
-// Floating glass navigation bar with hover mega-menus. Tucks away while
-// scrolling down and returns as soon as you scroll up.
+// Floating glass navigation bar with hover mega-menus. Tucks away once you have
+// scrolled down a little and returns once you have scrolled up a little, and
+// whenever keyboard focus moves into it.
 export function Header({ menus }: { menus: Menu[] }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -88,7 +95,7 @@ export function Header({ menus }: { menus: Menu[] }) {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<number | null>(null)
   const [pill, setPill] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
-  const lastY = useRef(0)
+  const hiddenRef = useRef(false)
   const closeTimer = useRef(0)
   const skipFocusOpen = useRef(false)
   const headerRef = useRef<HTMLElement>(null)
@@ -123,19 +130,55 @@ export function Header({ menus }: { menus: Menu[] }) {
     setPill({ left: a.left - b.left, top: a.top - b.top, width: a.width, height: a.height })
   }
 
+  // At most once per frame. Only a clear run in one direction changes the bar;
+  // small back-and-forth movements, and scrolling done by script (see
+  // scriptedScroll.ts), leave it as it is.
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY
-      setScrolled(y > 24)
-      const down = y > 240 && y > lastY.current + 4
-      setHidden(down)
-      if (down) setActive(null)
-      if (y < lastY.current - 4 || y < 240) setHidden(false)
-      lastY.current = y
+    const show = (on: boolean) => {
+      if (hiddenRef.current === !on) return
+      hiddenRef.current = !on
+      setHidden(!on)
+      if (!on) setActive(null)
     }
-    onScroll()
+    let frame = 0
+    let lastY = window.scrollY
+    let runFrom = lastY
+    let direction = 0
+    let seen = scriptedScroll.version
+    const update = () => {
+      frame = 0
+      const root = document.documentElement
+      // Clamped, so elastic overscroll at either end does not count as a turn.
+      const y = Math.min(Math.max(window.scrollY, 0), Math.max(0, root.scrollHeight - window.innerHeight))
+      setScrolled(y > 24)
+      const delta = y - lastY
+      lastY = y
+      if (y < NEAR_TOP || scriptedScroll.active || seen !== scriptedScroll.version) {
+        if (y < NEAR_TOP) show(true)
+        seen = scriptedScroll.version
+        runFrom = y
+        direction = 0
+        return
+      }
+      if (!delta) return
+      const now = delta > 0 ? 1 : -1
+      if (now !== direction) {
+        direction = now
+        runFrom = y - delta
+      }
+      if (Math.abs(y - runFrom) < TURN) return
+      if (direction < 0) show(true)
+      else if (!headerRef.current?.contains(document.activeElement)) show(false)
+    }
+    const onScroll = () => {
+      frame ||= requestAnimationFrame(update)
+    }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(frame)
+    }
   }, [])
 
   // Lets sticky elements (e.g. the product tab bar) move up while the header is away.
@@ -193,6 +236,10 @@ export function Header({ menus }: { menus: Menu[] }) {
       <header
         ref={headerRef}
         onMouseLeave={() => close()}
+        onFocus={() => {
+          hiddenRef.current = false
+          setHidden(false)
+        }}
         onBlur={(e) => {
           if (!headerRef.current?.contains(e.relatedTarget as Node)) setActive(null)
         }}

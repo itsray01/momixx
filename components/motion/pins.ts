@@ -10,6 +10,7 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { HERO_LAST_STEP, setHeroProgress } from '@/components/three/heroProgress'
+import { endScriptedScroll, markScriptedScroll, resetScriptedScroll, startScriptedScroll } from './scriptedScroll'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,7 +39,20 @@ export function setupPins(): () => void {
           // Once scrolling stops, settle on the next step in the direction of
           // travel, so it never jumps back. Any scroll cancels it, and it only
           // acts inside the pinned range: the rest of the page never snaps.
-          snap: { snapTo: 'labelsDirectional', duration: { min: 0.4, max: 0.6 }, delay: 0.15, ease: 'power2.inOut', inertia: false },
+          // The header ignores the snap's scrolling, and the pin taking hold or
+          // letting go, so it only answers to the visitor.
+          snap: {
+            snapTo: 'labelsDirectional',
+            duration: { min: 0.4, max: 0.6 },
+            delay: 0.15,
+            ease: 'power2.inOut',
+            inertia: false,
+            onStart: startScriptedScroll,
+            onInterrupt: endScriptedScroll,
+            onComplete: endScriptedScroll,
+          },
+          onLeave: markScriptedScroll,
+          onEnterBack: markScriptedScroll,
         },
       })
       HERO_STEPS.forEach((label, step) => tl.addLabel(label, step))
@@ -84,10 +98,17 @@ export function setupPins(): () => void {
     }
   })
 
+  // Recalculating the pins can move the page; that is not the visitor scrolling either.
+  ScrollTrigger.addEventListener('refreshInit', startScriptedScroll)
+  ScrollTrigger.addEventListener('refresh', endScriptedScroll)
+
   // Fonts and lazy images can shift layout after load; recalculate trigger positions.
   const t = window.setTimeout(() => ScrollTrigger.refresh(), 800)
   return () => {
     window.clearTimeout(t)
+    ScrollTrigger.removeEventListener('refreshInit', startScriptedScroll)
+    ScrollTrigger.removeEventListener('refresh', endScriptedScroll)
     mm.revert()
+    resetScriptedScroll()
   }
 }
