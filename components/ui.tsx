@@ -1,3 +1,4 @@
+import { BackgroundLoop, type LoopName } from './BackgroundLoop'
 import type { LucideIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -110,6 +111,7 @@ export function PageHeader({
   facts,
   visual,
   background,
+  loop,
   children,
 }: {
   eyebrow?: string
@@ -122,6 +124,8 @@ export function PageHeader({
   visual?: ReactNode
   /** Full-width photo behind the header. The source is a local file, served by this site. */
   background?: { src: string; alt: string }
+  /** A colour loop behind the header (components/BackgroundLoop.tsx), in place of the plain glow. */
+  loop?: LoopName
   children?: ReactNode
 }) {
   // The sustainability photo is 1440 px wide. Cap the header on large screens so it is cropped rather than blown up.
@@ -142,6 +146,8 @@ export function PageHeader({
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#050505_0%,rgba(5,5,5,0.94)_36%,rgba(5,5,5,0.62)_68%,rgba(5,5,5,0.4)_100%)] max-lg:bg-[linear-gradient(90deg,#050505_0%,rgba(5,5,5,0.9)_48%,rgba(5,5,5,0.78)_100%)]"
           />
         </>
+      ) : loop ? (
+        <BackgroundLoop name={loop} priority />
       ) : (
         <>
           <HeaderGlow />
@@ -163,7 +169,14 @@ export function PageHeader({
           {children}
         </div>
         {/* Below the title on phones and tablets: kept to a sensible size there, full column width beside it on desktops. */}
-        {visual && <div className="mx-auto w-full max-w-lg min-w-0 lg:max-w-none">{visual}</div>}
+        {/* Over a loop, the picture's soft floor shadow fades out before its edges, so no box shows. */}
+        {visual && (
+          <div
+            className={`mx-auto w-full max-w-lg min-w-0 lg:max-w-none ${loop ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
+          >
+            {visual}
+          </div>
+        )}
         {facts && !visual && (
           <FactTiles facts={facts} className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] lg:grid-cols-1" />
         )}
@@ -193,6 +206,7 @@ export function Section({
   children,
   tone = 'white',
   align,
+  loop,
   className = '',
 }: {
   id?: string
@@ -203,13 +217,17 @@ export function Section({
   /** white = base surface, muted = slightly raised, dark = raised with grain */
   tone?: 'white' | 'muted' | 'dark'
   align?: 'left' | 'center'
+  /** A colour loop behind the whole section (components/BackgroundLoop.tsx). */
+  loop?: LoopName
   className?: string
 }) {
-  const toneClass = tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'bg-ink-900' : 'grain bg-ink-900'
+  const toneClass = loop ? 'bg-ink-950' : tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'bg-ink-900' : 'grain bg-ink-900'
   return (
     // overflow-x-clip (not hidden) keeps decorative glows in bounds without breaking sticky children.
-    <section id={id} className={`relative overflow-x-clip ${toneClass} py-18 sm:py-24 ${className}`}>
-      {tone !== 'white' && <div className="hairline absolute inset-x-0 top-0" />}
+    <section id={id} className={`relative overflow-x-clip ${toneClass} py-18 sm:py-24 ${loop ? 'sm:py-32' : ''} ${className}`}>
+      {/* On phones a long section keeps the loop to its opening screen, fading out below. */}
+      {loop && <BackgroundLoop name={loop} className="max-lg:bottom-auto max-lg:h-[min(100%,46rem)]" />}
+      {tone !== 'white' && !loop && <div className="hairline absolute inset-x-0 top-0" />}
       <div className="container-page relative">
         <SectionHeading eyebrow={eyebrow} title={title} intro={intro} align={align} />
         {children}
