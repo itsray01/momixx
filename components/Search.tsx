@@ -273,15 +273,15 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
           )}
           {index && typed && !flat.length && (
             <div className="px-3">
-              <p className="text-[15px] text-zinc-200">No results for “{typed}”.</p>
-              <p className="mt-1 text-[13px] text-zinc-500">Try a product name, a material such as LSR, or a topic such as recycling.</p>
+              <p className="text-[0.9375rem] text-zinc-200">No results for “{typed}”.</p>
+              <p className="mt-1 text-[0.8125rem] text-zinc-500">Try a product name, a material such as LSR, or a topic such as recycling.</p>
             </div>
           )}
           {flat.length > 0 && (
             <div id="search-results" role="listbox" aria-label="Search results" className={`grid gap-x-6 gap-y-6 ${typed ? 'lg:grid-cols-2' : ''}`}>
               {sections.map((s, si) => (
                 <div key={s.title} role="group" aria-labelledby={`search-group-${si}`} className="min-w-0">
-                  <p id={`search-group-${si}`} className="px-3 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">
+                  <p id={`search-group-${si}`} className="px-3 text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-500 uppercase">
                     {s.title}
                   </p>
                   <div className={`mt-2 grid grid-cols-1 gap-0.5 ${typed ? '' : 'sm:grid-cols-2'}`}>
@@ -302,11 +302,11 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
                           className={`flex min-w-0 items-center justify-between gap-4 rounded-xl px-3 py-2.5 transition-colors ${on ? 'bg-white/[0.06]' : ''}`}
                         >
                           <span className="min-w-0">
-                            <span className="block truncate text-[15px] font-medium text-zinc-100">
+                            <span className="block truncate text-[0.9375rem] font-medium text-zinc-100">
                               <Highlight text={r.title} words={words} />
                             </span>
                             {r.desc && (
-                              <span className="mt-0.5 line-clamp-1 text-[13px] text-zinc-500">
+                              <span className="mt-0.5 line-clamp-1 text-[0.8125rem] text-zinc-500">
                                 <Highlight text={r.desc} words={words} />
                               </span>
                             )}
@@ -324,7 +324,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
           )}
         </div>
 
-        <p className="border-t border-white/[0.08] px-6 py-4 text-[13px] text-zinc-400">
+        <p className="border-t border-white/[0.08] px-6 py-4 text-[0.8125rem] text-zinc-400">
           Can’t find what you need?{' '}
           <Link href="/contact" onClick={closeSearch} className="font-medium text-brand-300 hover:text-brand-200">
             Contact our team <span aria-hidden="true">→</span>

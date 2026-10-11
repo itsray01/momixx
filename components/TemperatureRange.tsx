@@ -35,7 +35,7 @@ export function TemperatureRange() {
             { t: 100, label: 'Water boils' },
           ].map((r) => (
             <div key={r.t} className="absolute inset-y-0 border-l border-dashed border-white/15" style={{ left: `${pct(r.t)}%` }}>
-              <span className="absolute -top-6 -translate-x-1/2 text-[11px] whitespace-nowrap text-zinc-500">{r.label}</span>
+              <span className="absolute -top-6 -translate-x-1/2 text-[0.6875rem] whitespace-nowrap text-zinc-500">{r.label}</span>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ export function TemperatureRange() {
         {/* Axis */}
         <div aria-hidden="true" className="relative mt-4 mr-2 ml-12 h-5 sm:mr-0 sm:ml-56">
           {ticks.map((t) => (
-            <span key={t} className={`absolute -translate-x-1/2 text-[11px] text-zinc-500 ${t % 80 === 0 || t === 0 ? '' : 'hidden sm:inline'}`} style={{ left: `${pct(t)}%` }}>
+            <span key={t} className={`absolute -translate-x-1/2 text-[0.6875rem] text-zinc-500 ${t % 80 === 0 || t === 0 ? '' : 'hidden sm:inline'}`} style={{ left: `${pct(t)}%` }}>
               {t}°
             </span>
           ))}

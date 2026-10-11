@@ -121,7 +121,7 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
                 <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-zinc-500">Step 0{i + 1}</span>
-                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[11px] font-semibold text-ink-950">MoMixx</span>}
+                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[0.6875rem] font-semibold text-ink-950">MoMixx</span>}
                   </div>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-400">{step.body}</p>
@@ -236,7 +236,7 @@ export function Timeline({ years, columns = 4 }: { years: Array<{ year: number; 
             <h3 className="text-3xl leading-none font-semibold tracking-[-0.04em] text-white">{m.year}</h3>
             {Icon && (
               <span aria-hidden="true" className="mt-4 flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-200">
-                <Icon className="size-[22px]" strokeWidth={1.5} />
+                <Icon className="size-[1.375rem]" strokeWidth={1.5} />
               </span>
             )}
             <ul className="mt-4 space-y-2">
@@ -246,7 +246,7 @@ export function Timeline({ years, columns = 4 }: { years: Array<{ year: number; 
                   <span className="min-w-0">
                     {line}
                     {isCertifiedLine(line) && (
-                      <span className="ml-2 inline-block align-middle rounded-full border border-white/15 bg-white/10 px-2 py-0.5 text-[11px] font-medium tracking-wide text-zinc-100">
+                      <span className="ml-2 inline-block align-middle rounded-full border border-white/15 bg-white/10 px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-zinc-100">
                         Certified
                       </span>
                     )}

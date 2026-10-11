@@ -40,7 +40,7 @@ export function CableAnatomy() {
   }, [stage, enabled, reduced])
 
   const markerClass = (id: string, momixx?: boolean) =>
-    `flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[11px] font-semibold backdrop-blur transition-colors ${
+    `flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[0.6875rem] font-semibold backdrop-blur transition-colors ${
       active === id ? 'border-brand-200 bg-brand-300 text-ink-950' : momixx ? 'border-brand-300 bg-brand-400/90 text-ink-950' : 'border-white/30 bg-ink-950/70 text-zinc-100'
     }`
 
@@ -63,7 +63,7 @@ export function CableAnatomy() {
               <span>
                 <span className="flex items-center gap-2 font-semibold text-white">
                   {l.name}
-                  {l.momixx && <span className="rounded-full bg-brand-400 px-2 py-0.5 text-[10px] font-semibold text-ink-950">MoMixx</span>}
+                  {l.momixx && <span className="rounded-full bg-brand-400 px-2 py-0.5 text-[0.625rem] font-semibold text-ink-950">MoMixx</span>}
                 </span>
                 <span className="mt-1 block text-sm leading-relaxed text-zinc-400">{l.body}</span>
               </span>
@@ -113,7 +113,7 @@ export function CableAnatomy() {
             ))}
           </div>
         )}
-        <p className="pointer-events-none absolute right-4 bottom-4 left-4 text-center text-[11px] text-zinc-500">A typical USB-C cable. Designs vary by maker.</p>
+        <p className="pointer-events-none absolute right-4 bottom-4 left-4 text-center text-[0.6875rem] text-zinc-500">A typical USB-C cable. Designs vary by maker.</p>
       </div>
     </div>
   )

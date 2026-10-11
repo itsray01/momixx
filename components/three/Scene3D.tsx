@@ -216,7 +216,7 @@ export function Scene3D({ className = '' }: { className?: string }) {
       {/* The cable fades into the page at the bottom. A plain gradient on top is far cheaper than a CSS mask on the live canvas. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/4 bg-gradient-to-t from-[rgb(5_5_5)] to-transparent lg:block" />
       {debug && profile && (
-        <p className="absolute top-24 right-4 z-30 max-w-sm rounded-lg bg-black/85 px-3 py-2 font-mono text-[11px] leading-relaxed text-white">
+        <p className="absolute top-24 right-4 z-30 max-w-sm rounded-lg bg-black/85 px-3 py-2 font-mono text-[0.6875rem] leading-relaxed text-white">
           {showStill
             ? `Still image: ${failed ? 'the 3D scene failed' : profile.reason}`
             : `Live 3D: ${live ? `running (ready ${(readyAt / 1000).toFixed(1)} s after opening)` : 'tuning…'} · ${profile.tier} tier${profile.tier === 'low' ? ' (baked lighting)' : ''}`}

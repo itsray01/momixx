@@ -81,7 +81,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold tracking-[-0.02em]">{market.name}</h3>
         {market.kind === 'context' && (
-          <span className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-[11px] font-medium text-zinc-400">Industry context</span>
+          <span className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-[0.6875rem] font-medium text-zinc-400">Industry context</span>
         )}
       </div>
       {!compact && <p className="mt-1.5 text-sm text-zinc-500">{market.scope}</p>}

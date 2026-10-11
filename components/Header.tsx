@@ -41,7 +41,7 @@ function MenuColumnView({ col, pathname, cards, alone, media }: { col: MenuColum
         : ''
   return (
     <div>
-      <p className="px-2.5 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">
+      <p className="px-2.5 text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-500 uppercase">
         {col.href ? (
           <Link href={col.href} className="hover:text-white">
             {col.title}
@@ -110,7 +110,7 @@ function Panel({ menu, pathname, media }: { menu: Menu; pathname: string; media:
               />
             )}
           </span>
-          <span className="relative text-[11px] font-medium tracking-[0.16em] text-zinc-400 uppercase">{menu.feature.eyebrow}</span>
+          <span className="relative text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-400 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
           <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-400">{menu.feature.body}</span>
           <span className="relative mt-auto pt-4 text-xs font-medium text-brand-300">
@@ -403,7 +403,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                       <div className="space-y-4 px-2 pb-4">
                         {menu.columns.map((c) => (
                           <div key={c.title}>
-                            {menu.columns!.length > 1 && <p className="px-3 pb-1 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">{c.title}</p>}
+                            {menu.columns!.length > 1 && <p className="px-3 pb-1 text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-500 uppercase">{c.title}</p>}
                             <ul className={`grid gap-0.5 ${c.links.every((l) => !l.desc) ? 'grid-cols-2' : 'sm:grid-cols-2'}`}>
                               {c.links.map((l) => (
                                 <li key={l.href}>
@@ -412,7 +412,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                                     onClick={() => setMobileOpen(false)}
                                     className={`block rounded-xl px-3 py-2.5 ${isActive(pathname, l.href) && !l.href.includes('#') ? 'bg-white/[0.06] text-white' : 'text-zinc-300'}`}
                                   >
-                                    <span className="block text-[15px]">{l.label}</span>
+                                    <span className="block text-[0.9375rem]">{l.label}</span>
                                     {l.desc && <span className="block text-xs text-zinc-500">{l.desc}</span>}
                                   </Link>
                                 </li>

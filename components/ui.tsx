@@ -175,9 +175,10 @@ export function PageHeader({
 export function SectionHeading({ eyebrow, title, intro, align = 'left' }: { eyebrow?: string; title?: string; intro?: ReactNode; align?: 'left' | 'center' }) {
   if (!eyebrow && !title && !intro) return null
   return (
-    <div data-reveal className={`mb-12 max-w-3xl sm:mb-16 ${align === 'center' ? 'mx-auto text-center' : ''}`}>
+    <div data-reveal="stagger" className={`mb-12 max-w-3xl sm:mb-16 ${align === 'center' ? 'mx-auto text-center' : ''}`}>
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      {title && <h2 className="display-lg mt-5">{rich(title)}</h2>}
+      {/* The heading rises out of its own baseline (.rise in globals.css); the label and intro fade in around it. */}
+      {title && <h2 className="rise display-lg mt-5">{rich(title)}</h2>}
       {intro && <div className="mt-5 text-lg leading-relaxed text-zinc-300 sm:text-xl">{intro}</div>}
     </div>
   )
@@ -238,7 +239,23 @@ export function StatTiles({
           >
             {s.value}
           </p>
-          <p className="mt-3 text-[15px] leading-snug text-zinc-400">{s.label}</p>
+          <p className="mt-3 text-[0.9375rem] leading-snug text-zinc-400">{s.label}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Key figures set large, as a band of their own: the number is the picture. */
+export function BigStats({ stats }: { stats: Array<{ value: string; label: ReactNode }> }) {
+  return (
+    <ul data-reveal="stagger" className="grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-4">
+      {stats.map((s) => (
+        <li key={s.value} className="border-t border-white/15 pt-8">
+          <p data-countup className="font-display text-[clamp(3.5rem,6.5vw,7.5rem)] leading-[0.85] font-semibold tracking-[-0.06em] text-white tabular-nums">
+            {s.value}
+          </p>
+          <p className="mt-5 max-w-[16rem] text-base leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -254,7 +271,7 @@ export function FeatureMark({ icon: Icon, index }: { icon?: LucideIcon; index: n
   return (
     <div className="flex items-center gap-3">
       <span aria-hidden="true" className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-zinc-200">
-        <Icon className="size-[22px]" strokeWidth={1.5} />
+        <Icon className="size-[1.375rem]" strokeWidth={1.5} />
       </span>
       {number}
     </div>
@@ -268,7 +285,7 @@ export function FeatureGrid({ items, cols = 3 }: { items: FeatureItem[]; cols?: 
         <div key={it.title} className="border-t border-white/15 pt-6">
           <FeatureMark icon={it.icon} index={i} />
           <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{it.title}</h3>
-          <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[17px]">{it.body}</p>
+          <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{it.body}</p>
         </div>
       ))}
     </div>

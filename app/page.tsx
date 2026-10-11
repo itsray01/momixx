@@ -10,7 +10,7 @@ import { Intro } from '@/components/Intro'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Render } from '@/components/Render'
-import { Arrow, ArrowLink, CtaBand, GridBackdrop, Section, StatTiles, rich } from '@/components/ui'
+import { Arrow, ArrowLink, BigStats, CtaBand, GridBackdrop, Section, rich } from '@/components/ui'
 import { companyStats, firstLineFootnote } from '@/content/company'
 import { products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
@@ -129,7 +129,7 @@ export default function HomePage() {
 
           <HeroCallouts />
 
-          <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[11px] tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
+          <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.6875rem] tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
             Scroll
             <span className="h-10 w-px bg-gradient-to-b from-zinc-500 to-transparent" />
           </div>
@@ -142,8 +142,8 @@ export default function HomePage() {
           <p data-reveal className="display-md max-w-5xl text-white">
             {statement.lead} <span className="text-brand-500">{statement.rest}</span>
           </p>
-          <div className="mt-20">
-            <StatTiles stats={stats} />
+          <div className="mt-24 sm:mt-32">
+            <BigStats stats={stats} />
           </div>
         </div>
       </section>
@@ -166,7 +166,7 @@ export default function HomePage() {
                 <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8">
                   <p className="text-sm font-medium text-zinc-400">{b.kicker}</p>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{b.title}</h3>
-                  <p className="mt-3 flex-1 text-base leading-relaxed text-zinc-400 sm:text-[17px]">{b.body}</p>
+                  <p className="mt-3 flex-1 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{b.body}</p>
                   <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white">
                     {b.cta} <Arrow />
                   </span>

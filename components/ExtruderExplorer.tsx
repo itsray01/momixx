@@ -227,7 +227,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                       className={`flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors ${focus === i ? 'bg-white/[0.06]' : 'hover:bg-white/[0.04]'}`}
                     >
                       <span
-                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] transition-colors ${
+                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[0.6875rem] transition-colors ${
                           focus === i ? 'border-brand-300 bg-brand-300 text-ink-950' : 'border-white/15 text-zinc-300'
                         }`}
                       >

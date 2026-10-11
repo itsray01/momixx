@@ -273,7 +273,7 @@ export function HeroCallouts() {
                     </span>
                   )}
                 </p>
-                <p style={rise(2)} className="mt-3 max-w-[17rem] text-[15px] leading-snug text-balance text-zinc-300 min-[1800px]:max-w-[20rem] min-[1800px]:text-[17px]">
+                <p style={rise(2)} className="mt-3 max-w-[17rem] text-[0.9375rem] leading-snug text-balance text-zinc-300 min-[1800px]:max-w-[20rem] min-[1800px]:text-[1.0625rem]">
                   {item.caption}
                 </p>
               </div>
