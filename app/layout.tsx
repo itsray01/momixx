@@ -9,10 +9,11 @@ import { PageMotion } from '@/components/motion/PageMotion'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
 import { geist, instrumentSerif } from '@/lib/fonts'
 import { buildMenus } from '@/lib/nav'
-import { absoluteUrl, plantAddress, site } from '@/lib/site'
+import { absoluteUrl, plantAddress, shareOrigin, site } from '@/lib/site'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  // Preview images resolve here; canonical URLs are absolute on site.url (see lib/site.ts).
+  metadataBase: new URL(shareOrigin),
   title: {
     default: 'MoMixx | High-performance & recycled silicone',
     template: '%s | MoMixx',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#060a10',
+  themeColor: '#050505',
 }
 
 const organization = {

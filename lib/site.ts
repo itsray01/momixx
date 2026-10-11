@@ -73,6 +73,15 @@ export function absoluteUrl(path = '/') {
 }
 
 /**
+ * Where this build is actually live, for link-preview images (WhatsApp, LinkedIn, Slack).
+ * Until www.momixx.com points here it still serves the old WordPress site, so a preview
+ * image addressed there would be missing. Vercel names the live address at build time:
+ * momixx.vercel.app today, and the custom domain once it is attached. Canonical links,
+ * the sitemap and structured data keep using site.url.
+ */
+export const shareOrigin = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : site.url
+
+/**
  * Search results show about 155–160 characters of a description. Longer text is
  * cut at the last full sentence that fits, or else at a word, never mid-word.
  */
@@ -110,15 +119,17 @@ export function pageMetadata({
   return {
     title,
     description,
+    // Absolute, so they stay on site.url while relative image paths resolve to shareOrigin (metadataBase).
     alternates: {
-      canonical: path,
+      canonical: absoluteUrl(path),
       // Every page points feed readers at the Insights feed.
-      types: { 'application/rss+xml': [{ url: '/insights/feed.xml', title: `${site.name} Insights` }] },
+      types: { 'application/rss+xml': [{ url: absoluteUrl('/insights/feed.xml'), title: `${site.name} Insights` }] },
     },
     openGraph: {
       title,
       description,
-      url: path,
+      // The address a shared card links to: the live site, so a tap never lands on the old one.
+      url: new URL(path, shareOrigin).toString(),
       siteName: site.legalName,
       type: 'website' as const,
       locale: 'en_SG',

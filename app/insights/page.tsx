@@ -2,7 +2,7 @@ import { ArticleCard } from '@/components/ArticleCard'
 import { collectionPage, JsonLd } from '@/components/JsonLd'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { getArticles } from '@/lib/articles'
-import { pageMetadata } from '@/lib/site'
+import { absoluteUrl, pageMetadata } from '@/lib/site'
 import { TopicNav } from './TopicNav'
 
 export const metadata = {
@@ -12,7 +12,7 @@ export const metadata = {
       'Plain-English articles on silicone, silicone recycling, recycled-content certifications, PFAS-free materials, and silicone in cables, EVs, medical devices, data centres and robots.',
     path: '/insights',
   }),
-  alternates: { canonical: '/insights', types: { 'application/rss+xml': '/insights/feed.xml' } },
+  alternates: { canonical: absoluteUrl('/insights'), types: { 'application/rss+xml': absoluteUrl('/insights/feed.xml') } },
 }
 
 export default function InsightsPage() {
