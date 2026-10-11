@@ -113,7 +113,7 @@ export default async function ApplicationPage({ params }: Props) {
               <ul className="mt-4 flex flex-wrap gap-2">
                 {relatedProducts.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/products/${p.slug}`} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:border-brand-500 hover:text-brand-300">
+                    <Link href={`/products/${p.slug}`} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-zinc-100 transition-[scale] duration-200 ease-soft hover:border-brand-500 hover:text-brand-300 motion-safe:active:scale-[0.97]">
                       {p.name}
                     </Link>
                   </li>

@@ -100,10 +100,10 @@ export default async function ProductPage({ params }: Props) {
                       <li key={a.slug}>
                         <Link
                           href={`/applications/${a.slug}`}
-                          className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition-colors hover:border-white/20 focus-visible:border-white/20"
+                          className="group motion-card flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition-colors hover:border-white/20 focus-visible:border-white/20"
                         >
                           <span className="block aspect-[4/3] overflow-hidden">
-                            <Render name={a.illustration} sizes="(min-width: 1024px) 12rem, (min-width: 640px) 30vw, 45vw" className="transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
+                            <Render name={a.illustration} sizes="(min-width: 1024px) 12rem, (min-width: 640px) 30vw, 45vw" className="motion-media" />
                           </span>
                           <span className="px-3 pb-3 text-sm font-medium text-zinc-200 group-hover:text-white">{a.tabLabel}</span>
                         </Link>

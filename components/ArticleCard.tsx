@@ -28,7 +28,7 @@ export function ArticleCard({ article, large = false, showRender = false }: { ar
     return (
       <Link href={`/insights/${article.slug}`} className="group card lift grid h-full w-full overflow-hidden md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:items-center">
         <div className="relative aspect-[4/3] shrink-0 overflow-hidden md:order-last [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:w-full [&_img]:object-contain">
-          <Render name={article.model} sizes="(min-width: 1280px) 500px, (min-width: 768px) 42vw, 92vw" priority className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+          <Render name={article.model} sizes="(min-width: 1280px) 500px, (min-width: 768px) 42vw, 92vw" priority className="motion-media" />
         </div>
         <div className="flex h-full flex-col p-8 pt-2 sm:p-12 md:pt-12">{text}</div>
       </Link>
@@ -37,7 +37,7 @@ export function ArticleCard({ article, large = false, showRender = false }: { ar
   return (
     <Link href={`/insights/${article.slug}`} className="group card lift flex h-full w-full flex-col overflow-hidden">
       <div className="relative aspect-[4/3] shrink-0 overflow-hidden [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:w-full [&_img]:object-contain">
-        <Render name={article.model} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+        <Render name={article.model} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="motion-media" />
       </div>
       <div className="flex flex-1 flex-col px-7 pb-7">{text}</div>
     </Link>

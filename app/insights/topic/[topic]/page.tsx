@@ -74,7 +74,7 @@ export default async function TopicPage({ params }: Props) {
               <li key={o.topic}>
                 <Link href={`/insights/topic/${o.topic}`} className="group card lift flex h-full items-center gap-4 overflow-hidden p-3 pr-5">
                   <div className="w-28 shrink-0 overflow-hidden rounded-2xl bg-white/[0.03]">
-                    <Render name={o.article.model} sizes="112px" className="transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
+                    <Render name={o.article.model} sizes="112px" className="motion-media" />
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-semibold tracking-[-0.02em] text-white">{topics[o.topic].label}</h3>

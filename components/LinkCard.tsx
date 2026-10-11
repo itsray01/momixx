@@ -43,7 +43,7 @@ export function LinkCard({
   return (
     <Link href={href} className="group card lift flex h-full flex-col overflow-hidden">
       <div className="aspect-[4/3] overflow-hidden">
-        <Render name={render} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+        <Render name={render} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="motion-media" />
       </div>
       <div className="flex flex-1 flex-col px-7 pb-7">{text}</div>
     </Link>

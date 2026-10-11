@@ -98,7 +98,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
           ref={t === shown ? activeRef : undefined}
           href={t.href}
           aria-current={here ? 'page' : active ? 'true' : undefined}
-          className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-colors ${
+          className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-[color,background-color,scale] duration-200 ease-soft motion-safe:active:scale-[0.97] ${
             active && here ? 'bg-white text-ink-950' : active ? 'bg-white/[0.12] text-white' : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
           }`}
         >

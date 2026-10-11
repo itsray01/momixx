@@ -157,7 +157,7 @@ export default function HomePage() {
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 30vw, 90vw"
-                    className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    className="motion-media object-contain p-4"
                   />
                 </div>
                 <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8">

@@ -32,7 +32,7 @@ export default function GlossaryPage() {
       <Section>
         <nav aria-label="Letters" className="mb-12 flex flex-wrap gap-2">
           {letters.map((l) => (
-            <a key={l} href={`#letter-${l}`} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm text-zinc-300 hover:border-brand-300 hover:text-white">
+            <a key={l} href={`#letter-${l}`} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm text-zinc-300 transition-[scale] duration-200 ease-soft hover:border-brand-300 hover:text-white motion-safe:active:scale-[0.97]">
               {l}
             </a>
           ))}

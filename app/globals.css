@@ -38,6 +38,9 @@
 
   --animate-spin-slow: spin 60s linear infinite;
 
+  /* The site's one easing curve: a quick start that settles softly. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -163,8 +166,8 @@
 
 @utility lift {
   transition:
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
   &:hover {
     border-color: rgb(255 255 255 / 0.18);
     box-shadow:
@@ -242,6 +245,127 @@ html[data-header='hidden'] .tabnav {
 }
 [data-motion-grow='in'] {
   transition: scale 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Hover, press and focus ──
+   Page content and footer only: the header, the home hero and the scroll stories
+   keep their own motion. Transform and opacity only, so nothing moves the layout,
+   and none of it runs for visitors who prefer reduced motion. Hover rises use
+   `transform`, so they add to the scroll reveal's `translate` instead of replacing it. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Buttons rise a hair on hover or keyboard focus, and press in when clicked. */
+  :where(main, footer) :is(.btn-primary, .btn-ghost-dark, .btn-ghost):where(:not(:disabled, [data-hero] *, [data-hscroll] *)) {
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s var(--ease-soft);
+    &:focus-visible {
+      transform: translateY(-1px);
+    }
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+    &:active {
+      transform: scale(0.97);
+      transition-duration: 0.1s;
+    }
+  }
+
+  /* Card links lift slightly, and settle back when pressed. */
+  :where(main, footer) a:is(.card, .motion-card):where(:not([data-hero] *, [data-hscroll] *)) {
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s var(--ease-soft);
+    &[data-motion='in'] {
+      transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s var(--ease-soft),
+        opacity 0.9s var(--ease-soft) var(--motion-delay, 0s),
+        translate 0.9s var(--ease-soft) var(--motion-delay, 0s);
+    }
+    &:focus-visible {
+      transform: translateY(-3px);
+    }
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+    &:active {
+      transform: translateY(-1px);
+      transition-duration: 0.1s;
+    }
+  }
+
+  /* A card's render eases in a little while the card is hovered or focused. */
+  .motion-media {
+    transition: transform 0.25s var(--ease-soft);
+  }
+  .group:focus-visible .motion-media {
+    transform: scale(1.03);
+  }
+  @media (hover: hover) {
+    .group:hover .motion-media {
+      transform: scale(1.03);
+    }
+  }
+
+  /* Arrows nudge forward on keyboard focus as well as on hover. */
+  :where(main, footer) .group:focus-visible .arrow:where(:not([data-hero] *)) {
+    translate: 0.125rem 0;
+  }
+
+  /* Text links dim while pressed. Buttons, cards and pills have their own press. */
+  :where(main, footer) a:where(:not(.card, .motion-card, .btn-primary, .btn-ghost-dark, .btn-ghost, [class*='rounded-full'], [data-hero] *, [data-hscroll] *)):active {
+    opacity: 0.7;
+  }
+
+  /* The newly selected tab settles into place (components/TabNav.tsx). */
+  .tabnav a[aria-current] {
+    animation: tab-select 0.3s var(--ease-soft);
+  }
+
+  /* Disclosures (FAQ answers, "View as table") fade open, and close a little faster. */
+  main details::details-content {
+    opacity: 0;
+    transition-property: opacity, content-visibility;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-behavior: allow-discrete;
+  }
+  main details[open]::details-content {
+    opacity: 1;
+    transition-duration: 0.3s;
+  }
+  main details[open] > :not(summary) {
+    animation: disclosure-in 0.3s var(--ease-soft);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(main, footer) .arrow:where(:not([data-hero] *)) {
+    translate: none;
+  }
+}
+@keyframes tab-select {
+  from {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+}
+@keyframes disclosure-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 /* ── Welcome screen (components/Intro.tsx) ── */

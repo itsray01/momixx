@@ -323,7 +323,7 @@ export function CtaBand({
 
 export function Arrow({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" className={`h-4 w-4 transition-transform group-hover:translate-x-0.5 ${className}`} aria-hidden="true">
+    <svg viewBox="0 0 16 16" className={`arrow h-4 w-4 transition-transform group-hover:translate-x-0.5 ${className}`} aria-hidden="true">
       <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
