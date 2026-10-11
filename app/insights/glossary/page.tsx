@@ -30,9 +30,17 @@ export default function GlossaryPage() {
         </div>
       </PageHeader>
       <Section>
-        <nav aria-label="Letters" className="mb-12 flex flex-wrap gap-2">
+        {/* The letters stay in reach while you read: they ride under the site header. */}
+        <nav
+          aria-label="Letters"
+          className="sticky top-20 z-20 mb-12 flex gap-1 overflow-x-auto rounded-full border border-white/[0.08] bg-ink-950/95 p-1.5 shadow-[0_8px_30px_rgb(0_0_0/0.5)] backdrop-blur-xl [scrollbar-width:none] sm:flex-wrap sm:justify-center"
+        >
           {letters.map((l) => (
-            <a key={l} href={`#letter-${l}`} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm text-zinc-300 transition-[scale] duration-200 ease-soft hover:border-brand-300 hover:text-white motion-safe:active:scale-[0.97]">
+            <a
+              key={l}
+              href={`#letter-${l}`}
+              className="flex size-11 shrink-0 items-center justify-center rounded-full text-base font-medium text-zinc-300 transition-[background-color,color,scale] duration-200 ease-soft hover:bg-white/[0.08] hover:text-white motion-safe:active:scale-[0.97]"
+            >
               {l}
             </a>
           ))}
@@ -41,9 +49,9 @@ export default function GlossaryPage() {
           {terms.map((t, i) => {
             const first = i === 0 || terms[i - 1].term[0].toUpperCase() !== t.term[0].toUpperCase()
             return (
-              <div key={t.term} id={glossaryId(t.term)} className="grid scroll-mt-28 gap-2 py-7 sm:grid-cols-[16rem_1fr] sm:gap-10">
+              <div key={t.term} id={glossaryId(t.term)} className="grid scroll-mt-40 gap-2 py-7 sm:grid-cols-[16rem_1fr] sm:gap-10">
                 <dt>
-                  {first && <span id={`letter-${t.term[0].toUpperCase()}`} className="block scroll-mt-28" />}
+                  {first && <span id={`letter-${t.term[0].toUpperCase()}`} className="block scroll-mt-40" />}
                   <span className="text-xl font-semibold tracking-[-0.02em] text-white">{t.term}</span>
                   {t.also && <span className="mt-1 block text-sm text-zinc-500">{t.also}</span>}
                 </dt>

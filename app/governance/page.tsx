@@ -28,7 +28,6 @@ const shown = [
   board.length > 0 && 'board',
   committees.length > 0 && 'committees',
   policies.length > 0 && 'policies',
-  'website-policies',
   'company-enquiries',
 ].filter(Boolean)
 const tone = (id: string) => (shown.indexOf(id) % 2 ? 'muted' : 'white')
@@ -140,28 +139,31 @@ export default function GovernancePage() {
         </Section>
       )}
 
-      <Section id="website-policies" tone={tone('website-policies')} eyebrow="This website" title="Website *policies*">
-        <ul className="flex flex-wrap gap-x-8 gap-y-3 text-lg">
-          <li>
-            <ArrowLink href="/privacy">Privacy notice</ArrowLink>
-          </li>
-          <li>
-            <ArrowLink href="/terms">Terms of use</ArrowLink>
-          </li>
-        </ul>
-      </Section>
-
+      {/* Enquiries and the website's own policies share one closing section: two links don't need a section of their own. */}
       <Section id="company-enquiries" tone={tone('company-enquiries')} eyebrow="Contact" title="Company *enquiries*" className="scroll-mt-28">
-        <p className="max-w-2xl text-lg leading-relaxed text-zinc-300">
-          For questions about MoMixx as a company, email{' '}
-          <a
-            href={`mailto:${investorEmail}?subject=${encodeURIComponent('Company enquiry')}`}
-            className="font-medium break-words text-white underline decoration-white/20 underline-offset-4 hover:decoration-brand-300"
-          >
-            {investorEmail}
-          </a>
-          .
-        </p>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <p className="max-w-2xl text-lg leading-relaxed text-zinc-300">
+            For questions about MoMixx as a company, email{' '}
+            <a
+              href={`mailto:${investorEmail}?subject=${encodeURIComponent('Company enquiry')}`}
+              className="font-medium break-words text-white underline decoration-white/20 underline-offset-4 hover:decoration-brand-300"
+            >
+              {investorEmail}
+            </a>
+            .
+          </p>
+          <div className="border-t border-white/[0.08] pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+            <h3 className="text-xs font-medium tracking-[0.18em] text-zinc-500 uppercase">This website</h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <ArrowLink href="/privacy">Privacy notice</ArrowLink>
+              </li>
+              <li>
+                <ArrowLink href="/terms">Terms of use</ArrowLink>
+              </li>
+            </ul>
+          </div>
+        </div>
       </Section>
     </>
   )
