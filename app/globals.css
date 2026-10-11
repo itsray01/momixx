@@ -65,11 +65,11 @@
     scrollbar-color: rgb(255 255 255 / 0.2) transparent;
   }
   /* Large screens: above 1600 px everything sized in rem grows with the screen (16 px at 1600 px,
-     22 px at 2560 px and wider), so a 27-inch monitor shows the laptop layout enlarged instead of a
+     22 px at 2560 px, 30 px at 3840 px), so a 27-inch monitor shows the laptop layout enlarged instead of a
      narrow column in a field of black. Breakpoints are unaffected: media queries ignore this size. */
   @media (min-width: 100rem) {
     html {
-      font-size: clamp(16px, 0.625vw + 6px, 22px);
+      font-size: clamp(16px, 0.625vw + 6px, 30px);
     }
   }
   body {
@@ -128,7 +128,8 @@
 }
 
 @utility display-xl {
-  font-size: clamp(3rem, 7.4vw, 7.25rem);
+  /* Wide-and-short screens (a 1366 x 768 laptop with the browser bar) cap it by height too. */
+  font-size: clamp(3rem, min(7.4vw, 12.5svh), 7.25rem);
   line-height: 0.95;
   letter-spacing: -0.05em;
 }
@@ -292,6 +293,22 @@ html[data-header='hidden'] .tabnav {
 .journey-loop-head[data-on] {
   opacity: 1;
   transition: opacity 0.5s ease 1.2s;
+}
+
+/* ── No lone cards on tablets ──
+   Many grids are two columns on tablets and three on desktops. On a tablet, three items would leave
+   one alone on its own row, so they sit three across instead; with five, the last takes the whole row. */
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .grid:is([class*='sm:grid-cols-2'], [class*='md:grid-cols-2']):not([data-last-spans]):has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  /* Cards too dense for a third of a tablet (market figures) keep two columns; the third takes the row. */
+  .grid[data-last-spans]:has(> :nth-child(3):last-child) > :last-child {
+    grid-column: 1 / -1;
+  }
+  .grid:is([class*='sm:grid-cols-2'], [class*='md:grid-cols-2']):has(> :nth-child(5):last-child) > :last-child {
+    grid-column: 1 / -1;
+  }
 }
 
 /* ── Site header (components/Header.tsx) ── */
@@ -778,21 +795,21 @@ img[data-fade='in'] {
    a static list in the same column. */
 @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
   [data-hero] {
-    height: calc(2 * max(100svh, 720px));
+    height: calc(2 * max(100svh, 560px));
     overflow: clip;
   }
   [data-hero-copy] {
-    height: max(100svh, 720px);
+    height: max(100svh, 560px);
   }
   [data-hero-sticky] {
     position: sticky;
     inset: auto;
     top: 2.5rem;
-    height: calc(max(100svh, 720px) - 2.5rem);
+    height: calc(max(100svh, 560px) - 2.5rem);
   }
   [data-spec-column] {
-    top: max(100svh, 720px);
-    height: max(100svh, 720px);
+    top: max(100svh, 560px);
+    height: max(100svh, 560px);
   }
   [data-spec],
   [data-spec] > * {
@@ -800,7 +817,7 @@ img[data-fade='in'] {
     translate: none;
   }
   [data-scroll-hint] {
-    top: calc(max(100svh, 720px) - 2rem);
+    top: calc(max(100svh, 560px) - 2rem);
     bottom: auto;
     translate: -50% -100%;
   }

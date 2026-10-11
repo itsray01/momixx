@@ -32,7 +32,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
           </li>
         </ul>
       </figcaption>
-      <div className="mt-10 grid gap-10 md:grid-cols-2">
+      <div className="mt-10 grid gap-10 md:grid-cols-2 lg:[&>:last-child:nth-child(odd)]:col-span-2">
         {comparison.rows.map((row) => {
           const max = Math.max(row.momixx, row.other)
           const winner = row.better === 'higher' ? row.momixx >= row.other : row.momixx <= row.other
@@ -77,7 +77,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
 export function MarketCard({ market, compact = false }: { market: Market; compact?: boolean }) {
   const max = market.forecast.usdBn
   return (
-    <article className="card lift flex h-full flex-col p-7">
+    <article className="card lift @container flex h-full flex-col p-7">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold tracking-[-0.02em]">{market.name}</h3>
         {market.kind === 'context' && (
@@ -103,7 +103,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
         <dl className="min-w-0 space-y-2">
           <div>
             <dt className="text-xs text-zinc-500">Forecast {market.forecast.year}</dt>
-            <dd className="font-display text-4xl font-semibold tracking-[-0.04em] text-white">{formatUsd(market.forecast.usdBn)}</dd>
+            <dd className="font-display text-[clamp(1.625rem,9cqi,2.25rem)] font-semibold tracking-[-0.04em] whitespace-nowrap text-white">{formatUsd(market.forecast.usdBn)}</dd>
           </div>
           {market.current && (
             <div>

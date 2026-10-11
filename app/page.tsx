@@ -93,7 +93,7 @@ export default function HomePage() {
       <Intro />
       {/* ── Hero: pinned on desktop; scrolling turns the cable towards you ── */}
       <div>
-        <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[720px]">
+        <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[560px]">
           <HeroSpotlight />
           <GridBackdrop />
           <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
@@ -108,15 +108,15 @@ export default function HomePage() {
           </div>
 
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
-          <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
+          <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24 [@media(max-height:46rem)]:lg:pt-20 [@media(max-height:46rem)]:lg:pb-12">
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,42rem)]">
               <p className="eyebrow">A tech-driven silicone company</p>
-              <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+              <h1 className="display-xl mt-7 [@media(max-height:46rem)]:mt-5">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl [@media(max-height:46rem)]:mt-5 [@media(max-height:46rem)]:sm:text-lg">
                 We develop, recycle and process high-performance silicone for the things the world now runs on: phone cables, electric vehicles, medical
                 devices, AI data centres and robots.
               </p>
-              <div className="mt-10 flex flex-wrap gap-3">
+              <div className="mt-10 flex flex-wrap gap-3 [@media(max-height:46rem)]:mt-7">
                 <Link href="/products" className="group btn-primary px-6 py-3 text-base">
                   Explore products <Arrow />
                 </Link>
@@ -153,8 +153,9 @@ export default function HomePage() {
         <ul data-reveal="stagger" className="grid gap-5 lg:grid-cols-3">
           {businesses.map((b) => (
             <li key={b.href}>
-              <Link href={b.href} className="group card flex h-full flex-col overflow-hidden">
-                <div className="relative aspect-[4/3]">
+              {/* Tablets: picture beside the words, one card per row; phones and desktops: picture on top. */}
+              <Link href={b.href} className="group card flex h-full flex-col overflow-hidden md:max-lg:flex-row md:max-lg:items-center">
+                <div className="relative aspect-[4/3] md:max-lg:w-2/5 md:max-lg:shrink-0">
                   <Image
                     src={`/renders/${b.model}.webp`}
                     alt=""
@@ -163,7 +164,7 @@ export default function HomePage() {
                     className="motion-media object-contain p-4"
                   />
                 </div>
-                <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8">
+                <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8 md:max-lg:py-8 md:max-lg:pl-2">
                   <p className="text-sm font-medium text-zinc-400">{b.kicker}</p>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{b.title}</h3>
                   <p className="mt-3 flex-1 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{b.body}</p>

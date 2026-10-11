@@ -54,7 +54,10 @@ function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; 
       : null
   let n = 0
   return (
-    <div className={`container-page grid gap-12 py-10 ${shown ? 'grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] xl:gap-20' : ''}`}>
+    // On smaller laptops a three-column menu needs the room, so its picture appears from 1280 px up.
+    <div
+      className={`container-page grid gap-10 py-10 ${shown ? (columns.length >= 3 ? 'xl:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]' : 'grid-cols-[minmax(0,1fr)_minmax(14rem,22rem)]') : ''} xl:gap-20`}
+    >
       <div className={`grid gap-x-10 gap-y-8 ${colsClass[Math.min(columns.length, 3)]}`}>
         {columns.map((col) => (
           <div key={col.title}>
@@ -94,7 +97,7 @@ function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; 
         ))}
       </div>
       {shown && (
-        <Link href={shown.href} className="group/feature flex flex-col self-start" tabIndex={-1}>
+        <Link href={shown.href} className={`group/feature flex-col self-start ${columns.length >= 3 ? 'hidden xl:flex' : 'flex'}`} tabIndex={-1}>
           <span
             aria-hidden="true"
             className="relative block aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.06] bg-[radial-gradient(80%_70%_at_50%_0%,rgb(255_255_255/0.09),transparent_75%)]"

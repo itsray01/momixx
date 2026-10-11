@@ -121,17 +121,17 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
           {/* The same light as the hero, from above. */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_60%_at_68%_30%,rgb(255_255_255/0.07),transparent_70%)]" />
 
-          <div className="container-page relative flex items-end justify-between gap-10 pt-28">
+          <div className="container-page relative flex items-end justify-between gap-10 pt-28 [@media(max-height:50rem)]:pt-24">
             <div>
               <p className="display-md max-w-xl text-white">{rich(title)}</p>
-              <p className="mt-3 max-w-lg text-base leading-relaxed text-zinc-500">{intro}</p>
+              <p className="mt-3 max-w-lg text-base leading-relaxed text-zinc-500 [@media(max-height:50rem)]:hidden">{intro}</p>
             </div>
             <p className="shrink-0 font-display text-base text-zinc-500 tabular-nums">
               <span className="text-white">{String(step + 1).padStart(2, '0')}</span> / {String(n).padStart(2, '0')}
             </p>
           </div>
 
-          <div className="container-page relative grid min-h-0 flex-1 grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center gap-12">
+          <div className="container-page relative grid min-h-0 flex-1 grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center gap-12 py-4">
             {/* The words: every step stacked in one cell; the current one shows. */}
             <div className="grid">
               {steps.map((s, i) => (
@@ -146,10 +146,13 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
               ))}
             </div>
             {/* The picture: every render stacked; the current one settles in. */}
-            <div className="relative grid h-full max-h-[min(52vh,36rem)] items-center">
+            {/* Sized by the space left between the heading and the rail, so it never runs into either on short screens. */}
+            <div className="relative h-full max-h-[36rem] min-h-0">
               {steps.map((s, i) => (
-                <div key={s.title} data-on={i === step || undefined} className="journey-pic flex h-full items-center justify-center [grid-area:1/1]">
-                  <Render name={s.model} sizes="(min-width: 1024px) 50vw, 1px" className="h-full max-h-full w-auto object-contain" />
+                <div key={s.title} data-on={i === step || undefined} className="journey-pic absolute inset-0 py-6">
+                  <div className="relative h-full w-full">
+                    <Render name={s.model} sizes="(min-width: 1024px) 50vw, 1px" className="absolute inset-0 h-full! w-full! object-contain" />
+                  </div>
                 </div>
               ))}
             </div>

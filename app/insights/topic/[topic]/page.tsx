@@ -56,16 +56,24 @@ export default async function TopicPage({ params }: Props) {
       </PageHeader>
       <Section>
         <h2 className="sr-only">Articles</h2>
-        <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <li className="sm:col-span-2 lg:col-span-3">
-            <ArticleCard article={newest} large showRender />
-          </li>
-          {rest.map((a) => (
-            <li key={a.slug}>
-              <ArticleCard article={a} showRender />
-            </li>
-          ))}
-        </ul>
+        {/* The newest on its own row, the rest in a grid of their own so no card is left alone on a row. */}
+        <div data-reveal>
+          <ArticleCard article={newest} large showRender />
+        </div>
+        {rest.length === 1 && (
+          <div data-reveal className="mt-5">
+            <ArticleCard article={rest[0]} large showRender />
+          </div>
+        )}
+        {rest.length > 1 && (
+          <ul data-reveal="stagger" className={`mt-5 grid gap-5 sm:grid-cols-2 ${rest.length % 2 === 0 && rest.length < 6 ? '' : 'lg:grid-cols-3'}`}>
+            {rest.map((a) => (
+              <li key={a.slug}>
+                <ArticleCard article={a} showRender />
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
       {others.length > 0 && (
         <Section tone="muted" eyebrow="Insights" title="Explore other *topics*">

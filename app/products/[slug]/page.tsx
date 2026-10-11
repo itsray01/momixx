@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: Props) {
               {apps.length > 0 ? (
                 <div className="card p-7">
                   <h2 className="text-base font-semibold">Used in</h2>
-                  <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2">
+                  <ul className={`mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 ${apps.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}>
                     {apps.map((a) => (
                       <li key={a.slug}>
                         <Link
@@ -112,7 +112,7 @@ export default async function ProductPage({ params }: Props) {
                           <span className="block aspect-[4/3] overflow-hidden">
                             <Render name={a.illustration} sizes="(min-width: 1024px) 12rem, (min-width: 640px) 30vw, 45vw" className="motion-media" />
                           </span>
-                          <span className="px-3 pb-3 text-sm font-medium text-zinc-200 group-hover:text-white">{a.tabLabel}</span>
+                          <span className="px-3 pb-3 text-[0.8125rem] font-medium text-zinc-200 group-hover:text-white sm:text-sm">{a.tabLabel}</span>
                         </Link>
                       </li>
                     ))}

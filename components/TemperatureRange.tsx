@@ -29,13 +29,13 @@ export function TemperatureRange() {
 
       <div className="relative mt-8">
         {/* Reference lines: freezing and boiling water */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-2 left-12 sm:right-0 sm:left-56">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-14 left-12 sm:right-12 sm:left-56">
           {[
             { t: 0, label: 'Water freezes' },
             { t: 100, label: 'Water boils' },
           ].map((r) => (
             <div key={r.t} className="absolute inset-y-0 border-l border-dashed border-white/15" style={{ left: `${pct(r.t)}%` }}>
-              <span className="absolute -top-6 -translate-x-1/2 text-[0.6875rem] whitespace-nowrap text-zinc-500">{r.label}</span>
+              <span className="absolute -top-6 hidden -translate-x-1/2 text-[0.6875rem] whitespace-nowrap text-zinc-500 sm:inline">{r.label}</span>
             </div>
           ))}
         </div>
@@ -47,7 +47,7 @@ export function TemperatureRange() {
                 <p className={`text-sm font-medium ${r.tone === 'momixx' ? 'text-white' : 'text-zinc-200'}`}>{r.name}</p>
                 <p className="text-xs text-zinc-500">{r.detail}</p>
               </div>
-              <div className="relative mr-2 ml-12 h-9 flex-1 sm:mr-0 sm:ml-0">
+              <div className="relative mr-14 ml-12 h-9 flex-1 sm:mr-12 sm:ml-0">
                 <div aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-white/[0.06]" />
                 <div
                   title={`${r.name}: ${deg(r.min)} to ${deg(r.max)}`}
@@ -67,7 +67,7 @@ export function TemperatureRange() {
         </ul>
 
         {/* Axis */}
-        <div aria-hidden="true" className="relative mt-4 mr-2 ml-12 h-5 sm:mr-0 sm:ml-56">
+        <div aria-hidden="true" className="relative mt-4 mr-14 ml-12 h-5 sm:mr-12 sm:ml-56">
           {ticks.map((t) => (
             <span key={t} className={`absolute -translate-x-1/2 text-[0.6875rem] text-zinc-500 ${t % 80 === 0 || t === 0 ? '' : 'hidden sm:inline'}`} style={{ left: `${pct(t)}%` }}>
               {t}°

@@ -162,7 +162,8 @@ export function PageHeader({
           )}
           {children}
         </div>
-        {visual && <div className="min-w-0">{visual}</div>}
+        {/* Below the title on phones and tablets: kept to a sensible size there, full column width beside it on desktops. */}
+        {visual && <div className="mx-auto w-full max-w-lg min-w-0 lg:max-w-none">{visual}</div>}
         {facts && !visual && (
           <FactTiles facts={facts} className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] lg:grid-cols-1" />
         )}

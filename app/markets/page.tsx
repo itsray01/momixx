@@ -34,7 +34,7 @@ export default function MarketsPage() {
       </Section>
 
       <Section tone="muted" eyebrow="Market by market" title="Market sizes and *sources*">
-        <div data-reveal="stagger" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div data-reveal="stagger" data-last-spans className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {addressable.map((m) => (
             <div key={m.id} className="flex flex-col gap-2">
               <MarketCard market={m} />
@@ -57,7 +57,7 @@ export default function MarketsPage() {
       </Section>
 
       <Section eyebrow="Context" title="Related *industries*">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div data-last-spans className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {context.map((m) => (
             <MarketCard key={m.id} market={m} />
           ))}

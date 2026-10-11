@@ -32,8 +32,9 @@ export default function ProductsPage() {
           <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
             {/* Two or four cards sit in two columns, so a row is never left half empty. */}
             <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${productsByCategory(cat).length % 3 === 0 || productsByCategory(cat).length > 4 ? 'lg:grid-cols-3' : ''}`}>
-              {productsByCategory(cat).map((p) => (
-                <li key={p.slug}>
+              {productsByCategory(cat).map((p, j, all) => (
+                // In two columns (tablets), an odd last card takes the whole row instead of sitting alone.
+                <li key={p.slug} className={all.length % 2 && j === all.length - 1 ? 'sm:max-lg:col-span-2' : ''}>
                   <LinkCard
                     href={`/products/${p.slug}`}
                     render={p.illustration}

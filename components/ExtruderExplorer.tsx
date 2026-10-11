@@ -249,7 +249,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
       {/* Machine specification: each spec points at its part */}
       <div className="card p-6 sm:p-8">
         <h3 className="text-lg font-semibold tracking-[-0.02em]">Key numbers</h3>
-        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
+        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 max-lg:[&>:last-child]:col-span-full">
           {specs.map((s) => {
             const i = extruderParts.findIndex((p) => p.id === specPart[s.label])
             return (

@@ -110,7 +110,7 @@ export function Footer() {
       {/* The name, large and quiet, sitting on the bottom edge of the site. */}
       <div aria-hidden="true" className="pointer-events-none overflow-hidden select-none">
         <p
-          className="container-page -mb-[0.2em] bg-gradient-to-b from-white/[0.11] to-white/0 to-80% bg-clip-text font-display text-[clamp(5rem,21.5vw,22rem)] leading-[0.95] font-extrabold tracking-[-0.055em] text-transparent"
+          className="container-page -mb-[0.2em] bg-gradient-to-b from-white/[0.11] to-white/0 to-80% bg-clip-text font-display text-[clamp(5rem,21.5vw,20rem)] leading-[0.95] font-extrabold tracking-[-0.055em] text-transparent"
         >
           {site.name}
         </p>

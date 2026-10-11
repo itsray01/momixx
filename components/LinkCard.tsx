@@ -57,12 +57,14 @@ export function LinkCard({
       </Link>
     )
   }
+  // When the grid stretches a card across two columns on tablets (an odd one out), it lays out like
+  // a wide card there: picture beside the words rather than a picture twice the size.
   return (
-    <Link href={href} className="group card lift flex h-full flex-col overflow-hidden">
+    <Link href={href} className="group card lift flex h-full flex-col overflow-hidden [li[class*='col-span-2']_&]:sm:max-lg:grid [li[class*='col-span-2']_&]:sm:max-lg:grid-cols-2 [li[class*='col-span-2']_&]:sm:max-lg:items-center">
       <div className="aspect-[4/3] overflow-hidden">
         <Render name={render} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="motion-media" />
       </div>
-      <div className="flex flex-1 flex-col px-7 pb-7">{text}</div>
+      <div className="flex flex-1 flex-col px-7 pb-7 [li[class*='col-span-2']_&]:sm:max-lg:py-8 [li[class*='col-span-2']_&]:sm:max-lg:pl-2">{text}</div>
     </Link>
   )
 }
