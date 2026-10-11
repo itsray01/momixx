@@ -48,12 +48,12 @@ const areas: Area[] = [
       {
         title: 'Dust-free cables',
         body: 'Silicone is slightly sticky, so it picks up dust. Dipping cables in our coating leaves them soft to the touch, stain-resistant and long-lasting.',
-        render: 'coating',
+        render: 'coated-cable',
       },
       {
         title: 'Tough phone-case finish',
         body: 'A dipped finish that resists scratches and wear, with fewer rejects in our production than UV-cured coatings.',
-        render: 'phone-case',
+        render: 'case-finish',
       },
     ],
   },

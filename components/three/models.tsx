@@ -715,6 +715,8 @@ export const modelRegistry: Record<ModelName, (options: ModelOptions) => React.J
   'ev-cable': () => <EvCableModel />,
   watchband: () => <WatchModel />,
   'phone-case': () => <PhoneCaseModel />,
+  // Studio renders (Blender); the 3D stand-ins are the nearest models.
+  'case-finish': () => <PhoneCaseModel />,
   seal: () => <SealModel />,
   compound: () => <CompoundModel />,
   // Crimson's picture is a studio render (slabs and liquid); the 3D stand-in is the compound.
@@ -731,6 +733,7 @@ export const modelRegistry: Record<ModelName, (options: ModelOptions) => React.J
   winder: () => <WinderModel />,
   oven: () => <OvenModel />,
   coating: () => <CoatingModel />,
+  'coated-cable': () => <CoatingModel />,
   oem: () => <OemModel />,
   medical: () => <MedicalTubingModel />,
   datacentre: () => <DatacentreModel />,
