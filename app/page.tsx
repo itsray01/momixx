@@ -184,7 +184,7 @@ export default function HomePage() {
       {/* ── Sand to silicone ── */}
       <JourneyScroll
         eyebrow="From sand to silicone"
-        title="Where *silicone* comes from"
+        title="From sand, and back again"
         intro="Silicone starts as ordinary sand. MoMixx works at three points along the way: we make silicone for specific jobs, build the machines that shape it, and recycle it at the end of its life."
       />
 

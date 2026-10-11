@@ -240,6 +240,60 @@ html[data-header='hidden'] .tabnav {
   top: 0.75rem;
 }
 
+/* ── Sand to silicone stage (components/JourneyStage.tsx) ── */
+.journey-text {
+  opacity: 0;
+  translate: 0 1.25rem;
+  transition:
+    opacity 0.35s ease,
+    translate 0.35s ease;
+}
+.journey-text[data-on] {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.6s ease 0.12s,
+    translate 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+}
+.journey-pic {
+  opacity: 0;
+  scale: 0.92;
+  translate: 0 1.5rem;
+  transition:
+    opacity 0.45s ease,
+    scale 0.6s ease,
+    translate 0.6s ease;
+}
+.journey-pic[data-on] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.7s ease,
+    scale 1s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.journey-fill {
+  width: calc(var(--fill, 0) * 100%);
+}
+/* The loop draws itself from the last stop back to "Silicone" (right to left). */
+.journey-loop {
+  clip-path: inset(-2px -2px -2px 100%);
+  transition: clip-path 0.4s ease;
+}
+.journey-loop[data-on] {
+  clip-path: inset(-2px -2px -2px -2px);
+  transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
+}
+.journey-loop-head {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.journey-loop-head[data-on] {
+  opacity: 1;
+  transition: opacity 0.5s ease 1.2s;
+}
+
 /* ── Site header (components/Header.tsx) ── */
 /* Menu labels roll up to a copy of themselves on hover. */
 .nav-roll-a,

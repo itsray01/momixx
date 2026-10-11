@@ -1,8 +1,8 @@
 import type { LucideIcon } from 'lucide-react'
 import { Building2, Cable, ClipboardCheck, Droplet, Factory, Flame, FlaskConical, PackageOpen, Recycle, Sparkles } from 'lucide-react'
 import { recyclingCertificationNames } from '@/content/company'
-import { Render } from './Render'
-import { FeatureMark, rich } from './ui'
+import { JourneyStage } from './JourneyStage'
+import { FeatureMark } from './ui'
 import type { ModelName } from './three/modelNames'
 
 // ───────────────────────── Recycling ─────────────────────────
@@ -84,55 +84,9 @@ export const journey: Array<{ title: string; body: string; model: ModelName; mom
   { title: 'Back to silicone', body: 'Scrap and used parts come back to us, and we rebuild them into certified recycled silicone.', model: 'recycle', momixx: true },
 ]
 
-/**
- * Sand → product. On desktop the whole section pins and the cards scroll sideways
- * with a progress bar; on phones (and with reduced motion) it is a swipeable row.
- */
+/** Sand → product → back to silicone, as a held stage on desktop (see JourneyStage). */
 export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebrow: string; title: string; intro: string; tone?: 'dark' | 'muted' }) {
-  return (
-    <div>
-      <section data-hscroll className={`relative overflow-hidden py-20 sm:py-24 lg:flex lg:h-screen lg:min-h-[640px] lg:flex-col lg:justify-center lg:py-0 ${tone === 'muted' ? 'bg-ink-900' : 'bg-ink-950'}`}>
-        <div className="container-page flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="eyebrow">{eyebrow}</p>
-            <h2 className="display-lg mt-5">{rich(title)}</h2>
-            <p className="mt-4 text-lg leading-relaxed text-zinc-400">{intro}</p>
-          </div>
-          <div className="hidden w-64 shrink-0 lg:block" aria-hidden="true">
-            <div className="flex justify-between font-mono text-xs text-zinc-500">
-              <span>01</span>
-              <span>0{journey.length}</span>
-            </div>
-            <div className="mt-2 h-px bg-white/10">
-              <div data-hscroll-progress className="h-px origin-left scale-x-0 bg-white/70" />
-            </div>
-          </div>
-        </div>
-        <div data-hscroll-viewport tabIndex={0} role="region" aria-label={eyebrow} className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
-          <ol data-hscroll-track className="flex w-max gap-4 px-4 sm:px-6 lg:gap-5 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
-            {journey.map((step, i) => (
-              <li
-                key={step.title}
-                className={`card relative flex w-[78vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden lg:h-[min(62vh,560px)] lg:w-[min(420px,30vw)] lg:max-w-none ${step.momixx ? 'border-brand-400/40' : ''}`}
-              >
-                <div className="relative flex h-52 items-center justify-center px-6 pt-6 lg:h-auto lg:flex-1">
-                  <Render name={step.model} className="relative max-h-full w-auto object-contain lg:max-h-[min(34vh,320px)]" sizes="(min-width: 1024px) 30vw, 78vw" />
-                </div>
-                <div className="relative p-6 pt-4 sm:p-7 sm:pt-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-zinc-500">Step 0{i + 1}</span>
-                    {step.momixx && <span className="rounded-full bg-brand-400 px-2.5 py-0.5 text-[0.6875rem] font-semibold text-ink-950">MoMixx</span>}
-                  </div>
-                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">{step.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-    </div>
-  )
+  return <JourneyStage steps={journey} label={eyebrow} title={title} intro={intro} tone={tone} />
 }
 
 // ───────────────────────── Silicon vs silicone ─────────────────────────
