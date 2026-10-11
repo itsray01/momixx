@@ -8,8 +8,11 @@ export function Render({
   className = '',
   sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
   priority = false,
+  variant,
 }: {
   name: ModelName
+  /** A colour version of the same picture, e.g. "white" for data-cable-white.webp. */
+  variant?: string
   alt?: string
   className?: string
   sizes?: string
@@ -18,7 +21,7 @@ export function Render({
 }) {
   return (
     <Image
-      src={`/renders/${name}.webp`}
+      src={`/renders/${name}${variant ? `-${variant}` : ''}.webp`}
       alt={alt}
       width={1200}
       height={900}

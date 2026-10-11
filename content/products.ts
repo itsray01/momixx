@@ -68,6 +68,8 @@ export type Product = {
   applications?: string[]
   /** Which 3D model represents this product (see components/three/models.tsx). */
   illustration?: ModelName
+  /** A colour version of the illustration, e.g. "white" to match the product photo. */
+  illustrationVariant?: string
   /** A rotating clip in /public/videos (name without extension), shown instead of the still render. */
   video?: string
   /** Path under /public, e.g. /images/products/vertical-extruder.jpg */
@@ -135,6 +137,7 @@ export const products: Product[] = [
     },
     applications: ['consumer-electronics', 'ai-data-centres'],
     illustration: 'data-cable',
+    illustrationVariant: 'white',
     photo: { src: '/images/products/momixx-mm-cable.webp', alt: 'USB-C data cable with a white silicone jacket', width: 410, height: 318, caption: 'Silicone data cable' },
     recycledOption: true,
   },

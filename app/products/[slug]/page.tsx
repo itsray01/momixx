@@ -60,27 +60,34 @@ export default async function ProductPage({ params }: Props) {
         eyebrow={categoryLabels[p.category]}
         title={p.name}
         intro={p.tagline}
+        visual={
+          p.illustration &&
+          (p.video ? (
+            <div className="card aspect-[4/3] overflow-hidden">
+              <SpinVideo name={p.video} label={`Rotating 3D illustration of the ${p.name}`} />
+            </div>
+          ) : (
+            <Render
+              name={p.illustration}
+              variant={p.illustrationVariant}
+              alt={`3D illustration of the ${p.name}`}
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              priority
+            />
+          ))
+        }
       />
       <TabNav {...productNav(p.slug)} label="Products">
 
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
             <div>
-              {p.photo ? (
+              {/* The picture sits in the header now; a real photo, where there is one, stays here. */}
+              {p.photo && (
                 <figure className="card relative mb-10 overflow-hidden">
-                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" loading="eager" fetchPriority="high" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
+                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
                   <figcaption className="absolute bottom-4 left-5 text-xs text-zinc-400">{p.photo.caption}</figcaption>
                 </figure>
-              ) : (
-                p.illustration && (
-                  <div className="card mb-10 aspect-[4/3] overflow-hidden">
-                    {p.video ? (
-                      <SpinVideo name={p.video} label={`Rotating 3D illustration of the ${p.name}`} />
-                    ) : (
-                      <Render name={p.illustration} alt={`3D illustration of the ${p.name}`} sizes="(min-width: 1152px) 640px, (min-width: 1024px) 55vw, 92vw" priority />
-                    )}
-                  </div>
-                )
               )}
               <p className="eyebrow">Overview</p>
               <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-zinc-100 sm:text-[1.7rem]">{p.summary}</p>
