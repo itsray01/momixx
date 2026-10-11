@@ -9,6 +9,7 @@ import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
+import { Render } from '@/components/Render'
 import { Arrow, ArrowLink, CtaBand, GridBackdrop, Section, StatTiles, rich } from '@/components/ui'
 import { companyStats, firstLineFootnote } from '@/content/company'
 import { products } from '@/content/products'
@@ -202,6 +203,9 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
               <ArrowLink href="/sustainability">Our sustainability</ArrowLink>
               <ArrowLink href="/recycled-silicone">The recycling process</ArrowLink>
+            </div>
+            <div className="mt-6 -ml-4 hidden max-w-[22rem] lg:block">
+              <Render name="recycle" alt="" sizes="22rem" />
             </div>
           </div>
           <RecycleSteps />

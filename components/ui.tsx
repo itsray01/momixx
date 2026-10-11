@@ -316,9 +316,22 @@ export function CtaBand({
   secondary?: { href: string; label: string }
 }) {
   return (
-    <section className="relative bg-ink-950 py-21 sm:py-30">
+    <section className="relative overflow-hidden bg-ink-950 py-21 sm:py-30">
       <div className="hairline absolute inset-x-0 top-0" />
-      <div data-reveal className="container-page mx-auto max-w-3xl text-center">
+      {/* A pool of light from above and a faint grid, so the last call to action feels like a stage, not a gap. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(42%_80%_at_50%_0%,rgb(255_255_255/0.09),rgb(255_255_255/0.02)_50%,transparent_75%)]" />
+      <div
+        aria-hidden="true"
+        data-decor=""
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          backgroundPosition: 'center top',
+          maskImage: 'radial-gradient(ellipse 55% 85% at 50% 0%, black 15%, transparent 75%)',
+        }}
+      />
+      <div data-reveal className="relative container-page mx-auto max-w-3xl text-center">
         <h2 className="display-lg">{rich(title)}</h2>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">{body}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { Render } from '@/components/Render'
 import { CertCard } from '@/components/CertCard'
 import { RecycleSteps } from '@/components/infographics'
 import { Leaf, Recycle, ClipboardCheck } from 'lucide-react'
@@ -129,6 +130,9 @@ export default function SustainabilityPage() {
             <ArrowLink href="/recycled-silicone" className="mt-8">
               How our recycled silicone works
             </ArrowLink>
+            <div className="mt-6 -ml-4 hidden max-w-[22rem] lg:block">
+              <Render name="recycle" alt="" sizes="22rem" />
+            </div>
           </div>
           <RecycleSteps />
         </div>
