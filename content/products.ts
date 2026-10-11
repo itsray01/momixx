@@ -271,7 +271,7 @@ export const products: Product[] = [
     ],
     processing: 'Injection moulding, compression moulding or extrusion',
     applications: ['consumer-electronics', 'electric-vehicles'],
-    illustration: 'compound',
+    illustration: 'crimson',
   },
   {
     slug: 'recycled-silicone',

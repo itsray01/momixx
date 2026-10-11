@@ -8,6 +8,7 @@ export const modelNames = [
   'phone-case',
   'seal',
   'compound',
+  'crimson',
   'recycle',
   'bottle',
   'extruder-vertical',

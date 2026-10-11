@@ -717,6 +717,8 @@ export const modelRegistry: Record<ModelName, (options: ModelOptions) => React.J
   'phone-case': () => <PhoneCaseModel />,
   seal: () => <SealModel />,
   compound: () => <CompoundModel />,
+  // Crimson's picture is a studio render (slabs and liquid); the 3D stand-in is the compound.
+  crimson: () => <CompoundModel />,
   recycle: () => <LoopModel />,
   bottle: () => <BottleModel />,
   'extruder-vertical': () => (
