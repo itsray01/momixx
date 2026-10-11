@@ -241,23 +241,23 @@ export function HeroCallouts() {
       </svg>
       {/* The headline's column: the same left edge and width, and the same space above and below. */}
       <div data-spec-column className="absolute inset-x-0 top-0 container-page flex h-full flex-col justify-center pt-24 pb-24">
-        <div className="flex max-w-[min(44vw,38rem)] flex-col gap-[clamp(1.5rem,5svh,3.5rem)]">
+        <div className="flex max-w-[min(44vw,42rem)] flex-col gap-[clamp(1.5rem,5svh,3.5rem)]">
           {ORDER.map((id) => {
             const item = copy[id]
             return (
               <div key={id} data-spec={id} data-state="hidden" className="w-max max-w-full">
-                <p style={rise(0)} className="flex items-center gap-3 text-sm font-medium text-zinc-300">
+                <p style={rise(0)} className="flex items-center gap-3 text-sm font-medium text-zinc-300 min-[1800px]:text-base">
                   <span className="h-px w-6 bg-zinc-500" />
                   {item.index}
                 </p>
                 {item.prefix && (
-                  <p style={rise(1)} className="mt-3 text-sm font-medium text-zinc-300">
+                  <p style={rise(1)} className="mt-3 text-sm font-medium text-zinc-300 min-[1800px]:text-base">
                     {item.prefix}
                   </p>
                 )}
                 <p
                   style={rise(1)}
-                  className={`${item.prefix ? 'mt-1' : 'mt-3'} font-display text-[clamp(2.75rem,3.6vw,4rem)] leading-none font-semibold tracking-[-0.045em] text-white tabular-nums`}
+                  className={`${item.prefix ? 'mt-1' : 'mt-3'} font-display text-[clamp(2.75rem,3.6vw,4.75rem)] leading-none font-semibold tracking-[-0.045em] text-white tabular-nums`}
                 >
                   {item.count !== null ? (
                     // The final figure, invisible, holds the width so the count never moves the line.
@@ -273,7 +273,7 @@ export function HeroCallouts() {
                     </span>
                   )}
                 </p>
-                <p style={rise(2)} className="mt-3 max-w-[17rem] text-[15px] leading-snug text-balance text-zinc-300">
+                <p style={rise(2)} className="mt-3 max-w-[17rem] text-[15px] leading-snug text-balance text-zinc-300 min-[1800px]:max-w-[20rem] min-[1800px]:text-[17px]">
                   {item.caption}
                 </p>
               </div>

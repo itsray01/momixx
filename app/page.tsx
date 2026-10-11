@@ -108,7 +108,7 @@ export default function HomePage() {
 
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
           <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24">
-            <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,38rem)]">
+            <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,42rem)]">
               <p className="eyebrow">A tech-driven silicone company</p>
               <h1 className="display-xl mt-7">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
