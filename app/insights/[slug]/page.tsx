@@ -51,6 +51,8 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       <article>
+        {/* A thin line along the top edge that fills as you read (CSS only; see globals.css). */}
+        <div aria-hidden="true" className="reading-progress" />
         <header className="grain relative overflow-hidden pt-32 pb-12 sm:pt-40">
           <HeaderGlow />
           <GridBackdrop />

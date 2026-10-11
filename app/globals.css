@@ -430,6 +430,33 @@ img[data-fade='in'] {
   }
 }
 
+/* ── Article reading progress (app/insights/[slug]) ── */
+/* Tied to the page scroll by the browser itself, so it costs no script; hidden where unsupported. */
+.reading-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    height: 2px;
+    background: rgb(255 255 255 / 0.75);
+    transform-origin: 0 50%;
+    animation: reading-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes reading-progress {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
 /* ── Welcome screen (components/Intro.tsx) ── */
 .intro-seen #intro {
   display: none;
