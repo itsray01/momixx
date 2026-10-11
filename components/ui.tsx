@@ -78,6 +78,16 @@ export function GridBackdrop({ className = '' }: { className?: string }) {
   )
 }
 
+/** Soft light falling from the top right, the same light as the home hero, so plain headers feel lit rather than empty. */
+export function HeaderGlow() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_90%_at_82%_-18%,rgb(255_255_255/0.11),rgb(255_255_255/0.035)_45%,transparent_75%)]"
+    />
+  )
+}
+
 function FactTiles({ facts, className }: { facts: Array<{ value: string; label: string }>; className: string }) {
   return (
     <dl className={className}>
@@ -133,7 +143,10 @@ export function PageHeader({
           />
         </>
       ) : (
-        <GridBackdrop />
+        <>
+          <HeaderGlow />
+          <GridBackdrop />
+        </>
       )}
       <div className={`container-page relative z-10 ${frame}`}>
         <div className="max-w-4xl">

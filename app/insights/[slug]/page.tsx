@@ -3,11 +3,24 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
-import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, Section } from '@/components/ui'
+import { Render } from '@/components/Render'
+import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, HeaderGlow, Section } from '@/components/ui'
 import { formatDate, getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
+
+// Keeps words like "VW-1" and "Fire-retardant" on one line, so a title never breaks after a hyphen.
+const keepHyphensTogether = (t: string) =>
+  t.split(/(\S*-\S*)/).map((part, i) =>
+    i % 2 ? (
+      <span key={i} className="whitespace-nowrap">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  )
 
 export const dynamicParams = false
 
@@ -39,8 +52,9 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <article>
         <header className="grain relative overflow-hidden pt-32 pb-12 sm:pt-40">
+          <HeaderGlow />
           <GridBackdrop />
-          <div className="container-page relative">
+          <div className="container-page relative lg:grid lg:grid-cols-[minmax(0,1fr)_34%] lg:items-center lg:gap-12">
             <div className="max-w-4xl">
               <Breadcrumbs
                 items={[
@@ -50,12 +64,16 @@ export default async function ArticlePage({ params }: Props) {
                 ]}
               />
               <p className="eyebrow mt-8">{topic.label}</p>
-              <h1 className="display-lg mt-5">{a.title}</h1>
+              <h1 className="display-lg mt-5 text-balance">{keepHyphensTogether(a.title)}</h1>
               <p className="mt-6 max-w-2xl text-xl leading-relaxed text-zinc-300">{a.description}</p>
               {/* A visible date and author help readers, search engines and AI answers judge how current and credible the article is. */}
               <p className="mt-6 text-sm text-zinc-500">
                 Updated <time dateTime={a.updated ?? a.date}>{formatDate(a.updated ?? a.date)}</time> · {a.author ? a.author.name : `${site.name} technical team`}
               </p>
+            </div>
+            {/* The article's picture, beside the title on wide screens; phones go straight to the reading. */}
+            <div className="hidden lg:block">
+              <Render name={a.model} sizes="34vw" />
             </div>
           </div>
         </header>
