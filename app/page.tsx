@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { CableColourPicker } from '@/components/CableColourPicker'
 import { HeroCallouts } from '@/components/HeroCallouts'
+import { HeroSpotlight } from '@/components/HeroSpotlight'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
@@ -92,6 +93,7 @@ export default function HomePage() {
       {/* ── Hero: pinned on desktop; scrolling turns the cable towards you ── */}
       <div>
         <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[720px]">
+          <HeroSpotlight />
           <GridBackdrop />
           <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
 
