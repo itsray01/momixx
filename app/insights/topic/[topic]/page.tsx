@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const count = getArticles().filter((a) => a.topic === topic).length
   return pageMetadata({
     title: `${t.label}: silicone insights`,
-    description: `${t.blurb} ${count} plain-English ${count === 1 ? 'article' : 'articles'} from MoMixx, each with sources and FAQs.`,
+    description: `${t.blurb} ${count} plain-English ${count === 1 ? 'article' : 'articles'} from MoMixx, ${count === 1 ? 'with' : 'each with'} sources and FAQs.`,
     path: `/insights/topic/${topic}`,
   })
 }

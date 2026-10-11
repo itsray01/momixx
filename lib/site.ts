@@ -117,7 +117,9 @@ export function pageMetadata({
 }) {
   const description = metaDescription(text)
   return {
-    title,
+    // Google cuts titles at about 60 characters, so a long one drops the " | MoMixx" ending
+    // rather than losing its own last words.
+    title: title.length + ` | ${site.name}`.length > 60 ? { absolute: title } : title,
     description,
     // Absolute, so they stay on site.url while relative image paths resolve to shareOrigin (metadataBase).
     alternates: {
