@@ -405,6 +405,18 @@ img[data-fade='in'] {
     transform: translateY(6px);
   }
 }
+/* The tick on the contact form's thank-you card draws itself in. */
+@media (prefers-reduced-motion: no-preference) {
+  .check-draw {
+    stroke-dasharray: 24;
+    animation: check-draw 0.5s var(--ease-soft) 0.25s both;
+  }
+}
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+}
 @keyframes tab-select {
   from {
     opacity: 0.5;
