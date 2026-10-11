@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Menu, MenuColumn } from '@/lib/nav'
 import { site } from '@/lib/site'
 import { Logo } from './Logo'
+import { Render } from './Render'
 import { scriptedScroll } from './motion/scriptedScroll'
 import { Search } from './Search'
 
@@ -21,9 +22,23 @@ function isActive(pathname: string, href: string) {
 
 const colsClass: Record<number, string> = { 1: '', 2: 'grid-cols-2', 3: 'grid-cols-[1.35fr_1fr_0.9fr]' }
 
-function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; pathname: string; cards: boolean; alone: boolean }) {
+function MenuColumnView({ col, pathname, cards, alone, media }: { col: MenuColumn; pathname: string; cards: boolean; alone: boolean; media: boolean }) {
   const many = col.links.length > 4
-  const listCols = cards ? (many ? 'grid-cols-2 xl:grid-cols-3' : 'grid-cols-2') : alone && many ? 'grid-cols-3' : col.links.length > 6 ? 'grid-cols-2' : ''
+  // With pictures, a menu of one column spreads across the panel; side-by-side columns stay narrow,
+  // so only a long one (the materials) splits in two.
+  const listCols = cards
+    ? alone
+      ? many
+        ? 'grid-cols-2 xl:grid-cols-3'
+        : 'grid-cols-2'
+      : col.links.length > 6
+        ? 'grid-cols-2'
+        : ''
+    : alone && many
+      ? 'grid-cols-3'
+      : col.links.length > 6
+        ? 'grid-cols-2'
+        : ''
   return (
     <div>
       <p className="px-2.5 text-[11px] font-medium tracking-[0.16em] text-zinc-500 uppercase">
@@ -43,6 +58,20 @@ function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; path
               aria-current={isActive(pathname, l.href) && !l.href.includes('#') ? 'page' : undefined}
               className="group/link flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.05] focus-visible:bg-white/[0.05]"
             >
+              {l.model && (
+                <span
+                  aria-hidden="true"
+                  className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]"
+                >
+                  {media && (
+                    <Render
+                      name={l.model}
+                      sizes="48px"
+                      className="scale-125 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:scale-[1.4]"
+                    />
+                  )}
+                </span>
+              )}
               <span className="min-w-0">
                 <span className={`block text-sm font-medium transition-colors group-hover/link:text-white ${isActive(pathname, l.href) ? 'text-white' : 'text-zinc-200'}`}>
                   {l.label}
@@ -57,14 +86,14 @@ function MenuColumnView({ col, pathname, cards, alone }: { col: MenuColumn; path
   )
 }
 
-function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
+function Panel({ menu, pathname, media }: { menu: Menu; pathname: string; media: boolean }) {
   const columns = menu.columns ?? []
   const cards = columns.some((c) => c.links.some((l) => l.model))
   return (
     <div className={`grid gap-6 p-5 ${menu.feature ? 'grid-cols-[1fr_17rem]' : ''}`}>
       <div className={`grid gap-6 ${colsClass[Math.min(columns.length, 3)]}`}>
         {columns.map((col) => (
-          <MenuColumnView key={col.title} col={col} pathname={pathname} cards={cards} alone={columns.length === 1} />
+          <MenuColumnView key={col.title} col={col} pathname={pathname} cards={cards} alone={columns.length === 1} media={media} />
         ))}
       </div>
       {menu.feature && (
@@ -72,6 +101,15 @@ function Panel({ menu, pathname }: { menu: Menu; pathname: string }) {
           href={menu.feature.href}
           className="group/feature relative flex flex-col self-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
         >
+          <span aria-hidden="true" className="relative -mx-5 -mt-5 mb-4 block aspect-[4/3] overflow-hidden border-b border-white/[0.06] bg-white/[0.02]">
+            {media && (
+              <Render
+                name={menu.feature.model}
+                sizes="272px"
+                className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/feature:scale-[1.04]"
+              />
+            )}
+          </span>
           <span className="relative text-[11px] font-medium tracking-[0.16em] text-zinc-400 uppercase">{menu.feature.eyebrow}</span>
           <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
           <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-400">{menu.feature.body}</span>
@@ -94,6 +132,8 @@ export function Header({ menus }: { menus: Menu[] }) {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<number | null>(null)
+  // Menu pictures load the first time their menu opens, not with every page.
+  const [seen, setSeen] = useState<ReadonlySet<number>>(() => new Set())
   const [pill, setPill] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
   const hiddenRef = useRef(false)
   const closeTimer = useRef(0)
@@ -113,6 +153,7 @@ export function Header({ menus }: { menus: Menu[] }) {
       window.clearTimeout(closeTimer.current)
       setOpenedAt(pathname)
       setActive(i)
+      setSeen((prev) => (prev.has(i) ? prev : new Set(prev).add(i)))
     },
     [pathname],
   )
@@ -304,7 +345,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                         }`}
                       >
                         <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
-                          <Panel menu={menu} pathname={pathname} />
+                          <Panel menu={menu} pathname={pathname} media={seen.has(i)} />
                         </div>
                       </div>
                     )}
@@ -330,13 +371,14 @@ export function Header({ menus }: { menus: Menu[] }) {
                 setMobileOpen((o) => !o)
               }}
             >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-                {mobileOpen ? (
-                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                ) : (
-                  <path d="M4 8h16M4 16h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                )}
-              </svg>
+              <span aria-hidden="true" className="relative block h-3.5 w-5">
+              <span
+                className={`absolute inset-x-0 top-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? 'translate-y-[3.1px] rotate-45' : ''}`}
+              />
+              <span
+                className={`absolute inset-x-0 bottom-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? '-translate-y-[3.1px] -rotate-45' : ''}`}
+              />
+            </span>
             </button>
           </div>
         </div>
@@ -345,11 +387,11 @@ export function Header({ menus }: { menus: Menu[] }) {
           <nav
             id="mobile-nav"
             aria-label="Main"
-            className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-ink-950/[0.97] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl xl:hidden"
+            className="mobile-nav mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-ink-950/[0.97] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl xl:hidden"
           >
             <ul className="divide-y divide-white/[0.06] p-3">
-              {menus.map((menu) => (
-                <li key={menu.label}>
+              {menus.map((menu, i) => (
+                <li key={menu.label} className="mobile-nav-item" style={{ animationDelay: `${60 + i * 35}ms` }}>
                   {menu.columns ? (
                     <details className="group" open={isActive(pathname, menu.href) || undefined}>
                       <summary className="flex cursor-pointer list-none items-center justify-between rounded-2xl px-4 py-3.5 text-lg font-medium text-zinc-100">
@@ -387,7 +429,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                   )}
                 </li>
               ))}
-              <li className="p-1 pt-4">
+              <li className="sticky bottom-0 -mx-3 -mb-3 bg-gradient-to-t from-ink-950 from-70% to-transparent p-4 pt-6">
                 <Link href="/contact" className="btn-primary w-full py-3 text-base">
                   Contact us
                 </Link>

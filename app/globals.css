@@ -368,6 +368,43 @@ img[data-fade='in'] {
     translate: none;
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  /* The phone menu drops in and its sections follow one after another (components/Header.tsx). */
+  .mobile-nav {
+    animation: menu-in 0.35s var(--ease-soft) both;
+    transform-origin: top center;
+  }
+  .mobile-nav-item {
+    animation: menu-item-in 0.4s var(--ease-soft) both;
+  }
+  /* Its sections open the same way as the FAQ answers. */
+  .mobile-nav details::details-content {
+    opacity: 0;
+    transition-property: opacity, content-visibility;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-behavior: allow-discrete;
+  }
+  .mobile-nav details[open]::details-content {
+    opacity: 1;
+    transition-duration: 0.3s;
+  }
+  .mobile-nav details[open] > :not(summary) {
+    animation: disclosure-in 0.3s var(--ease-soft);
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
 @keyframes tab-select {
   from {
     opacity: 0.5;

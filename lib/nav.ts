@@ -28,17 +28,17 @@ export function buildMenus(): Menu[] {
         {
           title: 'Materials',
           href: '/products#materials',
-          links: productsByCategory('materials').map((p) => ({ href: `/products/${p.slug}`, label: p.tabLabel ?? p.name })),
+          links: productsByCategory('materials').map((p) => ({ href: `/products/${p.slug}`, label: p.tabLabel ?? p.name, model: p.illustration })),
         },
         {
           title: 'Machines',
           href: '/products#equipment',
-          links: productsByCategory('equipment').map((p) => ({ href: `/products/${p.slug}`, label: p.name })),
+          links: productsByCategory('equipment').map((p) => ({ href: `/products/${p.slug}`, label: p.name, model: p.illustration })),
         },
         {
           title: 'Manufacturing',
           href: '/products#services',
-          links: productsByCategory('services').map((p) => ({ href: `/products/${p.slug}`, label: p.name })),
+          links: productsByCategory('services').map((p) => ({ href: `/products/${p.slug}`, label: p.name, model: p.illustration })),
         },
       ],
       feature: {
