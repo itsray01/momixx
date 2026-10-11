@@ -5,6 +5,7 @@ import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
+import { PageMotion } from '@/components/motion/PageMotion'
 import { ScrollEffects } from '@/components/motion/ScrollEffects'
 import { geist, instrumentSerif } from '@/lib/fonts'
 import { buildMenus } from '@/lib/nav'
@@ -107,6 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <ScrollEffects />
+        <PageMotion />
         {/* Cookie-free visitor counts and real-user speed data. Only on Vercel, where their scripts are served; enable both in the Vercel project. */}
         {process.env.VERCEL && (
           <>

@@ -60,6 +60,9 @@
     color-scheme: dark;
     /* Links to a section land below the fixed header. */
     scroll-padding-top: 6rem;
+    /* No grey flash on tap (Android), and dark scrollbars to match the site (Windows). Both inherit. */
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-color: rgb(255 255 255 / 0.2) transparent;
   }
   body {
     @apply bg-ink-950 font-sans text-zinc-400 antialiased;
@@ -245,6 +248,16 @@ html[data-header='hidden'] .tabnav {
 }
 [data-motion-grow='in'] {
   transition: scale 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Pictures still loading when a page opens fade in as they arrive (components/motion/PageMotion.tsx). */
+img[data-fade='wait'] {
+  opacity: 0;
+}
+img[data-fade='in'] {
+  transition:
+    opacity 0.6s var(--ease-soft),
+    transform 0.25s var(--ease-soft);
 }
 
 /* ── Hover, press and focus ──
