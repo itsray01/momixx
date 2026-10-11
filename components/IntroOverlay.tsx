@@ -6,8 +6,8 @@ import { LogoMark } from './Logo'
 import { heroReady } from './three/heroReady'
 
 /** Shortest and longest time the welcome screen shows, counted from the start of the page load. */
-const MIN_MS = 2200
-const MAX_MS = 4000
+const MIN_MS = 3000
+const MAX_MS = 4800
 
 // Shown only on a full page load of the home page, once per visit (a session).
 // Decided once in the browser; later client-side visits to the home page skip it.
