@@ -87,18 +87,19 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
       {!compact && <p className="mt-1.5 text-sm text-zinc-500">{market.scope}</p>}
 
       <div className="mt-8 flex items-end gap-6">
-        {market.current && (
-          <div className="flex h-28 items-end gap-3" aria-hidden="true">
+        {/* Every card keeps its bars, so the grid lines up; a forecast-only market shows the one bar. */}
+        <div className="flex h-28 items-end gap-3" aria-hidden="true">
+          {market.current && (
             <div className="flex flex-col items-center gap-2">
               <div data-grow-y className="w-9 rounded-t-[4px] bg-white/25" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px` }} />
               <span className="text-xs text-zinc-500 tabular-nums">{market.current.year}</span>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, #ffffff, ${ACCENT})` }} />
-              <span className="text-xs text-zinc-500 tabular-nums">{market.forecast.year}</span>
-            </div>
+          )}
+          <div className="flex flex-col items-center gap-2">
+            <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, #ffffff, ${ACCENT})` }} />
+            <span className="text-xs text-zinc-500 tabular-nums">{market.forecast.year}</span>
           </div>
-        )}
+        </div>
         <dl className="min-w-0 space-y-2">
           <div>
             <dt className="text-xs text-zinc-500">Forecast {market.forecast.year}</dt>

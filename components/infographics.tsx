@@ -1,18 +1,18 @@
 import type { LucideIcon } from 'lucide-react'
-import { Building2, Cable, ClipboardCheck, Factory, FlaskConical, Recycle } from 'lucide-react'
+import { Building2, Cable, ClipboardCheck, Droplet, Factory, Flame, FlaskConical, PackageOpen, Recycle, Sparkles } from 'lucide-react'
 import { recyclingCertificationNames } from '@/content/company'
 import { Render } from './Render'
-import { rich } from './ui'
+import { FeatureMark, rich } from './ui'
 import type { ModelName } from './three/modelNames'
 
 // ───────────────────────── Recycling ─────────────────────────
 
-export const recycleSteps = [
-  { title: 'Collect scrap', body: 'Factory offcuts and used products that would otherwise go to landfill.' },
-  { title: 'Break it down', body: 'Heat breaks the silicone back down into its basic building blocks, which rise as a vapour.' },
-  { title: 'Collect the liquid', body: 'The vapour cools into a clear liquid (called DMC), which is filtered several times.' },
-  { title: 'Make silicone oil', body: 'The clean liquid is rebuilt into silicone oil, the same starting point as brand-new silicone.' },
-  { title: 'New silicone', body: 'We turn the oil into new, high-quality silicone. Certified chain-of-custody records cover the recycled content.' },
+export const recycleSteps: Array<{ title: string; body: string; icon: LucideIcon }> = [
+  { icon: PackageOpen, title: 'Collect scrap', body: 'Factory offcuts and used products that would otherwise go to landfill.' },
+  { icon: Flame, title: 'Break it down', body: 'Heat breaks the silicone back down into its basic building blocks, which rise as a vapour.' },
+  { icon: Droplet, title: 'Collect the liquid', body: 'The vapour cools into a clear liquid (called DMC), which is filtered several times.' },
+  { icon: FlaskConical, title: 'Make silicone oil', body: 'The clean liquid is rebuilt into silicone oil, the same starting point as brand-new silicone.' },
+  { icon: Sparkles, title: 'New silicone', body: 'We turn the oil into new, high-quality silicone. Certified chain-of-custody records cover the recycled content.' },
 ]
 
 /** The five recycling steps as a numbered list. */
@@ -58,8 +58,8 @@ export function RecycleFlow() {
     <div>
       <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-5">
         {recycleSteps.map((s, i) => (
-          <li key={s.title} className="bg-ink-950 p-7">
-            <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
+          <li key={s.title} className="group bg-ink-950 p-7 transition-colors duration-300 hover:bg-ink-900">
+            <FeatureMark icon={s.icon} index={i} />
             <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-white">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">{s.body}</p>
           </li>
