@@ -27,6 +27,46 @@ const fold = (s: string) =>
     .toLowerCase()
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+/** Wraps the parts of `text` that match a typed word in <mark>, ignoring case and accents. */
+function Highlight({ text, words }: { text: string; words: string[] }) {
+  if (!words.length) return <>{text}</>
+  // Fold one character at a time, remembering where each folded character came from.
+  let folded = ''
+  const from: number[] = []
+  for (let i = 0; i < text.length; i++) {
+    const f = fold(text[i])
+    folded += f
+    for (let k = 0; k < f.length; k++) from.push(i)
+  }
+  const hit = new Array<boolean>(text.length).fill(false)
+  for (const w of words) {
+    for (let at = folded.indexOf(w); at !== -1; at = folded.indexOf(w, at + 1)) {
+      // Only matches at the start of a word, so "rec" lights up "recycled" but not "precise".
+      if (at > 0 && /[\p{L}\p{N}]/u.test(folded[at - 1])) continue
+      for (let k = at; k < at + w.length; k++) hit[from[k]] = true
+    }
+  }
+  const parts: Array<{ s: string; on: boolean }> = []
+  for (let i = 0; i < text.length; i++) {
+    const last = parts[parts.length - 1]
+    if (last && last.on === hit[i]) last.s += text[i]
+    else parts.push({ s: text[i], on: hit[i] })
+  }
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.on ? (
+          <mark key={i} className="rounded-[3px] bg-white/[0.13] text-white">
+            {p.s}
+          </mark>
+        ) : (
+          p.s
+        ),
+      )}
+    </>
+  )
+}
+
 /** Every word typed must match somewhere; a match in the title counts most. */
 function score(e: SearchEntry, words: string[]) {
   const title = fold(e.title)
@@ -99,6 +139,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
     return search(index, typed)
   }, [index, typed])
   const flat = useMemo(() => sections.flatMap((s) => s.items), [sections])
+  const words = useMemo(() => fold(typed).split(/\s+/).filter(Boolean), [typed])
   const offsets = sections.map((_, i) => sections.slice(0, i).reduce((n, s) => n + s.items.length, 0))
 
   const prefetch = () => {
@@ -261,8 +302,14 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
                           className={`flex min-w-0 items-center justify-between gap-4 rounded-xl px-3 py-2.5 transition-colors ${on ? 'bg-white/[0.06]' : ''}`}
                         >
                           <span className="min-w-0">
-                            <span className="block truncate text-[15px] font-medium text-zinc-100">{r.title}</span>
-                            {r.desc && <span className="mt-0.5 line-clamp-1 text-[13px] text-zinc-500">{r.desc}</span>}
+                            <span className="block truncate text-[15px] font-medium text-zinc-100">
+                              <Highlight text={r.title} words={words} />
+                            </span>
+                            {r.desc && (
+                              <span className="mt-0.5 line-clamp-1 text-[13px] text-zinc-500">
+                                <Highlight text={r.desc} words={words} />
+                              </span>
+                            )}
                           </span>
                           <span aria-hidden="true" className={`shrink-0 text-brand-300 transition-opacity ${on ? 'opacity-100' : 'opacity-0'}`}>
                             →
