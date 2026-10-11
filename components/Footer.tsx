@@ -3,6 +3,7 @@ import { site } from '@/lib/site'
 import { applications } from '@/content/applications'
 import { products } from '@/content/products'
 import { teamReady } from '@/content/team'
+import { BackToTop } from './BackToTop'
 import { Logo } from './Logo'
 
 const columns = [
@@ -63,8 +64,11 @@ export function Footer() {
               <ul className="mt-4 space-y-1 text-sm">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="inline-block py-1.5 text-zinc-300 transition-colors hover:text-white">
-                      {l.label}
+                    <Link href={l.href} className="group inline-block py-1.5 text-zinc-300 transition-colors hover:text-white">
+                      {/* A thin line draws in under the link on hover. */}
+                      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat pb-0.5 transition-[background-size] duration-300 ease-out group-hover:bg-[length:100%_1px]">
+                        {l.label}
+                      </span>
                     </Link>
                   </li>
                 ))}
@@ -96,8 +100,20 @@ export function Footer() {
                 Singapore · Penang, Malaysia
               </Link>
             </li>
+            <li>
+              <BackToTop />
+            </li>
           </ul>
         </div>
+      </div>
+
+      {/* The name, large and quiet, sitting on the bottom edge of the site. */}
+      <div aria-hidden="true" className="pointer-events-none overflow-hidden select-none">
+        <p
+          className="container-page -mb-[0.2em] bg-gradient-to-b from-white/[0.11] to-white/0 to-80% bg-clip-text font-display text-[clamp(5rem,21.5vw,22rem)] leading-[0.95] font-extrabold tracking-[-0.055em] text-transparent"
+        >
+          {site.name}
+        </p>
       </div>
     </footer>
   )
