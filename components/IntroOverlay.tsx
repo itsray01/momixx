@@ -16,8 +16,9 @@ const noSubscribe = () => () => {}
 const introSnapshot = () => (showIntro ??= !document.documentElement.classList.contains('intro-seen') && performance.now() < MAX_MS)
 
 /**
- * The welcome screen: the MoMixx mark and a thin progress line on black. It
- * covers the hero while its live 3D loads and tunes itself, then fades away
+ * The welcome screen: the MoMixx name rising letter by letter, the tagline and a
+ * thin progress line, in the hero's light. It covers the hero while its live 3D
+ * loads and tunes itself, then lifts away like a curtain
  * once the cable is ready (never sooner than MIN_MS, never later than MAX_MS),
  * so the hero appears complete instead of popping in.
  */
@@ -57,13 +58,25 @@ export function IntroOverlay() {
 
   if (!show) return null
   return (
-    <div ref={ref} id="intro" data-state="show" aria-hidden="true" className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-950">
-      <div className="intro-content flex flex-col items-center">
-        <div className="flex items-center gap-3 text-white">
-          <LogoMark className="h-11 w-11" />
-          <span className="font-display text-3xl leading-none font-extrabold tracking-tight">{site.name}</span>
+    <div ref={ref} id="intro" data-state="show" aria-hidden="true" className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-ink-950">
+      {/* The same light as the hero, so the curtain lifts onto a scene that is already lit. */}
+      <div className="intro-glow pointer-events-none absolute inset-0 bg-[radial-gradient(55%_75%_at_80%_-12%,rgb(255_255_255/0.13),rgb(255_255_255/0.04)_45%,transparent_75%)]" />
+      <div className="intro-content relative flex flex-col items-center px-6 text-center">
+        <div className="flex items-center gap-[0.24em] text-[clamp(3rem,7.5vw,7rem)] text-white">
+          <LogoMark className="intro-mark size-[0.86em] shrink-0" />
+          <span className="font-display leading-none font-extrabold tracking-[-0.045em]">
+            {[...site.name].map((ch, i) => (
+              // Each letter rises out of its own slot, one after another.
+              <span key={i} className="inline-block overflow-hidden align-bottom">
+                <span className="intro-letter inline-block" style={{ animationDelay: `${0.3 + i * 0.06}s` }}>
+                  {ch}
+                </span>
+              </span>
+            ))}
+          </span>
         </div>
-        <div className="mt-9 h-px w-44 overflow-hidden rounded-full bg-white/10">
+        <p className="intro-tagline mt-7 max-w-md text-base leading-relaxed text-zinc-400 sm:text-lg">{site.tagline}</p>
+        <div className="mt-10 h-px w-56 overflow-hidden rounded-full bg-white/10">
           <div className="intro-bar h-full w-full origin-left bg-white/70" />
         </div>
       </div>
