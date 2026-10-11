@@ -7,7 +7,7 @@ export type LoopName = 'heat' | 'cables-colour' | 'cables-blue' | 'sand-gold'
 
 /** Which part of each loop to keep when a tall box crops it (on phones, mostly): where its colour is. */
 const focusFor: Record<LoopName, string> = {
-  heat: '80% 60%',
+  heat: '80% 55%',
   'cables-colour': '62% 50%',
   'cables-blue': '72% 50%',
   'sand-gold': '50% 50%',
