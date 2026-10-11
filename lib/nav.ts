@@ -14,32 +14,33 @@ export type MenuColumn = { title: string; href?: string; links: MenuLink[] }
 export type MenuFeature = { href: string; eyebrow: string; title: string; body: string; model: ModelName; cta?: string }
 export type Menu = { label: string; href: string; columns?: MenuColumn[]; feature?: MenuFeature; wide?: boolean }
 
+// Short names for the menu, where the full product name repeats "MoMixx" five times in a row.
+const menuNames: Record<string, string> = {
+  'momixx-mm': 'MM Series',
+  'momixx-high-density': 'High Density (MHD)',
+  'momixx-move': 'Move (MV)',
+  'momixx-procase': 'ProCase (MPC)',
+  'momixx-seal': 'Seal (MMS)',
+}
+
+const productLinks = (category: Parameters<typeof productsByCategory>[0]): MenuLink[] =>
+  productsByCategory(category).map((p) => ({ href: `/products/${p.slug}`, label: menuNames[p.slug] ?? p.name, desc: p.tagline, model: p.illustration }))
+
+// Five menus: what we sell, where it goes, sustainability, the company (with investors and news),
+// and insights (with the silicone explainer). Every page is still reachable; only the grouping changed.
 export function buildMenus(): Menu[] {
   const latest = getArticles()[0]
   const usedTopics = (Object.keys(topics) as Topic[]).filter((t) => getArticles().some((a) => a.topic === t))
 
   return [
-    // Menu order: what we sell and who we are first; the silicone explainer and articles last.
     {
       label: 'Products',
       href: '/products',
       wide: true,
       columns: [
-        {
-          title: 'Materials',
-          href: '/products#materials',
-          links: productsByCategory('materials').map((p) => ({ href: `/products/${p.slug}`, label: p.tabLabel ?? p.name, model: p.illustration })),
-        },
-        {
-          title: 'Machines',
-          href: '/products#equipment',
-          links: productsByCategory('equipment').map((p) => ({ href: `/products/${p.slug}`, label: p.name, model: p.illustration })),
-        },
-        {
-          title: 'Manufacturing',
-          href: '/products#services',
-          links: productsByCategory('services').map((p) => ({ href: `/products/${p.slug}`, label: p.name, model: p.illustration })),
-        },
+        { title: 'Materials', href: '/products#materials', links: productLinks('materials') },
+        { title: 'Machines', href: '/products#equipment', links: productLinks('equipment') },
+        { title: 'Manufacturing', href: '/products#services', links: productLinks('services') },
       ],
       feature: {
         href: '/products/vertical-extruder',
@@ -57,14 +58,17 @@ export function buildMenus(): Menu[] {
         {
           title: 'Where silicone goes',
           href: '/applications',
-          links: applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.tabLabel, desc: a.tagline, model: a.illustration })),
+          links: [
+            ...applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.tabLabel, desc: a.tagline, model: a.illustration })),
+            { href: '/markets', label: 'Markets', desc: 'Independent estimates for the industries our materials serve.', model: 'globe' as ModelName },
+          ],
         },
       ],
       feature: {
-        href: '/markets',
-        eyebrow: 'Markets',
-        title: 'Growth markets, sourced',
-        body: 'Independent estimates for the industries our materials serve.',
+        href: '/applications',
+        eyebrow: 'Applications',
+        title: 'One material, many industries',
+        body: 'Where MoMixx silicone is used today, and which markets are still new for us.',
         model: 'datacentre',
       },
     },
@@ -105,6 +109,15 @@ export function buildMenus(): Menu[] {
             { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
           ],
         },
+        {
+          title: 'Investors and news',
+          links: [
+            { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },
+            { href: '/markets', label: 'Markets', desc: 'Independent estimates for the industries we serve' },
+            { href: '/newsroom', label: 'Newsroom', desc: 'Milestones and media enquiries' },
+            { href: '/governance#company-enquiries', label: 'Company enquiries', desc: 'Contact the company' },
+          ],
+        },
       ],
       feature: {
         href: '/locations',
@@ -115,27 +128,12 @@ export function buildMenus(): Menu[] {
       },
     },
     {
-      label: 'Investors',
-      href: '/governance',
-      columns: [
-        {
-          title: 'Investors',
-          links: [
-            { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },
-            { href: '/markets', label: 'Markets', desc: 'Independent estimates for the industries we serve' },
-            { href: '/governance#company-enquiries', label: 'Company enquiries', desc: 'Contact the company' },
-          ],
-        },
-      ],
-    },
-    // A plain link: no columns, so no dropdown.
-    { label: 'Newsroom', href: '/newsroom' },
-    {
-      label: 'Silicone',
-      href: '/silicone',
+      label: 'Insights',
+      href: '/insights',
       columns: [
         {
           title: 'Silicone 101',
+          href: '/silicone',
           links: [
             { href: '/silicone', label: 'What is silicone?', desc: 'The material, in two minutes', model: 'molecule' },
             { href: '/insights/silicon-vs-silicone', label: 'Silicon vs silicone', desc: 'One letter, two very different things', model: 'sand' },
@@ -143,27 +141,10 @@ export function buildMenus(): Menu[] {
             { href: '/insights/glossary', label: 'Glossary', desc: 'Silicone terms in plain English', model: 'compound' },
           ],
         },
-      ],
-      feature: {
-        href: '/insights/how-silicone-cable-is-made',
-        eyebrow: 'Explainer',
-        title: 'How silicone cable is made',
-        body: 'From wire and liquid silicone to finished cable, in five steps.',
-        model: 'extruder-horizontal',
-        cta: 'Read',
-      },
-    },
-    {
-      label: 'Insights',
-      href: '/insights',
-      columns: [
         {
           title: 'Topics',
           href: '/insights',
-          links: [
-            ...usedTopics.map((t) => ({ href: `/insights/topic/${t}`, label: topics[t].label })),
-            { href: '/insights/glossary', label: 'Glossary' },
-          ],
+          links: usedTopics.map((t) => ({ href: `/insights/topic/${t}`, label: topics[t].label })),
         },
       ],
       ...(latest

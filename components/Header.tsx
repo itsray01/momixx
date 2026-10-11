@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Menu, MenuColumn } from '@/lib/nav'
+import type { Menu, MenuLink } from '@/lib/nav'
 import { site } from '@/lib/site'
 import { Logo } from './Logo'
 import { Render } from './Render'
@@ -20,111 +20,99 @@ function isActive(pathname: string, href: string) {
   return path === '/' ? pathname === '/' : pathname === path || pathname.startsWith(`${path}/`)
 }
 
-const colsClass: Record<number, string> = { 1: '', 2: 'grid-cols-2', 3: 'grid-cols-[1.35fr_1fr_0.9fr]' }
+const colsClass: Record<number, string> = { 1: '', 2: 'grid-cols-2', 3: 'grid-cols-[1.1fr_1.1fr_0.9fr]' }
 
-function MenuColumnView({ col, pathname, cards, alone, media }: { col: MenuColumn; pathname: string; cards: boolean; alone: boolean; media: boolean }) {
-  const many = col.links.length > 4
-  // With pictures, a menu of one column spreads across the panel; side-by-side columns stay narrow,
-  // so only a long one (the materials) splits in two.
-  const listCols = cards
-    ? alone
-      ? many
-        ? 'grid-cols-2 xl:grid-cols-3'
-        : 'grid-cols-2'
-      : col.links.length > 6
-        ? 'grid-cols-2'
-        : ''
-    : alone && many
-      ? 'grid-cols-3'
-      : col.links.length > 6
-        ? 'grid-cols-2'
-        : ''
+/** A label that rolls up to a copy of itself on hover (styles: .nav-roll in globals.css). */
+function Roll({ children }: { children: string }) {
   return (
-    <div>
-      <p className="px-2.5 text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-500 uppercase">
-        {col.href ? (
-          <Link href={col.href} className="hover:text-white">
-            {col.title}
-          </Link>
-        ) : (
-          col.title
-        )}
-      </p>
-      <ul className={`mt-3 grid gap-1 ${listCols}`}>
-        {col.links.map((l) => (
-          <li key={l.href}>
-            <Link
-              href={l.href}
-              aria-current={isActive(pathname, l.href) && !l.href.includes('#') ? 'page' : undefined}
-              className="group/link flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.05] focus-visible:bg-white/[0.05]"
-            >
-              {l.model && (
-                <span
-                  aria-hidden="true"
-                  className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]"
-                >
-                  {media && (
-                    <Render
-                      name={l.model}
-                      sizes="48px"
-                      className="scale-125 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:scale-[1.4]"
-                    />
-                  )}
-                </span>
-              )}
-              <span className="min-w-0">
-                <span className={`block text-sm font-medium transition-colors group-hover/link:text-white ${isActive(pathname, l.href) ? 'text-white' : 'text-zinc-200'}`}>
-                  {l.label}
-                </span>
-                {l.desc && <span className="mt-0.5 block text-xs leading-snug text-zinc-500 group-hover/link:text-zinc-400">{l.desc}</span>}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <span className="nav-roll relative block overflow-hidden">
+      <span className="nav-roll-a block">{children}</span>
+      <span aria-hidden="true" className="nav-roll-b absolute inset-0 block">
+        {children}
+      </span>
+    </span>
   )
 }
 
-function Panel({ menu, pathname, media }: { menu: Menu; pathname: string; media: boolean }) {
+/**
+ * One menu as a full-width sheet: the links in columns on the left and a large picture on the right,
+ * which follows the link under the pointer (or keyboard focus) and otherwise shows the menu's feature.
+ */
+function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; media: boolean; open: boolean }) {
   const columns = menu.columns ?? []
-  const cards = columns.some((c) => c.links.some((l) => l.model))
+  const [hover, setHover] = useState<MenuLink | null>(null)
+  const [wasOpen, setWasOpen] = useState(open)
+  if (open !== wasOpen) {
+    setWasOpen(open)
+    if (!open) setHover(null)
+  }
+  const f = menu.feature
+  const shown = hover?.model
+    ? { model: hover.model, eyebrow: columns.find((c) => c.links.includes(hover))?.title, title: hover.label, body: hover.desc, href: hover.href }
+    : f
+      ? { model: f.model, eyebrow: f.eyebrow, title: f.title, body: f.body, href: f.href }
+      : null
+  let n = 0
   return (
-    <div className={`grid gap-6 p-5 ${menu.feature ? 'grid-cols-[1fr_17rem]' : ''}`}>
-      <div className={`grid gap-6 ${colsClass[Math.min(columns.length, 3)]}`}>
+    <div className={`container-page grid gap-12 py-10 ${shown ? 'grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] xl:gap-20' : ''}`}>
+      <div className={`grid gap-x-10 gap-y-8 ${colsClass[Math.min(columns.length, 3)]}`}>
         {columns.map((col) => (
-          <MenuColumnView key={col.title} col={col} pathname={pathname} cards={cards} alone={columns.length === 1} media={media} />
+          <div key={col.title}>
+            <p className="text-sm text-zinc-500">
+              {col.href ? (
+                <Link href={col.href} className="transition-colors hover:text-white">
+                  {col.title}
+                </Link>
+              ) : (
+                col.title
+              )}
+            </p>
+            {/* A long single list runs down two columns (down, then across), in reading order. */}
+            <ul className={`mt-4 ${columns.length === 1 && col.links.length > 4 ? 'columns-2 gap-x-10' : 'grid gap-y-0.5'}`}>
+              {col.links.map((l) => {
+                const here = isActive(pathname, l.href) && !l.href.includes('#')
+                return (
+                  <li key={l.href} className="menu-item break-inside-avoid" style={{ ['--i' as string]: n++ }}>
+                    <Link
+                      href={l.href}
+                      aria-current={here ? 'page' : undefined}
+                      onMouseEnter={() => setHover(l)}
+                      onFocus={() => setHover(l)}
+                      className="group/link block py-1.5"
+                    >
+                      <span className={`block text-base transition-colors duration-200 group-hover/link:text-white ${here ? 'text-white' : 'text-zinc-300'}`}>
+                        {l.label}
+                      </span>
+                      {/* Links without a picture carry their note here; the others show it beside the picture. */}
+                      {!l.model && l.desc && <span className="mt-0.5 block text-sm leading-snug text-zinc-500">{l.desc}</span>}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         ))}
       </div>
-      {menu.feature && (
-        <Link
-          href={menu.feature.href}
-          className="group/feature relative flex flex-col self-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors hover:border-white/20"
-        >
-          <span aria-hidden="true" className="relative -mx-5 -mt-5 mb-4 block aspect-[4/3] overflow-hidden border-b border-white/[0.06] bg-white/[0.02]">
-            {media && (
-              <Render
-                name={menu.feature.model}
-                sizes="272px"
-                className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/feature:scale-[1.04]"
-              />
-            )}
+      {shown && (
+        <Link href={shown.href} className="group/feature flex flex-col self-start" tabIndex={-1}>
+          <span
+            aria-hidden="true"
+            className="relative block aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.06] bg-[radial-gradient(80%_70%_at_50%_0%,rgb(255_255_255/0.09),transparent_75%)]"
+          >
+            {media && <Render key={shown.model} name={shown.model} sizes="22rem" className="menu-preview" />}
           </span>
-          <span className="relative text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-400 uppercase">{menu.feature.eyebrow}</span>
-          <span className="relative mt-1.5 line-clamp-2 font-semibold tracking-[-0.02em] text-white">{menu.feature.title}</span>
-          <span className="relative mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-400">{menu.feature.body}</span>
-          <span className="relative mt-auto pt-4 text-xs font-medium text-brand-300">
-            {menu.feature.cta ?? 'Explore'} <span aria-hidden="true">→</span>
-          </span>
+          {shown.eyebrow && <span className="mt-5 text-sm text-zinc-500">{shown.eyebrow}</span>}
+          <span className="mt-1 text-lg font-semibold tracking-[-0.02em] text-white">{shown.title}</span>
+          {shown.body && <span className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-zinc-400">{shown.body}</span>}
         </Link>
       )}
     </div>
   )
 }
 
-// Floating glass navigation bar with hover mega-menus. Tucks away once you have
-// scrolled down a little and returns once you have scrolled up a little, and
-// whenever keyboard focus moves into it.
+// The site bar: full width, lined up with the page, see-through over the top of a page and frosted
+// black once you scroll. Five menus open as full-width sheets. It tucks away once you have scrolled
+// down a little and returns once you scroll up, and whenever keyboard focus moves into it.
 export function Header({ menus }: { menus: Menu[] }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -132,15 +120,19 @@ export function Header({ menus }: { menus: Menu[] }) {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState<number | null>(null)
+  // Moving straight from one menu to another swaps the sheets without replaying the opening.
+  const [switching, setSwitching] = useState(false)
   // Menu pictures load the first time their menu opens, not with every page.
   const [seen, setSeen] = useState<ReadonlySet<number>>(() => new Set())
-  const [pill, setPill] = useState<{ left: number; top: number; width: number; height: number } | null>(null)
   const hiddenRef = useRef(false)
   const closeTimer = useRef(0)
   const skipFocusOpen = useRef(false)
   const headerRef = useRef<HTMLElement>(null)
-  const barRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
+  const activeRef = useRef<number | null>(null)
+  useEffect(() => {
+    activeRef.current = active
+  }, [active])
 
   if ((mobileOpen || active !== null) && openedAt !== pathname) {
     setMobileOpen(false)
@@ -152,6 +144,7 @@ export function Header({ menus }: { menus: Menu[] }) {
     (i: number) => {
       window.clearTimeout(closeTimer.current)
       setOpenedAt(pathname)
+      setSwitching(activeRef.current !== null && activeRef.current !== i)
       setActive(i)
       setSeen((prev) => (prev.has(i) ? prev : new Set(prev).add(i)))
     },
@@ -159,17 +152,11 @@ export function Header({ menus }: { menus: Menu[] }) {
   )
   const close = useCallback((delay = 160) => {
     window.clearTimeout(closeTimer.current)
-    closeTimer.current = window.setTimeout(() => setActive(null), delay)
+    closeTimer.current = window.setTimeout(() => {
+      setSwitching(false)
+      setActive(null)
+    }, delay)
   }, [])
-
-  // The pill (and the menu panels) are positioned against the header bar.
-  const movePill = (el: HTMLElement | null) => {
-    const bar = barRef.current
-    if (!el || !bar) return setPill(null)
-    const a = el.getBoundingClientRect()
-    const b = bar.getBoundingClientRect()
-    setPill({ left: a.left - b.left, top: a.top - b.top, width: a.width, height: a.height })
-  }
 
   // At most once per frame. Only a clear run in one direction changes the bar;
   // small back-and-forth movements, and scrolling done by script (see
@@ -185,7 +172,7 @@ export function Header({ menus }: { menus: Menu[] }) {
     let lastY = window.scrollY
     let runFrom = lastY
     let direction = 0
-    let seen = scriptedScroll.version
+    let seenVersion = scriptedScroll.version
     const update = () => {
       frame = 0
       const root = document.documentElement
@@ -194,9 +181,9 @@ export function Header({ menus }: { menus: Menu[] }) {
       setScrolled(y > 24)
       const delta = y - lastY
       lastY = y
-      if (y < NEAR_TOP || scriptedScroll.active || seen !== scriptedScroll.version) {
+      if (y < NEAR_TOP || scriptedScroll.active || seenVersion !== scriptedScroll.version) {
         if (y < NEAR_TOP) show(true)
-        seen = scriptedScroll.version
+        seenVersion = scriptedScroll.version
         runFrom = y
         direction = 0
         return
@@ -253,6 +240,7 @@ export function Header({ menus }: { menus: Menu[] }) {
     if (active === null) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return
+      setSwitching(false)
       setActive(null)
       // Return focus to the trigger without its focus handler reopening the panel.
       // If it already has focus no focus event fires, so the skip must not be armed.
@@ -267,15 +255,17 @@ export function Header({ menus }: { menus: Menu[] }) {
   }, [active])
 
   const solid = scrolled || mobileOpen || active !== null
+  const owner = menus.findIndex((m) => isActive(pathname, m.href))
 
   return (
     <>
       <div
         aria-hidden="true"
-        className={`pointer-events-none fixed inset-0 z-40 bg-ink-950/50 backdrop-blur-[2px] transition-opacity duration-300 ${active !== null ? 'opacity-100' : 'opacity-0'}`}
+        className={`pointer-events-none fixed inset-0 z-40 bg-ink-950/60 backdrop-blur-[2px] transition-opacity duration-300 ${active !== null ? 'opacity-100' : 'opacity-0'}`}
       />
       <header
         ref={headerRef}
+        data-switching={switching || undefined}
         onMouseLeave={() => close()}
         onFocus={() => {
           hiddenRef.current = false
@@ -284,102 +274,93 @@ export function Header({ menus }: { menus: Menu[] }) {
         onBlur={(e) => {
           if (!headerRef.current?.contains(e.relatedTarget as Node)) setActive(null)
         }}
-        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${hidden && !mobileOpen ? '-translate-y-[120%]' : 'translate-y-0'}`}
+        className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-out ${hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'}`}
       >
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-ink-950">
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-10 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-ink-950">
           Skip to content
         </a>
+        {/* The sheets are placed against this full-width bar, so nothing between it and them is positioned. */}
         <div
-          ref={barRef}
-          className={`relative mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full border px-3 pl-5 text-white transition-[background-color,border-color,box-shadow] duration-500 ${
-            solid ? 'border-white/10 bg-ink-950/75 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl' : 'border-transparent bg-transparent'
+          className={`relative border-b text-white transition-[background-color,border-color] duration-500 ${
+            solid ? 'border-white/[0.07] bg-ink-950/80 backdrop-blur-xl' : 'border-transparent bg-transparent'
           }`}
         >
-          <Link href="/" aria-label={`${site.name} home`} className="shrink-0" onMouseEnter={() => close(120)}>
-            <Logo />
-          </Link>
+          <div className="container-page grid h-16 grid-cols-[1fr_auto] items-center gap-6 lg:h-[4.5rem] lg:grid-cols-[1fr_auto_1fr]">
+            <Link href="/" aria-label={`${site.name} home`} className="justify-self-start" onMouseEnter={() => close(120)}>
+              <Logo />
+            </Link>
 
-          <nav aria-label="Main" className="hidden xl:block">
-            {/* Each menu's panel sits right after its trigger, so keyboard users tab from the trigger straight into its links. */}
-            <ul ref={listRef} className="flex items-center" onMouseLeave={() => setPill(null)}>
-              <span
-                aria-hidden="true"
-                className={`absolute rounded-full bg-white/[0.07] transition-[left,top,width,height,opacity] duration-300 ease-out ${pill ? 'opacity-100' : 'opacity-0'}`}
-                style={pill ?? undefined}
-              />
-              {menus.map((menu, i) => {
-                const owner = menus.findIndex((m) => isActive(pathname, m.href))
-                const current =
-                  owner >= 0 ? owner === i : (menu.columns ?? []).some((c) => c.links.some((l) => !l.href.includes('#') && isActive(pathname, l.href)))
-                return (
-                  <li
-                    key={menu.label}
-                    onMouseEnter={(e) => {
-                      movePill(e.currentTarget)
-                      if (menu.columns) open(i)
-                      else close(80)
-                    }}
-                  >
-                    <Link
-                      href={menu.href}
-                      data-trigger
-                      aria-expanded={menu.columns ? active === i : undefined}
-                      aria-controls={menu.columns ? `menu-${i}` : undefined}
-                      aria-current={pathname === menu.href ? 'page' : undefined}
-                      onFocus={(e) => {
-                        movePill(e.currentTarget.parentElement)
-                        if (skipFocusOpen.current) skipFocusOpen.current = false
-                        else if (menu.columns) open(i)
-                        else setActive(null)
-                      }}
-                      className={`relative flex items-center rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors hover:text-white ${current || active === i ? 'text-white' : 'text-zinc-300'}`}
-                    >
-                      {menu.label}
-                      {current && <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />}
-                    </Link>
-                    {menu.columns && (
-                      <div
-                        id={`menu-${i}`}
-                        className={`absolute inset-x-0 top-full pt-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
-                          active === i ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
+            <nav aria-label="Main" className="hidden lg:block">
+              {/* Each menu's sheet sits right after its trigger, so keyboard users tab from the trigger straight into its links. */}
+              <ul ref={listRef} className="flex items-center">
+                {menus.map((menu, i) => {
+                  const current =
+                    owner >= 0 ? owner === i : (menu.columns ?? []).some((c) => c.links.some((l) => !l.href.includes('#') && isActive(pathname, l.href)))
+                  return (
+                    <li key={menu.label} onMouseEnter={() => (menu.columns ? open(i) : close(80))}>
+                      <Link
+                        href={menu.href}
+                        data-trigger
+                        aria-expanded={menu.columns ? active === i : undefined}
+                        aria-controls={menu.columns ? `menu-${i}` : undefined}
+                        aria-current={pathname === menu.href ? 'page' : undefined}
+                        onFocus={() => {
+                          if (skipFocusOpen.current) skipFocusOpen.current = false
+                          else if (menu.columns) open(i)
+                          else setActive(null)
+                        }}
+                        className={`group/nav relative flex h-16 items-center px-4 text-[0.9375rem] whitespace-nowrap transition-colors duration-200 lg:h-[4.5rem] ${
+                          current || active === i ? 'text-white' : 'text-zinc-300 hover:text-white'
                         }`}
                       >
-                        <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-950/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
-                          <Panel menu={menu} pathname={pathname} media={seen.has(i)} />
+                        <Roll>{menu.label}</Roll>
+                        {/* A small dot under the section you are in. */}
+                        <span
+                          aria-hidden="true"
+                          className={`absolute bottom-3.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-white transition-opacity duration-300 ${current ? 'opacity-100' : 'opacity-0'}`}
+                        />
+                      </Link>
+                      {menu.columns && (
+                        <div
+                          id={`menu-${i}`}
+                          data-open={active === i || undefined}
+                          className="menu-sheet absolute inset-x-0 top-full border-b border-white/[0.07] bg-ink-950 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]"
+                        >
+                          <Sheet menu={menu} pathname={pathname} media={seen.has(i)} open={active === i} />
                         </div>
-                      </div>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
 
-          <div className="flex items-center gap-2" onMouseEnter={() => close(120)}>
-            <Search onOpen={() => setActive(null)} />
-            <Link href="/contact" className="btn-primary hidden py-2 whitespace-nowrap sm:inline-flex">
-              Contact us
-            </Link>
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] xl:hidden"
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-nav"
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              onClick={() => {
-                setOpenedAt(pathname)
-                setMobileOpen((o) => !o)
-              }}
-            >
-              <span aria-hidden="true" className="relative block h-3.5 w-5">
-              <span
-                className={`absolute inset-x-0 top-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? 'translate-y-[3.1px] rotate-45' : ''}`}
-              />
-              <span
-                className={`absolute inset-x-0 bottom-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? '-translate-y-[3.1px] -rotate-45' : ''}`}
-              />
-            </span>
-            </button>
+            <div className="flex items-center justify-self-end gap-2" onMouseEnter={() => close(120)}>
+              <Search onOpen={() => setActive(null)} />
+              <Link href="/contact" className="btn-primary hidden py-2 whitespace-nowrap sm:inline-flex">
+                Contact us
+              </Link>
+              <button
+                type="button"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] lg:hidden"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                onClick={() => {
+                  setOpenedAt(pathname)
+                  setMobileOpen((o) => !o)
+                }}
+              >
+                <span aria-hidden="true" className="relative block h-3.5 w-5">
+                  <span
+                    className={`absolute inset-x-0 top-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? 'translate-y-[3.1px] rotate-45' : ''}`}
+                  />
+                  <span
+                    className={`absolute inset-x-0 bottom-[3px] h-[1.8px] rounded-full bg-current transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileOpen ? '-translate-y-[3.1px] -rotate-45' : ''}`}
+                  />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -387,33 +368,33 @@ export function Header({ menus }: { menus: Menu[] }) {
           <nav
             id="mobile-nav"
             aria-label="Main"
-            className="mobile-nav mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-ink-950/[0.97] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl xl:hidden"
+            // Placed under the bar by height, not by "fixed": the header is transformed, so fixed children size against it.
+            className="mobile-nav absolute inset-x-0 top-full flex h-[calc(100dvh-4rem)] flex-col overflow-y-auto bg-ink-950 lg:hidden"
           >
-            <ul className="divide-y divide-white/[0.06] p-3">
+            <ul className="container-page w-full flex-1 divide-y divide-white/[0.06] pt-2 pb-6">
               {menus.map((menu, i) => (
-                <li key={menu.label} className="mobile-nav-item" style={{ animationDelay: `${60 + i * 35}ms` }}>
+                <li key={menu.label} className="mobile-nav-item" style={{ animationDelay: `${60 + i * 40}ms` }}>
                   {menu.columns ? (
                     <details className="group" open={isActive(pathname, menu.href) || undefined}>
-                      <summary className="flex cursor-pointer list-none items-center justify-between rounded-2xl px-4 py-3.5 text-lg font-medium text-zinc-100">
+                      <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-2xl font-semibold tracking-[-0.03em] text-white">
                         {menu.label}
-                        <svg viewBox="0 0 12 12" className="h-3.5 w-3.5 opacity-60 transition-transform group-open:rotate-180" aria-hidden="true">
+                        <svg viewBox="0 0 12 12" className="h-4 w-4 opacity-60 transition-transform group-open:rotate-180" aria-hidden="true">
                           <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" />
                         </svg>
                       </summary>
-                      <div className="space-y-4 px-2 pb-4">
+                      <div className="space-y-6 pb-6">
                         {menu.columns.map((c) => (
                           <div key={c.title}>
-                            {menu.columns!.length > 1 && <p className="px-3 pb-1 text-[0.6875rem] font-medium tracking-[0.16em] text-zinc-500 uppercase">{c.title}</p>}
-                            <ul className={`grid gap-0.5 ${c.links.every((l) => !l.desc) ? 'grid-cols-2' : 'sm:grid-cols-2'}`}>
+                            {menu.columns!.length > 1 && <p className="pb-2 text-sm text-zinc-500">{c.title}</p>}
+                            <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
                               {c.links.map((l) => (
                                 <li key={l.href}>
                                   <Link
                                     href={l.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className={`block rounded-xl px-3 py-2.5 ${isActive(pathname, l.href) && !l.href.includes('#') ? 'bg-white/[0.06] text-white' : 'text-zinc-300'}`}
+                                    className={`block py-2 text-base ${isActive(pathname, l.href) && !l.href.includes('#') ? 'text-white' : 'text-zinc-300'}`}
                                   >
-                                    <span className="block text-[0.9375rem]">{l.label}</span>
-                                    {l.desc && <span className="block text-xs text-zinc-500">{l.desc}</span>}
+                                    {l.label}
                                   </Link>
                                 </li>
                               ))}
@@ -423,18 +404,20 @@ export function Header({ menus }: { menus: Menu[] }) {
                       </div>
                     </details>
                   ) : (
-                    <Link href={menu.href} className="block rounded-2xl px-4 py-3.5 text-lg font-medium text-zinc-100">
+                    <Link href={menu.href} className="block py-5 text-2xl font-semibold tracking-[-0.03em] text-white">
                       {menu.label}
                     </Link>
                   )}
                 </li>
               ))}
-              <li className="sticky bottom-0 -mx-3 -mb-3 bg-gradient-to-t from-ink-950 from-70% to-transparent p-4 pt-6">
+            </ul>
+            <div className="sticky bottom-0 bg-gradient-to-t from-ink-950 from-70% to-transparent pt-8 pb-5">
+              <div className="container-page">
                 <Link href="/contact" className="btn-primary w-full py-3 text-base">
                   Contact us
                 </Link>
-              </li>
-            </ul>
+              </div>
+            </div>
           </nav>
         )}
       </header>

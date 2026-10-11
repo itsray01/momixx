@@ -225,13 +225,108 @@
   background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.12), transparent);
 }
 
-/* Sticky tab bars (components/TabNav.tsx) sit under the site header and move up when it slides away. */
+/* Sticky tab bars (components/TabNav.tsx) sit under the site header and move up when it slides away.
+   In rem, so they keep their place when large screens scale the layout up. */
 .tabnav {
-  top: 84px;
+  top: 4.75rem;
   transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
+@media (min-width: 64rem) {
+  .tabnav {
+    top: 5.25rem;
+  }
+}
 html[data-header='hidden'] .tabnav {
-  top: 12px;
+  top: 0.75rem;
+}
+
+/* ── Site header (components/Header.tsx) ── */
+/* Menu labels roll up to a copy of themselves on hover. */
+.nav-roll-a,
+.nav-roll-b {
+  transition: translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-roll-b {
+  translate: 0 100%;
+}
+.group\/nav:hover .nav-roll-a {
+  translate: 0 -100%;
+}
+.group\/nav:hover .nav-roll-b {
+  translate: 0 0;
+}
+/* Menu sheets unfold downwards from the bar; their links follow one after another. */
+.menu-sheet {
+  visibility: hidden;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    clip-path 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    visibility 0s linear 0.45s;
+}
+.menu-sheet[data-open] {
+  visibility: visible;
+  opacity: 1;
+  clip-path: inset(0 0 -6rem 0);
+  transition:
+    clip-path 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease,
+    visibility 0s;
+}
+.menu-sheet[data-open] .menu-item {
+  animation: menu-item-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 18ms + 80ms);
+}
+/* Moving straight from one menu to the next just swaps the sheets. */
+header[data-switching] .menu-sheet {
+  clip-path: inset(0 0 -6rem 0);
+  transition:
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s;
+}
+header[data-switching] .menu-sheet[data-open] {
+  transition: opacity 0.2s ease;
+}
+header[data-switching] .menu-sheet .menu-item {
+  animation: none;
+}
+/* The menu picture settles in each time it changes. */
+.menu-preview {
+  animation: menu-preview-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes menu-preview-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-roll-a,
+  .nav-roll-b {
+    transition: none;
+  }
+  .group\/nav:hover .nav-roll-a {
+    translate: none;
+  }
+  .nav-roll-b {
+    display: none;
+  }
+  .menu-sheet,
+  .menu-sheet[data-open] {
+    clip-path: none;
+    transition:
+      opacity 0.2s ease,
+      visibility 0s linear 0.2s;
+  }
+  .menu-sheet[data-open] {
+    transition: opacity 0.2s ease;
+  }
+  .menu-sheet .menu-item,
+  .menu-sheet[data-open] .menu-item,
+  .menu-preview {
+    animation: none;
+  }
 }
 
 /* ── Scroll motion (driven by components/motion/ScrollEffects.tsx) ── */
