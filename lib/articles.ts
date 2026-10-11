@@ -86,6 +86,8 @@ function render(md: string) {
   const html = (marked.parse(md, { async: false }) as string)
     .replace(/<table>/g, '<div class="table-scroll" role="region" aria-label="Table" tabindex="0"><table>')
     .replace(/<\/table>/g, '</table></div>')
+    // A blank top-left cell in a comparison table still needs a name for screen readers.
+    .replace(/<th([^>]*)>\s*<\/th>/g, '<th$1><span class="sr-only">Compared</span></th>')
   return { html, headings }
 }
 

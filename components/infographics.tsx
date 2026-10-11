@@ -108,7 +108,7 @@ export function JourneyScroll({ eyebrow, title, intro, tone = 'dark' }: { eyebro
             </div>
           </div>
         </div>
-        <div data-hscroll-viewport className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
+        <div data-hscroll-viewport tabIndex={0} role="region" aria-label={eyebrow} className="mt-10 snap-x snap-mandatory scroll-pl-4 overflow-x-auto [scrollbar-width:none] sm:scroll-pl-6 lg:mt-12 [&::-webkit-scrollbar]:hidden">
           <ol data-hscroll-track className="flex w-max gap-4 px-4 sm:px-6 lg:gap-5 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]">
             {journey.map((step, i) => (
               <li
