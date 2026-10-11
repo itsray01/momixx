@@ -71,7 +71,7 @@ export default function GovernancePage() {
         {validations.length > 0 && (
           <ul data-reveal="stagger" className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {validations.map((c) => (
-              <CertCard key={c.id} cert={c} />
+              <CertCard key={c.id} cert={c} wide={validations.length === 1} />
             ))}
           </ul>
         )}

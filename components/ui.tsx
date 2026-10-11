@@ -144,7 +144,7 @@ export function PageHeader({
           {facts && visual && (
             <FactTiles
               facts={facts}
-              className={`mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] ${facts.length > 2 ? 'sm:grid-cols-3' : ''}`}
+              className={`mt-8 grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] ${facts.length === 3 ? 'grid-cols-3' : facts.length > 3 ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2'}`}
             />
           )}
           {children}

@@ -103,24 +103,31 @@ export default function InnovationPage() {
       {areas.map((area, i) => (
         <Section key={area.id} id={area.id} tone={i % 2 === 0 ? 'muted' : 'white'} eyebrow="Research area" title={area.title} className="scroll-mt-20">
           <div data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
-            {area.items.map((it) => (
-              <div key={it.title} className={`card lift ${it.render ? 'flex flex-col overflow-hidden' : 'p-7'}`}>
-                {it.render && (
-                  <div className="mx-auto w-full max-w-[16rem]">
-                    <Render name={it.render} sizes="256px" />
-                  </div>
-                )}
-                <div className={it.render ? 'px-7 pb-7' : ''}>
-                  <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
-                  <p className="mt-2 leading-relaxed text-zinc-400">{it.body}</p>
-                  {it.href && (
-                    <Link href={it.href} className="mt-4 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
-                      Product details <span aria-hidden="true">→</span>
-                    </Link>
+            {area.items.map((it, j) => {
+              // An odd card out at the end takes the whole row, picture beside the words, so no card sits alone.
+              const alone = area.items.length > 1 && area.items.length % 2 === 1 && j === area.items.length - 1
+              return (
+                <div
+                  key={it.title}
+                  className={`card lift ${it.render ? 'flex flex-col overflow-hidden' : 'p-7'} ${alone ? 'md:col-span-2' : ''} ${alone && it.render ? 'md:flex-row md:items-center' : ''}`}
+                >
+                  {it.render && (
+                    <div className={`mx-auto w-full max-w-[16rem] ${alone ? 'md:mx-0 md:shrink-0 md:px-6' : ''}`}>
+                      <Render name={it.render} sizes="256px" />
+                    </div>
                   )}
+                  <div className={it.render ? `px-7 pb-7 ${alone ? 'md:py-7 md:pl-0' : ''}` : ''}>
+                    <h3 className="text-xl font-semibold tracking-[-0.02em]">{it.title}</h3>
+                    <p className="mt-2 leading-relaxed text-zinc-400">{it.body}</p>
+                    {it.href && (
+                      <Link href={it.href} className="mt-4 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
+                        Product details <span aria-hidden="true">→</span>
+                      </Link>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </Section>
       ))}

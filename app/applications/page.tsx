@@ -45,8 +45,8 @@ export default function ApplicationsPage() {
                   {/* The same columns in every group, so the cards (and their renders) are one size throughout. */}
                   <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                     {items.map((a) => (
-                      <li key={a.slug}>
-                        <LinkCard href={`/applications/${a.slug}`} render={a.illustration} title={a.name} body={a.tagline} footer={<span className="text-xs">{a.maturityNote}</span>} />
+                      <li key={a.slug} className={items.length === 1 ? 'md:col-span-2 lg:col-span-3' : ''}>
+                        <LinkCard href={`/applications/${a.slug}`} render={a.illustration} title={a.name} body={a.tagline} note={a.maturityNote} wide={items.length === 1} />
                       </li>
                     ))}
                   </ul>
