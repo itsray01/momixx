@@ -63,15 +63,17 @@ export function BackgroundLoop({
     if (saveData || !window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches) return
     let io: IntersectionObserver | undefined
     const start = () => {
+      // Load once the section is near; play only while a good part of it is on screen, so the video
+      // is not decoding under the blurred top bar as the page scrolls on.
       io = new IntersectionObserver(
         ([e]) => {
           if (e.isIntersecting) setMount(true)
           const v = videoRef.current
           if (!v) return
-          if (e.isIntersecting) v.play().catch(() => {})
+          if (e.intersectionRatio >= 0.35) v.play().catch(() => {})
           else v.pause()
         },
-        { rootMargin: '200px 0px' },
+        { threshold: [0, 0.35] },
       )
       io.observe(wrap)
     }

@@ -56,7 +56,7 @@ export default async function ArticlePage({ params }: Props) {
       <article>
         {/* A thin line along the top edge that fills as you read (CSS only; see globals.css). */}
         <div aria-hidden="true" className="reading-progress" />
-        <header className="grain relative overflow-hidden pt-32 pb-12 sm:pt-40">
+        <header className={`${loop ? '' : 'grain'} relative overflow-hidden pt-32 pb-12 sm:pt-40`}>
           {loop ? (
             <BackgroundLoop name={loop} priority />
           ) : (
@@ -83,11 +83,11 @@ export default async function ArticlePage({ params }: Props) {
               </p>
             </div>
             {/* The article's picture, beside the title on wide screens; phones go straight to the reading. */}
-            <div
-              className={`hidden lg:block ${loop ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
-            >
-              <Render name={a.model} sizes="34vw" />
-            </div>
+            {!loop && (
+              <div className="hidden lg:block">
+                <Render name={a.model} sizes="34vw" />
+              </div>
+            )}
           </div>
         </header>
 

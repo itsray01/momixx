@@ -60,30 +60,24 @@ export default async function ProductPage({ params }: Props) {
         eyebrow={categoryLabels[p.category]}
         title={p.name}
         intro={p.tagline}
-        softVisual={!p.video}
-        visual={
-          p.illustration &&
-          (p.video ? (
-            <div className="card aspect-[4/3] overflow-hidden">
-              <SpinVideo name={p.video} label={`Rotating 3D illustration of the ${p.name}`} />
-            </div>
-          ) : (
-            <Render
-              name={p.illustration}
-              variant={p.illustrationVariant}
-              alt={`3D illustration of the ${p.name}`}
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              priority
-            />
-          ))
-        }
       />
       <TabNav {...productNav(p.slug)} label="Products">
 
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
             <div>
-              {/* The picture sits in the header now; a real photo, where there is one, stays here. */}
+              {/* The 3D picture sits here, under the words-only header; a real photo, where there is one, follows it. */}
+              {p.illustration && (
+                <div className="mb-10 max-w-xl">
+                  {p.video ? (
+                    <div className="card aspect-[4/3] overflow-hidden">
+                      <SpinVideo name={p.video} label={`Rotating 3D illustration of the ${p.name}`} />
+                    </div>
+                  ) : (
+                    <Render name={p.illustration} variant={p.illustrationVariant} alt={`3D illustration of the ${p.name}`} sizes="(min-width: 1024px) 36rem, 100vw" />
+                  )}
+                </div>
+              )}
               {p.photo && (
                 <figure className="card relative mb-10 overflow-hidden">
                   <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />

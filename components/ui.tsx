@@ -113,7 +113,6 @@ export function PageHeader({
   visual,
   background,
   loop: loopProp,
-  softVisual = true,
   children,
 }: {
   eyebrow?: string
@@ -128,23 +127,25 @@ export function PageHeader({
   background?: { src: string; alt: string }
   /** A colour loop behind the header, in place of the plain glow. Defaults to the page's loop in content/loops.ts, found by its path (the last breadcrumb). */
   loop?: LoopName
-  /** Over a loop, fade the visual's edges so a picture's soft floor shadow shows no box. Off for visuals in their own frame. */
-  softVisual?: boolean
   children?: ReactNode
 }) {
   const loop = loopProp ?? (crumbs?.length ? loopFor(crumbs[crumbs.length - 1].href) : undefined)
   // The sustainability photo is 1440 px wide. Cap the header on large screens so it is cropped rather than blown up.
   const photoCap = background ? 'lg:max-h-[44rem]' : ''
-  const frame = visual
+  // Over a loop the header is words only: a picture on top of moving footage fights it.
+  const shown = loop ? undefined : visual
+  const frame = shown
     ? 'grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_45%] lg:gap-12'
     : facts
       ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-end lg:gap-16'
       : ''
   return (
-    <section className={`grain relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24 ${photoCap}`}>
+    // No film grain over a loop: blending it over moving video costs every frame.
+    <section className={`${loop ? '' : 'grain'} relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24 ${photoCap}`}>
       {background ? (
         <>
-          <Image src={background.src} alt={background.alt} fill priority sizes="100vw" className="object-cover object-center" />
+          {/* The photo drifts slowly (a long, gentle push-in and pan), so the header feels alive without a video. */}
+          <Image src={background.src} alt={background.alt} fill priority sizes="100vw" className="photo-drift object-cover object-center" />
           {/* Opaque on the left, where the type sits, so the text stays at least WCAG AA. */}
           <div
             aria-hidden="true"
@@ -165,7 +166,7 @@ export function PageHeader({
           {eyebrow && <p className="eyebrow mt-8">{eyebrow}</p>}
           <h1 className="display-lg mt-5">{rich(title)}</h1>
           {intro && <div className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 sm:text-xl">{intro}</div>}
-          {facts && visual && (
+          {facts && shown && (
             <FactTiles
               facts={facts}
               className={`mt-8 grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] ${facts.length === 3 ? 'grid-cols-3' : facts.length > 3 ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2'}`}
@@ -174,15 +175,8 @@ export function PageHeader({
           {children}
         </div>
         {/* Below the title on phones and tablets: kept to a sensible size there, full column width beside it on desktops. */}
-        {/* Over a loop, the picture's soft floor shadow fades out before its edges, so no box shows. */}
-        {visual && (
-          <div
-            className={`mx-auto w-full max-w-lg min-w-0 lg:max-w-none ${loop && softVisual ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
-          >
-            {visual}
-          </div>
-        )}
-        {facts && !visual && (
+        {shown && <div className="mx-auto w-full max-w-lg min-w-0 lg:max-w-none">{shown}</div>}
+        {facts && !shown && (
           <FactTiles facts={facts} className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] lg:grid-cols-1" />
         )}
       </div>

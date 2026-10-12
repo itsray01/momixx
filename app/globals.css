@@ -867,3 +867,24 @@ img[data-fade='in'] {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* A still photo that drifts: a slow push-in and pan, back and forth. Transform only, so it stays smooth. */
+.photo-drift {
+  transform-origin: 60% 45%;
+  animation: photo-drift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes photo-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-2.5%, -1.5%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-drift {
+    animation: none;
+    transform: none;
+  }
+}
