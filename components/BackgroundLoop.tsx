@@ -6,14 +6,15 @@ import { useEffect, useRef, useState } from 'react'
 export type LoopName =
   | 'heat'
   | 'v-circuit-gold'
-  | 'v-drop'
   | 'v-drop-2'
   | 'v-droplets'
   | 'v-dune'
   | 'v-forest-autumn'
   | 'v-forest-mist'
-  | 'v-ink-purple'
+  | 'v-glass'
+  | 'v-ink-gold'
   | 'v-light-tunnel'
+  | 'v-particles'
   | 'v-robot'
   | 'v-servers'
   | 'v-singapore'
@@ -23,8 +24,9 @@ export type LoopName =
 const focusFor: Partial<Record<LoopName, string>> = {
   heat: '80% 55%',
   // The dropper hangs from the top of the frame: keep its tip and the drop in view.
-  'v-drop': '50% 0%',
   'v-drop-2': '50% 0%',
+  // The ink billows in from the right.
+  'v-ink-gold': '85% 50%',
 }
 
 /**

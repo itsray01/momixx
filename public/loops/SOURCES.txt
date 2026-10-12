@@ -1,15 +1,16 @@
 Background loops in this folder
 
 All loops share one colour grade (near-black shadows, warm amber light, cream highlights).
+Each v- loop is trimmed to a 5 to 12 second seamless loop, colour-graded and encoded at 1920 x 1080.
 
 heat.*  Made by us (a WebGL shader rendered to video), then graded. No third-party rights.
 
-v-*.*   Cut from free Pexels videos, downloaded 12 October 2026 under the Pexels licence
-        (free for commercial use, no credit needed: https://www.pexels.com/license/).
-        Each is trimmed to a 5 to 12 second seamless loop, colour-graded and re-encoded.
+Pexels
+  Free Pexels videos under the Pexels licence (free for commercial use, no credit needed:
+  https://www.pexels.com/license/). First downloaded 12 October 2026; the 1920 x 1080 files
+  were downloaded again the same day for the higher-quality versions.
 
-v-drop            https://www.pexels.com/video/a-liquid-dripping-from-a-dropper-4132712/
-v-drop-2          https://www.pexels.com/video/a-liquid-dripping-from-a-dropper-4132711/
+v-drop-2          https://www.pexels.com/video/a-liquid-dripping-from-a-dropper-4132711/  (no 1080p file: upscaled from 720p)
 v-servers         https://www.pexels.com/video/close-up-of-a-cpu-7140928/
 v-light-tunnel    https://www.pexels.com/video/neon-lights-glowing-in-a-dark-room-8058346/
 v-circuit-gold    https://www.pexels.com/video/close-up-shot-of-a-motherboard-6755170/
@@ -20,4 +21,13 @@ v-forest-mist     https://www.pexels.com/video/aerial-view-of-a-misty-forest-143
 v-forest-autumn   https://www.pexels.com/video/aerial-view-of-a-forest-with-fog-27960755/
 v-dune            https://www.pexels.com/video/flying-with-a-drone-above-a-dune-lighted-by-the-sunset-gran-canaria-17833698/
 v-singapore       https://www.pexels.com/video/singapore-skyline-at-night-aerial-view-32047106/
-v-ink-purple      https://www.pexels.com/video/colored-ink-in-water-flowing-in-slow-motion-11944801/
+
+Adobe Stock
+  Free Adobe Stock clips (Adobe Stock free collection, HD 1920 x 1080), licensed 12 October 2026
+  for MoMixx work through the Adobe for Enterprise account of the studio that builds this site
+  for MoMixx, with MoMixx's permission. The licence history is in that Adobe account.
+  No people, logos or brands in any of them. Slowed down before trimming.
+
+v-ink-gold        Adobe Stock file 495238652  https://stock.adobe.com/video/x/495238652
+v-glass           Adobe Stock file 398819487  https://stock.adobe.com/video/x/398819487
+v-particles       Adobe Stock file 332550811  https://stock.adobe.com/video/x/332550811
