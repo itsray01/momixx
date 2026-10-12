@@ -16,36 +16,29 @@ const ends = { braid: -0.15, foil: 0.75, insulation: 1.6, copper: 2.35 }
 
 type Highlight = string | null
 
-// Picking a layer leaves every layer solid: the others darken (and lose most of
-// their reflections) while the picked one stays lit, like a spotlight. Fading
-// them see-through instead let the wires show through the jacket, which looked wrong.
-const SHADOW = new THREE.Color('#0d0d0f')
+// Picking a layer x-rays the rest: they fade see-through, while the picked one
+// looks exactly as it does normally (no glow, which would wash its colour out).
+// Every material is set up as transparent from the start, so a fade never has
+// to rebuild a shader; at full opacity it draws like a solid surface.
+const GHOST = 0.2
 
-function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side, emissive = '#f4f5f6' }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side; emissive?: string }) {
+function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
   const ref = useRef<THREE.MeshPhysicalMaterial>(null)
-  const base = useMemo(() => new THREE.Color(color), [color])
-  const state = useRef({ dim: 0, lit: 0 })
+  const shown = useRef(1)
   const invalidate = useThree((s) => s.invalidate)
-  const dimTo = h !== null && h !== id ? 1 : 0
-  const litTo = h === id ? 1 : 0
+  const to = h !== null && h !== id ? GHOST : 1
 
-  // Keeps drawing while a change eases in, also when the scene only draws on demand.
+  // Keeps drawing while a fade eases in, also when the scene only draws on demand.
   useEffect(() => invalidate(), [h, invalidate])
   useFrame((_, delta) => {
     const m = ref.current
     if (!m) return
-    const st = state.current
-    st.dim = THREE.MathUtils.damp(st.dim, dimTo, 9, delta)
-    st.lit = THREE.MathUtils.damp(st.lit, litTo, 9, delta)
-    m.color.copy(base).lerp(SHADOW, st.dim * 0.8)
-    m.envMapIntensity = 1 - st.dim * 0.8
-    m.emissiveIntensity = st.lit * 0.12
-    // Never quite zero: switching sheen or clearcoat off would rebuild the shader mid-fade.
-    if (sheen) {
-      m.sheen = 0.8 * (1 - st.dim * 0.8)
-      m.clearcoat = 0.4 * (1 - st.dim * 0.8)
-    }
-    if (Math.abs(st.dim - dimTo) > 0.003 || Math.abs(st.lit - litTo) > 0.003) invalidate()
+    shown.current = THREE.MathUtils.damp(shown.current, to, 10, delta)
+    if (Math.abs(shown.current - to) < 0.002) shown.current = to
+    m.opacity = shown.current
+    // Solid layers hide what is behind them; see-through ones must not.
+    m.depthWrite = shown.current > 0.99
+    if (shown.current !== to) invalidate()
   })
 
   return (
@@ -58,8 +51,7 @@ function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side
       sheenColor="#ffffff"
       sheenRoughness={0.5}
       clearcoat={sheen ? 0.4 : 0}
-      emissive={emissive}
-      emissiveIntensity={0}
+      transparent
       side={side}
     />
   )
@@ -144,14 +136,14 @@ export function CableAnatomyModel({
       {/* 5 · Silicone jacket (hollow, cut end visible) */}
       <group ref={jacket}>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.78} open>
-          <Mat id="jacket" h={h} color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} emissive={jacketColour.sheen} />
+          <Mat id="jacket" h={h} color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} />
         </Rod>
         <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
           <ringGeometry args={[0.63, 0.78, 64]} />
-          <Mat id="jacket" h={h} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} emissive={jacketColour.sheen} />
+          <Mat id="jacket" h={h} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
         </mesh>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.63} open>
-          <Mat id="jacket" h={h} color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} emissive={jacketColour.sheen} />
+          <Mat id="jacket" h={h} color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
         </Rod>
       </group>
 
