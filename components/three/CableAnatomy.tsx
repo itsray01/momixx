@@ -7,9 +7,11 @@
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
-import { layerOffsets } from './cableLayers'
+import { cableColourById } from './cableColours'
+import { anatomyColour, layerOffsets } from './cableLayers'
 
 const L0 = -3.4 // left end of every layer (hidden inside the jacket)
+const jacketColour = cableColourById(anatomyColour)!
 const ends = { braid: -0.15, foil: 0.75, insulation: 1.6, copper: 2.35 }
 
 type Highlight = string | null
@@ -121,14 +123,14 @@ export function CableAnatomyModel({
       {/* 5 · Silicone jacket (hollow, cut end visible) */}
       <group ref={jacket}>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.78} open>
-          <Mat id="jacket" h={h} color="#149f94" roughness={0.38} sheen side={THREE.DoubleSide} emissive="#6dd5c9" />
+          <Mat id="jacket" h={h} color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} emissive={jacketColour.sheen} />
         </Rod>
         <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
           <ringGeometry args={[0.63, 0.78, 64]} />
-          <Mat id="jacket" h={h} color="#34bdb0" roughness={0.5} sheen side={THREE.DoubleSide} emissive="#6dd5c9" />
+          <Mat id="jacket" h={h} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} emissive={jacketColour.sheen} />
         </mesh>
         <Rod a={L0 - 0.4} b={jacketEnd} r={0.63} open>
-          <Mat id="jacket" h={h} color="#0e514e" roughness={0.6} side={THREE.BackSide} emissive="#6dd5c9" />
+          <Mat id="jacket" h={h} color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} emissive={jacketColour.sheen} />
         </Rod>
       </group>
 

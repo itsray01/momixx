@@ -7,7 +7,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 import { CableAnatomyModel } from './CableAnatomy'
-import { anatomyView, cableLayers, layerAnchors } from './cableLayers'
+import { anatomyFov, anatomyView, cableLayers, layerAnchors } from './cableLayers'
 import { Ready } from './Ready'
 import { Studio } from './Studio'
 
@@ -26,14 +26,23 @@ function Markers({ markers, shown }: { markers: RefObject<Array<HTMLElement | nu
   return null
 }
 
-/** Points the camera at the cable and lets it drift gently with the pointer. */
+/**
+ * Points the camera at the cable, keeps the same width in view whatever the
+ * stage's shape (so it matches the still), and lets it drift gently with the pointer.
+ */
 function Rig() {
   const target = useMemo(() => new THREE.Vector3(...anatomyView.target), [])
   const base = useMemo(() => new THREE.Vector3(...anatomyView.position), [])
-  useFrame(({ camera, pointer }, delta) => {
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, base.x + pointer.x * 0.5, 3, delta)
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, base.y + pointer.y * 0.3, 3, delta)
-    camera.lookAt(target)
+  useFrame(({ camera, pointer, size }, delta) => {
+    const cam = camera as THREE.PerspectiveCamera
+    const fov = anatomyFov(size.width / size.height)
+    if (Math.abs(cam.fov - fov) > 0.01) {
+      cam.fov = fov
+      cam.updateProjectionMatrix()
+    }
+    cam.position.x = THREE.MathUtils.damp(cam.position.x, base.x + pointer.x * 0.35, 3, delta)
+    cam.position.y = THREE.MathUtils.damp(cam.position.y, base.y + pointer.y * 0.2, 3, delta)
+    cam.lookAt(target)
   })
   return null
 }
@@ -56,7 +65,7 @@ export default function CableAnatomyCanvas({
     <Canvas
       dpr={[1, 1.75]}
       frameloop={animate ? 'always' : 'demand'}
-      camera={{ position: anatomyView.position, fov: anatomyView.fov }}
+      camera={{ position: anatomyView.position, fov: anatomyFov(4 / 3) }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       onCreated={({ camera }) => camera.lookAt(...anatomyView.target)}
     >
