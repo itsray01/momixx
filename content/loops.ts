@@ -1,0 +1,71 @@
+import type { LoopName } from '@/components/BackgroundLoop'
+
+/**
+ * Which loop sits behind each page's header (files in /public/loops, played by components/BackgroundLoop.tsx).
+ * The v- loops are cut from free Pexels footage (Pexels licence: commercial use, no credit needed); the
+ * source of each is listed in public/loops/SOURCES.txt. The home page has its live 3D hero instead, and
+ * Sustainability keeps its forest photo.
+ */
+export const pageLoops: Record<string, LoopName> = {
+  '/silicone': 'v-dune',
+  '/products': 'v-swirl-orange',
+  '/applications': 'v-swirl-blue',
+  '/recycled-silicone': 'v-swirl-blue',
+  '/insights': 'v-ink-purple',
+  '/insights/glossary': 'v-sand-ripples',
+  '/culture': 'v-forest-autumn',
+  '/locations': 'v-singapore',
+  '/markets': 'v-traffic',
+  '/about': 'v-singapore',
+  '/newsroom': 'v-ink-purple',
+  '/governance': 'v-ink-purple',
+  '/innovation': 'v-swirl-orange',
+  '/contact': 'v-swirl-blue',
+  '/privacy': 'v-ink-purple',
+  '/terms': 'v-ink-purple',
+  '/applications/consumer-electronics': 'v-fibre-optic',
+  '/applications/electric-vehicles': 'v-traffic',
+  '/applications/medical': 'v-ink-purple',
+  '/applications/ai-data-centres': 'v-cables-blue',
+  '/applications/robotics': 'v-robot-hand',
+  '/applications/semiconductor': 'v-circuit-board',
+  '/products/momixx-mm': 'v-swirl-blue',
+  '/products/momixx-high-density': 'v-swirl-orange',
+  '/products/momixx-move': 'v-swirl-orange',
+  '/products/momixx-procase': 'v-swirl-blue',
+  '/products/momixx-seal': 'v-swirl-blue',
+  '/products/selix': 'v-swirl-orange',
+  '/products/crimson': 'v-swirl-orange',
+  '/products/recycled-silicone': 'v-swirl-blue',
+  '/products/pctg': 'v-swirl-blue',
+  '/products/vertical-extruder': 'v-fibre-optic',
+  '/products/horizontal-extruder': 'v-fibres',
+  '/products/lsr-mixer': 'v-swirl-orange',
+  '/products/autowinder': 'v-fibres',
+  '/products/energy-saving-oven': 'v-fibre-optic',
+  '/products/dip-coating-machine': 'v-swirl-blue',
+  '/products/odm-oem': 'v-swirl-orange',
+  '/products/medical-precision-components': 'v-circuit-board',
+  '/insights/fire-retardant-silicone-usb-c-cables': 'v-fibre-optic',
+  '/insights/grs-vs-iscc-plus-vs-scs': 'v-forest-mist',
+  '/insights/how-silicone-cable-is-made': 'v-fibres',
+  '/insights/lsr-vs-hcr': 'v-swirl-orange',
+  '/insights/medical-grade-silicone': 'v-ink-purple',
+  '/insights/pfas-free-silicone': 'v-swirl-blue',
+  '/insights/silicone-carbon-footprint': 'v-forest-mist',
+  '/insights/silicone-in-ai-data-centres': 'v-cables-blue',
+  '/insights/silicone-in-electric-vehicles': 'v-traffic',
+  '/insights/silicone-in-humanoid-robots': 'v-robot-hand',
+  '/insights/silicone-recycling-explained': 'v-swirl-blue',
+  '/insights/why-silicone-ends-up-in-landfill': 'v-dune',
+  '/insights/silicon-vs-silicone': 'v-sand-ripples',
+  '/insights/topic/silicone-basics': 'v-dune',
+  '/insights/topic/recycling': 'v-swirl-blue',
+  '/insights/topic/sustainability': 'v-forest-autumn',
+  '/insights/topic/applications': 'v-fibre-optic',
+  '/insights/topic/technology': 'v-fibres',
+  '/insights/topic/regulation': 'v-ink-purple',
+}
+
+/** The loop for a page, by its path. */
+export const loopFor = (path: string): LoopName | undefined => pageLoops[path]
