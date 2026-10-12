@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
+import { BackgroundLoop } from '@/components/BackgroundLoop'
 import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, HeaderGlow, Section } from '@/components/ui'
+import { loopFor } from '@/content/loops'
 import { formatDate, getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
 
@@ -48,14 +50,21 @@ export default async function ArticlePage({ params }: Props) {
   const related = relatedArticles(a)
   const topic = topics[a.topic]
 
+  const loop = loopFor(`/insights/${a.slug}`)
   return (
     <>
       <article>
         {/* A thin line along the top edge that fills as you read (CSS only; see globals.css). */}
         <div aria-hidden="true" className="reading-progress" />
         <header className="grain relative overflow-hidden pt-32 pb-12 sm:pt-40">
-          <HeaderGlow />
-          <GridBackdrop />
+          {loop ? (
+            <BackgroundLoop name={loop} priority />
+          ) : (
+            <>
+              <HeaderGlow />
+              <GridBackdrop />
+            </>
+          )}
           <div className="container-page relative lg:grid lg:grid-cols-[minmax(0,1fr)_34%] lg:items-center lg:gap-12">
             <div className="max-w-4xl">
               <Breadcrumbs
@@ -74,7 +83,9 @@ export default async function ArticlePage({ params }: Props) {
               </p>
             </div>
             {/* The article's picture, beside the title on wide screens; phones go straight to the reading. */}
-            <div className="hidden lg:block">
+            <div
+              className={`hidden lg:block ${loop ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
+            >
               <Render name={a.model} sizes="34vw" />
             </div>
           </div>

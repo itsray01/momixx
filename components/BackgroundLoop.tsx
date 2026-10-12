@@ -3,18 +3,30 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
-export type LoopName = 'heat' | 'cables-colour' | 'cables-blue' | 'sand-gold'
+export type LoopName =
+  | 'heat'
+  | 'v-cables-blue'
+  | 'v-circuit-board'
+  | 'v-dune'
+  | 'v-fibre-optic'
+  | 'v-fibres'
+  | 'v-forest-autumn'
+  | 'v-forest-mist'
+  | 'v-ink-purple'
+  | 'v-robot-hand'
+  | 'v-sand-ripples'
+  | 'v-singapore'
+  | 'v-swirl-blue'
+  | 'v-swirl-orange'
+  | 'v-traffic'
 
 /** Which part of each loop to keep when a tall box crops it (on phones, mostly): where its colour is. */
-const focusFor: Record<LoopName, string> = {
+const focusFor: Partial<Record<LoopName, string>> = {
   heat: '80% 55%',
-  'cables-colour': '62% 50%',
-  'cables-blue': '72% 50%',
-  'sand-gold': '50% 50%',
 }
 
 /**
- * A slow colour loop behind a section, from /public/loops (a WebM, an MP4 copy for Safari and a still).
+ * A slow, silent loop behind a section, from /public/loops (a WebM, an MP4 copy for Safari and a still).
  *
  * Everyone sees the still frame first. On tablets and desktops the video joins once the page has
  * finished loading and the section is near the screen, fades in over the still, and pauses whenever
@@ -37,7 +49,7 @@ export function BackgroundLoop({
   priority?: boolean
   className?: string
 }) {
-  const focus = focusFor[name]
+  const focus = focusFor[name] ?? '50% 50%'
   const wrapRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [mount, setMount] = useState(false)

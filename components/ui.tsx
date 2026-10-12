@@ -1,3 +1,4 @@
+import { loopFor } from '@/content/loops'
 import { BackgroundLoop, type LoopName } from './BackgroundLoop'
 import type { LucideIcon } from 'lucide-react'
 import Image from 'next/image'
@@ -111,7 +112,8 @@ export function PageHeader({
   facts,
   visual,
   background,
-  loop,
+  loop: loopProp,
+  softVisual = true,
   children,
 }: {
   eyebrow?: string
@@ -124,10 +126,13 @@ export function PageHeader({
   visual?: ReactNode
   /** Full-width photo behind the header. The source is a local file, served by this site. */
   background?: { src: string; alt: string }
-  /** A colour loop behind the header (components/BackgroundLoop.tsx), in place of the plain glow. */
+  /** A colour loop behind the header, in place of the plain glow. Defaults to the page's loop in content/loops.ts, found by its path (the last breadcrumb). */
   loop?: LoopName
+  /** Over a loop, fade the visual's edges so a picture's soft floor shadow shows no box. Off for visuals in their own frame. */
+  softVisual?: boolean
   children?: ReactNode
 }) {
+  const loop = loopProp ?? (crumbs?.length ? loopFor(crumbs[crumbs.length - 1].href) : undefined)
   // The sustainability photo is 1440 px wide. Cap the header on large screens so it is cropped rather than blown up.
   const photoCap = background ? 'lg:max-h-[44rem]' : ''
   const frame = visual
@@ -172,7 +177,7 @@ export function PageHeader({
         {/* Over a loop, the picture's soft floor shadow fades out before its edges, so no box shows. */}
         {visual && (
           <div
-            className={`mx-auto w-full max-w-lg min-w-0 lg:max-w-none ${loop ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
+            className={`mx-auto w-full max-w-lg min-w-0 lg:max-w-none ${loop && softVisual ? '[mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent),linear-gradient(transparent,#000_10%,#000_86%,transparent)]' : ''}`}
           >
             {visual}
           </div>

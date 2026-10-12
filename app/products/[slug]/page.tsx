@@ -60,6 +60,7 @@ export default async function ProductPage({ params }: Props) {
         eyebrow={categoryLabels[p.category]}
         title={p.name}
         intro={p.tagline}
+        softVisual={!p.video}
         visual={
           p.illustration &&
           (p.video ? (
