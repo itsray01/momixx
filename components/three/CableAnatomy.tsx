@@ -10,7 +10,12 @@ import * as THREE from 'three'
 import { cableColourById } from './cableColours'
 import { anatomyColour, layerOffsets } from './cableLayers'
 
-const L0 = -3.4 // left end of every layer (hidden inside the jacket)
+// Every layer runs back past the left edge of the frame (hidden inside the jacket
+// normally), so an x-rayed layer shows its whole length, not a stub.
+const L0 = -5.2
+// The braid's weave and the foil's seam keep the spacing they were drawn with
+// from here, so the cut ends look the same as in the pre-rendered image.
+const PATTERN_FROM = -3.4
 const jacketColour = cableColourById(anatomyColour)!
 const ends = { braid: -0.15, foil: 0.75, insulation: 1.6, copper: 2.35 }
 
@@ -94,16 +99,18 @@ export function CableAnatomyModel({
   const braid = useMemo(() => {
     const geos: THREE.TubeGeometry[] = []
     const len = ends.braid - L0
+    const turnsPerUnit = 3.2 / (ends.braid - PATTERN_FROM)
+    const steps = Math.round(len * 37)
     for (let k = 0; k < 24; k++) {
       const dir = k % 2 ? 1 : -1
       const phase = (Math.floor(k / 2) / 12) * Math.PI * 2
       const pts: THREE.Vector3[] = []
-      for (let s = 0; s <= 120; s++) {
-        const t = s / 120
-        const a = phase + dir * t * Math.PI * 2 * 3.2
-        pts.push(new THREE.Vector3(L0 + t * len, Math.cos(a) * 0.6, Math.sin(a) * 0.6))
+      for (let s = 0; s <= steps; s++) {
+        const x = L0 + (s / steps) * len
+        const a = phase + dir * (x - PATTERN_FROM) * turnsPerUnit * Math.PI * 2
+        pts.push(new THREE.Vector3(x, Math.cos(a) * 0.6, Math.sin(a) * 0.6))
       }
-      geos.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 240, 0.022, 6, false))
+      geos.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), steps * 2, 0.022, 6, false))
     }
     return geos
   }, [])
@@ -111,12 +118,14 @@ export function CableAnatomyModel({
   const foilSeam = useMemo(() => {
     const pts: THREE.Vector3[] = []
     const len = ends.foil - L0
-    for (let s = 0; s <= 200; s++) {
-      const t = s / 200
-      const a = t * Math.PI * 2 * 7
-      pts.push(new THREE.Vector3(L0 + t * len, Math.cos(a) * 0.525, Math.sin(a) * 0.525))
+    const turnsPerUnit = 7 / (ends.foil - PATTERN_FROM)
+    const steps = Math.round(len * 48)
+    for (let s = 0; s <= steps; s++) {
+      const x = L0 + (s / steps) * len
+      const a = (x - PATTERN_FROM) * turnsPerUnit * Math.PI * 2
+      pts.push(new THREE.Vector3(x, Math.cos(a) * 0.525, Math.sin(a) * 0.525))
     }
-    return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 400, 0.008, 4, false)
+    return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), steps * 2, 0.008, 4, false)
   }, [])
 
   useFrame((_, delta) => {
@@ -162,7 +171,8 @@ export function CableAnatomyModel({
         <Mat id="foil" h={h} color="#9aa3ad" metalness={1} roughness={0.35} />
       </mesh>
 
-      {/* 2 and 1 · Insulated wires with bare copper ends */}
+      {/* 2 and 1 · Insulated wires. The copper runs their whole length (hidden inside the coating,
+          and seen when the other layers are x-rayed), bare where the coating stops. */}
       <group ref={core}>
         {wires.map((w) => (
           <group key={w.color}>
@@ -173,7 +183,7 @@ export function CableAnatomyModel({
               const a = (k / 6) * Math.PI * 2
               const r = k === 6 ? 0 : 0.065
               return (
-                <Rod key={k} a={ends.insulation - 0.05} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
+                <Rod key={k} a={L0} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
                   <Mat id="copper" h={h} color="#d08a52" metalness={0.85} roughness={0.28} />
                 </Rod>
               )
