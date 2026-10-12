@@ -33,11 +33,13 @@ export function CableCharging() {
     const el = stage.current
     if (!el || !enabled || reduced) return
     const onScroll = () => {
+      // Where the stage's middle is, as a share of the screen's height (1 = bottom edge, 0.5 = halfway).
       const r = el.getBoundingClientRect()
-      const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (window.innerHeight * 0.75)))
-      plug.current = smooth(0.2, 0.7, p)
-      if (p > 0.8) charging.current = true
-      else if (p < 0.6) charging.current = false
+      const mid = (r.top + r.height / 2) / window.innerHeight
+      // The plug only starts once the whole stage is on screen, and is home by the time it reaches the middle.
+      plug.current = smooth(0.82, 0.5, mid)
+      if (mid < 0.5) charging.current = true
+      else if (mid > 0.6) charging.current = false
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })

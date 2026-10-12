@@ -17,17 +17,19 @@ import { anatomyColour } from './cableLayers'
 const white = cableColourById(anatomyColour)!
 
 /** The phone lies flat, its port on the left short edge at x = 0. Sizes in scene units (about 2 cm each). */
-const PHONE = { length: 7.4, height: 0.42, width: 3.6, radius: 0.2 }
-const AXIS_Y = 0.21
-const CABLE_R = 0.16
+export const PHONE = { length: 7.4, height: 0.42, width: 3.6, radius: 0.2 }
+export const AXIS_Y = 0.21
+export const CABLE_R = 0.16
 const CABLE_FROM = -18
-const BOOT = { length: 1.5, height: 0.5, width: 0.78 }
-const SHELL = { length: 0.62, height: 0.15, width: 0.56 }
+export const BOOT = { length: 1.5, height: 0.5, width: 0.78 }
+export const SHELL = { length: 0.62, height: 0.15, width: 0.56 }
 /** How far the plug sits from the port before it goes in. */
-const UNPLUGGED = -1.7
-const BATTERY_FROM = 0.24
+export const UNPLUGGED = -1.7
+export const BATTERY_FROM = 0.24
 /** Seconds for the ring to fill, once charging (a picture, not a claim about charging speed). */
-const FILL_SECONDS = 9
+export const FILL_SECONDS = 9
+
+export type Effects = ReturnType<typeof makeEffects>
 
 export type ChargingStill = { plug: number; charge: number; battery: number; time: number }
 
@@ -127,13 +129,15 @@ const pulseVertex = /* glsl */ `
 const pulseFragment = /* glsl */ `
   uniform float uTime;
   uniform float uCharge;
+  uniform float uFreq;
+  uniform float uSpeed;
   uniform vec3 uColor;
   varying float vX;
   varying vec3 vNormalV;
   varying vec3 vViewDir;
   void main() {
     // Pulses travel towards the phone (+x): a soft head with a longer tail behind it.
-    float s = fract(vX * 0.32 - uTime * 0.9);
+    float s = fract(vX * uFreq - uTime * uSpeed);
     float pulse = exp(-pow((s - 0.85) * 9.0, 2.0)) + 0.55 * exp(-pow((s - 0.6) * 4.0, 2.0)) * step(s, 0.85);
     // Brighter through the middle of the tube, fading at its edges, like light inside it.
     float core = pow(max(dot(vNormalV, vViewDir), 0.0), 1.6);
@@ -146,11 +150,11 @@ const pulseFragment = /* glsl */ `
  * Everything the scene changes frame by frame (the pulse shader's clock and the
  * screen's texture), made once and changed only through these methods.
  */
-function makeEffects() {
+export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed?: number } = {}) {
   const pulses = new THREE.ShaderMaterial({
     vertexShader: pulseVertex,
     fragmentShader: pulseFragment,
-    uniforms: { uTime: { value: 0 }, uCharge: { value: 0 }, uColor: { value: new THREE.Color('#ffd9a8') } },
+    uniforms: { uTime: { value: 0 }, uCharge: { value: 0 }, uFreq: { value: freq }, uSpeed: { value: speed }, uColor: { value: new THREE.Color('#ffd9a8') } },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -195,6 +199,33 @@ function Rod({ a, b, r, y = AXIS_Y, z = 0, children }: { a: number; b: number; r
   )
 }
 
+/**
+ * A plain phone lying flat: graphite slab, black glass front, the charging screen
+ * (from `fx`) and a port on its left short edge. The port is at x = 0, the table at y = 0.
+ */
+export function PhoneModel({ fx, screenRef }: { fx: Effects; screenRef: RefObject<THREE.MeshPhysicalMaterial | null> }) {
+  const screenGeo = useMemo(() => roundedRect(PHONE.length - 0.3, PHONE.width - 0.3, 0.12), [])
+  const glassGeo = useMemo(() => roundedRect(PHONE.length - 0.04, PHONE.width - 0.04, PHONE.radius - 0.02), [])
+  return (
+    <group>
+      {/* The phone: a plain graphite slab with a black glass front and a port on its left edge. */}
+      <RoundedBox args={[PHONE.length, PHONE.height, PHONE.width]} radius={PHONE.radius} smoothness={6} position={[PHONE.length / 2, PHONE.height / 2, 0]}>
+        <meshPhysicalMaterial color="#2a2d32" metalness={0.65} roughness={0.32} clearcoat={0.3} />
+      </RoundedBox>
+      <mesh geometry={glassGeo} rotation={[-Math.PI / 2, 0, 0]} position={[PHONE.length / 2, PHONE.height + 0.002, 0]}>
+        <meshPhysicalMaterial color="#060607" roughness={0.06} metalness={0} clearcoat={1} clearcoatRoughness={0.05} />
+      </mesh>
+      <mesh geometry={screenGeo} rotation={[-Math.PI / 2, 0, 0]} position={[PHONE.length / 2, PHONE.height + 0.004, 0]}>
+        <meshPhysicalMaterial ref={screenRef} color="#000000" roughness={0.08} clearcoat={1} clearcoatRoughness={0.04} emissive="#ffffff" emissiveMap={fx.texture} emissiveIntensity={0} toneMapped={false} />
+      </mesh>
+      {/* The port: a dark rounded slot in the phone's edge. */}
+      <RoundedBox args={[0.04, SHELL.height + 0.05, SHELL.width + 0.06]} radius={0.06} smoothness={4} position={[-0.005, AXIS_Y, 0]}>
+        <meshStandardMaterial color="#050505" roughness={0.9} />
+      </RoundedBox>
+    </group>
+  )
+}
+
 export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: RefObject<number>; chargingRef?: RefObject<boolean>; still?: ChargingStill }) {
   const plug = useRef<THREE.Group>(null)
   const silicone = useRef<Array<THREE.MeshPhysicalMaterial | null>>([])
@@ -202,8 +233,6 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
   const [fx] = useState(makeEffects)
   const invalidate = useThree((s) => s.invalidate)
   const state = useRef({ plug: still?.plug ?? 0, charge: still?.charge ?? 0, battery: still?.battery ?? BATTERY_FROM, time: still?.time ?? 0 })
-  const screenGeo = useMemo(() => roundedRect(PHONE.length - 0.3, PHONE.width - 0.3, 0.12), [])
-  const glassGeo = useMemo(() => roundedRect(PHONE.length - 0.04, PHONE.width - 0.04, PHONE.radius - 0.02), [])
 
   useEffect(() => () => fx.dispose(), [fx])
 
@@ -214,7 +243,8 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
       Object.assign(st, { plug: still.plug, charge: still.charge, battery: still.battery, time: still.time })
     } else {
       const target = plugRef?.current ?? 0
-      st.plug = THREE.MathUtils.damp(st.plug, target, 6, dt)
+      // Eased gently, so the plug glides in rather than jumping, however fast the scroll.
+      st.plug = THREE.MathUtils.damp(st.plug, target, 2.5, dt)
       // Charging starts only once the plug is fully home.
       const on = !!chargingRef?.current && st.plug > 0.97
       st.charge = THREE.MathUtils.damp(st.charge, on ? 1 : 0, on ? 3 : 6, dt)
@@ -256,20 +286,7 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
 
   return (
     <group>
-      {/* The phone: a plain graphite slab with a black glass front and a port on its left edge. */}
-      <RoundedBox args={[PHONE.length, PHONE.height, PHONE.width]} radius={PHONE.radius} smoothness={6} position={[PHONE.length / 2, PHONE.height / 2, 0]}>
-        <meshPhysicalMaterial color="#2a2d32" metalness={0.65} roughness={0.32} clearcoat={0.3} />
-      </RoundedBox>
-      <mesh geometry={glassGeo} rotation={[-Math.PI / 2, 0, 0]} position={[PHONE.length / 2, PHONE.height + 0.002, 0]}>
-        <meshPhysicalMaterial color="#060607" roughness={0.06} metalness={0} clearcoat={1} clearcoatRoughness={0.05} />
-      </mesh>
-      <mesh geometry={screenGeo} rotation={[-Math.PI / 2, 0, 0]} position={[PHONE.length / 2, PHONE.height + 0.004, 0]}>
-        <meshPhysicalMaterial ref={screen} color="#000000" roughness={0.08} clearcoat={1} clearcoatRoughness={0.04} emissive="#ffffff" emissiveMap={fx.texture} emissiveIntensity={0} toneMapped={false} />
-      </mesh>
-      {/* The port: a dark rounded slot in the phone's edge. */}
-      <RoundedBox args={[0.04, SHELL.height + 0.05, SHELL.width + 0.06]} radius={0.06} smoothness={4} position={[-0.005, AXIS_Y, 0]}>
-        <meshStandardMaterial color="#050505" roughness={0.9} />
-      </RoundedBox>
+      <PhoneModel fx={fx} screenRef={screen} />
 
       {/* The cable and its plug move together as the plug goes in. */}
       <group ref={plug}>
@@ -289,7 +306,8 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
         </Rod>
         {/* Strain relief, tapering from the plug into the cable. */}
         <mesh position={[reliefTo - 0.25, AXIS_Y, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.2, CABLE_R, 0.5, 40]} />
+          {/* Narrow where it meets the cable (the cylinder's top turns to face left), wide at the plug. */}
+          <cylinderGeometry args={[CABLE_R, 0.2, 0.5, 40]} />
           {jacketMat(1)}
         </mesh>
         <RoundedBox args={[BOOT.length, BOOT.height, BOOT.width]} radius={0.22} smoothness={6} position={[bootMid, AXIS_Y, 0]}>

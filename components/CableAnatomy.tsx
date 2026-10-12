@@ -5,7 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { CableCharging } from './CableCharging'
+import { CableStory } from './CableStory'
 import { CanvasBoundary } from './three/CanvasBoundary'
+import { afterLoadIdle, canRun3D } from './three/capability'
 import { useLazy3D } from './three/useLazy3D'
 import hotspots from './three/cableHotspots.json'
 import { anatomyStillExplode, cableLayers } from './three/cableLayers'
@@ -30,7 +32,7 @@ const place: Record<string, string> = {
  * scroll (the lines follow); everywhere else it is a pre-rendered image.
  * Hover or focus a label to pick its layer out; click to keep it picked.
  */
-export function CableAnatomy({ productLink = true }: { productLink?: boolean }) {
+function StaticAnatomy({ productLink = true }: { productLink?: boolean }) {
   const { ref: stage, enabled, visible, ready, markReady, reduced } = useLazy3D<HTMLDivElement>()
   const wrap = useRef<HTMLDivElement>(null)
   const explode = useRef(anatomyStillExplode)
@@ -259,4 +261,37 @@ export function CableAnatomy({ productLink = true }: { productLink?: boolean }) 
     <CableCharging />
     </>
   )
+}
+
+/**
+ * The cable anatomy section. On desktops that run live 3D it becomes a scroll
+ * story (CableStory.tsx): the section holds still while you scroll through the
+ * five layers, then the cable plugs into a phone. Everyone else (phones, other
+ * computers, reduced motion) gets the labelled picture and the charging scene
+ * below it. The page first draws the simple version; it switches only while the
+ * section is still below the screen, so nothing jumps under the reader.
+ */
+export function CableAnatomy({ productLink = true }: { productLink?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [story, setStory] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!window.matchMedia('(min-width: 1024px) and (min-height: 640px)').matches) return
+    let stopped = false
+    const cancel = afterLoadIdle(() => {
+      void canRun3D().then((ok) => {
+        const el = ref.current
+        if (stopped || !ok || !el) return
+        if (el.getBoundingClientRect().top > window.innerHeight) setStory(true)
+      })
+    })
+    return () => {
+      stopped = true
+      cancel()
+    }
+  }, [])
+
+  return <div ref={ref}>{story && !failed ? <CableStory productLink={productLink} onFail={() => setFailed(true)} /> : <StaticAnatomy productLink={productLink} />}</div>
 }

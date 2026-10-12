@@ -5,7 +5,7 @@
 // outside it. `explode` (or the ref, for scroll-driven motion) pulls them apart.
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, type RefObject } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 import { cableColourById } from './cableColours'
 import { anatomyColour, layerOffsets } from './cableLayers'
@@ -18,6 +18,10 @@ const L0 = -5.2
 const PATTERN_FROM = -3.4
 const jacketColour = cableColourById(anatomyColour)!
 const ends = { braid: -0.15, foil: 0.75, insulation: 1.6, copper: 2.35 }
+/** Where the jacket slides to when the cable closes up: its cut end just past the copper tips. */
+export const CLOSED = 3.6
+/** The jacket's cut end, before it moves. */
+export const JACKET_END = -0.95
 
 type Highlight = string | null
 
@@ -26,18 +30,29 @@ type Highlight = string | null
 // Every material is set up as transparent from the start, so a fade never has
 // to rebuild a shader; at full opacity it draws like a solid surface.
 const GHOST = 0.2
+/**
+ * 'charge' (the story's last beat): a clean x-ray of the whole cable while it
+ * charges, copper solid, the silicone faint, the shields all but gone.
+ */
+const CHARGE: Record<string, number> = { copper: 1, jacket: 0.16, insulation: 0.1, braid: 0, foil: 0 }
+
+/** A live highlight (the scroll story drives it without re-rendering); overrides the `highlight` prop. */
+const HighlightRef = createContext<RefObject<Highlight> | null>(null)
+
+const ghostFor = (id: string, h: Highlight) => (h === 'charge' ? (CHARGE[id] ?? 0) : h !== null && h !== id ? GHOST : 1)
 
 function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
   const ref = useRef<THREE.MeshPhysicalMaterial>(null)
   const shown = useRef(1)
   const invalidate = useThree((s) => s.invalidate)
-  const to = h !== null && h !== id ? GHOST : 1
+  const live = useContext(HighlightRef)
 
   // Keeps drawing while a fade eases in, also when the scene only draws on demand.
   useEffect(() => invalidate(), [h, invalidate])
   useFrame((_, delta) => {
     const m = ref.current
     if (!m) return
+    const to = ghostFor(id, live ? live.current : h)
     shown.current = THREE.MathUtils.damp(shown.current, to, 10, delta)
     if (Math.abs(shown.current - to) < 0.002) shown.current = to
     m.opacity = shown.current
@@ -79,11 +94,18 @@ const wires = [
   { y: -0.2, z: -0.2, color: '#2f9e5a' },
 ]
 
+/** Where each wire runs in the cable's cross-section (y, z): the scroll story's light follows them. */
+export const wireCentres = wires.map((w) => [w.y, w.z] as const)
+
 export function CableAnatomyModel({
   explode = 0.55,
   explodeRef,
   shownRef,
   highlight = null,
+  highlightRef,
+  closeRef,
+  reach = L0,
+  tilt = 0.04,
 }: {
   explode?: number
   /** Target explode amount, e.g. driven by scroll. */
@@ -91,6 +113,14 @@ export function CableAnatomyModel({
   /** Receives the eased explode amount actually shown (for markers). */
   shownRef?: RefObject<number>
   highlight?: Highlight
+  /** A live highlight, e.g. driven by scroll; overrides `highlight`. */
+  highlightRef?: RefObject<Highlight>
+  /** 0 = stripped as usual, 1 = the jacket slid forward over every layer, so the cable is whole. */
+  closeRef?: RefObject<number>
+  /** How far left the jacket, wires and copper run (the scroll story's wide view needs them long). */
+  reach?: number
+  /** A slight rise to the right, for the still and the stand-alone anatomy. */
+  tilt?: number
 }) {
   const jacket = useRef<THREE.Group>(null)
   const core = useRef<THREE.Group>(null)
@@ -133,25 +163,27 @@ export function CableAnatomyModel({
     current.current = THREE.MathUtils.damp(current.current, target, 4, delta)
     if (shownRef) shownRef.current = current.current
     const o = layerOffsets(current.current)
-    if (jacket.current) jacket.current.position.x = o.jacket
-    if (core.current) core.current.position.x = o.core
+    const c = closeRef ? closeRef.current : 0
+    if (jacket.current) jacket.current.position.x = THREE.MathUtils.lerp(o.jacket, CLOSED, c)
+    if (core.current) core.current.position.x = THREE.MathUtils.lerp(o.core, 0, c)
   })
 
   const h = highlight
-  const jacketEnd = -0.95
+  const jacketEnd = JACKET_END
 
   return (
-    <group rotation={[0, 0, 0.04]}>
+    <HighlightRef.Provider value={highlightRef ?? null}>
+    <group rotation={[0, 0, tilt]}>
       {/* 5 · Silicone jacket (hollow, cut end visible) */}
       <group ref={jacket}>
-        <Rod a={L0 - 0.4} b={jacketEnd} r={0.78} open>
+        <Rod a={reach - 0.4} b={jacketEnd} r={0.78} open>
           <Mat id="jacket" h={h} color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} />
         </Rod>
         <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
           <ringGeometry args={[0.63, 0.78, 64]} />
           <Mat id="jacket" h={h} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
         </mesh>
-        <Rod a={L0 - 0.4} b={jacketEnd} r={0.63} open>
+        <Rod a={reach - 0.4} b={jacketEnd} r={0.63} open>
           <Mat id="jacket" h={h} color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
         </Rod>
       </group>
@@ -176,14 +208,14 @@ export function CableAnatomyModel({
       <group ref={core}>
         {wires.map((w) => (
           <group key={w.color}>
-            <Rod a={L0} b={ends.insulation} r={0.17} y={w.y} z={w.z}>
+            <Rod a={reach} b={ends.insulation} r={0.17} y={w.y} z={w.z}>
               <Mat id="insulation" h={h} color={w.color} roughness={0.45} />
             </Rod>
             {[0, 1, 2, 3, 4, 5, 6].map((k) => {
               const a = (k / 6) * Math.PI * 2
               const r = k === 6 ? 0 : 0.065
               return (
-                <Rod key={k} a={L0} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
+                <Rod key={k} a={reach} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
                   <Mat id="copper" h={h} color="#d08a52" metalness={0.85} roughness={0.28} />
                 </Rod>
               )
@@ -192,6 +224,7 @@ export function CableAnatomyModel({
         ))}
       </group>
     </group>
+    </HighlightRef.Provider>
   )
 }
 
