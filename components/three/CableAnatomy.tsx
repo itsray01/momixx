@@ -4,8 +4,8 @@
 // MoMixx silicone jacket, each layer stripped back further than the one
 // outside it. `explode` (or the ref, for scroll-driven motion) pulls them apart.
 
-import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef, type RefObject } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 import { cableColourById } from './cableColours'
 import { anatomyColour, layerOffsets } from './cableLayers'
@@ -16,17 +16,41 @@ const ends = { braid: -0.15, foil: 0.75, insulation: 1.6, copper: 2.35 }
 
 type Highlight = string | null
 
-function glow(id: string, h: Highlight) {
-  if (h === null) return { emissiveIntensity: 0, opacity: 1 }
-  return h === id ? { emissiveIntensity: 0.18, opacity: 1 } : { emissiveIntensity: 0, opacity: 0.22 }
-}
+// Picking a layer leaves every layer solid: the others darken (and lose most of
+// their reflections) while the picked one stays lit, like a spotlight. Fading
+// them see-through instead let the wires show through the jacket, which looked wrong.
+const SHADOW = new THREE.Color('#0d0d0f')
 
 function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side, emissive = '#f4f5f6' }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side; emissive?: string }) {
-  const g = glow(id, h)
-  const dim = g.opacity < 1
+  const ref = useRef<THREE.MeshPhysicalMaterial>(null)
+  const base = useMemo(() => new THREE.Color(color), [color])
+  const state = useRef({ dim: 0, lit: 0 })
+  const invalidate = useThree((s) => s.invalidate)
+  const dimTo = h !== null && h !== id ? 1 : 0
+  const litTo = h === id ? 1 : 0
+
+  // Keeps drawing while a change eases in, also when the scene only draws on demand.
+  useEffect(() => invalidate(), [h, invalidate])
+  useFrame((_, delta) => {
+    const m = ref.current
+    if (!m) return
+    const st = state.current
+    st.dim = THREE.MathUtils.damp(st.dim, dimTo, 9, delta)
+    st.lit = THREE.MathUtils.damp(st.lit, litTo, 9, delta)
+    m.color.copy(base).lerp(SHADOW, st.dim * 0.8)
+    m.envMapIntensity = 1 - st.dim * 0.8
+    m.emissiveIntensity = st.lit * 0.12
+    // Never quite zero: switching sheen or clearcoat off would rebuild the shader mid-fade.
+    if (sheen) {
+      m.sheen = 0.8 * (1 - st.dim * 0.8)
+      m.clearcoat = 0.4 * (1 - st.dim * 0.8)
+    }
+    if (Math.abs(st.dim - dimTo) > 0.003 || Math.abs(st.lit - litTo) > 0.003) invalidate()
+  })
+
   return (
     <meshPhysicalMaterial
-      key={dim ? 'dim' : 'solid'}
+      ref={ref}
       color={color}
       metalness={metalness}
       roughness={roughness}
@@ -35,10 +59,7 @@ function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side
       sheenRoughness={0.5}
       clearcoat={sheen ? 0.4 : 0}
       emissive={emissive}
-      emissiveIntensity={g.emissiveIntensity}
-      transparent={dim}
-      opacity={g.opacity}
-      depthWrite={!dim}
+      emissiveIntensity={0}
       side={side}
     />
   )
