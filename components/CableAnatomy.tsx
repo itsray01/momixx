@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { CableCharging } from './CableCharging'
 import { CanvasBoundary } from './three/CanvasBoundary'
 import { useLazy3D } from './three/useLazy3D'
 import hotspots from './three/cableHotspots.json'
@@ -126,6 +127,7 @@ export function CableAnatomy({ productLink = true }: { productLink?: boolean }) 
   })
 
   return (
+    <>
     <div ref={wrap} className="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6">
       {/* The label lines, over everything (wide screens). */}
       <svg aria-hidden="true" className={`pointer-events-none absolute inset-0 z-10 hidden h-full w-full overflow-visible transition-opacity delay-300 duration-1000 lg:block ${seen ? 'opacity-100' : 'opacity-0'}`}>
@@ -253,5 +255,8 @@ export function CableAnatomy({ productLink = true }: { productLink?: boolean }) 
         ))}
       </ol>
     </div>
+    {/* The last beat: the same cable plugs into a phone and charges. */}
+    <CableCharging />
+    </>
   )
 }

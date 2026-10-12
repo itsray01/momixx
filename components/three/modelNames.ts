@@ -30,6 +30,7 @@ export const modelNames = [
   'globe',
   'extruder-line',
   'cable-anatomy',
+  'cable-charging',
 ] as const
 
 export type ModelName = (typeof modelNames)[number]

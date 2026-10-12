@@ -122,6 +122,26 @@ export function canRun3D() {
   return capablePromise
 }
 
+/**
+ * Live 3D for scenes you only watch, never drag (the cable charging a phone):
+ * the same checks as canRun3D, but phones and tablets qualify too.
+ */
+let watchPromise: Promise<boolean> | undefined
+export function canRunWatch3D() {
+  watchPromise ??= (async () => {
+    try {
+      const nav = navigator as Nav
+      if (savingData(nav)) return false
+      if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return false
+      const renderer = await readRenderer()
+      return renderer !== null && !SOFTWARE.test(renderer)
+    } catch {
+      return false
+    }
+  })()
+  return watchPromise
+}
+
 export type HeroTier = 'high' | 'mid' | 'low'
 export type HeroProfile = { run: boolean; tier: HeroTier; reason: string }
 let hero: HeroProfile | null = null

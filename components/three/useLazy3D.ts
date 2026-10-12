@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { afterLoadIdle, canRun3D } from './capability'
+import { afterLoadIdle, canRun3D, canRunWatch3D } from './capability'
 
 /**
  * Shared loading rules for every live 3D scene. The still image always paints
  * first; once the page has loaded and the browser is idle, devices that can run
- * 3D start loading it as the stage comes near the viewport. With `onDemand`,
+ * 3D start loading it as the stage comes near the viewport (with `watchOnly`,
+ * for a scene with nothing to drag, phones and tablets qualify too). With `onDemand`,
  * nothing loads until `load()` is called (a "View in 3D" button, say).
  *
  * - `capable`: this device can run the 3D scene
@@ -15,7 +16,7 @@ import { afterLoadIdle, canRun3D } from './capability'
  * - `ready` / `markReady`: the first frame is drawn; fade the canvas in
  * - `reduced`: the visitor prefers reduced motion, so render on demand only
  */
-export function useLazy3D<T extends HTMLElement>({ rootMargin = '300px', onDemand = false }: { rootMargin?: string; onDemand?: boolean } = {}) {
+export function useLazy3D<T extends HTMLElement>({ rootMargin = '300px', onDemand = false, watchOnly = false }: { rootMargin?: string; onDemand?: boolean; watchOnly?: boolean } = {}) {
   const ref = useRef<T>(null)
   const [capable, setCapable] = useState(false)
   const [enabled, setEnabled] = useState(false)
@@ -33,7 +34,7 @@ export function useLazy3D<T extends HTMLElement>({ rootMargin = '300px', onDeman
     let stopped = false
     let io: IntersectionObserver | undefined
     const cancel = afterLoadIdle(() => {
-      void canRun3D().then((ok) => {
+      void (watchOnly ? canRunWatch3D() : canRun3D()).then((ok) => {
         if (stopped || !ok) return
         setCapable(true)
         io = new IntersectionObserver(
@@ -52,7 +53,7 @@ export function useLazy3D<T extends HTMLElement>({ rootMargin = '300px', onDeman
       io?.disconnect()
       mq.removeEventListener('change', onMq)
     }
-  }, [rootMargin, onDemand])
+  }, [rootMargin, onDemand, watchOnly])
 
   return { ref, capable, enabled, load: () => setEnabled(true), visible, ready, markReady: () => setReady(true), reduced }
 }

@@ -18,7 +18,7 @@ const all = [
   ...cableColourIds.flatMap((c) => [`cable-hero@${c}`, `data-cable@${c}`]),
   'data-cable', 'ev-cable', 'watchband', 'phone-case', 'seal', 'compound', 'recycle', 'bottle',
   'extruder-vertical', 'extruder-horizontal', 'mixer', 'winder', 'oven', 'coating', 'oem',
-  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line', 'cable-anatomy',
+  'medical', 'datacentre', 'robot', 'chip', 'sand', 'molecule', 'samples', 'globe', 'extruder-line', 'cable-anatomy', 'cable-charging',
 ]
 const names = process.argv.length > 3 ? process.argv.slice(3) : all
 

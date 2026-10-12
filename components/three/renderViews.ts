@@ -2,6 +2,7 @@
 // exactly (so numbered markers line up, or the still and the 3D cross-fade
 // without a jump). Others use the default 4:3 studio shot.
 import { anatomyAspect, anatomyFov, anatomyView } from './cableLayers'
+import { chargingAspect, chargingFov, chargingView } from './chargingView'
 import { extruderOverview } from './extruderParts'
 import { heroCamera } from './heroProgress'
 import type { ModelName } from './modelNames'
@@ -24,6 +25,7 @@ export const renderViews: Partial<Record<ModelName, View>> = {
   'extruder-line': { ...extruderOverview, floor: 0.001 },
   // Wide (21:9), as the stage is on desktops; phones show the same width with room above and below.
   'cable-anatomy': { position: anatomyView.position, target: anatomyView.target, fov: anatomyFov(anatomyAspect), floor: -1.25, size: [1680, 720] },
+  'cable-charging': { position: chargingView.position, target: chargingView.target, fov: chargingFov(chargingAspect), floor: 0, size: [1680, 720] },
   // The home hero's right-hand column (about 4:5) at the start of the scroll.
   'cable-hero': { ...heroCamera, size: [960, 1200], fog: [9, 16] },
 }

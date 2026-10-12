@@ -9,7 +9,9 @@ import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { CableAnatomyModel } from './CableAnatomy'
+import { CableChargingModel } from './CableCharging'
 import { anatomyStillExplode } from './cableLayers'
+import { chargingStill } from './chargingView'
 import { ExtruderLineModel } from './ExtruderLine'
 import type { CableColour } from './cableColours'
 import { HeroCableModel } from './HeroCable'
@@ -745,4 +747,5 @@ export const modelRegistry: Record<ModelName, (options: ModelOptions) => React.J
   globe: () => <GlobeModel />,
   'extruder-line': () => <ExtruderLineModel />,
   'cable-anatomy': () => <CableAnatomyModel explode={anatomyStillExplode} />,
+  'cable-charging': () => <CableChargingModel still={chargingStill} />,
 }
