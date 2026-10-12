@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { news } from './content/news'
 
 const canonical = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.momixx.com')
 
@@ -20,12 +21,12 @@ const legacyRedirects: Array<[string, string]> = [
   ['/data-cable', '/applications/consumer-electronics'],
   ['/power-cable', '/applications/consumer-electronics'],
   ['/series', '/products'],
-  ['/horizontal-extruder', '/products/horizontal-extruder'],
-  ['/research-equipment', '/products#equipment'],
+  ['/horizontal-extruder', '/products/machines#horizontal-extruder'],
+  ['/research-equipment', '/products/machines'],
   ['/research-materials', '/innovation'],
   ['/research-surface-treatment', '/innovation'],
   ['/contact-us', '/contact'],
-  ['/odm-oem', '/products/odm-oem'],
+  ['/odm-oem', '/products/manufacturing#odm-oem'],
   ['/wearable-product', '/applications/consumer-electronics'],
   // Old one-page-per-year milestone posts, and other WordPress leftovers.
   ['/our-milestone/:year*', '/about#milestones'],
@@ -34,6 +35,19 @@ const legacyRedirects: Array<[string, string]> = [
   ['/feed', '/insights/feed.xml'],
   ['/wp-sitemap.xml', '/sitemap.xml'],
   ['/wp-sitemap-:part.xml', '/sitemap.xml'],
+]
+
+// Pages folded into others in October 2026, so shared links and search results still land.
+// Machines and manufacturing services each share one page, with a section per product.
+const machines = ['vertical-extruder', 'horizontal-extruder', 'lsr-mixer', 'autowinder', 'energy-saving-oven', 'dip-coating-machine']
+const services = ['odm-oem', 'medical-precision-components']
+const mergedRedirects: Array<[string, string]> = [
+  ...machines.map((slug): [string, string] => [`/products/${slug}`, `/products/machines#${slug}`]),
+  ...services.map((slug): [string, string] => [`/products/${slug}`, `/products/manufacturing#${slug}`]),
+  ['/products/recycled-silicone', '/recycled-silicone'],
+  ['/markets', '/applications#markets'],
+  ['/locations', '/about#locations'],
+  ['/insights/topic/:topic', '/insights?topic=:topic'],
 ]
 
 // Security headers for every response. Scripts and styles allow 'unsafe-inline'
@@ -83,11 +97,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       // Next.js drops a trailing slash first (308), then these apply.
-      ...legacyRedirects.map(([source, destination]) => ({
+      ...[...legacyRedirects, ...mergedRedirects].map(([source, destination]) => ({
         source,
         destination,
         permanent: true,
       })),
+      // The newsroom is hidden until the first press release is added to content/news.ts.
+      ...(news.length ? [] : [{ source: '/newsroom', destination: '/about', permanent: false }]),
     ]
   },
 }

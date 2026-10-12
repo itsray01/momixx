@@ -31,7 +31,7 @@ export const extruderParts: ExtruderPart[] = [
     name: 'Silicone mixer',
     short: 'Mixes the liquid silicone',
     body: 'Liquid silicone comes in two parts that must be mixed in equal parts (1:1). The mixer blends them and pumps the mix straight into the machine, so nobody has to feed it by hand. It keeps pumping until the bucket is empty, saving the roughly 4% that standard mixers leave behind.',
-    href: '/products/lsr-mixer',
+    href: '/products/machines#lsr-mixer',
   },
   {
     id: 'extruder',
@@ -46,7 +46,7 @@ export const extruderParts: ExtruderPart[] = [
     name: 'Upright oven',
     short: 'Sets the silicone on the way up',
     body: 'The coated cable rises straight up through an oven, where heat sets the silicone into a tough, flexible layer. Running upright is what makes this machine different from the usual sideways ones.',
-    href: '/products/energy-saving-oven',
+    href: '/products/machines#energy-saving-oven',
   },
   {
     id: 'capstan',
@@ -69,7 +69,7 @@ export const extruderParts: ExtruderPart[] = [
     name: 'Autowinder',
     short: 'Winds the finished cable',
     body: 'The finished cable is wound onto a spool. A camera watches where the cable lands and corrects it automatically, so every layer is wound neatly.',
-    href: '/products/autowinder',
+    href: '/products/machines#autowinder',
   },
 ]
 

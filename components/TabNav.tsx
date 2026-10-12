@@ -17,8 +17,44 @@ export type Tab = { href: string; label: string; active?: boolean }
 export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[]; tabs: Tab[]; label: string; children?: ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
+  // Tabs that jump to sections of this page (e.g. each machine on /products/machines)
+  // light up as their section scrolls into view.
+  const spyKey = tabs
+    .map((t) => t.href.split('#'))
+    .filter(([path, hash]) => path === pathname && hash)
+    .map(([, hash]) => hash)
+    .join(' ')
+  const [spied, setSpied] = useState<string>()
+  useEffect(() => {
+    const ids = spyKey ? spyKey.split(' ') : []
+    if (!ids.length) return
+    let raf = 0
+    const update = () => {
+      raf = 0
+      const line = window.innerHeight * 0.35
+      let hit: string | undefined
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) hit = id
+      }
+      setSpied(hit)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [spyKey])
+  // Only a section of the page now shown counts (the bar keeps its state across pages).
+  const spiedTab = spied && spyKey.split(' ').includes(spied) ? tabs.find((t) => t.href === `${pathname}#${spied}`) : undefined
   // A category can link to the page it is on, so the current page is looked up in `tabs` first.
-  const current = tabs.find((t) => t.href === pathname) ?? primary.find((t) => t.href === pathname)
+  const current = spiedTab ?? tabs.find((t) => t.href === pathname) ?? primary.find((t) => t.href === pathname)
   const isActive = (t: Tab) => t.active ?? t === current
   const shown = tabs.find(isActive) ?? primary.find(isActive)
   const activePrimary = primary.find(isActive) ?? primary[0]
@@ -54,7 +90,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
       else if (end > list.scrollLeft + list.clientWidth) list.scrollLeft = end - list.clientWidth
     }
     measure()
-  }, [pathname, measure])
+  }, [pathname, spied, measure])
 
   useEffect(() => {
     const list = listRef.current
@@ -97,7 +133,7 @@ export function TabNav({ primary = [], tabs, label, children }: { primary?: Tab[
         <Link
           ref={t === shown ? activeRef : undefined}
           href={t.href}
-          aria-current={here ? 'page' : active ? 'true' : undefined}
+          aria-current={here ? (t === spiedTab ? 'location' : 'page') : active ? 'true' : undefined}
           className={`block rounded-full px-3.5 py-2 text-sm whitespace-nowrap transition-[color,background-color,scale] duration-200 ease-soft motion-safe:active:scale-[0.97] ${
             active && here ? 'bg-white text-ink-950' : active ? 'bg-white/[0.12] text-white' : 'text-zinc-300 hover:bg-white/[0.06] hover:text-white'
           }`}

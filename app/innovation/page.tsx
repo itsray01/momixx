@@ -61,11 +61,11 @@ const areas: Area[] = [
     id: 'equipment',
     title: 'Machines',
     items: [
-      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/vertical-extruder', render: 'extruder-vertical' },
-      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/energy-saving-oven', render: 'oven' },
-      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/lsr-mixer', render: 'mixer' },
-      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/autowinder', render: 'winder' },
-      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/dip-coating-machine', render: 'coating' },
+      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/machines#vertical-extruder', render: 'extruder-vertical' },
+      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/machines#energy-saving-oven', render: 'oven' },
+      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/machines#lsr-mixer', render: 'mixer' },
+      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/machines#autowinder', render: 'winder' },
+      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/machines#dip-coating-machine', render: 'coating' },
     ],
   },
 ]

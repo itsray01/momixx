@@ -1,5 +1,5 @@
-// Product catalogue. Each entry becomes its own page at /products/<slug>,
-// its own tab in the product navigation, and an entry in the sitemap.
+// Product catalogue. Materials each get a page at /products/<slug>; machines and
+// manufacturing services share one page per category (see productHref below).
 //
 // To add a product: copy an entry, give it a unique slug, and fill in the
 // fields. Only `slug`, `name`, `category`, `tagline` and `summary` are required.
@@ -527,6 +527,29 @@ export function getProduct(slug: string) {
 export function productsByCategory(category: ProductCategory) {
   return products.filter((p) => p.category === category)
 }
+
+/**
+ * Machines and manufacturing services share one page per category, with a
+ * section for each; recycled silicone lives on its own page. Every other
+ * product has a page of its own at /products/<slug>.
+ */
+export const groupPages: Partial<Record<ProductCategory, { path: string; label: string }>> = {
+  equipment: { path: '/products/machines', label: 'Machines' },
+  services: { path: '/products/manufacturing', label: 'Manufacturing' },
+}
+
+const ownPaths: Record<string, string> = { 'recycled-silicone': '/recycled-silicone' }
+
+/** Where a product is shown: its own page, or its section on a shared page. */
+export function productHref(slug: string): string {
+  if (ownPaths[slug]) return ownPaths[slug]
+  const p = getProduct(slug)
+  const group = p && groupPages[p.category]
+  return group ? `${group.path}#${slug}` : `/products/${slug}`
+}
+
+/** Products with a page at /products/<slug>. */
+export const ownPageProducts = products.filter((p) => !ownPaths[p.slug] && !groupPages[p.category])
 
 /**
  * Search-result titles: short and keyword-first (about 55 characters at most,

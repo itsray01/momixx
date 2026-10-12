@@ -1,10 +1,10 @@
 import { Cog, FlaskConical, Recycle } from 'lucide-react'
 import { Timeline } from '@/components/infographics'
-import { Render } from '@/components/Render'
+import { RegionMap } from '@/components/RegionMap'
 import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
 import { teamReady } from '@/content/team'
-import { pageMetadata, site } from '@/lib/site'
+import { pageMetadata, plantLines, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
   title: `About us: silicone company founded in ${site.foundingYear}`,
@@ -12,6 +12,55 @@ export const metadata = pageMetadata({
     `Founded in ${site.foundingYear}, MoMixx is a Singapore-headquartered silicone company with manufacturing in Penang, Malaysia, pioneering recycled silicone and high-speed silicone cable extrusion.`,
   path: '/about',
 })
+
+const mapsUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
+
+const { batuKawan, perai } = site.plants
+
+// One entry per site. Add a photo and headcount once confirmed.
+const sites = [
+  {
+    id: 'singapore',
+    wide: true,
+    role: 'Headquarters',
+    name: 'Singapore',
+    address: [site.address.street, `Singapore ${site.address.postalCode}`],
+    map: `${site.address.street}, Singapore ${site.address.postalCode}`,
+    summary: `Our corporate headquarters, where MoMixx was founded in ${site.foundingYear}.`,
+    facts: [
+      { label: 'Role', value: 'Corporate headquarters' },
+      { label: 'Founded', value: String(site.foundingYear) },
+      { label: 'Contact', value: site.email, href: `mailto:${site.email}` },
+    ],
+  },
+  {
+    id: 'batu-kawan',
+    role: 'Research and manufacturing',
+    name: 'Batu Kawan, Penang, Malaysia',
+    address: plantLines(batuKawan),
+    map: plantLines(batuKawan).join(', '),
+    summary:
+      'Our research centre and factory in Batu Kawan, in one of Asia’s leading regions for chips and electronics. It makes liquid silicone in large volumes for the region, and high-precision parts for medical and chip-making customers.',
+    facts: [
+      { label: 'Certified', value: 'ISO 13485 quality system (medical devices), 2026' },
+      { label: 'Production', value: 'Liquid silicone made in volume for South-East Asia' },
+      { label: 'Medical', value: 'Making silicone parts for medical-device makers since 2025' },
+      { label: 'Precision', value: 'Parts for medical devices and chip-making machines' },
+    ],
+  },
+  {
+    id: 'perai',
+    role: 'Manufacturing',
+    name: 'Perai, Penang, Malaysia',
+    address: plantLines(perai),
+    map: plantLines(perai).join(', '),
+    summary: `${perai.company} runs our manufacturing plant in Perai, Penang.`,
+    facts: [
+      { label: 'Company', value: perai.company },
+      { label: 'Role', value: 'Manufacturing' },
+    ],
+  },
+]
 
 export default function AboutPage() {
   return (
@@ -21,7 +70,6 @@ export default function AboutPage() {
         eyebrow="About us"
         title={`Precision silicone, *since ${site.foundingYear}*`}
         intro={`MoMixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
-        visual={<Render name="extruder-line" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section>
@@ -60,24 +108,65 @@ export default function AboutPage() {
         <Timeline years={milestones} />
       </Section>
 
-      <Section tone="muted" id="locations" eyebrow="Locations" title="Our *sites*">
-        <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {site.locations.map((l) => (
-            <li key={l.name} className="card lift p-7">
-              <p className="text-xs font-medium tracking-[0.16em] text-zinc-400 uppercase">{l.role}</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{l.name}</h3>
-              <p className="mt-2 text-sm text-zinc-400">{l.detail}</p>
+      {/* Locations (formerly their own page). The site ids (#singapore, #batu-kawan, #perai) are linked from Contact and the structured data. */}
+      <Section
+        tone="muted"
+        id="locations"
+        eyebrow="Locations"
+        title="Built in Asia, *for the world*"
+        intro="Our headquarters is in Singapore. We research and make our products at our Batu Kawan and Perai plants in Penang, Malaysia, and at a second large factory in Asia. Customers around the world use our materials, machines and parts."
+        className="scroll-mt-24"
+      >
+        <div className="card overflow-hidden p-3 sm:p-8">
+          <RegionMap links={{ singapore: '#singapore', penang: '#batu-kawan' }} />
+        </div>
+        <ul className="mt-5 grid gap-5 lg:grid-cols-2">
+          {sites.map((s) => (
+            <li key={s.id} id={s.id} className={`card flex scroll-mt-28 flex-col p-8 sm:p-10 ${'wide' in s ? 'lg:col-span-2' : ''}`}>
+              <p className="text-xs font-medium tracking-[0.16em] text-zinc-400 uppercase">{s.role}</p>
+              <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">{s.name}</h3>
+              <address className="mt-3 text-sm leading-relaxed text-zinc-400 not-italic">
+                {s.address.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+              <p className="mt-6 leading-relaxed text-zinc-300">{s.summary}</p>
+              <dl className={`mt-8 grid flex-1 content-start gap-x-6 gap-y-4 border-t border-white/[0.08] pt-6 sm:grid-cols-2 ${'wide' in s ? 'lg:grid-cols-3' : ''}`}>
+                {s.facts.map((f) => (
+                  <div key={f.label}>
+                    <dt className="text-xs text-zinc-500">{f.label}</dt>
+                    <dd className="mt-1 text-sm font-medium text-white">
+                      {'href' in f && f.href ? (
+                        <a href={f.href} className="underline decoration-white/20 underline-offset-4 hover:decoration-brand-300">
+                          {f.value}
+                        </a>
+                      ) : (
+                        f.value
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <a href={mapsUrl(s.map)} target="_blank" rel="noopener noreferrer" className="mt-8 self-start text-sm font-medium text-brand-300 hover:text-brand-200">
+                Open in Google Maps <span aria-hidden="true">↗</span>
+              </a>
             </li>
           ))}
         </ul>
-        <div className="mt-10 flex flex-wrap gap-6">
-          <ArrowLink href="/locations">All locations</ArrowLink>
+        <p className="mt-12 max-w-3xl text-lg leading-relaxed text-zinc-300">
+          We build for international markets and international standards. Our recycled silicone is certified under GRS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-6">
           {teamReady && <ArrowLink href="/team">Meet our management team</ArrowLink>}
           <ArrowLink href="/innovation">Research & innovation</ArrowLink>
+          <ArrowLink href="/culture">Culture & careers</ArrowLink>
+          <ArrowLink href="/sustainability">Certifications</ArrowLink>
         </div>
       </Section>
 
-      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/locations', label: 'Our locations' }} />
+      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/innovation', label: 'Research & innovation' }} />
     </>
   )
 }

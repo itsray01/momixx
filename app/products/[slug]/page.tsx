@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CompareBars, MarketCard } from '@/components/charts'
 import { CableAnatomy } from '@/components/CableAnatomy'
-import { ExtruderSection } from '@/components/ExtruderSection'
 import { StepFlow } from '@/components/infographics'
 import { JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
@@ -14,14 +13,15 @@ import { TabNav } from '@/components/TabNav'
 import { Arrow, ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { getApplication } from '@/content/applications'
 import { getMarket } from '@/content/markets'
-import { categoryLabels, getProduct, products, productSeoTitles } from '@/content/products'
+import { categoryLabels, getProduct, ownPageProducts, productSeoTitles } from '@/content/products'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
 import { productNav } from '../tabs'
 
 type Props = { params: Promise<{ slug: string }> }
 
+// Machines and manufacturing services share a page per category (app/products/machines and /manufacturing).
 export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }))
+  return ownPageProducts.map((p) => ({ slug: p.slug }))
 }
 
 export const dynamicParams = false
@@ -29,7 +29,7 @@ export const dynamicParams = false
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const p = getProduct(slug)
-  if (!p) return {}
+  if (!p || !ownPageProducts.includes(p)) return {}
   return pageMetadata({ title: productSeoTitles[p.slug] ?? p.name, description: `${p.tagline} ${p.summary}`, path: `/products/${p.slug}`, ownImage: true })
 }
 
@@ -41,11 +41,12 @@ const types: Record<string, { name: string; help: string }> = {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params
   const p = getProduct(slug)
-  if (!p) notFound()
+  if (!p || !ownPageProducts.includes(p)) notFound()
 
-  const idx = products.indexOf(p)
-  const prev = products[idx - 1]
-  const next = products[idx + 1]
+  // Previous and next among the pages of their own; after the last material comes the machines page.
+  const idx = ownPageProducts.indexOf(p)
+  const prev = ownPageProducts[idx - 1]
+  const next = ownPageProducts[idx + 1]
   const apps = (p.applications ?? []).map(getApplication).filter((a) => a !== undefined)
   const market = apps.flatMap((a) => a.markets).map(getMarket).find((m) => m !== undefined)
   const modelTypes = [...new Set((p.models ?? []).map((m) => m.type))]
@@ -61,7 +62,7 @@ export default async function ProductPage({ params }: Props) {
         title={p.name}
         intro={p.tagline}
       />
-      <TabNav {...productNav(p.slug)} label="Products">
+      <TabNav {...productNav({ slug: p.slug })} label="Products">
 
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
@@ -157,7 +158,6 @@ export default async function ProductPage({ params }: Props) {
           </Section>
         )}
 
-        {p.slug === 'vertical-extruder' && <ExtruderSection tone="muted" />}
         {p.slug === 'momixx-mm' && (
           <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *sits*" intro="A charging cable has five layers. MM silicone is the outer one: the part you hold, and the first protection against heat and fire.">
             <CableAnatomy />
@@ -169,7 +169,7 @@ export default async function ProductPage({ params }: Props) {
           </Section>
         )}
 
-        {(p.models || (p.specs && p.slug !== 'vertical-extruder')) && (
+        {(p.models || p.specs) && (
           <Section tone={p.comparison ? 'muted' : 'white'} eyebrow="The details" title={p.models ? 'Versions in this *range*' : 'Key *numbers*'}>
             <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
               {p.models && (
@@ -262,7 +262,7 @@ export default async function ProductPage({ params }: Props) {
             ) : (
               <span />
             )}
-            {next ? <ArrowLink href={`/products/${next.slug}`}>{next.name}</ArrowLink> : <ArrowLink href="/products">All products</ArrowLink>}
+            {next ? <ArrowLink href={`/products/${next.slug}`}>{next.name}</ArrowLink> : <ArrowLink href="/products/machines">Our machines</ArrowLink>}
           </div>
         </nav>
 

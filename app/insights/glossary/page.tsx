@@ -26,7 +26,7 @@ export default function GlossaryPage() {
         intro="The words you’ll meet when working with silicone, its recycling and its certifications, defined in plain English."
       >
         <div className="mt-8">
-          <TopicNav />
+          <TopicNav glossary />
         </div>
       </PageHeader>
       <Section>

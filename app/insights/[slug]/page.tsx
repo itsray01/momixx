@@ -70,7 +70,6 @@ export default async function ArticlePage({ params }: Props) {
               <Breadcrumbs
                 items={[
                   { href: '/insights', label: 'Insights' },
-                  { href: `/insights/topic/${a.topic}`, label: topic.label },
                   { href: `/insights/${a.slug}`, label: a.title },
                 ]}
               />
@@ -152,7 +151,7 @@ export default async function ArticlePage({ params }: Props) {
 
             <p className="mt-12 text-sm text-zinc-500">
               More in{' '}
-              <Link href={`/insights/topic/${a.topic}`} className="text-brand-300 underline decoration-brand-300/40 underline-offset-4 hover:text-brand-200">
+              <Link href={`/insights?topic=${a.topic}`} className="text-brand-300 underline decoration-brand-300/40 underline-offset-4 hover:text-brand-200">
                 {topic.label}
               </Link>
               {a.tags.length > 0 && <> · {a.tags.join(', ')}</>}

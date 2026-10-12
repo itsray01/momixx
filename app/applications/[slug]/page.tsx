@@ -9,7 +9,7 @@ import { TemperatureRange } from '@/components/TemperatureRange'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { applications, getApplication } from '@/content/applications'
 import { getMarket, marketDisclaimer } from '@/content/markets'
-import { getProduct } from '@/content/products'
+import { getProduct, productHref } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
 import { applicationTabs } from '../tabs'
 
@@ -100,7 +100,7 @@ export default async function ApplicationPage({ params }: Props) {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xs leading-relaxed text-zinc-400">{marketDisclaimer}</p>
-          <ArrowLink href="/markets" className="mt-4 text-sm">
+          <ArrowLink href="/applications#markets" className="mt-4 text-sm">
             Compare all markets
           </ArrowLink>
         </Section>
@@ -113,7 +113,7 @@ export default async function ApplicationPage({ params }: Props) {
               <ul className="mt-4 flex flex-wrap gap-2">
                 {relatedProducts.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/products/${p.slug}`} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-zinc-100 transition-[scale] duration-200 ease-soft hover:border-brand-500 hover:text-brand-300 motion-safe:active:scale-[0.97]">
+                    <Link href={productHref(p.slug)} className="inline-flex rounded-full border border-white/15 bg-ink-900 px-4 py-2 text-sm font-medium text-zinc-100 transition-[scale] duration-200 ease-soft hover:border-brand-500 hover:text-brand-300 motion-safe:active:scale-[0.97]">
                       {p.name}
                     </Link>
                   </li>

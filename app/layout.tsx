@@ -49,24 +49,24 @@ const organization = {
   email: site.email,
   areaServed: 'Worldwide',
   contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: site.email, areaServed: 'Worldwide', availableLanguage: ['English'] },
-  // Sites, as on /locations.
+  // Sites, as on /about#locations.
   location: [
     {
       '@type': 'Place',
       name: `${site.name} headquarters, Singapore`,
-      url: absoluteUrl('/locations#singapore'),
+      url: absoluteUrl('/about#singapore'),
       address: { '@type': 'PostalAddress', streetAddress: site.address.street, addressLocality: site.address.locality, postalCode: site.address.postalCode, addressCountry: site.address.country },
     },
     {
       '@type': 'Place',
       name: `${site.name} R&D and manufacturing, Batu Kawan, Penang`,
-      url: absoluteUrl('/locations#batu-kawan'),
+      url: absoluteUrl('/about#batu-kawan'),
       address: plantAddress(site.plants.batuKawan),
     },
     {
       '@type': 'Place',
       name: `${site.plants.perai.company}, Perai, Penang`,
-      url: absoluteUrl('/locations#perai'),
+      url: absoluteUrl('/about#perai'),
       address: plantAddress(site.plants.perai),
     },
   ],

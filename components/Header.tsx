@@ -86,8 +86,8 @@ function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; 
                       <span className={`block text-base transition-colors duration-200 group-hover/link:text-white ${here ? 'text-white' : 'text-zinc-300'}`}>
                         {l.label}
                       </span>
-                      {/* Links without a picture carry their note here; the others show it beside the picture. */}
-                      {!l.model && l.desc && <span className="mt-0.5 block text-sm leading-snug text-zinc-500">{l.desc}</span>}
+                      {/* Links without a picture, and short lists, carry their note here; the others show it beside the picture. */}
+                      {l.desc && (!l.model || col.links.length <= 4) && <span className="mt-0.5 block text-sm leading-snug text-zinc-500">{l.desc}</span>}
                     </Link>
                   </li>
                 )

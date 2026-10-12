@@ -3,7 +3,7 @@ import { Render } from '@/components/Render'
 import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
-import { categoryIntros, categoryLabels, products, productsByCategory, type ProductCategory } from '@/content/products'
+import { categoryIntros, categoryLabels, productHref, products, productsByCategory, type ProductCategory } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
 import { productNav } from './tabs'
 
@@ -36,7 +36,7 @@ export default function ProductsPage() {
                 // In two columns (tablets), an odd last card takes the whole row instead of sitting alone.
                 <li key={p.slug} className={all.length % 2 && j === all.length - 1 ? 'sm:max-lg:col-span-2' : ''}>
                   <LinkCard
-                    href={`/products/${p.slug}`}
+                    href={productHref(p.slug)}
                     render={p.illustration}
                     title={p.name}
                     body={p.tagline}
@@ -55,7 +55,7 @@ export default function ProductsPage() {
         ))}
       </TabNav>
       <CtaBand title="Looking for something *not listed?*" body="Most of our work is made to order. Tell us what you need and our research team will create it." />
-      <JsonLd data={collectionPage('MoMixx products', '/products', products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
+      <JsonLd data={collectionPage('MoMixx products', '/products', products.map((p) => ({ name: p.name, path: productHref(p.slug) })))} />
     </>
   )
 }

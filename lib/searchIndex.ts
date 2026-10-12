@@ -3,7 +3,7 @@
 
 import { applications } from '@/content/applications'
 import { glossary, glossaryId } from '@/content/glossary'
-import { categoryLabels, products } from '@/content/products'
+import { categoryLabels, productHref, products } from '@/content/products'
 import { teamReady } from '@/content/team'
 import { getArticles, topics } from '@/lib/articles'
 
@@ -20,6 +20,8 @@ export type SearchEntry = {
 
 const pages: Array<Omit<SearchEntry, 'group'>> = [
   { title: 'All products', href: '/products', desc: 'Silicone materials, machines and manufacturing', keywords: 'catalogue range grades' },
+  { title: 'Machines', href: '/products/machines', desc: 'Extrusion lines, mixer, winder, oven and dip coater', keywords: 'equipment machinery extruder extrusion line cable machine' },
+  { title: 'Manufacturing', href: '/products/manufacturing', desc: 'Contract manufacturing and medical and precision parts', keywords: 'services ODM OEM contract manufacturing parts moulding' },
   { title: 'Applications', href: '/applications', desc: 'Where our silicone is used', keywords: 'industries uses markets' },
   { title: 'Sustainability', href: '/sustainability', desc: 'Certificates, carbon footprint and green initiatives', keywords: 'GRS ISCC PLUS SCS certification carbon footprint solar green recycled' },
   { title: 'Recycled silicone', href: '/recycled-silicone', desc: 'How we turn silicone scrap into new silicone', keywords: 'recycling chemical recycling scrap waste circular PCR PIR' },
@@ -27,13 +29,12 @@ const pages: Array<Omit<SearchEntry, 'group'>> = [
   { title: 'Insights', href: '/insights', desc: 'Articles on silicone, recycling and materials', keywords: 'blog articles news guides' },
   { title: 'Glossary', href: '/insights/glossary', desc: 'Silicone terms in plain English', keywords: 'definitions terms dictionary' },
   { title: 'About us', href: '/about', desc: 'Our story, milestones and sites', keywords: 'company history milestones founded story' },
-  { title: 'Newsroom', href: '/newsroom', desc: 'Announcements, recent milestones and media contacts', keywords: 'news press media announcements milestones' },
   { title: 'Governance', href: '/governance', desc: 'Company information, certifications and policies', keywords: 'governance board directors committees policies registration UEN company information' },
   ...(teamReady ? [{ title: 'Our team', href: '/team', desc: 'Management', keywords: 'leadership management directors' }] : []),
   { title: 'Culture & careers', href: '/culture', desc: 'How we work, and joining us', keywords: 'careers jobs hiring vacancies work culture' },
-  { title: 'Locations', href: '/locations', desc: 'Singapore headquarters and plants in Penang, Malaysia', keywords: 'address factory plant Singapore Penang Batu Kawan Perai Malaysia map' },
+  { title: 'Locations', href: '/about#locations', desc: 'Singapore headquarters and plants in Penang, Malaysia', keywords: 'address factory plant Singapore Penang Batu Kawan Perai Malaysia map' },
   { title: 'Research & innovation', href: '/innovation', desc: 'Patents and research', keywords: 'R&D patents research innovation technology' },
-  { title: 'Markets', href: '/markets', desc: 'Independent estimates for the industries we serve', keywords: 'market size growth forecast industry data' },
+  { title: 'Markets', href: '/applications#markets', desc: 'Independent estimates for the industries we serve', keywords: 'market size growth forecast industry data' },
   { title: 'Contact us', href: '/contact', desc: 'Send an enquiry', keywords: 'enquiry email phone quote sales samples get in touch' },
   { title: 'Privacy notice', href: '/privacy', keywords: 'privacy data personal data PDPA' },
   { title: 'Terms of use', href: '/terms', keywords: 'terms conditions legal' },
@@ -41,9 +42,10 @@ const pages: Array<Omit<SearchEntry, 'group'>> = [
 
 export function buildSearchIndex(): SearchEntry[] {
   return [
-    ...products.map((p) => ({
+    // Recycled silicone is listed once, as its page.
+    ...products.filter((p) => p.slug !== 'recycled-silicone').map((p) => ({
       title: p.name,
-      href: `/products/${p.slug}`,
+      href: productHref(p.slug),
       group: 'Product' as const,
       desc: p.tagline,
       keywords: [p.tabLabel, categoryLabels[p.category], p.summary].filter(Boolean).join(' '),

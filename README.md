@@ -10,14 +10,12 @@ It is built with Next.js, deployed on Vercel, and every page is static. All the 
 |---|---|---|
 | Home | `/` | `app/page.tsx` |
 | What is silicone? | `/silicone` | `content/faqs.ts`, `app/silicone/page.tsx` |
-| Products (one tab per product) | `/products`, `/products/<slug>` | `content/products.ts` |
-| Applications (one tab per industry) | `/applications`, `/applications/<slug>` | `content/applications.ts` |
+| Products: a page per material; machines and manufacturing one page each, a section per product | `/products`, `/products/<slug>`, `/products/machines`, `/products/manufacturing` | `content/products.ts` |
+| Applications (one tab per industry), with market sizes | `/applications`, `/applications/<slug>`, `/applications#markets` | `content/applications.ts`, `content/markets.ts` |
 | Sustainability (claim, carbon footprint, photos) | `/sustainability` | `content/sustainability.ts`, `content/company.ts` |
 | Recycled silicone and certificates | `/recycled-silicone` | `content/company.ts` (certifications) |
-| Insights (articles, topics, glossary, RSS) | `/insights`, `/insights/<slug>`, `/insights/glossary` | `content/articles/*.md`, `content/glossary.ts` |
-| Markets (addressable markets) | `/markets` | `content/markets.ts` |
-| About and milestones | `/about` | `content/company.ts` |
-| Locations | `/locations` | `app/locations/page.tsx`, `lib/site.ts` |
+| Insights (articles with topic filters, glossary, RSS) | `/insights`, `/insights/<slug>`, `/insights/glossary` | `content/articles/*.md`, `content/glossary.ts` |
+| About, milestones and locations | `/about`, `/about#locations` | `content/company.ts`, `app/about/page.tsx` (sites), `lib/site.ts` |
 | Culture & careers | `/culture` | `app/culture/page.tsx` |
 | Our team (management) | `/team` | `content/team.ts` |
 | Research & innovation | `/innovation` | `app/innovation/page.tsx` |
@@ -38,7 +36,7 @@ Common edits:
 - **Add a certificate PDF or logo.** Put the PDF in `public/certificates/` and the logo in `public/images/certs/`. Then set `file` and `logo` on that certificate in `content/company.ts`. A "View certificate" button appears automatically.
 - **Add a product photo.** Put it in `public/images/products/` and set `image: '/images/products/xyz.jpg'` on the product. It replaces the line illustration.
 - **Update a market figure.** Edit `content/markets.ts`.
-- **Publish an article.** Add a Markdown file to `content/articles/`. The format and writing rules are in [`content/articles/README.md`](content/articles/README.md). It appears on the Insights hub, its topic page, the home page, the sitemap, the RSS feed and `llms.txt` automatically.
+- **Publish an article.** Add a Markdown file to `content/articles/`. The format and writing rules are in [`content/articles/README.md`](content/articles/README.md). It appears on the Insights hub (and under its topic filter), the home page, the sitemap, the RSS feed and `llms.txt` automatically.
 - **Add sustainability photos.** Put them in `public/images/sustainability/` and list them in `content/sustainability.ts` → `greenPhotos`. The gallery appears on `/sustainability`.
 - **Add carbon footprint figures.** Fill in `carbonMetrics` (and `carbonComparison` for a recycled-vs-virgin chart) in `content/sustainability.ts`. Use validated figures only; the sections stay hidden until then.
 - **Add a certificate number or verification link.** Set `number` and `verifyUrl` on the certificate in `content/company.ts`. A "Verify" link appears on its card.
@@ -139,7 +137,7 @@ The site uses a dark, premium design aimed at an investor audience. It is built 
 
 | Piece | Where | Files |
 |---|---|---|
-| Vertical extrusion line explorer: a 3D model of the real machine you can drag to turn, with numbered markers on its parts; click one (or a part in the list) to fly in and read what it does. A Photo toggle shows the same markers on the real photo, which is also the fallback without WebGL. The machine specs link to their parts | Home, `/products/vertical-extruder` | `components/ExtruderExplorer.tsx`, the model in `components/three/ExtruderMachine.tsx` and `MachineCanvas.tsx`, part copy, photo markers and camera views in `components/three/extruderParts.ts` |
+| Vertical extrusion line explorer: a 3D model of the real machine you can drag to turn, with numbered markers on its parts; click one (or a part in the list) to fly in and read what it does. A Photo toggle shows the same markers on the real photo, which is also the fallback without WebGL. The machine specs link to their parts | Home, `/products/machines#vertical-extruder` | `components/ExtruderExplorer.tsx`, the model in `components/three/ExtruderMachine.tsx` and `MachineCanvas.tsx`, part copy, photo markers and camera views in `components/three/extruderParts.ts` |
 | Anatomy of a silicone cable: the layers pull apart as you scroll | `/silicone`, `/products/momixx-mm`, `/applications/consumer-electronics` | `components/CableAnatomy.tsx`, `components/three/CableAnatomy.tsx`, layer copy in `components/three/cableLayers.ts` |
 | Temperature range chart (silicone vs TPE vs PVC) | `/silicone`, `/products/momixx-move`, `/applications/electric-vehicles` | `components/TemperatureRange.tsx` |
 | Mega-menu navigation, built from the content files | Every page | `components/Header.tsx`, `lib/nav.ts` |

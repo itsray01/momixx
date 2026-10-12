@@ -28,7 +28,7 @@ export function ExtruderSection({ tone = 'white', links = false }: { tone?: 'whi
       </div>
       {links && (
         <div className="mt-12 flex flex-wrap gap-3">
-          <Link href="/products/vertical-extruder" className="group btn-primary">
+          <Link href="/products/machines#vertical-extruder" className="group btn-primary">
             About the machine <Arrow />
           </Link>
           <Link href="/innovation" className="btn-ghost-dark">

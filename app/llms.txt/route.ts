@@ -2,9 +2,10 @@ import { applications } from '@/content/applications'
 import { certifications, milestones } from '@/content/company'
 import { siliconeFaqs } from '@/content/faqs'
 import { formatUsd, markets } from '@/content/markets'
+import { newsroomReady } from '@/content/news'
+import { categoryLabels, productHref, products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
 import { getArticles } from '@/lib/articles'
-import { categoryLabels, products } from '@/content/products'
 import { absoluteUrl, site } from '@/lib/site'
 
 // /llms.txt: a plain-text summary of the site for AI assistants and answer
@@ -25,22 +26,20 @@ export function GET() {
     '## Key pages',
     `- [What is silicone?](${absoluteUrl('/silicone')}): plain-English guide, silicon vs silicone, FAQs`,
     `- [Products](${absoluteUrl('/products')}): silicone materials, machines and manufacturing services`,
-    `- [Applications](${absoluteUrl('/applications')}): where MoMixx silicone is used`,
+    `- [Applications](${absoluteUrl('/applications')}): where MoMixx silicone is used, with third-party market-size estimates and sources`,
     `- [Sustainability](${absoluteUrl('/sustainability')}): certifications, carbon footprint, green initiatives`,
     `- [Recycled silicone](${absoluteUrl('/recycled-silicone')}): recycling process and certifications`,
     `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
-    `- [Markets](${absoluteUrl('/markets')}): third-party market-size estimates with sources`,
-    `- [About](${absoluteUrl('/about')}): history and milestones`,
-    `- [Newsroom](${absoluteUrl('/newsroom')}): announcements, recent milestones, latest articles and media contact (${site.mediaEmail || site.email})`,
+    `- [About](${absoluteUrl('/about')}): history, milestones and locations: Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company})`,
+    ...(newsroomReady ? [`- [Newsroom](${absoluteUrl('/newsroom')}): announcements, recent milestones, latest articles and media contact (${site.mediaEmail || site.email})`] : []),
     `- [Governance](${absoluteUrl('/governance')}): company information (${site.legalName}, Singapore UEN ${site.registrationNumber}), certifications and website policies`,
-    `- [Locations](${absoluteUrl('/locations')}): Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company})`,
     `- [Research & innovation](${absoluteUrl('/innovation')}): patents and research areas, including the vertical extrusion line`,
     `- [Glossary](${absoluteUrl('/insights/glossary')}): silicone and certification terms in plain English`,
     `- [Culture & careers](${absoluteUrl('/culture')}): how the company works, and roles it hires for`,
     `- [Contact](${absoluteUrl('/contact')}): sales, technical and partnership enquiries`,
     '',
     '## Products',
-    ...products.map((p) => `- [${p.name}](${absoluteUrl(`/products/${p.slug}`)}) (${categoryLabels[p.category]}): ${p.tagline}`),
+    ...products.map((p) => `- [${p.name}](${absoluteUrl(productHref(p.slug))}) (${categoryLabels[p.category]}): ${p.tagline}`),
     '',
     '## Applications',
     ...applications.map((a) => `- [${a.name}](${absoluteUrl(`/applications/${a.slug}`)}): ${a.tagline} Status: ${a.maturity}.`),

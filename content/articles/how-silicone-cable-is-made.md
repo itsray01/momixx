@@ -24,9 +24,9 @@ sources:
   - title: "Wacker: Solid silicone rubber (HCR)"
     url: https://www.wacker.com/cms/en-us/products/product-groups/silicone-rubber/solid-silicone-rubber.html
   - title: MoMixx Vertical Extrusion Line specifications
-    url: https://www.momixx.com/products/vertical-extruder
+    url: https://www.momixx.com/products/machines#vertical-extruder
   - title: MoMixx Horizontal Extrusion Line specifications
-    url: https://www.momixx.com/products/horizontal-extruder
+    url: https://www.momixx.com/products/machines#horizontal-extruder
   - title: MoMixx Research & Innovation
     url: https://www.momixx.com/innovation
 ---

@@ -55,7 +55,7 @@ In electric cars, Wacker lists HCR for high-voltage cables and both types for co
 
 We make both. Our **[MM series](/products/momixx-mm)** for cable jackets has flame-retardant HCR grades (M3, M4) and LSR grades (M5 to M9). Our **[High Density (MHD)](/products/momixx-high-density)** silicone is [free of PFAS](/insights/pfas-free-silicone) and comes as LSR (M1) and HCR (M2).
 
-Our patented **[vertical extrusion line](/products/vertical-extruder)** runs on LSR, mixed and fed in automatically. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
+Our patented **[vertical extrusion line](/products/machines#vertical-extruder)** runs on LSR, mixed and fed in automatically. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
 
 ## How do you choose between LSR and HCR?
 

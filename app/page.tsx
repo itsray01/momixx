@@ -65,7 +65,7 @@ const businesses: Array<{ href: string; model: string; kicker: string; title: st
     cta: 'Explore materials',
   },
   {
-    href: '/products/vertical-extruder',
+    href: '/products/machines#vertical-extruder',
     model: 'extruder-vertical',
     kicker: 'Machines',
     title: 'The machines that shape it',
@@ -78,7 +78,7 @@ const businesses: Array<{ href: string; model: string; kicker: string; title: st
     cta: 'See the line',
   },
   {
-    href: '/products#services',
+    href: '/products/manufacturing',
     model: 'medical',
     kicker: 'Manufacturing',
     title: 'Finished parts, in volume',

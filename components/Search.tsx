@@ -111,7 +111,7 @@ function search(entries: SearchEntry[], query: string): Section[] {
 }
 
 // Shown before anything is typed.
-const popular = ['/recycled-silicone', '/products/vertical-extruder', '/products/momixx-mm', '/products/momixx-high-density', '/insights/lsr-vs-hcr', '/sustainability']
+const popular = ['/recycled-silicone', '/products/machines#vertical-extruder', '/products/momixx-mm', '/products/momixx-high-density', '/insights/lsr-vs-hcr', '/sustainability']
 
 function SearchIcon({ className }: { className?: string }) {
   return (

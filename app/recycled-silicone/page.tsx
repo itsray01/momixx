@@ -1,10 +1,13 @@
 import { Leaf, Package, Sun } from 'lucide-react'
+import Link from 'next/link'
 import { CertCard } from '@/components/CertCard'
 import { Render } from '@/components/Render'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
+import { getApplication } from '@/content/applications'
 import { certifications, recyclingCertifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
+import { getProduct } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
 
 export const metadata = pageMetadata({
@@ -46,6 +49,9 @@ const efficiency = [
 
 export default function RecycledSiliconePage() {
   const recyclingCerts = certifications.filter((c) => c.group === 'recycling')
+  // The material as sold (formerly its own product page): its benefits and where it goes.
+  const material = getProduct('recycled-silicone')
+  const apps = (material?.applications ?? []).map(getApplication).filter((a) => a !== undefined)
   const qualityCerts = certifications.filter((c) => c.group === 'quality')
   return (
     <>
@@ -113,7 +119,32 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
-      <Section id="certificates" eyebrow="Proof" title="*Certifications*" intro="Independent bodies audit our recycling and supply chain, so customers, and their customers, can rely on our recycled-content claims.">
+      {material?.benefits && (
+        <Section id="material" eyebrow="The material" title="Recycled silicone that *performs like new*">
+          <FeatureGrid items={material.benefits} />
+          {(material.uses || apps.length > 0) && (
+            <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+              <h3 className="text-sm font-semibold text-white">Used in</h3>
+              <ul className="flex flex-wrap gap-2">
+                {apps.map((a) => (
+                  <li key={a.slug}>
+                    <Link href={`/applications/${a.slug}`} className="block rounded-full border border-white/15 px-3.5 py-1.5 text-sm text-white transition-colors hover:border-white/40">
+                      {a.tabLabel} <span aria-hidden="true">→</span>
+                    </Link>
+                  </li>
+                ))}
+                {material.uses?.map((u) => (
+                  <li key={u} className="rounded-full border border-white/10 px-3.5 py-1.5 text-sm text-zinc-300">
+                    {u}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Section>
+      )}
+
+      <Section id="certificates" tone="muted" eyebrow="Proof" title="*Certifications*" intro="Independent bodies audit our recycling and supply chain, so customers, and their customers, can rely on our recycled-content claims.">
         <ul data-reveal="stagger" className={`grid gap-5 md:grid-cols-2 ${recyclingCerts.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
           {recyclingCerts.map((c) => (
             <CertCard key={c.id} cert={c} />
@@ -127,7 +158,7 @@ export default function RecycledSiliconePage() {
         )}
       </Section>
 
-      <Section tone="muted" eyebrow="Beyond recycling" title="Cleaner manufacturing, *by design*" intro="Our machines are designed to use less energy and create less pollution and waste.">
+      <Section eyebrow="Beyond recycling" title="Cleaner manufacturing, *by design*" intro="Our machines are designed to use less energy and create less pollution and waste.">
         <StatTiles stats={efficiency} />
         <div className="mt-10">
           <FeatureGrid
@@ -140,7 +171,7 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
-      <Section eyebrow="Questions" title="Recycled silicone *FAQs*">
+      <Section tone="muted" eyebrow="Questions" title="Recycled silicone *FAQs*">
         <FaqList faqs={recycledFaqs} />
         <div className="mt-10 flex flex-wrap gap-6">
           <ArrowLink href="/insights/silicone-recycling-explained">Silicone recycling explained</ArrowLink>

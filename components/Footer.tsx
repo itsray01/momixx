@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { site } from '@/lib/site'
 import { applications } from '@/content/applications'
-import { products } from '@/content/products'
+import { newsroomReady } from '@/content/news'
+import { getProduct } from '@/content/products'
 import { teamReady } from '@/content/team'
 import { BackToTop } from './BackToTop'
 import { Logo } from './Logo'
@@ -11,14 +12,15 @@ const columns = [
     title: 'Products',
     links: [
       { href: '/products', label: 'All products' },
-      ...products
-        .filter((p) => ['momixx-mm', 'momixx-high-density', 'momixx-move', 'recycled-silicone', 'vertical-extruder', 'odm-oem'].includes(p.slug))
-        .map((p) => ({ href: `/products/${p.slug}`, label: p.name })),
+      ...['momixx-mm', 'momixx-high-density', 'momixx-move'].map((slug) => ({ href: `/products/${slug}`, label: getProduct(slug)?.name ?? slug })),
+      { href: '/recycled-silicone', label: 'Recycled silicone' },
+      { href: '/products/machines', label: 'Machines' },
+      { href: '/products/manufacturing', label: 'Manufacturing' },
     ],
   },
   {
     title: 'Applications',
-    links: applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.name })),
+    links: [...applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.name })), { href: '/applications#markets', label: 'Markets' }],
   },
   {
     title: 'Company',
@@ -27,12 +29,11 @@ const columns = [
       { href: '/sustainability', label: 'Sustainability' },
       { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About us' },
-      { href: '/newsroom', label: 'Newsroom' },
+      ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom' }] : []),
       { href: '/governance', label: 'Governance' },
       ...(teamReady ? [{ href: '/team', label: 'Our team' }] : []),
       { href: '/culture', label: 'Culture & careers' },
       { href: '/innovation', label: 'Research & innovation' },
-      { href: '/markets', label: 'Markets' },
       { href: '/contact', label: 'Contact' },
     ],
   },
@@ -96,7 +97,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/locations" className="inline-block py-1 hover:text-white">
+              <Link href="/about#locations" className="inline-block py-1 hover:text-white">
                 Singapore · Penang, Malaysia
               </Link>
             </li>

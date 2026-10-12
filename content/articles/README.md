@@ -1,6 +1,6 @@
 # Insights articles
 
-Each `.md` file in this folder becomes an article at `/insights/<file-name>`. It is also added automatically to the Insights hub, its topic page, the sitemap, the RSS feed (`/insights/feed.xml`) and `/llms.txt`.
+Each `.md` file in this folder becomes an article at `/insights/<file-name>`. It is also added automatically to the Insights hub (under its topic filter), the sitemap, the RSS feed (`/insights/feed.xml`) and `/llms.txt`.
 
 To publish a new article, copy an existing file, rename it (lowercase, hyphens, for example `silicone-in-wearables.md`), and edit it.
 

@@ -71,4 +71,4 @@ After that, "USP Class VI" is an outdated label. Device makers will increasingly
 
 MoMixx has made silicone parts for medical-device makers since 2025. The quality system at our **Batu Kawan, Penang factory has been certified to ISO 13485 since 2026**. The factory also makes high-precision parts for semiconductor customers. We also offer [PFAS-free high-density silicone](/products/momixx-high-density). As with any material, whether it suits a medical or food-contact part depends on testing for that use.
 
-See [Medical](/applications/medical) and [precision components](/products/medical-precision-components), or [contact us](/contact) about your device.
+See [Medical](/applications/medical) and [precision components](/products/manufacturing#medical-precision-components), or [contact us](/contact) about your device.

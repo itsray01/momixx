@@ -13,8 +13,8 @@ export const metadata = pageMetadata({
 
 const help: Array<{ title: string; body: string; href: string; render: ModelName }> = [
   { title: 'Silicone materials', body: 'Compounds for cables, EVs, seals and cases.', href: '/products#materials', render: 'samples' },
-  { title: 'Machines', body: 'Extrusion lines, mixers, winders, ovens and coaters.', href: '/products#equipment', render: 'extruder-vertical' },
-  { title: 'Contract manufacturing', body: 'Finished silicone parts, including medical parts.', href: '/products#services', render: 'oem' },
+  { title: 'Machines', body: 'Extrusion lines, mixers, winders, ovens and coaters.', href: '/products/machines', render: 'extruder-vertical' },
+  { title: 'Contract manufacturing', body: 'Finished silicone parts, including medical parts.', href: '/products/manufacturing', render: 'oem' },
   { title: 'Recycled silicone', body: 'Certified recycled silicone, on request in any of our grades.', href: '/recycled-silicone', render: 'recycle' },
 ]
 
@@ -54,9 +54,9 @@ export default function ContactPage() {
               </ul>
             </div>
             <div className="flex flex-wrap gap-x-6 gap-y-3">
-              <ArrowLink href="/locations#singapore">Singapore</ArrowLink>
-              <ArrowLink href="/locations#batu-kawan">Batu Kawan</ArrowLink>
-              <ArrowLink href="/locations#perai">Perai</ArrowLink>
+              <ArrowLink href="/about#singapore">Singapore</ArrowLink>
+              <ArrowLink href="/about#batu-kawan">Batu Kawan</ArrowLink>
+              <ArrowLink href="/about#perai">Perai</ArrowLink>
             </div>
           </div>
         </div>

@@ -56,6 +56,6 @@ Common cable plastics are cheaper. But silicone **stays flexible in the cold and
 
 - **[MoMixx Move (MV)](/products/momixx-move):** heat-resistant silicone for high-voltage EV cables. In MoMixx testing it worked from −60 °C to 250 °C; the product page compares it with XLPO, a common cable plastic.
 - **[High Density (MHD)](/products/momixx-high-density):** PFAS-free silicone for seals and cable parts where fuel and oil resistance is not critical.
-- **[Extrusion lines](/products/vertical-extruder):** machines that make silicone cable.
+- **[Extrusion lines](/products/machines#vertical-extruder):** machines that make silicone cable.
 
 See [Electric vehicles](/applications/electric-vehicles) for independent market estimates.
