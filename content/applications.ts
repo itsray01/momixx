@@ -30,7 +30,6 @@ import {
   Smartphone,
   Thermometer,
 } from 'lucide-react'
-import type { LoopName } from '@/components/BackgroundLoop'
 import type { ModelName } from '@/components/three/modelNames'
 
 export type Maturity = 'In mass production' | 'Certified & scaling' | 'Emerging opportunity'
@@ -52,8 +51,6 @@ export type Application = {
   faqs: Array<{ q: string; a: string }>
   /** Which 3D model represents this application. */
   illustration: ModelName
-  /** Optional colour loop behind the page header (components/BackgroundLoop.tsx). */
-  loop?: LoopName
 }
 
 export const applications: Application[] = [
@@ -204,7 +201,6 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'datacentre',
-    loop: 'cables-blue',
   },
   {
     slug: 'robotics',

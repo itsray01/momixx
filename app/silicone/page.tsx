@@ -32,7 +32,6 @@ export default function SiliconePage() {
         eyebrow="Silicone 101"
         title="What is silicone, and why does it *matter?*"
         intro="Silicone is a flexible, heat-proof material made mostly from silicon and oxygen. You rarely notice it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
-        loop="sand-gold"
         visual={<Render name="molecule" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 

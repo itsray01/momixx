@@ -3,14 +3,58 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
-export type LoopName = 'heat' | 'cables-colour' | 'cables-blue' | 'sand-gold'
+export type LoopName =
+  | 'cables-blue'
+  | 'cables-colour'
+  | 'cables-lilac'
+  | 'cables-vertical'
+  | 'citylights'
+  | 'columns'
+  | 'glow-clinical'
+  | 'glow-dim'
+  | 'glow-news'
+  | 'glow-rosegold'
+  | 'heat'
+  | 'horizon-amber'
+  | 'horizon-coral'
+  | 'horizon-dawn'
+  | 'liquid-amber'
+  | 'liquid-clear'
+  | 'liquid-copper'
+  | 'liquid-crimson'
+  | 'liquid-gold'
+  | 'liquid-ocean'
+  | 'liquid-pearl'
+  | 'liquid-rose'
+  | 'liquid-sage'
+  | 'liquid-violet'
+  | 'marble-cert'
+  | 'marble-mixer'
+  | 'marble-multi'
+  | 'marble-recycle'
+  | 'sand-dusk'
+  | 'sand-gold'
+  | 'silk-colour'
+  | 'silk-forest'
+  | 'silk-lilac'
+  | 'silk-peach'
+  | 'silk-sunset'
+  | 'silk-warm'
+  | 'spool'
+  | 'trails'
+  | 'wafer'
+  | 'wafer-rose'
 
 /** Which part of each loop to keep when a tall box crops it (on phones, mostly): where its colour is. */
-const focusFor: Record<LoopName, string> = {
+const focusFor: Partial<Record<LoopName, string>> = {
   heat: '80% 55%',
   'cables-colour': '62% 50%',
   'cables-blue': '72% 50%',
   'sand-gold': '50% 50%',
+  'sand-dusk': '50% 50%',
+  wafer: '82% 50%',
+  'wafer-rose': '82% 50%',
+  trails: '70% 60%',
 }
 
 /**
@@ -37,7 +81,7 @@ export function BackgroundLoop({
   priority?: boolean
   className?: string
 }) {
-  const focus = focusFor[name]
+  const focus = focusFor[name] ?? '75% 50%'
   const wrapRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [mount, setMount] = useState(false)
