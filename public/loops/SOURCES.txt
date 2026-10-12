@@ -1,22 +1,23 @@
 Background loops in this folder
 
-heat.*  Made by us (a WebGL shader rendered to video). No third-party rights.
+All loops share one colour grade (near-black shadows, warm amber light, cream highlights).
+
+heat.*  Made by us (a WebGL shader rendered to video), then graded. No third-party rights.
 
 v-*.*   Cut from free Pexels videos, downloaded 12 October 2026 under the Pexels licence
         (free for commercial use, no credit needed: https://www.pexels.com/license/).
-        Each is trimmed to a 5–12 second seamless loop and re-encoded; some are darkened slightly.
+        Each is trimmed to a 5 to 12 second seamless loop, colour-graded and re-encoded.
 
-v-swirl-orange    https://www.pexels.com/video/close-up-of-colorful-liquids-mixing-in-slow-motion-10914361/
-v-swirl-blue      https://www.pexels.com/video/bubbles-and-abstract-shapes-in-colorful-liquid-mix-11116247/
-v-fibres          https://www.pexels.com/video/abstract-neural-network-animation-40055307/
-v-fibre-optic     https://www.pexels.com/video/video-of-a-digital-art-8817471/
-v-cables-blue     https://www.pexels.com/video/blue-colored-cables-1085656/
+v-drop            https://www.pexels.com/video/a-liquid-dripping-from-a-dropper-4132712/
+v-drop-2          https://www.pexels.com/video/a-liquid-dripping-from-a-dropper-4132711/
+v-servers         https://www.pexels.com/video/close-up-of-a-cpu-7140928/
+v-light-tunnel    https://www.pexels.com/video/neon-lights-glowing-in-a-dark-room-8058346/
+v-circuit-gold    https://www.pexels.com/video/close-up-shot-of-a-motherboard-6755170/
+v-robot           https://www.pexels.com/video/a-footage-of-a-white-robot-on-a-black-surface-8084493/
+v-droplets        https://www.pexels.com/video/a-close-up-of-a-spoon-in-a-bowl-of-water-19265262/
 v-traffic         https://www.pexels.com/video/dynamic-city-night-traffic-time-lapse-35516441/
-v-circuit-board   https://www.pexels.com/video/close-up-shot-of-a-printed-circuit-board-6754824/
-v-robot-hand      https://www.pexels.com/video/prosthetic-hand-in-front-of-vintage-tv-7688616/
 v-forest-mist     https://www.pexels.com/video/aerial-view-of-a-misty-forest-14386849/
 v-forest-autumn   https://www.pexels.com/video/aerial-view-of-a-forest-with-fog-27960755/
 v-dune            https://www.pexels.com/video/flying-with-a-drone-above-a-dune-lighted-by-the-sunset-gran-canaria-17833698/
-v-sand-ripples    https://www.pexels.com/video/footage-of-ripples-in-desert-sand-8865816/
 v-singapore       https://www.pexels.com/video/singapore-skyline-at-night-aerial-view-32047106/
 v-ink-purple      https://www.pexels.com/video/colored-ink-in-water-flowing-in-slow-motion-11944801/

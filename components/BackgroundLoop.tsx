@@ -5,24 +5,26 @@ import { useEffect, useRef, useState } from 'react'
 
 export type LoopName =
   | 'heat'
-  | 'v-cables-blue'
-  | 'v-circuit-board'
+  | 'v-circuit-gold'
+  | 'v-drop'
+  | 'v-drop-2'
+  | 'v-droplets'
   | 'v-dune'
-  | 'v-fibre-optic'
-  | 'v-fibres'
   | 'v-forest-autumn'
   | 'v-forest-mist'
   | 'v-ink-purple'
-  | 'v-robot-hand'
-  | 'v-sand-ripples'
+  | 'v-light-tunnel'
+  | 'v-robot'
+  | 'v-servers'
   | 'v-singapore'
-  | 'v-swirl-blue'
-  | 'v-swirl-orange'
   | 'v-traffic'
 
 /** Which part of each loop to keep when a tall box crops it (on phones, mostly): where its colour is. */
 const focusFor: Partial<Record<LoopName, string>> = {
   heat: '80% 55%',
+  // The dropper hangs from the top of the frame: keep its tip and the drop in view.
+  'v-drop': '50% 0%',
+  'v-drop-2': '50% 0%',
 }
 
 /**

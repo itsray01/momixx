@@ -29,7 +29,7 @@ export default function ProductsPage() {
       />
       <TabNav {...productNav()} label="Products">
         {order.map((cat, i) => (
-          <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} loop={cat === 'equipment' ? 'v-fibre-optic' : undefined} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
+          <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} loop={cat === 'equipment' ? 'v-light-tunnel' : undefined} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
             {/* Two or four cards sit in two columns, so a row is never left half empty. */}
             <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${productsByCategory(cat).length % 3 === 0 || productsByCategory(cat).length > 4 ? 'lg:grid-cols-3' : ''}`}>
               {productsByCategory(cat).map((p, j, all) => (
