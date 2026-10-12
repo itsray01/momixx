@@ -199,12 +199,15 @@ export function CableAnatomy({ productLink = true }: { productLink?: boolean }) 
               aria-hidden="true"
               {...pick(l.id)}
               style={{ visibility: 'hidden' }}
-              className={`absolute top-0 left-0 ${marker(l.id, l.momixx)} ${ready ? '' : 'opacity-0'}`}
+              // The 3D places this wrapper with `transform` every frame; the visible dot is inside it,
+              // because scaling the wrapper itself (on hover) would scale that offset too and fling the dot away.
+              className={`absolute top-0 left-0 ${ready ? '' : 'opacity-0'}`}
             >
-              {i + 1}
+              <span className={marker(l.id, l.momixx)}>{i + 1}</span>
             </button>
           ))}
-        <p className="pointer-events-none absolute right-4 bottom-2 text-[0.6875rem] text-zinc-500 max-lg:left-4 max-lg:text-center lg:right-0 lg:bottom-3">A typical USB-C cable. Designs vary by maker.</p>
+        {/* Bottom left on desktops, under the jacket, where no label line runs. */}
+        <p className="pointer-events-none absolute right-4 bottom-2 left-4 text-center text-[0.6875rem] text-zinc-500 lg:right-auto lg:bottom-3 lg:left-0 lg:text-left">A typical USB-C cable. Designs vary by maker.</p>
       </div>
 
       {/* One list of layers, outside in. On wide screens its items join the grid around the cable. */}
