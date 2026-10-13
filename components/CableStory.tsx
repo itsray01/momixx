@@ -45,6 +45,8 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
   const [told, setTold] = useState(false)
   const [inView, setInView] = useState(false)
   const [ready, setReady] = useState(false)
+  // Where the cable's middle sits on the stage, so the still before the 3D lines up with it.
+  const [middle, setMiddle] = useState<number | null>(null)
 
   // Scroll sets the story's position.
   useEffect(() => {
@@ -87,12 +89,14 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
       const above = rows('above')
       const below = rows('below')
       if (!above.length || !below.length) return
-      frame.current = {
+      const f = {
         top: Math.max(...above.map((r) => r.bottom)) - base.top + CLEAR,
         bottom: Math.min(...below.map((r) => r.top)) - base.top - CLEAR,
       }
+      frame.current = f
+      setMiddle((f.top + f.bottom) / 2)
     }
-    measure()
+    // Measures as soon as it starts observing, and again on every resize.
     const ro = new ResizeObserver(measure)
     ro.observe(box)
     document.fonts?.ready.then(measure)
@@ -151,7 +155,10 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
 
         {/* The cable runs in from the left edge; the fade keeps that edge soft. */}
         <div className="absolute inset-0 [mask-image:linear-gradient(to_right,transparent,black_14%)]">
-          <div className={`absolute inset-x-0 top-1/2 aspect-[21/9] -translate-y-1/2 transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-100'}`}>
+          <div
+            className={`absolute inset-x-0 top-1/2 aspect-[21/9] -translate-y-1/2 transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-100'}`}
+            style={middle === null ? undefined : { top: middle }}
+          >
             <Image src="/renders/cable-anatomy.webp" alt="" fill sizes="100vw" className="object-contain" />
           </div>
           <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}>
