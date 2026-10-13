@@ -26,9 +26,9 @@ const CABLE_FROM = -18
 export const SHELL = { length: TIP.length, height: TIP.height, width: TIP.width }
 /** How far the plug sits from the port before it goes in. */
 export const UNPLUGGED = -1.7
-export const BATTERY_FROM = 0.24
+export const BATTERY_FROM = 0
 /** Seconds for the ring to fill, once charging (a picture, not a claim about charging speed). */
-export const FILL_SECONDS = 9
+export const FILL_SECONDS = 12
 
 export type Effects = ReturnType<typeof makeEffects>
 
@@ -41,6 +41,15 @@ const ease = (t: number) => 1 - Math.pow(1 - t, 3)
 const SCREEN_W = 1024
 const SCREEN_H = Math.round((SCREEN_W * (PHONE.width - 0.3)) / (PHONE.length - 0.3))
 
+/** The screen's colours: warm white while charging, green once full. */
+const CHARGING = { ring: '#fff6ec', glow: 'rgba(255,240,220,0.9)', text: '#ffffff' }
+const CHARGED = { ring: '#4ade80', glow: 'rgba(74,222,128,0.9)', text: '#86efac' }
+
+/**
+ * Draws the phone's screen: a ring that fills as the battery charges, with a bolt
+ * in the middle and the level beside it. At 100% it turns green, the bolt becomes
+ * a tick and the word changes to "Charged".
+ */
 function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   const w = SCREEN_W
   const h = SCREEN_H
@@ -51,6 +60,7 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   const cy = h * 0.5
   const r = h * 0.3
   const full = battery >= 0.999
+  const c = full ? CHARGED : CHARGING
   // Track, then the filled arc with a soft glow.
   g.lineCap = 'round'
   g.lineWidth = h * 0.045
@@ -59,32 +69,44 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   g.arc(cx, cy, r, 0, Math.PI * 2)
   g.stroke()
   g.save()
-  g.shadowColor = 'rgba(255,240,220,0.9)'
+  g.shadowColor = c.glow
   g.shadowBlur = h * 0.06
-  g.strokeStyle = '#fff6ec'
+  g.strokeStyle = c.ring
   g.beginPath()
-  g.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * battery)
+  g.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, battery))
   g.stroke()
   g.restore()
-  // A lightning bolt in the middle of the ring.
   const s = r * 0.62
-  g.fillStyle = '#fff6ec'
-  g.beginPath()
-  g.moveTo(cx + s * 0.12, cy - s * 0.62)
-  g.lineTo(cx - s * 0.36, cy + s * 0.08)
-  g.lineTo(cx - s * 0.02, cy + s * 0.08)
-  g.lineTo(cx - s * 0.14, cy + s * 0.62)
-  g.lineTo(cx + s * 0.36, cy - s * 0.1)
-  g.lineTo(cx + s * 0.02, cy - s * 0.1)
-  g.closePath()
-  g.fill()
+  if (full) {
+    // A tick in the middle of the ring.
+    g.strokeStyle = c.ring
+    g.lineWidth = h * 0.05
+    g.lineJoin = 'round'
+    g.beginPath()
+    g.moveTo(cx - s * 0.5, cy + s * 0.02)
+    g.lineTo(cx - s * 0.12, cy + s * 0.4)
+    g.lineTo(cx + s * 0.55, cy - s * 0.38)
+    g.stroke()
+  } else {
+    // A lightning bolt in the middle of the ring.
+    g.fillStyle = c.ring
+    g.beginPath()
+    g.moveTo(cx + s * 0.12, cy - s * 0.62)
+    g.lineTo(cx - s * 0.36, cy + s * 0.08)
+    g.lineTo(cx - s * 0.02, cy + s * 0.08)
+    g.lineTo(cx - s * 0.14, cy + s * 0.62)
+    g.lineTo(cx + s * 0.36, cy - s * 0.1)
+    g.lineTo(cx + s * 0.02, cy - s * 0.1)
+    g.closePath()
+    g.fill()
+  }
   // The level, and what it is doing.
   const font = 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif'
   g.textBaseline = 'alphabetic'
-  g.fillStyle = '#ffffff'
+  g.fillStyle = c.text
   g.font = `600 ${Math.round(h * 0.25)}px ${font}`
-  g.fillText(`${Math.round(battery * 100)}%`, w * 0.58, cy + h * 0.06)
-  g.fillStyle = 'rgba(255,255,255,0.55)'
+  g.fillText(`${Math.round(Math.min(1, battery) * 100)}%`, w * 0.58, cy + h * 0.06)
+  g.fillStyle = full ? 'rgba(134,239,172,0.7)' : 'rgba(255,255,255,0.55)'
   g.font = `500 ${Math.round(h * 0.075)}px ${font}`
   g.fillText(full ? 'Charged' : 'Charging', w * 0.585, cy + h * 0.2)
 }
@@ -133,6 +155,8 @@ const pulseFragment = /* glsl */ `
   uniform float uFreq;
   uniform float uSpeed;
   uniform vec3 uColor;
+  uniform vec3 uFullColor;
+  uniform float uFull;
   varying float vX;
   varying vec3 vNormalV;
   varying vec3 vViewDir;
@@ -142,8 +166,9 @@ const pulseFragment = /* glsl */ `
     float pulse = exp(-pow((s - 0.85) * 9.0, 2.0)) + 0.55 * exp(-pow((s - 0.6) * 4.0, 2.0)) * step(s, 0.85);
     // Brighter through the middle of the tube, fading at its edges, like light inside it.
     float core = pow(max(dot(vNormalV, vViewDir), 0.0), 1.6);
-    float a = uCharge * core * (0.18 + 1.25 * pulse);
-    gl_FragColor = vec4(uColor * a, a);
+    // Once full, the pulses settle to a steady glow, in the screen's green.
+    float a = uCharge * core * mix(0.18 + 1.25 * pulse, 0.22, uFull);
+    gl_FragColor = vec4(mix(uColor, uFullColor, uFull) * a, a);
   }
 `
 
@@ -155,7 +180,7 @@ export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed
   const pulses = new THREE.ShaderMaterial({
     vertexShader: pulseVertex,
     fragmentShader: pulseFragment,
-    uniforms: { uTime: { value: 0 }, uCharge: { value: 0 }, uFreq: { value: freq }, uSpeed: { value: speed }, uColor: { value: new THREE.Color('#ffd9a8') } },
+    uniforms: { uTime: { value: 0 }, uCharge: { value: 0 }, uFreq: { value: freq }, uSpeed: { value: speed }, uColor: { value: new THREE.Color('#ffd9a8') }, uFullColor: { value: new THREE.Color('#6ee7a0') }, uFull: { value: 0 } },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -170,9 +195,10 @@ export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed
   return {
     pulses,
     texture,
-    setPulses(time: number, charge: number) {
+    setPulses(time: number, charge: number, full = 0) {
       pulses.uniforms.uTime.value = time
       pulses.uniforms.uCharge.value = charge
+      pulses.uniforms.uFull.value = full
     },
     /** Redraws the screen only when the shown percentage changes. */
     drawScreen(battery: number) {
@@ -233,7 +259,7 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
   const screen = useRef<THREE.MeshPhysicalMaterial>(null)
   const [fx] = useState(makeEffects)
   const invalidate = useThree((s) => s.invalidate)
-  const state = useRef({ plug: still?.plug ?? 0, charge: still?.charge ?? 0, battery: still?.battery ?? BATTERY_FROM, time: still?.time ?? 0 })
+  const state = useRef({ plug: still?.plug ?? 0, charge: still?.charge ?? 0, battery: still?.battery ?? BATTERY_FROM, time: still?.time ?? 0, full: 0 })
 
   useEffect(() => () => fx.dispose(), [fx])
 
@@ -262,7 +288,9 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
       m.opacity = opacity
       m.depthWrite = opacity > 0.99
     }
-    fx.setPulses(st.time, st.charge)
+    // Once full, the light in the cable settles (eased, so the change is soft).
+    st.full = still ? (st.battery >= 0.999 ? 1 : 0) : THREE.MathUtils.damp(st.full, st.battery >= 0.999 ? 1 : 0, 3, dt)
+    fx.setPulses(st.time, st.charge, st.full)
     if (screen.current) screen.current.emissiveIntensity = st.charge
     fx.drawScreen(st.battery)
     if (!still && (Math.abs(st.plug - (plugRef?.current ?? 0)) > 0.002 || st.charge > 0.002)) invalidate()

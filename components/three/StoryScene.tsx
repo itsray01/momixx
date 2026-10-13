@@ -127,6 +127,8 @@ type Scene = {
   level: number
   battery: number
   time: number
+  /** 1 once the battery is full (eased), when the light in the cable settles. */
+  full: number
 }
 
 /**
@@ -171,6 +173,7 @@ function Director({
     s.level = jump ? (on ? 1 : 0) : THREE.MathUtils.damp(s.level, on ? 1 : 0, on ? 3 : 6, dt)
     if (on) s.battery = Math.min(1, s.battery + dt / FILL_SECONDS)
     else if (s.level < 0.02) s.battery = BATTERY_FROM
+    s.full = jump ? (s.battery >= 0.999 ? 1 : 0) : THREE.MathUtils.damp(s.full, s.battery >= 0.999 ? 1 : 0, 3, dt)
     s.time += dt
   })
   return null
@@ -209,7 +212,7 @@ function StoryModel({
       plug.current.visible = f > 0.005
       plug.current.scale.set(THREE.MathUtils.lerp(0.12, 1, f), THREE.MathUtils.lerp(0.64, 1, f), THREE.MathUtils.lerp(0.41, 1, f))
     }
-    fx.setPulses(s.time, s.level)
+    fx.setPulses(s.time, s.level, s.full)
     fx.drawScreen(s.battery)
     if (screen.current) screen.current.emissiveIntensity = s.level
     // The plug fades in as it forms, and x-rays with the cable while charging.
@@ -280,7 +283,7 @@ export default function StoryCanvas({
   animate: boolean
   onReady: () => void
 }) {
-  const scene = useRef<Scene>({ t: -1, form: 0, plug: 0, away: 1, level: 0, battery: BATTERY_FROM, time: 0 })
+  const scene = useRef<Scene>({ t: -1, form: 0, plug: 0, away: 1, level: 0, battery: BATTERY_FROM, time: 0, full: 0 })
   const explode = useRef(0.55)
   const close = useRef(0)
   const highlight = useRef<string | null>(null)
