@@ -8,6 +8,7 @@
 // `still` freezes one moment for the pre-rendered image.
 
 import { RoundedBox } from '@react-three/drei'
+import { PLUG_BACK, TIP, UsbCPlug } from './UsbCPlug'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
@@ -21,8 +22,8 @@ export const PHONE = { length: 7.4, height: 0.42, width: 3.6, radius: 0.2 }
 export const AXIS_Y = 0.21
 export const CABLE_R = 0.16
 const CABLE_FROM = -18
-export const BOOT = { length: 1.5, height: 0.5, width: 0.78 }
-export const SHELL = { length: 0.62, height: 0.15, width: 0.56 }
+/** The plug's shapes are in UsbCPlug.tsx; the port is cut to fit its tip. */
+export const SHELL = { length: TIP.length, height: TIP.height, width: TIP.width }
 /** How far the plug sits from the port before it goes in. */
 export const UNPLUGGED = -1.7
 export const BATTERY_FROM = 0.24
@@ -280,9 +281,9 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
     />
   )
 
-  const plugX = -0.02 // the boot's front face, just short of the phone when the plug is in
-  const bootMid = plugX - BOOT.length / 2
-  const reliefTo = plugX - BOOT.length
+  // The plug: its tip's front sits at the port when the plug is in.
+  const plugX = 0
+  const cableTo = plugX + PLUG_BACK
 
   return (
     <group>
@@ -293,30 +294,20 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
         {/* Copper running the length of the cable into the plug, with light pulsing along it. */}
         {[-0.055, 0.055].map((z) => (
           <group key={z}>
-            <Rod a={CABLE_FROM} b={plugX - 0.12} r={0.034} z={z}>
+            <Rod a={CABLE_FROM} b={plugX - TIP.length - 0.1} r={0.034} z={z}>
               <meshStandardMaterial color="#c98a55" metalness={0.85} roughness={0.3} />
             </Rod>
-            <Rod a={CABLE_FROM} b={plugX - 0.12} r={0.075} z={z}>
+            <Rod a={CABLE_FROM} b={plugX - TIP.length - 0.1} r={0.075} z={z}>
               <primitive object={fx.pulses} attach="material" />
             </Rod>
           </group>
         ))}
-        <Rod a={CABLE_FROM} b={reliefTo - 0.5} r={CABLE_R}>
+        <Rod a={CABLE_FROM} b={cableTo + 0.02} r={CABLE_R}>
           {jacketMat(0)}
         </Rod>
-        {/* Strain relief, tapering from the plug into the cable. */}
-        <mesh position={[reliefTo - 0.25, AXIS_Y, 0]} rotation={[0, 0, Math.PI / 2]}>
-          {/* Narrow where it meets the cable (the cylinder's top turns to face left), wide at the plug. */}
-          <cylinderGeometry args={[CABLE_R, 0.2, 0.5, 40]} />
-          {jacketMat(1)}
-        </mesh>
-        <RoundedBox args={[BOOT.length, BOOT.height, BOOT.width]} radius={0.22} smoothness={6} position={[bootMid, AXIS_Y, 0]}>
-          {jacketMat(2)}
-        </RoundedBox>
-        {/* The metal USB-C shell; inside the phone once plugged in. */}
-        <RoundedBox args={[SHELL.length, SHELL.height, SHELL.width]} radius={0.07} smoothness={4} position={[plugX + SHELL.length / 2, AXIS_Y, 0]}>
-          <meshPhysicalMaterial color="#d9dde2" metalness={1} roughness={0.22} />
-        </RoundedBox>
+        <group position={[plugX, AXIS_Y, 0]}>
+          <UsbCPlug body={(i) => jacketMat(1 + i)} tip={<meshPhysicalMaterial color="#d9dde2" metalness={1} roughness={0.22} />} />
+        </group>
       </group>
     </group>
   )

@@ -5,12 +5,13 @@
 // into, all in one scene so the camera can pull back from one to the other.
 // Everything follows `t`, set by scroll; nothing here re-renders React.
 
-import { ContactShadows, RoundedBox } from '@react-three/drei'
+import { ContactShadows } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
 import { CableAnatomyModel, CLOSED, JACKET_END, wireCentres } from './CableAnatomy'
-import { AXIS_Y, BATTERY_FROM, BOOT, CABLE_R, FILL_SECONDS, makeEffects, PhoneModel, SHELL, UNPLUGGED } from './CableCharging'
+import { AXIS_Y, BATTERY_FROM, CABLE_R, FILL_SECONDS, makeEffects, PhoneModel, UNPLUGGED } from './CableCharging'
+import { PLUG_BACK, TIP, UsbCPlug } from './UsbCPlug'
 import { cableColourById } from './cableColours'
 import { anatomyColour, cableLayers, layerAnchors } from './cableLayers'
 import { chargingView } from './chargingView'
@@ -25,15 +26,14 @@ const white = cableColourById(anatomyColour)!
 const S = 0.78 / CABLE_R
 /** How far left the cable runs: past the edge of even the widest view. */
 const REACH = -90
-/** The plug, in story units: the strain relief starts just inside the closed jacket's end. */
-const RELIEF_FROM = JACKET_END + CLOSED - 0.1
-const RELIEF_LEN = 0.5 * S
-const BOOT_FROM = RELIEF_FROM + RELIEF_LEN
-const BOOT_FRONT = BOOT_FROM + BOOT.length * S
+/** The plug, in story units: its strain relief starts just inside the closed jacket's end, so its tip's front is here. */
+const TIP_FRONT = JACKET_END + CLOSED - 0.1 - PLUG_BACK * S
+/** Where the metal tip starts (the plug's body ends). */
+const TIP_FROM = TIP_FRONT - TIP.length * S
 /** How far the cable travels into the port. */
 const TRAVEL = -UNPLUGGED * S
 /** The phone's port, once the plug is in. */
-const PORT = BOOT_FRONT + 0.02 * S + TRAVEL
+const PORT = TIP_FRONT + TRAVEL
 /** The table: the phone's underside, with the cable's axis at y = 0. */
 const FLOOR = -AXIS_Y * S
 
@@ -196,7 +196,7 @@ function StoryModel({
   const screen = useRef<THREE.MeshPhysicalMaterial>(null)
   const plugMats = useRef<Array<THREE.MeshPhysicalMaterial | null>>([])
   const [fx] = useState(() => makeEffects({ freq: 0.065, speed: 0.88 }))
-  const [plugXray] = useState(() => [makeXray(white.jacket), makeXray(white.jacket), makeXray('#d9dde2')])
+  const [plugXray] = useState(() => [makeXray(white.jacket), makeXray(white.jacket), makeXray(white.jacket), makeXray('#d9dde2')])
 
   useEffect(() => () => fx.dispose(), [fx])
 
@@ -242,23 +242,16 @@ function StoryModel({
       <group ref={cable}>
         <CableAnatomyModel explodeRef={explodeRef} shownRef={shownExplode} highlightRef={highlightRef} closeRef={closeRef} reach={REACH} tilt={0} />
         {/* The plug, growing out of the cable's end. */}
-        <group ref={plug} position={[RELIEF_FROM, 0, 0]} visible={false}>
-          <mesh position={[RELIEF_LEN / 2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[CABLE_R * S, 0.2 * S, RELIEF_LEN, 48]} />
-            {plugMat(0, white.jacket)}
-          </mesh>
-          <RoundedBox args={[BOOT.length * S, BOOT.height * S, BOOT.width * S]} radius={0.22 * S} smoothness={6} position={[RELIEF_LEN + (BOOT.length * S) / 2, 0, 0]}>
-            {plugMat(1, white.jacket)}
-          </RoundedBox>
-          <RoundedBox args={[SHELL.length * S, SHELL.height * S, SHELL.width * S]} radius={0.07 * S} smoothness={4} position={[RELIEF_LEN + BOOT.length * S + (SHELL.length * S) / 2, 0, 0]}>
-            {plugMat(2, '#d9dde2', true)}
-          </RoundedBox>
+        <group ref={plug} position={[TIP_FRONT + PLUG_BACK * S, 0, 0]} visible={false}>
+          <group position={[-PLUG_BACK * S, 0, 0]} scale={S}>
+            <UsbCPlug body={(i) => plugMat(i, white.jacket)} tip={plugMat(3, '#d9dde2', true)} />
+          </group>
         </group>
         {/* Light running along each wire to the plug while it charges (drawn after the cable's layers, over them). */}
         <group renderOrder={30}>
           {wireCentres.map(([y, z]) => (
-            <mesh key={`${y}:${z}`} position={[(REACH + BOOT_FRONT - 0.6) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
-              <cylinderGeometry args={[0.16, 0.16, BOOT_FRONT - 0.6 - REACH, 24]} />
+            <mesh key={`${y}:${z}`} position={[(REACH + TIP_FROM - 0.4) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.16, 0.16, TIP_FROM - 0.4 - REACH, 24]} />
               <primitive object={fx.pulses} attach="material" />
             </mesh>
           ))}
