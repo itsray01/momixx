@@ -5,10 +5,11 @@
 // outside it. `explode` (or the ref, for scroll-driven motion) pulls them apart.
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { createContext, useContext, useEffect, useMemo, useRef, type RefObject } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
 import { cableColourById } from './cableColours'
 import { anatomyColour, layerOffsets } from './cableLayers'
+import { makeXray } from './xray'
 
 // Every layer runs back past the left edge of the frame (hidden inside the jacket
 // normally), so an x-rayed layer shows its whole length, not a stub.
@@ -25,40 +26,53 @@ export const JACKET_END = -0.95
 
 type Highlight = string | null
 
-// Picking a layer x-rays the rest: they fade see-through, while the picked one
-// looks exactly as it does normally (no glow, which would wash its colour out).
-// Every material is set up as transparent from the start, so a fade never has
-// to rebuild a shader; at full opacity it draws like a solid surface.
-const GHOST = 0.2
+// Picking a layer x-rays the rest: they turn into faint glass outlines (xray.ts),
+// while the picked one looks exactly as it does normally. Every material is set
+// up as transparent from the start, so a change never has to rebuild a shader;
+// with no x-ray it draws like a solid surface.
+type Look = { xray: number; alpha: number }
+const SOLID: Look = { xray: 0, alpha: 1 }
+const GHOST: Look = { xray: 1, alpha: 1 }
 /**
- * 'charge' (the story's last beat): a clean x-ray of the whole cable while it
- * charges, copper solid, the silicone faint, the shields all but gone.
+ * 'charge' (the story's last beat): an x-ray of the whole cable while it
+ * charges, copper solid, the silicone and wire coatings as outlines, the shields gone.
  */
-const CHARGE: Record<string, number> = { copper: 1, jacket: 0.16, insulation: 0.1, braid: 0, foil: 0 }
+const CHARGE: Record<string, Look> = {
+  copper: SOLID,
+  jacket: { xray: 1, alpha: 0.9 },
+  insulation: { xray: 1, alpha: 0.45 },
+  braid: { xray: 1, alpha: 0 },
+  foil: { xray: 1, alpha: 0 },
+}
 
 /** A live highlight (the scroll story drives it without re-rendering); overrides the `highlight` prop. */
 const HighlightRef = createContext<RefObject<Highlight> | null>(null)
 
-const ghostFor = (id: string, h: Highlight) => (h === 'charge' ? (CHARGE[id] ?? 0) : h !== null && h !== id ? GHOST : 1)
+const lookFor = (id: string, h: Highlight): Look => (h === 'charge' ? (CHARGE[id] ?? GHOST) : h !== null && h !== id ? GHOST : SOLID)
 
 function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
   const ref = useRef<THREE.MeshPhysicalMaterial>(null)
-  const shown = useRef(1)
+  const shown = useRef({ xray: 0, alpha: 1 })
+  const [xray] = useState(() => makeXray(color))
   const invalidate = useThree((s) => s.invalidate)
   const live = useContext(HighlightRef)
 
-  // Keeps drawing while a fade eases in, also when the scene only draws on demand.
+  // Keeps drawing while a change eases in, also when the scene only draws on demand.
   useEffect(() => invalidate(), [h, invalidate])
   useFrame((_, delta) => {
     const m = ref.current
     if (!m) return
-    const to = ghostFor(id, live ? live.current : h)
-    shown.current = THREE.MathUtils.damp(shown.current, to, 10, delta)
-    if (Math.abs(shown.current - to) < 0.002) shown.current = to
-    m.opacity = shown.current
-    // Solid layers hide what is behind them; see-through ones must not.
-    m.depthWrite = shown.current > 0.99
-    if (shown.current !== to) invalidate()
+    const to = lookFor(id, live ? live.current : h)
+    const s = shown.current
+    s.xray = THREE.MathUtils.damp(s.xray, to.xray, 9, delta)
+    s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 9, delta)
+    if (Math.abs(s.xray - to.xray) < 0.002) s.xray = to.xray
+    if (Math.abs(s.alpha - to.alpha) < 0.002) s.alpha = to.alpha
+    xray.set(s.xray, s.alpha)
+    // Solid layers hide what is behind them; outlines must not. A faded-out outline is skipped.
+    m.depthWrite = s.xray < 0.01
+    m.visible = s.alpha > 0.01 || s.xray < 0.99
+    if (s.xray !== to.xray || s.alpha !== to.alpha) invalidate()
   })
 
   return (
@@ -73,6 +87,7 @@ function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side
       clearcoat={sheen ? 0.4 : 0}
       transparent
       side={side}
+      onBeforeCompile={xray.patch}
     />
   )
 }

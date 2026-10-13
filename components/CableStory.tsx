@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { CanvasBoundary } from './three/CanvasBoundary'
 import { cableLayers } from './three/cableLayers'
-import { STEP_SCREENS, STORY_STEPS, STORY_STOPS, storyLayer } from './three/storyTimeline'
+import { STORY_SCREENS, storyFromProgress, storyLayer } from './three/storyTimeline'
 
 const StoryCanvas = dynamic(() => import('./three/StoryScene'), { ssr: false })
 
@@ -24,7 +24,9 @@ const place: Record<string, string> = {
  * holds still while you scroll through it, settling on each step: the five
  * layers one at a time (the rest x-rayed), then the cable closes up, grows a
  * USB-C plug, and plugs into a plain phone that charges. Scrolling back plays it
- * in reverse. The script is in three/storyTimeline.ts.
+ * in reverse. Each step holds still for a stretch of scrolling instead of the page
+ * snapping, so the wheel and trackpad always move freely. The script is in
+ * three/storyTimeline.ts.
  */
 export function CableStory({ productLink = true, onFail }: { productLink?: boolean; onFail: () => void }) {
   const track = useRef<HTMLDivElement>(null)
@@ -39,7 +41,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
   const [inView, setInView] = useState(false)
   const [ready, setReady] = useState(false)
 
-  // Scroll sets the story's position; the steps the page settles on are the snap points below.
+  // Scroll sets the story's position.
   useEffect(() => {
     const el = track.current
     if (!el) return
@@ -48,7 +50,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
       raf = 0
       const r = el.getBoundingClientRect()
       const range = r.height - window.innerHeight
-      const t = Math.min(1, Math.max(0, -r.top / range)) * STORY_STEPS
+      const t = storyFromProgress(-r.top / range)
       target.current = t
       setActive(storyLayer(t))
       setPlugged(t >= 5.6)
@@ -62,15 +64,11 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
     window.addEventListener('resize', onScroll)
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting))
     io.observe(el)
-    // Settle on the nearest step when scrolling stops near one, only while this story is on the page.
-    const root = document.documentElement
-    root.style.scrollSnapType = 'y proximity'
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       io.disconnect()
-      root.style.scrollSnapType = ''
     }
   }, [])
 
@@ -109,11 +107,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
 
   return (
     // Full width of the window, breaking out of the page column, and tall enough to scroll through every step.
-    <div ref={track} className="relative mx-[calc(50%-50vw)] w-screen" style={{ height: `${100 + STORY_STEPS * STEP_SCREENS * 100}vh` }}>
-      {STORY_STOPS.map((s) => (
-        // The page's scroll-padding (6rem, for the header) is added back, so each stop lands exactly on its step.
-        <div key={s} aria-hidden="true" className="pointer-events-none absolute left-0 h-px w-px snap-start" style={{ top: `calc(${s * STEP_SCREENS * 100}vh + 6rem)` }} />
-      ))}
+    <div ref={track} className="relative mx-[calc(50%-50vw)] w-screen" style={{ height: `${100 + STORY_SCREENS * 100}vh` }}>
 
       <div ref={stage} className="sticky top-0 h-screen overflow-hidden">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_55%_at_55%_52%,rgb(255_255_255/0.07),transparent_72%)]" />
@@ -168,7 +162,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
 
         {/* The five layers, outside in, as one list: 1, 3 and 5 sit above the cable, 2 and 4 below it. */}
         <ol
-          className={`container-page absolute inset-x-0 top-[12vh] bottom-[6vh] grid grid-cols-12 grid-rows-[auto_1fr_auto] gap-x-6 transition-opacity duration-500 ${plugged ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+          className={`container-page absolute inset-x-0 top-[max(12vh,9.5rem)] bottom-[6vh] grid grid-cols-12 grid-rows-[auto_1fr_auto] gap-x-6 transition-opacity duration-500 ${plugged ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
         >
           {cableLayers.map((l, i) => (
             <li key={l.id} className={`${place[l.id]} ${l.side === 'above' ? 'row-start-1' : 'row-start-3 self-end'} transition-opacity duration-300 ${dimmed(i) ? 'opacity-35' : 'opacity-100'}`}>
@@ -211,7 +205,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
         </div>
 
         {/* The last beat's words. */}
-        <div className={`container-page pointer-events-none absolute inset-x-0 top-[12vh] transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`container-page pointer-events-none absolute inset-x-0 top-[max(12vh,9.5rem)] transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>
           <div className="max-w-md">
             <h3 className="text-3xl font-semibold tracking-[-0.03em]">Plugged in</h3>
             <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power runs through the copper at the centre of the cable, inside the silicone you hold.</p>

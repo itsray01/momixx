@@ -17,6 +17,7 @@ import { chargingView } from './chargingView'
 import { Ready } from './Ready'
 import { storyAt, storyHighlight } from './storyTimeline'
 import { Studio } from './Studio'
+import { makeXray } from './xray'
 
 const white = cableColourById(anatomyColour)!
 
@@ -50,13 +51,13 @@ const vfov = (hfov: number, aspect: number) => (Math.atan(Math.tan((hfov * Math.
 const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2)
 
 /** The camera eases from the close-up to the wide view as the story goes on. */
-function Rig({ storyRef }: { storyRef: RefObject<number> }) {
+function Rig({ sceneRef }: { sceneRef: RefObject<Scene> }) {
   const pos = useMemo(() => new THREE.Vector3(), [])
   const target = useMemo(() => new THREE.Vector3(), [])
   const drift = useRef({ x: 0, y: 0 })
   useFrame(({ camera, pointer, size }, delta) => {
     const cam = camera as THREE.PerspectiveCamera
-    const u = easeInOut(storyAt(Math.max(0, storyRef.current)).camera)
+    const u = easeInOut(storyAt(Math.max(0, sceneRef.current.t)).camera)
     const scale = THREE.MathUtils.lerp(1, 7, u)
     drift.current.x = THREE.MathUtils.damp(drift.current.x, pointer.x * 0.3, 3, delta)
     drift.current.y = THREE.MathUtils.damp(drift.current.y, pointer.y * 0.18, 3, delta)
@@ -90,64 +91,110 @@ function Markers({ markers, explode }: { markers: RefObject<Array<HTMLElement | 
   return null
 }
 
-function StoryModel({ targetRef, storyRef, markers }: { targetRef: RefObject<number>; storyRef: RefObject<number>; markers: RefObject<Array<HTMLElement | null>> }) {
-  const explode = useRef(0.55)
+/** Everything that moves, worked out once per frame by the Director before anything is drawn. */
+type Scene = {
+  /** The story's eased position (-1 until the first frame). */
+  t: number
+  form: number
+  plug: number
+  away: number
+  /** How lit the charging light and screen are (0 to 1). */
+  level: number
+  battery: number
+  time: number
+}
+
+/**
+ * Turns the scroll position into the scene's state, first thing each frame (it is
+ * the Canvas's first child, so the cable's layers read this frame's highlight,
+ * not the last one's). After a gap (the story was off screen, or the page jumped)
+ * it goes straight to where the page is instead of replaying the way there.
+ */
+function Director({
+  targetRef,
+  sceneRef,
+  explodeRef,
+  closeRef,
+  highlightRef,
+  jumpRef,
+}: {
+  targetRef: RefObject<number>
+  sceneRef: RefObject<Scene>
+  explodeRef: RefObject<number>
+  closeRef: RefObject<number>
+  highlightRef: RefObject<string | null>
+  jumpRef: RefObject<boolean>
+}) {
+  useFrame((_, delta) => {
+    const s = sceneRef.current
+    const jump = s.t < 0 || jumpRef.current || delta > 0.25
+    jumpRef.current = false
+    const dt = Math.min(delta, 0.1)
+    // Eases after the scroll, so steps glide.
+    s.t = jump ? targetRef.current : THREE.MathUtils.damp(s.t, targetRef.current, 6, dt)
+    const a = storyAt(s.t)
+    explodeRef.current = a.explode
+    closeRef.current = a.close
+    s.form = a.form
+    // The plug and the phone follow the scroll, a little softened.
+    s.plug = jump ? a.plugIn : THREE.MathUtils.damp(s.plug, a.plugIn, 5, dt)
+    s.away = jump ? a.phoneAway : THREE.MathUtils.damp(s.away, a.phoneAway, 4, dt)
+    // Charging starts once the plug is home.
+    const on = a.charging && s.plug > 0.97
+    const lit = storyHighlight(s.t)
+    highlightRef.current = lit === 'charge' && !on ? null : lit
+    s.level = jump ? (on ? 1 : 0) : THREE.MathUtils.damp(s.level, on ? 1 : 0, on ? 3 : 6, dt)
+    if (on) s.battery = Math.min(1, s.battery + dt / FILL_SECONDS)
+    else if (s.level < 0.02) s.battery = BATTERY_FROM
+    s.time += dt
+  })
+  return null
+}
+
+function StoryModel({
+  sceneRef,
+  explodeRef,
+  closeRef,
+  highlightRef,
+  markers,
+}: {
+  sceneRef: RefObject<Scene>
+  explodeRef: RefObject<number>
+  closeRef: RefObject<number>
+  highlightRef: RefObject<string | null>
+  markers: RefObject<Array<HTMLElement | null>>
+}) {
   const shownExplode = useRef(0.55)
-  const close = useRef(0)
-  const highlight = useRef<string | null>(null)
   const cable = useRef<THREE.Group>(null)
   const plug = useRef<THREE.Group>(null)
   const phone = useRef<THREE.Group>(null)
   const screen = useRef<THREE.MeshPhysicalMaterial>(null)
   const plugMats = useRef<Array<THREE.MeshPhysicalMaterial | null>>([])
   const [fx] = useState(() => makeEffects({ freq: 0.065, speed: 0.88 }))
-  const charge = useRef({ level: 0, battery: BATTERY_FROM, time: 0 })
-  const motion = useRef({ plug: 0, away: 1 })
+  const [plugXray] = useState(() => [makeXray(white.jacket), makeXray(white.jacket), makeXray('#d9dde2')])
 
   useEffect(() => () => fx.dispose(), [fx])
 
-  useFrame((_, delta) => {
-    const dt = Math.min(delta, 0.1)
-    // Starts where the page already is; then eases after the scroll, so steps glide.
-    const t = storyRef.current < 0 ? targetRef.current : THREE.MathUtils.damp(storyRef.current, targetRef.current, 5, dt)
-    storyRef.current = t
-    const a = storyAt(t)
-    explode.current = a.explode
-    close.current = a.close
-
-    // The plug and the phone ease more slowly than the rest, so the plug visibly glides into the port
-    // even when the page settles onto the last step in one quick movement.
-    const m = motion.current
-    m.plug = THREE.MathUtils.damp(m.plug, a.plugIn, 2.2, dt)
-    m.away = THREE.MathUtils.damp(m.away, a.phoneAway, 3, dt)
-    if (cable.current) cable.current.position.x = TRAVEL * m.plug
-    if (phone.current) phone.current.position.x = PORT + m.away * 80
+  useFrame(() => {
+    const s = sceneRef.current
+    if (cable.current) cable.current.position.x = TRAVEL * s.plug
+    if (phone.current) phone.current.position.x = PORT + s.away * 80
     if (plug.current) {
-      const f = a.form
+      const f = s.form
       plug.current.visible = f > 0.005
       plug.current.scale.set(THREE.MathUtils.lerp(0.12, 1, f), THREE.MathUtils.lerp(0.64, 1, f), THREE.MathUtils.lerp(0.41, 1, f))
     }
-
-    // Charging: the light, the screen and the battery, once the plug is home.
-    const c = charge.current
-    const on = a.charging && m.plug > 0.97
-    // The x-ray of the whole cable waits for the plug to be home, along with the light.
-    const lit = storyHighlight(t)
-    highlight.current = lit === 'charge' && !on ? null : lit
-    c.level = THREE.MathUtils.damp(c.level, on ? 1 : 0, on ? 3 : 6, dt)
-    if (on) c.battery = Math.min(1, c.battery + dt / FILL_SECONDS)
-    else if (c.level < 0.02) c.battery = BATTERY_FROM
-    c.time += dt
-    fx.setPulses(c.time, c.level)
-    fx.drawScreen(c.battery)
-    if (screen.current) screen.current.emissiveIntensity = c.level
+    fx.setPulses(s.time, s.level)
+    fx.drawScreen(s.battery)
+    if (screen.current) screen.current.emissiveIntensity = s.level
     // The plug fades in as it forms, and x-rays with the cable while charging.
-    const plugOpacity = Math.min(1, a.form * 1.6) * (1 - c.level * 0.84)
-    for (const m of plugMats.current) {
-      if (!m) continue
-      m.opacity = plugOpacity
-      m.depthWrite = plugOpacity > 0.99
-    }
+    const fade = Math.min(1, s.form * 1.6)
+    plugMats.current.forEach((m, i) => {
+      if (!m) return
+      m.opacity = fade
+      plugXray[i].set(s.level, 0.9)
+      m.depthWrite = fade > 0.99 && s.level < 0.01
+    })
   })
 
   const plugMat = (i: number, color: string, metal = false) => (
@@ -161,13 +208,14 @@ function StoryModel({ targetRef, storyRef, markers }: { targetRef: RefObject<num
       sheenRoughness={0.5}
       clearcoat={metal ? 0 : 0.4}
       transparent
+      onBeforeCompile={plugXray[i].patch}
     />
   )
 
   return (
     <>
       <group ref={cable}>
-        <CableAnatomyModel explodeRef={explode} shownRef={shownExplode} highlightRef={highlight} closeRef={close} reach={REACH} tilt={0} />
+        <CableAnatomyModel explodeRef={explodeRef} shownRef={shownExplode} highlightRef={highlightRef} closeRef={closeRef} reach={REACH} tilt={0} />
         {/* The plug, growing out of the cable's end. */}
         <group ref={plug} position={[RELIEF_FROM, 0, 0]} visible={false}>
           <mesh position={[RELIEF_LEN / 2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
@@ -209,8 +257,15 @@ export default function StoryCanvas({
   animate: boolean
   onReady: () => void
 }) {
-  // The story's eased position, shared by the camera and the model (-1 until the first frame).
-  const story = useRef(-1)
+  const scene = useRef<Scene>({ t: -1, form: 0, plug: 0, away: 1, level: 0, battery: BATTERY_FROM, time: 0 })
+  const explode = useRef(0.55)
+  const close = useRef(0)
+  const highlight = useRef<string | null>(null)
+  // Coming back on screen: go straight to where the page is.
+  const jump = useRef(false)
+  useEffect(() => {
+    if (animate) jump.current = true
+  }, [animate])
   return (
     <Canvas
       dpr={[1, 1.5]}
@@ -218,9 +273,10 @@ export default function StoryCanvas({
       camera={{ position: [CLOSE.position.x, CLOSE.position.y, CLOSE.position.z], fov: 30, near: 0.5, far: 600 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
+      <Director targetRef={target} sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} jumpRef={jump} />
       <Studio />
-      <Rig storyRef={story} />
-      <StoryModel targetRef={target} storyRef={story} markers={markers} />
+      <Rig sceneRef={scene} />
+      <StoryModel sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} markers={markers} />
       <ContactShadows position={[PORT - 10, FLOOR, 0]} opacity={0.5} scale={170} blur={2.4} far={4} resolution={1024} />
       <Ready onReady={onReady} />
     </Canvas>

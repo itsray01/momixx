@@ -1,5 +1,6 @@
 // The cable story's script (desktop): one number, T, from 0 to STORY_STEPS, set by
-// scroll. Each whole number is a step the scroll settles on. Plain data, shared by
+// scroll. Each stop below holds still for a stretch of scrolling, so every step can
+// be read, and the scroll never has to be caught or snapped. Plain data, shared by
 // the page (labels and text) and the 3D scene.
 //
 //   0      the stripped cable, every label shown
@@ -12,16 +13,35 @@
 import { cableLayers } from './cableLayers'
 
 export const STORY_STEPS = 9
-/** The steps the scroll settles on (6 is passed through on the way to 7). */
+/** The steps that hold still (6 is passed through on the way to 7). */
 export const STORY_STOPS = [0, 1, 2, 3, 4, 5, 7, 8, 9]
-/** Screen heights of scrolling per step. */
-export const STEP_SCREENS = 0.5
+/** Scrolling, in screen heights, that each stop holds still for, and that each step of movement takes. */
+const HOLD = 0.22
+const MOVE = 0.32
+/** The whole story's scrolling, in screen heights (the section is this much taller than the screen). */
+export const STORY_SCREENS = STORY_STOPS.length * HOLD + STORY_STEPS * MOVE
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x))
 /** 0 before `a`, 1 after `b`, eased in between. */
 export const span = (a: number, b: number, t: number) => {
   const x = clamp01((t - a) / (b - a))
   return x * x * (3 - 2 * x)
+}
+
+/** T for how far through the section the page has scrolled (0 to 1): held at each stop, eased between. */
+export function storyFromProgress(p: number) {
+  let d = clamp01(p) * STORY_SCREENS
+  for (let i = 0; i < STORY_STOPS.length; i++) {
+    const stop = STORY_STOPS[i]
+    if (d <= HOLD) return stop
+    d -= HOLD
+    const next = STORY_STOPS[i + 1]
+    if (next === undefined) return stop
+    const len = (next - stop) * MOVE
+    if (d <= len) return stop + (next - stop) * span(0, 1, d / len)
+    d -= len
+  }
+  return STORY_STEPS
 }
 
 /** Which layer is lit (1–5), or 0 for none. */
