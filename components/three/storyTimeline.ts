@@ -57,6 +57,19 @@ export function storyHighlight(t: number): string | null {
   return k ? cableLayers[k - 1].id : null
 }
 
+/**
+ * The x-ray's scan along the cable, moved by scroll through steps 0 to 5: from one
+ * step's lit layer to the next's, `f` of the way. After step 5 the cable is solid
+ * again (and the charging x-ray is timed, as it waits for the plug).
+ */
+export function storySweep(t: number): { from: string | null; to: string | null; f: number } | null {
+  if (t >= 5.5) return null
+  const lit = (k: number) => (k >= 1 && k <= 5 ? cableLayers[k - 1].id : null)
+  if (t >= 5) return { from: lit(5), to: null, f: (t - 5) / 0.5 }
+  const k = Math.max(0, Math.floor(t))
+  return { from: lit(k), to: lit(k + 1), f: t - k }
+}
+
 /** Everything the scene needs at a moment of the story. */
 export function storyAt(t: number) {
   return {
