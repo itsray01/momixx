@@ -28,7 +28,7 @@ export const SHELL = { length: TIP.length, height: TIP.height, width: TIP.width 
 export const UNPLUGGED = -1.7
 export const BATTERY_FROM = 0
 /** Seconds for the ring to fill, once charging (a picture, not a claim about charging speed). */
-export const FILL_SECONDS = 6
+export const FILL_SECONDS = 4.2
 
 export type Effects = ReturnType<typeof makeEffects>
 

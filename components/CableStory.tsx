@@ -7,7 +7,8 @@ import { useEffect, useRef, useState } from 'react'
 import { CanvasBoundary } from './three/CanvasBoundary'
 import { cableLayers } from './three/cableLayers'
 import type { StoryFrame } from './three/StoryScene'
-import { STORY_SCREENS, storyFromProgress, storyLayer } from './three/storyTimeline'
+import { STORY_SCREENS, STORY_STEPS, progressAtStop, storyFromProgress, storyLayer } from './three/storyTimeline'
+import { endScriptedScroll, startScriptedScroll } from './motion/scriptedScroll'
 
 const StoryCanvas = dynamic(() => import('./three/StoryScene'), { ssr: false })
 
@@ -48,20 +49,59 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
   // Where the cable's middle sits on the stage, so the still before the 3D lines up with it.
   const [middle, setMiddle] = useState<number | null>(null)
 
-  // Scroll sets the story's position.
+  // Scroll sets the story's position. The last beat is a landing: once the scroll
+  // reaches the plug going in, the page glides to the charging frame on its own and
+  // holds there for a moment, so the plug-in and the charge are seen in full.
   useEffect(() => {
     const el = track.current
     if (!el) return
     let raf = 0
+    // The landing: 'free' until the plug goes in; 'gliding' to the frame; 'held' there for a beat; 'done' until the story is left.
+    let landing: 'free' | 'gliding' | 'held' | 'done' = 'free'
+    let landTimer = 0
+    let glideRaf = 0
     const read = () => {
       raf = 0
       const r = el.getBoundingClientRect()
       const range = r.height - window.innerHeight
-      const t = storyFromProgress(-r.top / range)
+      const p = -r.top / range
+      const t = storyFromProgress(p)
       target.current = t
       setActive(storyLayer(t))
       setPlugged(t >= 5.6)
       setTold(t >= 6.6)
+      // Reaching the plug-in step, on the way down, starts the landing. Leaving the end of the story resets it.
+      if (landing === 'free' && t >= 8.2 && t < STORY_STEPS) land(r.top + window.scrollY + progressAtStop(STORY_STEPS) * range)
+      else if (landing === 'done' && t < 7.5) landing = 'free'
+    }
+    const land = (y: number) => {
+      landing = 'gliding'
+      startScriptedScroll()
+      const from = window.scrollY
+      const t0 = performance.now()
+      const ms = Math.min(900, Math.max(350, Math.abs(y - from) * 1.2))
+      const step = (now: number) => {
+        const u = Math.min(1, (now - t0) / ms)
+        const e = 1 - Math.pow(1 - u, 3)
+        window.scrollTo(0, from + (y - from) * e)
+        if (u < 1) glideRaf = requestAnimationFrame(step)
+        else {
+          landing = 'held'
+          // Held for a beat, then the page is the visitor's again.
+          landTimer = window.setTimeout(() => {
+            landing = 'done'
+            endScriptedScroll()
+          }, 1100)
+        }
+      }
+      glideRaf = requestAnimationFrame(step)
+    }
+    // While gliding or held, the visitor's wheel and keys are set aside (touch scrolling is not, so phones never feel stuck).
+    const block = (e: Event) => {
+      if (landing === 'gliding' || landing === 'held') e.preventDefault()
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if ((landing === 'gliding' || landing === 'held') && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'End', 'Home'].includes(e.key)) e.preventDefault()
     }
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(read)
@@ -69,12 +109,19 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
     read()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
+    window.addEventListener('wheel', block, { passive: false })
+    window.addEventListener('keydown', onKey)
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting))
     io.observe(el)
     return () => {
       cancelAnimationFrame(raf)
+      cancelAnimationFrame(glideRaf)
+      window.clearTimeout(landTimer)
+      if (landing === 'gliding' || landing === 'held') endScriptedScroll()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
+      window.removeEventListener('wheel', block)
+      window.removeEventListener('keydown', onKey)
       io.disconnect()
     }
   }, [])

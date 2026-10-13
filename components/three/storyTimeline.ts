@@ -44,6 +44,19 @@ export function storyFromProgress(p: number) {
   return STORY_STEPS
 }
 
+/** How far through the section (0 to 1) the page is at the start of a stop's hold: the reverse of storyFromProgress. */
+export function progressAtStop(stop: number) {
+  let d = 0
+  for (let i = 0; i < STORY_STOPS.length; i++) {
+    if (STORY_STOPS[i] === stop) return d / STORY_SCREENS
+    d += HOLD
+    const next = STORY_STOPS[i + 1]
+    if (next === undefined) break
+    d += (next - STORY_STOPS[i]) * MOVE
+  }
+  return 1
+}
+
 /** Which layer is lit (1–5), or 0 for none. */
 export function storyLayer(t: number) {
   if (t < 0.5 || t >= 5.55) return 0
