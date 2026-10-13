@@ -60,8 +60,11 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
     let landing: 'free' | 'gliding' | 'held' | 'done' = 'free'
     let landTimer = 0
     let glideRaf = 0
+    // Where the page is pinned while held (the browser's own leftover wheel glide would push past it).
+    let pinnedY = 0
     const read = () => {
       raf = 0
+      if (landing === 'held' && Math.abs(window.scrollY - pinnedY) > 0.5) window.scrollTo(0, pinnedY)
       const r = el.getBoundingClientRect()
       const range = r.height - window.innerHeight
       const p = -r.top / range
@@ -87,6 +90,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
         if (u < 1) glideRaf = requestAnimationFrame(step)
         else {
           landing = 'held'
+          pinnedY = y
           // Held while the charge gets under way, then the page is the visitor's again.
           landTimer = window.setTimeout(() => {
             landing = 'done'
