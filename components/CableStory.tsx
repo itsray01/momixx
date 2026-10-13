@@ -51,12 +51,12 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
 
   // Scroll sets the story's position. The last beat is a landing: once the scroll
   // reaches the plug going in, the page glides to the charging frame on its own and
-  // holds there for a moment, so the plug-in and the charge are seen in full.
+  // holds there a few seconds, so the plug-in and the charge are seen in full.
   useEffect(() => {
     const el = track.current
     if (!el) return
     let raf = 0
-    // The landing: 'free' until the plug goes in; 'gliding' to the frame; 'held' there for a beat; 'done' until the story is left.
+    // The landing: 'free' until the plug goes in; 'gliding' to the frame; 'held' there while the charge gets under way; 'done' until the story is left.
     let landing: 'free' | 'gliding' | 'held' | 'done' = 'free'
     let landTimer = 0
     let glideRaf = 0
@@ -87,11 +87,11 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
         if (u < 1) glideRaf = requestAnimationFrame(step)
         else {
           landing = 'held'
-          // Held for a beat, then the page is the visitor's again.
+          // Held while the charge gets under way, then the page is the visitor's again.
           landTimer = window.setTimeout(() => {
             landing = 'done'
             endScriptedScroll()
-          }, 1100)
+          }, 2800)
         }
       }
       glideRaf = requestAnimationFrame(step)
