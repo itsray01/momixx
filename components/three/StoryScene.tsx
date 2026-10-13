@@ -255,7 +255,7 @@ function StoryModel({
           </RoundedBox>
         </group>
         {/* Light running along each wire to the plug while it charges (drawn after the cable's layers, over them). */}
-        <group renderOrder={6}>
+        <group renderOrder={30}>
           {wireCentres.map(([y, z]) => (
             <mesh key={`${y}:${z}`} position={[(REACH + BOOT_FRONT - 0.6) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
               <cylinderGeometry args={[0.16, 0.16, BOOT_FRONT - 0.6 - REACH, 24]} />

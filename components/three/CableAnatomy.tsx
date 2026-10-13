@@ -45,37 +45,81 @@ const CHARGE: Record<string, Look> = {
   foil: { xray: 1, alpha: 0 },
 }
 
-/** A live highlight (the scroll story drives it without re-rendering); overrides the `highlight` prop. */
-const HighlightRef = createContext<RefObject<Highlight> | null>(null)
-
 const lookFor = (id: string, h: Highlight): Look => (h === 'charge' ? (CHARGE[id] ?? GHOST) : h !== null && h !== id ? GHOST : SOLID)
 
-function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; h: Highlight; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
-  const ref = useRef<THREE.MeshPhysicalMaterial>(null)
-  const shown = useRef({ xray: 0, alpha: 1 })
-  const [xray] = useState(() => makeXray(color))
-  const invalidate = useThree((s) => s.invalidate)
-  const live = useContext(HighlightRef)
+/** How far out each layer sits, copper innermost. */
+const RANK: Record<string, number> = { copper: 1, insulation: 2, foil: 3, braid: 4, jacket: 5 }
+const LAYER_IDS = Object.keys(RANK)
 
+/**
+ * Each layer's look as it eases from one highlight to the next (worked out once a
+ * frame, before any layer draws), and the order the layers draw in:
+ *  - first, outlines outside every solid layer, so a solid layer covers them (no veils over it);
+ *  - then the solid and fading layers, inside out, so what is inside a fading layer shows through;
+ *  - last, outlines inside them, seen through the cut ends and through a layer as it fades.
+ * A layer that is not fully an outline also hides its own far side (depthWrite), so part-way
+ * through a fade it never shows its back through its front.
+ */
+function makeLooks() {
+  const shown = Object.fromEntries(LAYER_IDS.map((id) => [id, { xray: 0, alpha: 1 }]))
+  const groups = Object.fromEntries(LAYER_IDS.map((id) => [id, new Set<THREE.Object3D>()]))
+  return {
+    get: (id: string) => shown[id],
+    /** Lets a group of a layer's meshes take that layer's place in the drawing order. */
+    track(id: string, g: THREE.Object3D | null) {
+      if (!g) return
+      groups[id].add(g)
+      return () => void groups[id].delete(g)
+    },
+    /** Eases every layer towards the highlight; true while anything is still changing. */
+    step(h: Highlight, dt: number) {
+      let busy = false
+      let outermostSolid = 0
+      for (const id of LAYER_IDS) {
+        const to = lookFor(id, h)
+        const s = shown[id]
+        s.xray = THREE.MathUtils.damp(s.xray, to.xray, 9, dt)
+        s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 9, dt)
+        if (Math.abs(s.xray - to.xray) < 0.002) s.xray = to.xray
+        if (Math.abs(s.alpha - to.alpha) < 0.002) s.alpha = to.alpha
+        if (s.xray !== to.xray || s.alpha !== to.alpha) busy = true
+        if (s.xray < 0.99) outermostSolid = Math.max(outermostSolid, RANK[id])
+      }
+      for (const id of LAYER_IDS) {
+        const order = shown[id].xray < 0.99 ? 10 + RANK[id] : RANK[id] > outermostSolid ? RANK[id] : 20 + RANK[id]
+        groups[id].forEach((g) => void (g.renderOrder = order))
+      }
+      return busy
+    },
+  }
+}
+type Looks = ReturnType<typeof makeLooks>
+const LooksContext = createContext<Looks | null>(null)
+
+/** Eases the layers' looks, first thing each frame (it comes before the layers, so they read this frame's look). */
+function LookDriver({ looks, highlight, highlightRef }: { looks: Looks; highlight: Highlight; highlightRef?: RefObject<Highlight> }) {
+  const invalidate = useThree((s) => s.invalidate)
   // Keeps drawing while a change eases in, also when the scene only draws on demand.
-  useEffect(() => invalidate(), [h, invalidate])
+  useEffect(() => invalidate(), [highlight, invalidate])
   useFrame((_, delta) => {
+    if (looks.step(highlightRef ? highlightRef.current : highlight, delta)) invalidate()
+  })
+  return null
+}
+
+function Mat({ id, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
+  const ref = useRef<THREE.MeshPhysicalMaterial>(null)
+  const [xray] = useState(() => makeXray(color))
+  const looks = useContext(LooksContext)!
+
+  useFrame(() => {
     const m = ref.current
     if (!m) return
-    const to = lookFor(id, live ? live.current : h)
-    const s = shown.current
-    s.xray = THREE.MathUtils.damp(s.xray, to.xray, 9, delta)
-    s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 9, delta)
-    if (Math.abs(s.xray - to.xray) < 0.002) s.xray = to.xray
-    if (Math.abs(s.alpha - to.alpha) < 0.002) s.alpha = to.alpha
+    const s = looks.get(id)
     xray.set(s.xray, s.alpha)
-    // A layer hides its own far side until it is fully an outline (which must not hide anything);
-    // part-way through a fade it would otherwise show its back through its front. What is inside
-    // it still shows through as it fades, as layers are drawn inside out (see the groups below).
-    // A faded-out outline is skipped.
     m.depthWrite = s.xray < 0.99
+    // A faded-out outline is skipped.
     m.visible = s.alpha > 0.01 || s.xray < 0.99
-    if (s.xray !== to.xray || s.alpha !== to.alpha) invalidate()
   })
 
   return (
@@ -186,44 +230,53 @@ export function CableAnatomyModel({
     if (core.current) core.current.position.x = THREE.MathUtils.lerp(o.core, 0, c)
   })
 
-  const h = highlight
+  const [looks] = useState(makeLooks)
   const jacketEnd = JACKET_END
 
   return (
-    <HighlightRef.Provider value={highlightRef ?? null}>
+    <LooksContext.Provider value={looks}>
+    <LookDriver looks={looks} highlight={highlight} highlightRef={highlightRef} />
     <group rotation={[0, 0, tilt]}>
-      {/* Layers are drawn from the inside out (each group's renderOrder), so a layer fading in
-          or out always has what is inside it already drawn behind it. */}
+      {/* Each layer's meshes sit in a group that takes the layer's place in the drawing order (makeLooks). */}
       {/* 5 · Silicone jacket (hollow, cut end visible) */}
-      <group ref={jacket} renderOrder={5}>
-        <Rod a={reach - 0.4} b={jacketEnd} r={0.78} open>
-          <Mat id="jacket" h={h} color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} />
-        </Rod>
-        <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <ringGeometry args={[0.63, 0.78, 64]} />
-          <Mat id="jacket" h={h} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
-        </mesh>
-        <Rod a={reach - 0.4} b={jacketEnd} r={0.63} open>
-          <Mat id="jacket" h={h} color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
-        </Rod>
+      <group ref={jacket}>
+        <group ref={(g) => looks.track('jacket', g)}>
+          <Rod a={reach - 0.4} b={jacketEnd} r={0.78} open>
+            <Mat id="jacket" color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} />
+          </Rod>
+          <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+            <ringGeometry args={[0.63, 0.78, 64]} />
+            <Mat id="jacket" color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
+          </mesh>
+          <Rod a={reach - 0.4} b={jacketEnd} r={0.63} open>
+            <Mat id="jacket" color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
+          </Rod>
+        </group>
       </group>
 
       {/* 4 · Braided shield */}
-      <group renderOrder={4}>
+      <group ref={(g) => looks.track('braid', g)}>
         {braid.map((g, k) => (
           <mesh key={k} geometry={g}>
-            <Mat id="braid" h={h} color="#c9cfd6" metalness={0.9} roughness={0.32} />
+            <Mat id="braid" color="#c9cfd6" metalness={0.9} roughness={0.32} />
           </mesh>
         ))}
       </group>
 
-      {/* 3 · Foil shield */}
-      <group renderOrder={3}>
-        <Rod a={L0} b={ends.foil} r={0.52}>
-          <Mat id="foil" h={h} color="#dfe4ea" metalness={1} roughness={0.22} />
+      {/* 3 · Foil shield: a thin wrap, so its cut end is a narrow ring with the wires coming out of it */}
+      <group ref={(g) => looks.track('foil', g)}>
+        <Rod a={L0} b={ends.foil} r={0.52} open>
+          <Mat id="foil" color="#dfe4ea" metalness={1} roughness={0.22} />
+        </Rod>
+        <mesh position={[ends.foil, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+          <ringGeometry args={[0.495, 0.52, 64]} />
+          <Mat id="foil" color="#c4cbd3" metalness={1} roughness={0.3} side={THREE.DoubleSide} />
+        </mesh>
+        <Rod a={L0} b={ends.foil} r={0.495} open>
+          <Mat id="foil" color="#7d8690" metalness={1} roughness={0.45} side={THREE.BackSide} />
         </Rod>
         <mesh geometry={foilSeam}>
-          <Mat id="foil" h={h} color="#9aa3ad" metalness={1} roughness={0.35} />
+          <Mat id="foil" color="#9aa3ad" metalness={1} roughness={0.35} />
         </mesh>
       </group>
 
@@ -232,18 +285,18 @@ export function CableAnatomyModel({
       <group ref={core}>
         {wires.map((w) => (
           <group key={w.color}>
-            <group renderOrder={2}>
+            <group ref={(g) => looks.track('insulation', g)}>
               <Rod a={reach} b={ends.insulation} r={0.17} y={w.y} z={w.z}>
-                <Mat id="insulation" h={h} color={w.color} roughness={0.45} />
+                <Mat id="insulation" color={w.color} roughness={0.45} />
               </Rod>
             </group>
-            <group renderOrder={1}>
+            <group ref={(g) => looks.track('copper', g)}>
               {[0, 1, 2, 3, 4, 5, 6].map((k) => {
                 const a = (k / 6) * Math.PI * 2
                 const r = k === 6 ? 0 : 0.065
                 return (
                   <Rod key={k} a={reach} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
-                    <Mat id="copper" h={h} color="#d08a52" metalness={0.85} roughness={0.28} />
+                    <Mat id="copper" color="#d08a52" metalness={0.85} roughness={0.28} />
                   </Rod>
                 )
               })}
@@ -252,7 +305,7 @@ export function CableAnatomyModel({
         ))}
       </group>
     </group>
-    </HighlightRef.Provider>
+    </LooksContext.Provider>
   )
 }
 
