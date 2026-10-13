@@ -33,7 +33,10 @@ export function makeXray(color: THREE.ColorRepresentation): Xray {
             float facing = abs(dot(normalize(vNormal), normalize(vViewPosition)));
             float rim = pow(1.0 - clamp(facing, 0.0, 1.0), 2.4);
             gl_FragColor.rgb = mix(gl_FragColor.rgb, uXrayTint * (0.12 + 1.15 * rim), uXray);
-            gl_FragColor.a = mix(gl_FragColor.a, (0.04 + 0.8 * rim) * uXrayAlpha, uXray);
+            // Clears quickly at the start of a fade: a layer that is nearly solid but no longer
+            // hides its own far side would show its back through its front for a moment.
+            float clear = 1.0 - pow(1.0 - uXray, 4.0);
+            gl_FragColor.a = mix(gl_FragColor.a, (0.04 + 0.8 * rim) * uXrayAlpha, clear);
           }`,
         )
     },

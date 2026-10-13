@@ -64,8 +64,14 @@ function Mat({ id, h, color, metalness = 0, roughness = 0.4, sheen = false, side
     if (!m) return
     const to = lookFor(id, live ? live.current : h)
     const s = shown.current
-    s.xray = THREE.MathUtils.damp(s.xray, to.xray, 9, delta)
-    s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 9, delta)
+    if (to.xray === 0) {
+      // Turning solid happens at once: part-way there, a layer would show its far side through its front.
+      s.xray = 0
+      s.alpha = to.alpha
+    } else {
+      s.xray = THREE.MathUtils.damp(s.xray, to.xray, 12, delta)
+      s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 12, delta)
+    }
     if (Math.abs(s.xray - to.xray) < 0.002) s.xray = to.xray
     if (Math.abs(s.alpha - to.alpha) < 0.002) s.alpha = to.alpha
     xray.set(s.xray, s.alpha)
