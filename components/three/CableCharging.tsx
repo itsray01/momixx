@@ -47,8 +47,8 @@ const CHARGED = { ring: '#4ade80', glow: 'rgba(74,222,128,0.9)', text: '#86efac'
 
 /**
  * Draws the phone's screen: a ring that fills as the battery charges, with a bolt
- * in the middle and the level beside it. At 100% it turns green, the bolt becomes
- * a tick and the word changes to "Charged".
+ * in the middle and the level beside it. At 100% it turns green; it is still
+ * plugged in, so it still says it is charging.
  */
 function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   const w = SCREEN_W
@@ -76,30 +76,18 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   g.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, battery))
   g.stroke()
   g.restore()
+  // A lightning bolt in the middle of the ring.
   const s = r * 0.62
-  if (full) {
-    // A tick in the middle of the ring.
-    g.strokeStyle = c.ring
-    g.lineWidth = h * 0.05
-    g.lineJoin = 'round'
-    g.beginPath()
-    g.moveTo(cx - s * 0.5, cy + s * 0.02)
-    g.lineTo(cx - s * 0.12, cy + s * 0.4)
-    g.lineTo(cx + s * 0.55, cy - s * 0.38)
-    g.stroke()
-  } else {
-    // A lightning bolt in the middle of the ring.
-    g.fillStyle = c.ring
-    g.beginPath()
-    g.moveTo(cx + s * 0.12, cy - s * 0.62)
-    g.lineTo(cx - s * 0.36, cy + s * 0.08)
-    g.lineTo(cx - s * 0.02, cy + s * 0.08)
-    g.lineTo(cx - s * 0.14, cy + s * 0.62)
-    g.lineTo(cx + s * 0.36, cy - s * 0.1)
-    g.lineTo(cx + s * 0.02, cy - s * 0.1)
-    g.closePath()
-    g.fill()
-  }
+  g.fillStyle = c.ring
+  g.beginPath()
+  g.moveTo(cx + s * 0.12, cy - s * 0.62)
+  g.lineTo(cx - s * 0.36, cy + s * 0.08)
+  g.lineTo(cx - s * 0.02, cy + s * 0.08)
+  g.lineTo(cx - s * 0.14, cy + s * 0.62)
+  g.lineTo(cx + s * 0.36, cy - s * 0.1)
+  g.lineTo(cx + s * 0.02, cy - s * 0.1)
+  g.closePath()
+  g.fill()
   // The level, and what it is doing.
   const font = 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif'
   g.textBaseline = 'alphabetic'
@@ -108,7 +96,7 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   g.fillText(`${Math.round(Math.min(1, battery) * 100)}%`, w * 0.58, cy + h * 0.06)
   g.fillStyle = full ? 'rgba(134,239,172,0.7)' : 'rgba(255,255,255,0.55)'
   g.font = `500 ${Math.round(h * 0.075)}px ${font}`
-  g.fillText(full ? 'Charged' : 'Charging', w * 0.585, cy + h * 0.2)
+  g.fillText('Charging', w * 0.585, cy + h * 0.2)
 }
 
 function roundedRect(w: number, h: number, r: number) {
@@ -166,8 +154,8 @@ const pulseFragment = /* glsl */ `
     float pulse = exp(-pow((s - 0.85) * 9.0, 2.0)) + 0.55 * exp(-pow((s - 0.6) * 4.0, 2.0)) * step(s, 0.85);
     // Brighter through the middle of the tube, fading at its edges, like light inside it.
     float core = pow(max(dot(vNormalV, vViewDir), 0.0), 1.6);
-    // Once full, the pulses settle to a steady glow, in the screen's green.
-    float a = uCharge * core * mix(0.18 + 1.25 * pulse, 0.22, uFull);
+    // Once full, the pulses keep running (it is still plugged in), in the screen's green.
+    float a = uCharge * core * (0.18 + 1.25 * pulse);
     gl_FragColor = vec4(mix(uColor, uFullColor, uFull) * a, a);
   }
 `
@@ -288,7 +276,7 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
       m.opacity = opacity
       m.depthWrite = opacity > 0.99
     }
-    // Once full, the light in the cable settles (eased, so the change is soft).
+    // Once full, the light in the cable turns green (eased, so the change is soft).
     st.full = still ? (st.battery >= 0.999 ? 1 : 0) : THREE.MathUtils.damp(st.full, st.battery >= 0.999 ? 1 : 0, 3, dt)
     fx.setPulses(st.time, st.charge, st.full)
     if (screen.current) screen.current.emissiveIntensity = st.charge

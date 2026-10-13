@@ -127,7 +127,7 @@ type Scene = {
   level: number
   battery: number
   time: number
-  /** 1 once the battery is full (eased), when the light in the cable settles. */
+  /** 1 once the battery is full (eased), when the light in the cable turns green. */
   full: number
 }
 
