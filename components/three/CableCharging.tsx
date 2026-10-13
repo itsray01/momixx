@@ -28,7 +28,7 @@ export const SHELL = { length: TIP.length, height: TIP.height, width: TIP.width 
 export const UNPLUGGED = -1.7
 export const BATTERY_FROM = 0
 /** Seconds for the ring to fill, once charging (a picture, not a claim about charging speed). */
-export const FILL_SECONDS = 12
+export const FILL_SECONDS = 6
 
 export type Effects = ReturnType<typeof makeEffects>
 
@@ -50,7 +50,7 @@ const CHARGED = { ring: '#4ade80', glow: 'rgba(74,222,128,0.9)', text: '#86efac'
  * in the middle and the level beside it. At 100% it turns green; it is still
  * plugged in, so it still says it is charging.
  */
-function drawScreen(g: CanvasRenderingContext2D, battery: number) {
+function drawScreen(g: CanvasRenderingContext2D, battery: number, time: number) {
   const w = SCREEN_W
   const h = SCREEN_H
   g.clearRect(0, 0, w, h)
@@ -61,6 +61,8 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   const r = h * 0.3
   const full = battery >= 0.999
   const c = full ? CHARGED : CHARGING
+  // A slow breath (about every two seconds) for the bolt, and for the number once full.
+  const breath = 0.5 + 0.5 * Math.sin(time * 3)
   // Track, then the filled arc with a soft glow.
   g.lineCap = 'round'
   g.lineWidth = h * 0.045
@@ -76,8 +78,11 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   g.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, battery))
   g.stroke()
   g.restore()
-  // A lightning bolt in the middle of the ring.
-  const s = r * 0.62
+  // A lightning bolt in the middle of the ring, breathing gently with a glow.
+  const s = r * 0.62 * (0.96 + 0.06 * breath)
+  g.save()
+  g.shadowColor = c.glow
+  g.shadowBlur = h * (0.02 + 0.05 * breath)
   g.fillStyle = c.ring
   g.beginPath()
   g.moveTo(cx + s * 0.12, cy - s * 0.62)
@@ -88,15 +93,22 @@ function drawScreen(g: CanvasRenderingContext2D, battery: number) {
   g.lineTo(cx + s * 0.02, cy - s * 0.1)
   g.closePath()
   g.fill()
-  // The level, and what it is doing.
+  g.restore()
+  // The level, and what it is doing. Once full, the number glows gently too.
   const font = 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif'
   g.textBaseline = 'alphabetic'
+  g.save()
+  if (full) {
+    g.shadowColor = c.glow
+    g.shadowBlur = h * (0.01 + 0.05 * breath)
+  }
   g.fillStyle = c.text
   g.font = `600 ${Math.round(h * 0.25)}px ${font}`
   g.fillText(`${Math.round(Math.min(1, battery) * 100)}%`, w * 0.58, cy + h * 0.06)
+  g.restore()
   g.fillStyle = full ? 'rgba(134,239,172,0.7)' : 'rgba(255,255,255,0.55)'
   g.font = `500 ${Math.round(h * 0.075)}px ${font}`
-  g.fillText('Charging', w * 0.585, cy + h * 0.2)
+  g.fillText('Fast Charging', w * 0.585, cy + h * 0.2)
 }
 
 function roundedRect(w: number, h: number, r: number) {
@@ -179,7 +191,7 @@ export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
   texture.anisotropy = 4
-  let drawn = -1
+  let drawnAt = -1
   return {
     pulses,
     texture,
@@ -188,14 +200,14 @@ export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed
       pulses.uniforms.uCharge.value = charge
       pulses.uniforms.uFull.value = full
     },
-    /** Redraws the screen only when what it shows changes: the percentage, or full (green) or not. */
-    drawScreen(battery: number) {
-      const shown = Math.round(battery * 100) + (battery >= 0.999 ? 1000 : 0)
-      if (shown === drawn) return
+    /** Redraws the screen while it is lit, at a modest rate (its animation is slow), and never while dark. */
+    drawScreen(battery: number, time: number, lit: boolean) {
+      if (!lit && drawnAt >= 0) return
+      if (time - drawnAt < 1 / 24 && drawnAt >= 0) return
       const g = canvas.getContext('2d')
-      if (g) drawScreen(g, battery)
+      if (g) drawScreen(g, battery, time)
       texture.needsUpdate = true
-      drawn = shown
+      drawnAt = time
     },
     dispose() {
       pulses.dispose()
@@ -280,7 +292,7 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
     st.full = still ? (st.battery >= 0.999 ? 1 : 0) : THREE.MathUtils.damp(st.full, st.battery >= 0.999 ? 1 : 0, 3, dt)
     fx.setPulses(st.time, st.charge, st.full)
     if (screen.current) screen.current.emissiveIntensity = st.charge
-    fx.drawScreen(st.battery)
+    fx.drawScreen(st.battery, st.time, st.charge > 0.01)
     if (!still && (Math.abs(st.plug - (plugRef?.current ?? 0)) > 0.002 || st.charge > 0.002)) invalidate()
   })
 

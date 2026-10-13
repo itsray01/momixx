@@ -61,8 +61,8 @@ export function storyHighlight(t: number): string | null {
 export function storyAt(t: number) {
   return {
     explode: 0.55 + 0.45 * span(0, 0.7, t) - 1 * span(5.3, 6.0, t),
-    close: span(5.4, 6.3, t),
-    form: span(6.3, 7.0, t),
+    close: span(5.4, 6.2, t),
+    form: span(6.35, 7.0, t),
     camera: span(6.1, 7.6, t),
     /** 1 = the phone is still off to the right, 0 = in place. */
     phoneAway: 1 - span(6.9, 7.9, t),

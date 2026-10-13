@@ -213,15 +213,13 @@ function StoryModel({
       plug.current.scale.set(THREE.MathUtils.lerp(0.12, 1, f), THREE.MathUtils.lerp(0.64, 1, f), THREE.MathUtils.lerp(0.41, 1, f))
     }
     fx.setPulses(s.time, s.level, s.full)
-    fx.drawScreen(s.battery)
+    fx.drawScreen(s.battery, s.time, s.level > 0.01)
     if (screen.current) screen.current.emissiveIntensity = s.level
-    // The plug fades in as it forms, and x-rays with the cable while charging.
-    const fade = Math.min(1, s.form * 1.6)
+    // The plug x-rays with the cable while charging.
     plugMats.current.forEach((m, i) => {
       if (!m) return
-      m.opacity = fade
       plugXray[i].set(s.level, 0.9)
-      m.depthWrite = fade > 0.99 && s.level < 0.01
+      m.depthWrite = s.level < 0.01
     })
   })
 
