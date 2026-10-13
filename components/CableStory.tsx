@@ -73,9 +73,10 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
       setActive(storyLayer(t))
       setPlugged(t >= 5.6)
       setTold(t >= 6.6)
-      // Reaching the plug-in step, on the way down, starts the landing. Leaving the end of the story resets it.
+      // Reaching the plug-in step, on the way down, starts the landing. Backing up far enough
+      // for the plug to come out again resets it, so coming back down lands again.
       if (landing === 'free' && t >= 8.2 && t < STORY_STEPS) land(r.top + window.scrollY + progressAtStop(STORY_STEPS) * range)
-      else if (landing === 'done' && t < 7.5) landing = 'free'
+      else if (landing === 'done' && t < 7.9) landing = 'free'
     }
     const land = (y: number) => {
       landing = 'gliding'
