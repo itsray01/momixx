@@ -107,7 +107,34 @@ function LookDriver({ looks, highlight, highlightRef }: { looks: Looks; highligh
   return null
 }
 
-function Mat({ id, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
+/**
+ * What a part does when its layer is x-rayed. The outline suits big smooth surfaces;
+ * a bundle of thin strands would become dozens of outlines stacked into a dark
+ * tangle, so its strands step aside ('solid') and one simple shape stands in for
+ * the whole bundle ('ghost', drawn only while the layer is x-rayed).
+ */
+type Role = 'both' | 'solid' | 'ghost'
+
+function Mat({
+  id,
+  role = 'both',
+  strength = 1,
+  color,
+  metalness = 0,
+  roughness = 0.4,
+  sheen = false,
+  side,
+}: {
+  id: string
+  role?: Role
+  /** How strongly this part's outline shows, when x-rayed. */
+  strength?: number
+  color: string
+  metalness?: number
+  roughness?: number
+  sheen?: boolean
+  side?: THREE.Side
+}) {
   const ref = useRef<THREE.MeshPhysicalMaterial>(null)
   const [xray] = useState(() => makeXray(color))
   const looks = useContext(LooksContext)!
@@ -116,10 +143,17 @@ function Mat({ id, color, metalness = 0, roughness = 0.4, sheen = false, side }:
     const m = ref.current
     if (!m) return
     const s = looks.get(id)
-    xray.set(s.xray, s.alpha)
-    m.depthWrite = s.xray < 0.99
-    // A faded-out outline is skipped.
-    m.visible = s.alpha > 0.01 || s.xray < 0.99
+    if (role === 'ghost') {
+      // Always the outline; it fades in as the layer x-rays.
+      xray.set(1, s.alpha * s.xray)
+      m.depthWrite = false
+      m.visible = s.xray > 0.01 && s.alpha > 0.01
+    } else {
+      // 'solid' parts fade out as the layer x-rays, hiding their own far side the whole way.
+      xray.set(s.xray, role === 'solid' ? 0 : s.alpha * strength)
+      m.depthWrite = s.xray < 0.99
+      m.visible = role === 'solid' ? s.xray < 0.99 : s.alpha > 0.01 || s.xray < 0.99
+    }
   })
 
   return (
@@ -238,29 +272,33 @@ export function CableAnatomyModel({
     <LookDriver looks={looks} highlight={highlight} highlightRef={highlightRef} />
     <group rotation={[0, 0, tilt]}>
       {/* Each layer's meshes sit in a group that takes the layer's place in the drawing order (makeLooks). */}
-      {/* 5 · Silicone jacket (hollow, cut end visible) */}
+      {/* 5 · Silicone jacket (hollow, cut end visible). Its inner wall only shows while solid: as an
+          outline it would double the tube's lines. */}
       <group ref={jacket}>
         <group ref={(g) => looks.track('jacket', g)}>
           <Rod a={reach - 0.4} b={jacketEnd} r={0.78} open>
-            <Mat id="jacket" color={jacketColour.jacket} roughness={0.38} sheen side={THREE.DoubleSide} />
+            <Mat id="jacket" color={jacketColour.jacket} roughness={0.38} sheen side={THREE.FrontSide} />
           </Rod>
           <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
             <ringGeometry args={[0.63, 0.78, 64]} />
             <Mat id="jacket" color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
           </mesh>
           <Rod a={reach - 0.4} b={jacketEnd} r={0.63} open>
-            <Mat id="jacket" color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
+            <Mat id="jacket" role="solid" color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
           </Rod>
         </group>
       </group>
 
-      {/* 4 · Braided shield */}
+      {/* 4 · Braided shield. X-rayed, it is one sleeve with the weave showing faintly inside it. */}
       <group ref={(g) => looks.track('braid', g)}>
         {braid.map((g, k) => (
           <mesh key={k} geometry={g}>
-            <Mat id="braid" color="#c9cfd6" metalness={0.9} roughness={0.32} />
+            <Mat id="braid" strength={0.3} color="#c9cfd6" metalness={0.9} roughness={0.32} />
           </mesh>
         ))}
+        <Rod a={L0} b={ends.braid} r={0.625} open>
+          <Mat id="braid" role="ghost" color="#c9cfd6" />
+        </Rod>
       </group>
 
       {/* 3 · Foil shield: a thin wrap, so its cut end is a narrow ring with the wires coming out of it */}
@@ -273,10 +311,10 @@ export function CableAnatomyModel({
           <Mat id="foil" color="#c4cbd3" metalness={1} roughness={0.3} side={THREE.DoubleSide} />
         </mesh>
         <Rod a={L0} b={ends.foil} r={0.495} open>
-          <Mat id="foil" color="#7d8690" metalness={1} roughness={0.45} side={THREE.BackSide} />
+          <Mat id="foil" role="solid" color="#7d8690" metalness={1} roughness={0.45} side={THREE.BackSide} />
         </Rod>
         <mesh geometry={foilSeam}>
-          <Mat id="foil" color="#9aa3ad" metalness={1} roughness={0.35} />
+          <Mat id="foil" strength={0.5} color="#9aa3ad" metalness={1} roughness={0.35} />
         </mesh>
       </group>
 
@@ -290,16 +328,20 @@ export function CableAnatomyModel({
                 <Mat id="insulation" color={w.color} roughness={0.45} />
               </Rod>
             </group>
+            {/* X-rayed, the seven strands become one outline of the bundle. */}
             <group ref={(g) => looks.track('copper', g)}>
               {[0, 1, 2, 3, 4, 5, 6].map((k) => {
                 const a = (k / 6) * Math.PI * 2
                 const r = k === 6 ? 0 : 0.065
                 return (
                   <Rod key={k} a={reach} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
-                    <Mat id="copper" color="#d08a52" metalness={0.85} roughness={0.28} />
+                    <Mat id="copper" role="solid" color="#d08a52" metalness={0.85} roughness={0.28} />
                   </Rod>
                 )
               })}
+              <Rod a={reach} b={ends.copper} r={0.11} y={w.y} z={w.z} open>
+                <Mat id="copper" role="ghost" color="#d08a52" />
+              </Rod>
             </group>
           </group>
         ))}
