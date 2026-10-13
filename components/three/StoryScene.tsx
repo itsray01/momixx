@@ -32,8 +32,8 @@ const TIP_FRONT = JACKET_END + CLOSED - 0.1 - PLUG_BACK * S
 const TIP_FROM = TIP_FRONT - TIP.length * S
 /** How far the cable travels into the port. */
 const TRAVEL = -UNPLUGGED * S
-/** The phone's port, once the plug is in. */
-const PORT = TIP_FRONT + TRAVEL
+/** The phone's port, once the plug is in: the metal tip inside the phone, the body's front just short of the port. */
+const PORT = TIP_FRONT + TRAVEL - (TIP.length - 0.02) * S
 /** The table: the phone's underside, with the cable's axis at y = 0. */
 const FLOOR = -AXIS_Y * S
 

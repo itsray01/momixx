@@ -281,8 +281,8 @@ export function CableChargingModel({ plugRef, chargingRef, still }: { plugRef?: 
     />
   )
 
-  // The plug: its tip's front sits at the port when the plug is in.
-  const plugX = 0
+  // The plug, once in: its metal tip inside the phone, the body's front just short of the port.
+  const plugX = TIP.length - 0.02
   const cableTo = plugX + PLUG_BACK
 
   return (
