@@ -9,7 +9,6 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import * as THREE from 'three'
 import { cableColourById } from './cableColours'
 import { anatomyColour, layerOffsets } from './cableLayers'
-import { makeXray } from './xray'
 
 // Every layer runs back past the left edge of the frame (hidden inside the jacket
 // normally), so an x-rayed layer shows its whole length, not a stub.
@@ -52,42 +51,32 @@ const RANK: Record<string, number> = { copper: 1, insulation: 2, foil: 3, braid:
 const LAYER_IDS = Object.keys(RANK)
 
 /**
- * Each layer's look as it eases from one highlight to the next (worked out once a
- * frame, before any layer draws), and the order the layers draw in:
- *  - first, outlines outside every solid layer, so a solid layer covers them (no veils over it);
- *  - then the solid and fading layers, inside out, so what is inside a fading layer shows through;
- *  - last, outlines inside them, seen through the cut ends and through a layer as it fades.
- * A layer that is not fully an outline also hides its own far side (depthWrite), so part-way
- * through a fade it never shows its back through its front.
+ * Each layer's look as it eases from one highlight to the next, worked out once a
+ * frame before any layer draws. Every part is drawn as two pictures that cross-fade,
+ * so a change never pops:
+ *  - its outline, when its layer is x-rayed (drawn first, inside out, so a solid layer
+ *    covers the outlines around it: no veils over the lit layer);
+ *  - its solid self: layers that are solid or becoming solid next, inside out, then
+ *    layers on their way to x-ray last, fading out over everything.
+ * Nothing changes its place in that order part-way through a fade.
  */
 function makeLooks() {
-  const shown = Object.fromEntries(LAYER_IDS.map((id) => [id, { xray: 0, alpha: 1 }]))
-  const groups = Object.fromEntries(LAYER_IDS.map((id) => [id, new Set<THREE.Object3D>()]))
+  const shown = Object.fromEntries(LAYER_IDS.map((id) => [id, { solid: 1, alpha: 1, orderOutline: RANK[id], orderSolid: 10 + RANK[id] }]))
   return {
     get: (id: string) => shown[id],
-    /** Lets a group of a layer's meshes take that layer's place in the drawing order. */
-    track(id: string, g: THREE.Object3D | null) {
-      if (!g) return
-      groups[id].add(g)
-      return () => void groups[id].delete(g)
-    },
     /** Eases every layer towards the highlight; true while anything is still changing. */
     step(h: Highlight, dt: number) {
       let busy = false
-      let outermostSolid = 0
       for (const id of LAYER_IDS) {
         const to = lookFor(id, h)
         const s = shown[id]
-        s.xray = THREE.MathUtils.damp(s.xray, to.xray, 9, dt)
+        const solidTo = 1 - to.xray
+        s.solid = THREE.MathUtils.damp(s.solid, solidTo, 9, dt)
         s.alpha = THREE.MathUtils.damp(s.alpha, to.alpha, 9, dt)
-        if (Math.abs(s.xray - to.xray) < 0.002) s.xray = to.xray
+        if (Math.abs(s.solid - solidTo) < 0.002) s.solid = solidTo
         if (Math.abs(s.alpha - to.alpha) < 0.002) s.alpha = to.alpha
-        if (s.xray !== to.xray || s.alpha !== to.alpha) busy = true
-        if (s.xray < 0.99) outermostSolid = Math.max(outermostSolid, RANK[id])
-      }
-      for (const id of LAYER_IDS) {
-        const order = shown[id].xray < 0.99 ? 10 + RANK[id] : RANK[id] > outermostSolid ? RANK[id] : 20 + RANK[id]
-        groups[id].forEach((g) => void (g.renderOrder = order))
+        if (s.solid !== solidTo || s.alpha !== to.alpha) busy = true
+        s.orderSolid = (solidTo === 1 ? 10 : 30) + RANK[id]
       }
       return busy
     },
@@ -115,72 +104,123 @@ function LookDriver({ looks, highlight, highlightRef }: { looks: Looks; highligh
  */
 type Role = 'both' | 'solid' | 'ghost'
 
-function Mat({
+/** The x-ray outline: a faint glass edge in the part's colour, lifted towards white so dark parts still show. */
+function makeOutline(color: string, side: THREE.Side) {
+  return new THREE.ShaderMaterial({
+    uniforms: { uTint: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.55) }, uStrength: { value: 0 } },
+    vertexShader: /* glsl */ `
+      varying vec3 vN;
+      varying vec3 vV;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vN = normalize(normalMatrix * normal);
+        vV = -mv.xyz;
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform vec3 uTint;
+      uniform float uStrength;
+      varying vec3 vN;
+      varying vec3 vV;
+      void main() {
+        float facing = abs(dot(normalize(vN), normalize(vV)));
+        float rim = pow(1.0 - clamp(facing, 0.0, 1.0), 2.4);
+        gl_FragColor = vec4(uTint * (0.12 + 1.15 * rim), (0.04 + 0.8 * rim) * uStrength);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+    transparent: true,
+    depthWrite: false,
+    side,
+  })
+}
+
+type Surface = { color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }
+
+/**
+ * One piece of a layer: its solid self and its x-ray outline, cross-fading as the
+ * layer's look changes. While the solid self is part-way faded, a depth-only copy
+ * drawn just before it stops its own far side showing through its front.
+ */
+function Part({
   id,
   role = 'both',
   strength = 1,
+  geometry,
+  position,
+  rotation,
   color,
   metalness = 0,
   roughness = 0.4,
   sheen = false,
-  side,
-}: {
+  side = THREE.FrontSide,
+}: Surface & {
   id: string
   role?: Role
   /** How strongly this part's outline shows, when x-rayed. */
   strength?: number
-  color: string
-  metalness?: number
-  roughness?: number
-  sheen?: boolean
-  side?: THREE.Side
+  geometry: THREE.BufferGeometry
+  position?: [number, number, number]
+  rotation?: [number, number, number]
 }) {
-  const ref = useRef<THREE.MeshPhysicalMaterial>(null)
-  const [xray] = useState(() => makeXray(color))
   const looks = useContext(LooksContext)!
+  const solidRef = useRef<THREE.Mesh>(null)
+  const depthRef = useRef<THREE.Mesh>(null)
+  const outlineRef = useRef<THREE.Mesh>(null)
+  const [mats] = useState(() => ({
+    solid: new THREE.MeshPhysicalMaterial({
+      color,
+      metalness,
+      roughness,
+      sheen: sheen ? 0.8 : 0,
+      sheenColor: new THREE.Color('#ffffff'),
+      sheenRoughness: 0.5,
+      clearcoat: sheen ? 0.4 : 0,
+      side,
+      transparent: true,
+    }),
+    depth: new THREE.MeshBasicMaterial({ colorWrite: false, side, transparent: true }),
+    outline: makeOutline(color, side),
+  }))
+  useEffect(() => () => Object.values(mats).forEach((m) => m.dispose()), [mats])
 
   useFrame(() => {
-    const m = ref.current
-    if (!m) return
     const s = looks.get(id)
-    if (role === 'ghost') {
-      // Always the outline; it fades in as the layer x-rays.
-      xray.set(1, s.alpha * s.xray)
-      m.depthWrite = false
-      m.visible = s.xray > 0.01 && s.alpha > 0.01
-    } else {
-      // 'solid' parts fade out as the layer x-rays, hiding their own far side the whole way.
-      xray.set(s.xray, role === 'solid' ? 0 : s.alpha * strength)
-      m.depthWrite = s.xray < 0.99
-      m.visible = role === 'solid' ? s.xray < 0.99 : s.alpha > 0.01 || s.xray < 0.99
+    const solid = role === 'ghost' ? 0 : s.solid
+    const outline = role === 'solid' ? 0 : (1 - s.solid) * s.alpha * strength
+    const m = solidRef.current
+    if (m) {
+      m.visible = solid > 0.01
+      m.renderOrder = s.orderSolid
+      ;(m.material as THREE.MeshPhysicalMaterial).opacity = solid
+    }
+    const d = depthRef.current
+    if (d) {
+      d.visible = solid > 0.01 && solid < 0.99
+      d.renderOrder = s.orderSolid - 0.5
+    }
+    const o = outlineRef.current
+    if (o) {
+      o.visible = outline > 0.01
+      o.renderOrder = s.orderOutline
+      ;(o.material as THREE.ShaderMaterial).uniforms.uStrength.value = outline
     }
   })
 
   return (
-    <meshPhysicalMaterial
-      ref={ref}
-      color={color}
-      metalness={metalness}
-      roughness={roughness}
-      sheen={sheen ? 0.8 : 0}
-      sheenColor="#ffffff"
-      sheenRoughness={0.5}
-      clearcoat={sheen ? 0.4 : 0}
-      transparent
-      side={side}
-      onBeforeCompile={xray.patch}
-    />
+    <>
+      {role !== 'ghost' && <mesh ref={depthRef} geometry={geometry} material={mats.depth} position={position} rotation={rotation} visible={false} />}
+      {role !== 'ghost' && <mesh ref={solidRef} geometry={geometry} material={mats.solid} position={position} rotation={rotation} />}
+      {role !== 'solid' && <mesh ref={outlineRef} geometry={geometry} material={mats.outline} position={position} rotation={rotation} visible={false} />}
+    </>
   )
 }
 
 /** A cylinder along x from a to b. */
-function Rod({ a, b, r, y = 0, z = 0, open = false, children }: { a: number; b: number; r: number; y?: number; z?: number; open?: boolean; children: React.ReactNode }) {
-  return (
-    <mesh position={[(a + b) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
-      <cylinderGeometry args={[r, r, b - a, 48, 1, open]} />
-      {children}
-    </mesh>
-  )
+function Rod({ a, b, r, y = 0, z = 0, open = false, ...part }: Surface & { id: string; role?: Role; strength?: number; a: number; b: number; r: number; y?: number; z?: number; open?: boolean }) {
+  const geometry = useMemo(() => new THREE.CylinderGeometry(r, r, b - a, 48, 1, open), [r, a, b, open])
+  useEffect(() => () => geometry.dispose(), [geometry])
+  return <Part {...part} geometry={geometry} position={[(a + b) / 2, y, z]} rotation={[0, 0, Math.PI / 2]} />
 }
 
 const wires = [
@@ -254,6 +294,18 @@ export function CableAnatomyModel({
     return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), steps * 2, 0.008, 4, false)
   }, [])
 
+  const cutEnd = useMemo(() => new THREE.RingGeometry(0.63, 0.78, 64), [])
+  const foilEnd = useMemo(() => new THREE.RingGeometry(0.495, 0.52, 64), [])
+  useEffect(
+    () => () => {
+      braid.forEach((g) => g.dispose())
+      foilSeam.dispose()
+      cutEnd.dispose()
+      foilEnd.dispose()
+    },
+    [braid, foilSeam, cutEnd, foilEnd],
+  )
+
   useFrame((_, delta) => {
     const target = explodeRef ? explodeRef.current : explode
     current.current = THREE.MathUtils.damp(current.current, target, 4, delta)
@@ -275,74 +327,50 @@ export function CableAnatomyModel({
       {/* 5 · Silicone jacket (hollow, cut end visible). Its inner wall only shows while solid: as an
           outline it would double the tube's lines. */}
       <group ref={jacket}>
-        <group ref={(g) => looks.track('jacket', g)}>
-          <Rod a={reach - 0.4} b={jacketEnd} r={0.78} open>
-            <Mat id="jacket" color={jacketColour.jacket} roughness={0.38} sheen side={THREE.FrontSide} />
-          </Rod>
-          <mesh position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-            <ringGeometry args={[0.63, 0.78, 64]} />
-            <Mat id="jacket" color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
-          </mesh>
-          <Rod a={reach - 0.4} b={jacketEnd} r={0.63} open>
-            <Mat id="jacket" role="solid" color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
-          </Rod>
-        </group>
+        <Rod id="jacket" a={reach - 0.4} b={jacketEnd} r={0.78} open color={jacketColour.jacket} roughness={0.38} sheen />
+        <Part id="jacket" geometry={cutEnd} position={[jacketEnd, 0, 0]} rotation={[0, Math.PI / 2, 0]} color={jacketColour.cut} roughness={0.5} sheen side={THREE.DoubleSide} />
+        <Rod id="jacket" role="solid" a={reach - 0.4} b={jacketEnd} r={0.63} open color={jacketColour.inner} roughness={0.6} side={THREE.BackSide} />
       </group>
 
       {/* 4 · Braided shield. X-rayed, it is one sleeve with the weave showing faintly inside it. */}
-      <group ref={(g) => looks.track('braid', g)}>
-        {braid.map((g, k) => (
-          <mesh key={k} geometry={g}>
-            <Mat id="braid" strength={0.3} color="#c9cfd6" metalness={0.9} roughness={0.32} />
-          </mesh>
-        ))}
-        <Rod a={L0} b={ends.braid} r={0.625} open>
-          <Mat id="braid" role="ghost" color="#c9cfd6" />
-        </Rod>
-      </group>
+      {braid.map((g, k) => (
+        <Part key={k} id="braid" strength={0.3} geometry={g} color="#c9cfd6" metalness={0.9} roughness={0.32} />
+      ))}
+      <Rod id="braid" role="ghost" a={L0} b={ends.braid} r={0.625} open color="#c9cfd6" />
 
       {/* 3 · Foil shield: a thin wrap, so its cut end is a narrow ring with the wires coming out of it */}
-      <group ref={(g) => looks.track('foil', g)}>
-        <Rod a={L0} b={ends.foil} r={0.52} open>
-          <Mat id="foil" color="#dfe4ea" metalness={1} roughness={0.22} />
-        </Rod>
-        <mesh position={[ends.foil, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <ringGeometry args={[0.495, 0.52, 64]} />
-          <Mat id="foil" color="#c4cbd3" metalness={1} roughness={0.3} side={THREE.DoubleSide} />
-        </mesh>
-        <Rod a={L0} b={ends.foil} r={0.495} open>
-          <Mat id="foil" role="solid" color="#7d8690" metalness={1} roughness={0.45} side={THREE.BackSide} />
-        </Rod>
-        <mesh geometry={foilSeam}>
-          <Mat id="foil" strength={0.5} color="#9aa3ad" metalness={1} roughness={0.35} />
-        </mesh>
-      </group>
+      <Rod id="foil" a={L0} b={ends.foil} r={0.52} open color="#dfe4ea" metalness={1} roughness={0.22} />
+      <Part id="foil" geometry={foilEnd} position={[ends.foil, 0, 0]} rotation={[0, Math.PI / 2, 0]} color="#c4cbd3" metalness={1} roughness={0.3} side={THREE.DoubleSide} />
+      <Rod id="foil" role="solid" a={L0} b={ends.foil} r={0.495} open color="#7d8690" metalness={1} roughness={0.45} side={THREE.BackSide} />
+      <Part id="foil" strength={0.5} geometry={foilSeam} color="#9aa3ad" metalness={1} roughness={0.35} />
 
       {/* 2 and 1 · Insulated wires. The copper runs their whole length (hidden inside the coating,
-          and seen when the other layers are x-rayed), bare where the coating stops. */}
+          and seen when the other layers are x-rayed), bare where the coating stops. X-rayed, each
+          wire's seven strands become one outline of the bundle. */}
       <group ref={core}>
         {wires.map((w) => (
           <group key={w.color}>
-            <group ref={(g) => looks.track('insulation', g)}>
-              <Rod a={reach} b={ends.insulation} r={0.17} y={w.y} z={w.z}>
-                <Mat id="insulation" color={w.color} roughness={0.45} />
-              </Rod>
-            </group>
-            {/* X-rayed, the seven strands become one outline of the bundle. */}
-            <group ref={(g) => looks.track('copper', g)}>
-              {[0, 1, 2, 3, 4, 5, 6].map((k) => {
-                const a = (k / 6) * Math.PI * 2
-                const r = k === 6 ? 0 : 0.065
-                return (
-                  <Rod key={k} a={reach} b={ends.copper - (k === 6 ? 0 : 0.03)} r={0.042} y={w.y + Math.cos(a) * r} z={w.z + Math.sin(a) * r}>
-                    <Mat id="copper" role="solid" color="#d08a52" metalness={0.85} roughness={0.28} />
-                  </Rod>
-                )
-              })}
-              <Rod a={reach} b={ends.copper} r={0.11} y={w.y} z={w.z} open>
-                <Mat id="copper" role="ghost" color="#d08a52" />
-              </Rod>
-            </group>
+            <Rod id="insulation" a={reach} b={ends.insulation} r={0.17} y={w.y} z={w.z} color={w.color} roughness={0.45} />
+            {[0, 1, 2, 3, 4, 5, 6].map((k) => {
+              const a = (k / 6) * Math.PI * 2
+              const r = k === 6 ? 0 : 0.065
+              return (
+                <Rod
+                  key={k}
+                  id="copper"
+                  role="solid"
+                  a={reach}
+                  b={ends.copper - (k === 6 ? 0 : 0.03)}
+                  r={0.042}
+                  y={w.y + Math.cos(a) * r}
+                  z={w.z + Math.sin(a) * r}
+                  color="#d08a52"
+                  metalness={0.85}
+                  roughness={0.28}
+                />
+              )
+            })}
+            <Rod id="copper" role="ghost" a={reach} b={ends.copper} r={0.11} y={w.y} z={w.z} open color="#d08a52" />
           </group>
         ))}
       </group>
