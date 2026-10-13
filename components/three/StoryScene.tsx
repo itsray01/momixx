@@ -9,13 +9,13 @@ import { ContactShadows, RoundedBox } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import * as THREE from 'three'
-import { CableAnatomyModel, CLOSED, JACKET_END, wireCentres, type Sweep } from './CableAnatomy'
+import { CableAnatomyModel, CLOSED, JACKET_END, wireCentres } from './CableAnatomy'
 import { AXIS_Y, BATTERY_FROM, BOOT, CABLE_R, FILL_SECONDS, makeEffects, PhoneModel, SHELL, UNPLUGGED } from './CableCharging'
 import { cableColourById } from './cableColours'
 import { anatomyColour, cableLayers, layerAnchors } from './cableLayers'
 import { chargingView } from './chargingView'
 import { Ready } from './Ready'
-import { storyAt, storyHighlight, storySweep } from './storyTimeline'
+import { storyAt, storyHighlight } from './storyTimeline'
 import { Studio } from './Studio'
 import { makeXray } from './xray'
 
@@ -36,8 +36,6 @@ const TRAVEL = -UNPLUGGED * S
 const PORT = BOOT_FRONT + 0.02 * S + TRAVEL
 /** The table: the phone's underside, with the cable's axis at y = 0. */
 const FLOOR = -AXIS_Y * S
-/** Where the charging x-ray sweeps along the cable, in the wide view: from off the left edge into the plug. */
-const CHARGE_SWEEP: [number, number] = [PORT - 40, PORT]
 
 const v3 = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z)
 /** Close up on the stripped end (the anatomy's own view). */
@@ -143,7 +141,6 @@ function Director({
   explodeRef,
   closeRef,
   highlightRef,
-  sweepRef,
   jumpRef,
 }: {
   targetRef: RefObject<number>
@@ -151,7 +148,6 @@ function Director({
   explodeRef: RefObject<number>
   closeRef: RefObject<number>
   highlightRef: RefObject<string | null>
-  sweepRef: RefObject<Sweep | null>
   jumpRef: RefObject<boolean>
 }) {
   useFrame((_, delta) => {
@@ -170,10 +166,8 @@ function Director({
     s.away = jump ? a.phoneAway : THREE.MathUtils.damp(s.away, a.phoneAway, 4, dt)
     // Charging starts once the plug is home.
     const on = a.charging && s.plug > 0.97
-    // Steps 1 to 5: the x-ray scans along the cable as the page scrolls. Later, the charging x-ray
-    // sweeps in on its own once the plug is home.
-    sweepRef.current = storySweep(s.t)
-    highlightRef.current = storyHighlight(s.t) === 'charge' && on ? 'charge' : null
+    const lit = storyHighlight(s.t)
+    highlightRef.current = lit === 'charge' && !on ? null : lit
     s.level = jump ? (on ? 1 : 0) : THREE.MathUtils.damp(s.level, on ? 1 : 0, on ? 3 : 6, dt)
     if (on) s.battery = Math.min(1, s.battery + dt / FILL_SECONDS)
     else if (s.level < 0.02) s.battery = BATTERY_FROM
@@ -187,14 +181,12 @@ function StoryModel({
   explodeRef,
   closeRef,
   highlightRef,
-  sweepRef,
   markers,
 }: {
   sceneRef: RefObject<Scene>
   explodeRef: RefObject<number>
   closeRef: RefObject<number>
   highlightRef: RefObject<string | null>
-  sweepRef: RefObject<Sweep | null>
   markers: RefObject<Array<HTMLElement | null>>
 }) {
   const shownExplode = useRef(0.55)
@@ -248,16 +240,7 @@ function StoryModel({
   return (
     <>
       <group ref={cable}>
-        <CableAnatomyModel
-          explodeRef={explodeRef}
-          shownRef={shownExplode}
-          highlightRef={highlightRef}
-          sweepRef={sweepRef}
-          range={CHARGE_SWEEP}
-          closeRef={closeRef}
-          reach={REACH}
-          tilt={0}
-        />
+        <CableAnatomyModel explodeRef={explodeRef} shownRef={shownExplode} highlightRef={highlightRef} closeRef={closeRef} reach={REACH} tilt={0} />
         {/* The plug, growing out of the cable's end. */}
         <group ref={plug} position={[RELIEF_FROM, 0, 0]} visible={false}>
           <mesh position={[RELIEF_LEN / 2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
@@ -271,13 +254,15 @@ function StoryModel({
             {plugMat(2, '#d9dde2', true)}
           </RoundedBox>
         </group>
-        {/* Light running along each wire to the plug while it charges. */}
-        {wireCentres.map(([y, z]) => (
-          <mesh key={`${y}:${z}`} position={[(REACH + BOOT_FRONT - 0.6) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[0.16, 0.16, BOOT_FRONT - 0.6 - REACH, 24]} />
-            <primitive object={fx.pulses} attach="material" />
-          </mesh>
-        ))}
+        {/* Light running along each wire to the plug while it charges (drawn after the cable's layers, over them). */}
+        <group renderOrder={6}>
+          {wireCentres.map(([y, z]) => (
+            <mesh key={`${y}:${z}`} position={[(REACH + BOOT_FRONT - 0.6) / 2, y, z]} rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.16, 0.16, BOOT_FRONT - 0.6 - REACH, 24]} />
+              <primitive object={fx.pulses} attach="material" />
+            </mesh>
+          ))}
+        </group>
       </group>
       <group ref={phone} position={[PORT + 80, FLOOR, 0]} scale={S}>
         <PhoneModel fx={fx} screenRef={screen} />
@@ -306,7 +291,6 @@ export default function StoryCanvas({
   const explode = useRef(0.55)
   const close = useRef(0)
   const highlight = useRef<string | null>(null)
-  const sweep = useRef<Sweep | null>(null)
   // Coming back on screen: go straight to where the page is.
   const jump = useRef(false)
   useEffect(() => {
@@ -319,10 +303,10 @@ export default function StoryCanvas({
       camera={{ position: [CLOSE.position.x, CLOSE.position.y, CLOSE.position.z], fov: 30, near: 0.5, far: 600 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
-      <Director targetRef={target} sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} sweepRef={sweep} jumpRef={jump} />
+      <Director targetRef={target} sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} jumpRef={jump} />
       <Studio />
       <Rig sceneRef={scene} frameRef={frame} />
-      <StoryModel sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} sweepRef={sweep} markers={markers} />
+      <StoryModel sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} markers={markers} />
       <ContactShadows position={[PORT - 10, FLOOR, 0]} opacity={0.5} scale={170} blur={2.4} far={4} resolution={1024} />
       <Ready onReady={onReady} />
     </Canvas>
