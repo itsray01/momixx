@@ -91,16 +91,25 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
         else {
           landing = 'held'
           pinnedY = y
-          // Held while the charge gets under way, then the page is the visitor's again.
+          // Held while the charge gets under way: the page's own scrolling is switched off at the root
+          // (which stops the wheel, keys, trackpad and scrollbar alike), then the page is the visitor's again.
+          hold(true)
           landTimer = window.setTimeout(() => {
             landing = 'done'
+            hold(false)
             endScriptedScroll()
           }, 2800)
         }
       }
       glideRaf = requestAnimationFrame(step)
     }
-    // While gliding or held, the visitor's wheel and keys are set aside (touch scrolling is not, so phones never feel stuck).
+    const root = document.documentElement
+    const hold = (on: boolean) => {
+      // Keeps the page's width the same, so nothing shifts when the scrollbar goes.
+      root.style.scrollbarGutter = on ? 'stable' : ''
+      root.style.overflowY = on ? 'hidden' : ''
+    }
+    // While gliding, the visitor's wheel and keys are set aside (touch scrolling is not, so phones never feel stuck).
     const block = (e: Event) => {
       if (landing === 'gliding' || landing === 'held') e.preventDefault()
     }
@@ -121,6 +130,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
       cancelAnimationFrame(raf)
       cancelAnimationFrame(glideRaf)
       window.clearTimeout(landTimer)
+      if (landing === 'held') hold(false)
       if (landing === 'gliding' || landing === 'held') endScriptedScroll()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
