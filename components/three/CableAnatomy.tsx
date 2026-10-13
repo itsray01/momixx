@@ -109,7 +109,7 @@ function LookDriver({ looks, highlight, highlightRef }: { looks: Looks; highligh
 
 function Mat({ id, color, metalness = 0, roughness = 0.4, sheen = false, side }: { id: string; color: string; metalness?: number; roughness?: number; sheen?: boolean; side?: THREE.Side }) {
   const ref = useRef<THREE.MeshPhysicalMaterial>(null)
-  const [xray] = useState(() => makeXray(color))
+  const [xray] = useState(makeXray)
   const looks = useContext(LooksContext)!
 
   useFrame(() => {

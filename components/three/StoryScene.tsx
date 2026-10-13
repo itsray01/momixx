@@ -196,7 +196,7 @@ function StoryModel({
   const screen = useRef<THREE.MeshPhysicalMaterial>(null)
   const plugMats = useRef<Array<THREE.MeshPhysicalMaterial | null>>([])
   const [fx] = useState(() => makeEffects({ freq: 0.065, speed: 0.88 }))
-  const [plugXray] = useState(() => [makeXray(white.jacket), makeXray(white.jacket), makeXray('#d9dde2')])
+  const [plugXray] = useState(() => [makeXray(), makeXray(), makeXray()])
 
   useEffect(() => () => fx.dispose(), [fx])
 
