@@ -6,9 +6,13 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { CanvasBoundary } from './three/CanvasBoundary'
 import { cableLayers } from './three/cableLayers'
+import type { StoryFrame } from './three/StoryScene'
 import { STORY_SCREENS, storyFromProgress, storyLayer } from './three/storyTimeline'
 
 const StoryCanvas = dynamic(() => import('./three/StoryScene'), { ssr: false })
+
+/** Space kept clear between a row of labels and the cable. */
+const CLEAR = 28
 
 // Where each label sits around the cable (a 12-column grid): above for 1, 3, 5; below for 2, 4.
 const place: Record<string, string> = {
@@ -32,6 +36,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
   const track = useRef<HTMLDivElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const target = useRef(0)
+  const frame = useRef<StoryFrame | null>(null)
   const markers = useRef<Array<HTMLSpanElement | null>>([])
   const badges = useRef<Array<HTMLSpanElement | null>>([])
   const lines = useRef<Array<SVGPolylineElement | null>>([])
@@ -70,6 +75,28 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
       window.removeEventListener('resize', onScroll)
       io.disconnect()
     }
+  }, [])
+
+  // The room between the two rows of labels, which the 3D fits the cable into.
+  useEffect(() => {
+    const box = stage.current
+    if (!box) return
+    const measure = () => {
+      const base = box.getBoundingClientRect()
+      const rows = (side: string) => [...box.querySelectorAll<HTMLElement>(`li[data-side="${side}"]`)].map((li) => li.getBoundingClientRect())
+      const above = rows('above')
+      const below = rows('below')
+      if (!above.length || !below.length) return
+      frame.current = {
+        top: Math.max(...above.map((r) => r.bottom)) - base.top + CLEAR,
+        bottom: Math.min(...below.map((r) => r.top)) - base.top - CLEAR,
+      }
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(box)
+    document.fonts?.ready.then(measure)
+    return () => ro.disconnect()
   }, [])
 
   // Label lines: from each label's number, along its edge, then across to its layer.
@@ -129,7 +156,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
           </div>
           <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? 'opacity-100' : 'opacity-0'}`}>
             <CanvasBoundary onError={onFail}>
-              <StoryCanvas target={target} markers={markers} animate={inView} onReady={() => setReady(true)} />
+              <StoryCanvas target={target} frame={frame} markers={markers} animate={inView} onReady={() => setReady(true)} />
             </CanvasBoundary>
           </div>
         </div>
@@ -165,7 +192,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
           className={`container-page absolute inset-x-0 top-[max(12vh,9.5rem)] bottom-[6vh] grid grid-cols-12 grid-rows-[auto_1fr_auto] gap-x-6 transition-opacity duration-500 ${plugged ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
         >
           {cableLayers.map((l, i) => (
-            <li key={l.id} className={`${place[l.id]} ${l.side === 'above' ? 'row-start-1' : 'row-start-3 self-end'} transition-opacity duration-300 ${dimmed(i) ? 'opacity-35' : 'opacity-100'}`}>
+            <li key={l.id} data-side={l.side} className={`${place[l.id]} ${l.side === 'above' ? 'row-start-1' : 'row-start-3 self-end'} transition-opacity duration-300 ${dimmed(i) ? 'opacity-35' : 'opacity-100'}`}>
               <div className="flex gap-4">
                 <span
                   ref={(el) => void (badges.current[i] = el)}

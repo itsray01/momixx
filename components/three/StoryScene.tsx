@@ -50,8 +50,15 @@ const WIDE = {
 const vfov = (hfov: number, aspect: number) => (Math.atan(Math.tan((hfov * Math.PI) / 360) / aspect) * 360) / Math.PI
 const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2)
 
-/** The camera eases from the close-up to the wide view as the story goes on. */
-function Rig({ sceneRef }: { sceneRef: RefObject<Scene> }) {
+/** The room the page leaves the cable between its two rows of labels, in pixels from the top of the stage. */
+export type StoryFrame = { top: number; bottom: number }
+
+/**
+ * The camera eases from the close-up to the wide view as the story goes on. In the
+ * close-up the cable is centred in the room between the label rows, and drawn
+ * smaller if that room is tight (wide, short screens), so no label ever sits on it.
+ */
+function Rig({ sceneRef, frameRef }: { sceneRef: RefObject<Scene>; frameRef: RefObject<StoryFrame | null> }) {
   const pos = useMemo(() => new THREE.Vector3(), [])
   const target = useMemo(() => new THREE.Vector3(), [])
   const drift = useRef({ x: 0, y: 0 })
@@ -65,7 +72,25 @@ function Rig({ sceneRef }: { sceneRef: RefObject<Scene> }) {
     pos.setX(pos.x + drift.current.x * scale).setY(pos.y + drift.current.y * scale)
     target.lerpVectors(CLOSE.target, WIDE.target, u)
     cam.position.copy(pos)
-    const fov = vfov(THREE.MathUtils.lerp(CLOSE.hfov, WIDE.hfov, u), size.width / size.height)
+
+    const aspect = size.width / size.height
+    let closeHfov = CLOSE.hfov
+    let shift = 0
+    const f = frameRef.current
+    if (f && f.bottom - f.top > 40) {
+      // Pixels per unit at the cable, in the close-up; the cable and its label dots need about 2.1 units of height.
+      const v = (vfov(CLOSE.hfov, aspect) * Math.PI) / 180
+      const perUnit = size.height / (2 * CLOSE.position.distanceTo(CLOSE.target) * Math.tan(v / 2))
+      const fit = Math.min(1, (f.bottom - f.top) / (2.1 * perUnit))
+      closeHfov = (2 * Math.atan(Math.tan((CLOSE.hfov * Math.PI) / 360) / fit) * 180) / Math.PI
+      shift = (f.top + f.bottom) / 2 - size.height / 2
+    }
+    const fov = vfov(THREE.MathUtils.lerp(closeHfov, WIDE.hfov, u), aspect)
+    const offset = -shift * (1 - u)
+    const view = cam.view
+    if (!view || view.fullWidth !== size.width || view.fullHeight !== size.height || Math.abs(view.offsetY - offset) > 0.5) {
+      cam.setViewOffset(size.width, size.height, 0, offset, size.width, size.height)
+    }
     if (Math.abs(cam.fov - fov) > 0.001) {
       cam.fov = fov
       cam.updateProjectionMatrix()
@@ -247,12 +272,15 @@ function StoryModel({
 
 export default function StoryCanvas({
   target,
+  frame,
   markers,
   animate,
   onReady,
 }: {
   /** The story's position, 0 to STORY_STEPS, set by scroll. */
   target: RefObject<number>
+  /** The room between the label rows (measured by the page). */
+  frame: RefObject<StoryFrame | null>
   markers: RefObject<Array<HTMLElement | null>>
   animate: boolean
   onReady: () => void
@@ -275,7 +303,7 @@ export default function StoryCanvas({
     >
       <Director targetRef={target} sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} jumpRef={jump} />
       <Studio />
-      <Rig sceneRef={scene} />
+      <Rig sceneRef={scene} frameRef={frame} />
       <StoryModel sceneRef={scene} explodeRef={explode} closeRef={close} highlightRef={highlight} markers={markers} />
       <ContactShadows position={[PORT - 10, FLOOR, 0]} opacity={0.5} scale={170} blur={2.4} far={4} resolution={1024} />
       <Ready onReady={onReady} />
