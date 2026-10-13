@@ -188,9 +188,9 @@ export function makeEffects({ freq = 0.32, speed = 0.9 }: { freq?: number; speed
       pulses.uniforms.uCharge.value = charge
       pulses.uniforms.uFull.value = full
     },
-    /** Redraws the screen only when the shown percentage changes. */
+    /** Redraws the screen only when what it shows changes: the percentage, or full (green) or not. */
     drawScreen(battery: number) {
-      const shown = Math.round(battery * 100)
+      const shown = Math.round(battery * 100) + (battery >= 0.999 ? 1000 : 0)
       if (shown === drawn) return
       const g = canvas.getContext('2d')
       if (g) drawScreen(g, battery)
