@@ -55,4 +55,4 @@ Brands also want recycled content they can **prove**. Schemes such as GRS and IS
 
 ## What does MoMixx do?
 
-MoMixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Its recycled content is certified under GRS, ISCC PLUS and SCS Global Services, with certified chain-of-custody records from collected waste to finished silicone. [See our process and certificates](/recycled-silicone).
+MoMixx chemically recycles factory offcuts and used silicone products into new silicone that performs like the original. Its recycled content is certified under GRS, RCS, ISCC PLUS and SCS Global Services, with certified chain-of-custody records from collected waste to finished silicone. [See our process and certificates](/recycled-silicone).

@@ -81,7 +81,7 @@ export default function AboutPage() {
               parts.
             </p>
             <p>
-              We were early to recycled silicone. Our recycled content is certified under three international schemes (GRS, ISCC PLUS and SCS), and an
+              We were early to recycled silicone. Our recycled content is certified under four international schemes (GRS, RCS, ISCC PLUS and SCS), and an
               independent third party has checked our product carbon footprint calculation.
             </p>
             <p>
@@ -156,7 +156,7 @@ export default function AboutPage() {
           ))}
         </ul>
         <p className="mt-12 max-w-3xl text-lg leading-relaxed text-zinc-300">
-          We build for international markets and international standards. Our recycled silicone is certified under GRS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
+          We build for international markets and international standards. Our recycled silicone is certified under GRS, RCS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
         </p>
         <div className="mt-8 flex flex-wrap gap-6">
           {teamReady && <ArrowLink href="/team">Meet our management team</ArrowLink>}

@@ -13,7 +13,7 @@ import { pageMetadata } from '@/lib/site'
 export const metadata = pageMetadata({
   title: 'Recycled silicone: our process and certifications',
   description:
-    'How MoMixx chemically recycles silicone waste into new, high-performance silicone, certified under GRS, ISCC PLUS and SCS Global Services, with traceability for every batch.',
+    'How MoMixx chemically recycles silicone waste into new, high-performance silicone, certified under GRS, RCS, ISCC PLUS and SCS Global Services, with traceability for every batch.',
   path: '/recycled-silicone',
 })
 

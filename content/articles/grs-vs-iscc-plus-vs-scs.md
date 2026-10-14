@@ -45,6 +45,8 @@ All three check the **chain of custody**: the paper trail of who held the materi
 
 The **Global Recycled Standard (GRS)** is owned by Textile Exchange. Beyond recycled content, it sets **rules on working conditions and the environment**, and **bans chemicals "with harmful potential"**. Material must meet the international (ISO) definition of "recycled", from factory scrap or used products. It needs at least **20% recycled content** for sales between businesses, and **50%** for labels shoppers see.
 
+Textile Exchange also owns the **Recycled Claim Standard (RCS)**: the same recycled-content and chain-of-custody checks without the social, environmental and chemical rules. MoMixx's GRS scope certificate covers RCS as well, for customers whose programmes ask for it.
+
 GRS is being folded into Textile Exchange's new **Materials Matter Standard**. It takes effect on 31 December 2026 and must be used from 31 December 2027.
 
 ## What does ISCC PLUS prove?
@@ -75,4 +77,4 @@ Different customers ask for different certificates. Textile and consumer brands 
 
 The schemes track recycled content differently. GRS follows it physically through the supply chain; ISCC PLUS also allows mass balance. Ask us which chain-of-custody model applies to your order.
 
-MoMixx's recycled silicone is certified under **GRS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).
+MoMixx's recycled silicone is certified under **GRS, RCS, ISCC PLUS and SCS Global Services**. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our certificates](/sustainability) and [how our recycling works](/recycled-silicone).

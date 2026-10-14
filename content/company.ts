@@ -91,6 +91,18 @@ export const certifications: Certification[] = [
     group: 'recycling',
   },
   {
+    id: 'rcs',
+    name: 'Recycled Claim Standard',
+    short: 'RCS',
+    issuer: 'Control Union Certifications B.V.',
+    schemeOwner: 'Textile Exchange',
+    covers: 'Recycled content (100% post-consumer recycled silicone) and chain of custody. Batu Kawan, Penang; on the same scope certificate as GRS.',
+    number: 'CU1512008MUL-2026-00087898',
+    verifyUrl: 'https://www.textileexchange.org/Certificates',
+    plain: 'Textile Exchange’s standard for verifying recycled content and tracking it through the chain of custody. It is GRS without the social, environmental and chemical requirements, for customers whose programmes ask for RCS.',
+    group: 'recycling',
+  },
+  {
     id: 'iscc-plus',
     name: 'ISCC PLUS',
     short: 'ISCC PLUS',

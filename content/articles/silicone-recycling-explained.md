@@ -64,7 +64,7 @@ MoMixx uses the **chemical method**, in five steps:
 4. **Rebuild** the DMC into silicone oil, the same starting point used for new silicone.
 5. **Make** new, high-performance silicone from the oil.
 
-Our recycled silicone is certified under three recycled-content schemes: **GRS, ISCC PLUS and SCS Global Services**. Certified chain-of-custody records cover the recycled content from collected waste to finished silicone. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our process and certificates](/recycled-silicone), or read [what each certificate proves](/insights/grs-vs-iscc-plus-vs-scs).
+Our recycled silicone is certified under four recycled-content schemes: **GRS, RCS, ISCC PLUS and SCS Global Services**. Certified chain-of-custody records cover the recycled content from collected waste to finished silicone. To our knowledge, we are the only silicone company certified under both GRS and ISCC PLUS. See [our process and certificates](/recycled-silicone), or read [what each certificate proves](/insights/grs-vs-iscc-plus-vs-scs).
 
 ## How much silicone is recycled today?
 
