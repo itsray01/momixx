@@ -83,7 +83,7 @@ export default async function ApplicationPage({ params }: Props) {
         </Section>
 
         {a.slug === 'consumer-electronics' && (
-          <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable has five layers. MoMixx makes the material for the outer one: the soft, flame-retardant silicone jacket you hold.">
+          <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A charging cable has five layers. MoMixx supplies the material for the outermost: the flame-retardant silicone jacket that protects the conductors within.">
             <CableAnatomy />
           </Section>
         )}

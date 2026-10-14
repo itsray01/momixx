@@ -62,7 +62,7 @@ export default function SiliconePage() {
         <TemperatureRange />
       </Section>
 
-      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone on the outside is the part you touch, and it protects everything inside.">
+      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone jacket is the outermost: the protective layer that insulates and shields the conductors within.">
         <CableAnatomy />
       </Section>
 

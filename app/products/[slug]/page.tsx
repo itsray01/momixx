@@ -159,7 +159,7 @@ export default async function ProductPage({ params }: Props) {
         )}
 
         {p.slug === 'momixx-mm' && (
-          <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *sits*" intro="A charging cable has five layers. MM silicone is the outer one: the part you hold, and the first protection against heat and fire.">
+          <Section tone="muted" eyebrow="Inside the cable" title="Where MM silicone *sits*" intro="A charging cable has five layers. MM silicone forms the outermost: the protective jacket, and the first line of defence against heat and fire.">
             <CableAnatomy productLink={false} />
           </Section>
         )}

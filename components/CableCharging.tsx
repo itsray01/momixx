@@ -51,7 +51,7 @@ export function CableCharging() {
     <div className="mt-20 sm:mt-28">
       <div className="max-w-2xl">
         <h3 className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">Plugged in</h3>
-        <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power runs through the copper at the centre of the cable, inside the silicone you hold.</p>
+        <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power flows through the copper conductors at the core. The silicone jacket is the protective outer layer that insulates and shields them.</p>
       </div>
       {/* Edge to edge on phones and tablets, like the anatomy above it. */}
       <div ref={stage} className="relative -mx-4 mt-8 aspect-[2/1] overflow-hidden sm:-mx-6 lg:mx-0 lg:mt-10 lg:aspect-[3/1]">

@@ -304,7 +304,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
         <div className={`container-page pointer-events-none absolute inset-x-0 top-[max(12vh,9.5rem)] transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>
           <div className="max-w-md">
             <h3 className="text-3xl font-semibold tracking-[-0.03em]">Plugged in</h3>
-            <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power runs through the copper at the centre of the cable, inside the silicone you hold.</p>
+            <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power flows through the copper conductors at the core. The silicone jacket is the protective outer layer that insulates and shields them.</p>
           </div>
         </div>
         <p className={`container-page pointer-events-none absolute inset-x-0 bottom-[6vh] text-[0.6875rem] text-zinc-500 transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>

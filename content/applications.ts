@@ -58,7 +58,7 @@ export const applications: Application[] = [
     slug: 'consumer-electronics',
     name: 'Phones, Cables & Wearables',
     tabLabel: 'Phones & Cables',
-    tagline: 'The soft, flame-retardant silicone inside everyday charging cables.',
+    tagline: 'The flame-retardant silicone that protects everyday charging cables.',
     intro:
       'Every phone, laptop and pair of earbuds needs a cable, and the EU now requires USB-C on most new devices. Many premium brands use silicone cable jackets because silicone feels softer, tangles less, lasts longer and handles heat better than common plastics. Since 2019, MoMixx flame-retardant silicone has been qualified by a leading smartphone brand for its cables.',
     maturity: 'In mass production',
