@@ -53,7 +53,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
                     <div key={b.label} className="flex items-center gap-3" title={`${b.label}: ${text} ${row.unit}`}>
                       <div
                         data-grow
-                        className="h-7 shrink-0 rounded-r-[4px]"
+                        className={`relative h-7 shrink-0 rounded-r-[4px] ${b.c === ACCENT ? 'bar-sheen' : ''}`}
                         style={{ width: `${(b.v / max) * 75}%`, background: b.c }}
                         role="img"
                         aria-label={`${b.label}: ${text} ${row.unit}`}
@@ -97,7 +97,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
             </div>
           )}
           <div className="flex flex-col items-center gap-2">
-            <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, ${ACCENT_LIGHT}, ${ACCENT})` }} />
+            <div data-grow-y className="bar-sheen relative w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, ${ACCENT_LIGHT}, ${ACCENT})` }} />
             <span className="text-xs text-zinc-500 tabular-nums">{market.forecast.year}</span>
           </div>
         </div>
@@ -150,7 +150,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
               <div className="h-7 flex-1">
                 <div
                   data-grow
-                  className="h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
+                  className="bar-sheen relative h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
                   style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_LIGHT})` }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}
                 />

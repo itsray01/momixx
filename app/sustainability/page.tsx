@@ -99,7 +99,7 @@ export default function SustainabilityPage() {
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
                       <span className="w-36 shrink-0 text-sm text-zinc-300">{b.label}</span>
-                      <div data-grow className="h-7 rounded-r-[4px]" style={{ width: `${(b.v / Math.max(cmp.recycled, cmp.virgin)) * 70}%`, background: b.c }} />
+                      <div data-grow className={`relative h-7 rounded-r-[4px] ${b.c === '#168447' ? 'bar-sheen' : ''}`} style={{ width: `${(b.v / Math.max(cmp.recycled, cmp.virgin)) * 70}%`, background: b.c }} />
                       <span className="text-sm font-medium text-white tabular-nums">{b.v}</span>
                     </div>
                   ))}
