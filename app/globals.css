@@ -178,24 +178,15 @@
     background-position: 0% 0;
   }
 }
-/* The same light passing over a chart bar: a soft white highlight sweeping left to right every
-   five seconds, on the MoMixx (green) bars only, so they catch the eye before the comparison. */
-@utility bar-sheen {
-  /* Positioned by the caller (relative or absolute), so the highlight has a box to fill. */
-  overflow: hidden;
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(100deg, transparent 40%, rgb(255 255 255 / 0.5) 50%, transparent 60%);
-    background-size: 300% 100%;
-    background-position: 100% 0;
-    animation: accent-sweep 5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-  }
+/* A chart bar that gives off light: a thin bright edge on top and a soft green glow around it, on
+   the MoMixx (green) bars only, so they stand out from the grey comparison bars. Still, no motion. */
+@utility bar-glow {
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.35),
+    0 0 14px 0 rgb(34 163 91 / 0.45),
+    0 8px 22px -8px rgb(22 132 71 / 0.6);
 }
 @media (prefers-reduced-motion: reduce) {
-  .bar-sheen::after,
   .accent-serif,
   .accent-figure {
     animation: none;
