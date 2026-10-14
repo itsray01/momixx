@@ -161,10 +161,10 @@ export function HeroSpotlight() {
 
   return (
     <div data-decor="" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(55%_75%_at_80%_-12%,rgb(255_255_255/0.13),rgb(255_255_255/0.04)_45%,transparent_75%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(55%_75%_at_80%_-12%,rgb(34_163_91/0.14),rgb(34_163_91/0.04)_45%,transparent_75%)]" />
       <canvas ref={ref} className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ${live ? 'opacity-100' : 'opacity-0'}`} />
       {/* Keeps the words readable: darker on the text side and under the header. */}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(5_5_5/0.88)_0%,rgb(5_5_5/0.6)_32%,transparent_58%),linear-gradient(180deg,rgb(5_5_5/0.7)_0%,transparent_16%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgb(251_251_249/0.88)_0%,rgb(251_251_249/0.6)_32%,transparent_58%),linear-gradient(180deg,rgb(251_251_249/0.7)_0%,transparent_16%)]" />
     </div>
   )
 }

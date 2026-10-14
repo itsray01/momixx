@@ -1,4 +1,4 @@
-import { loopFor } from '@/content/loops'
+import { loopFor, loopsOn } from '@/content/loops'
 import { BackgroundLoop, type LoopName } from './BackgroundLoop'
 import type { LucideIcon } from 'lucide-react'
 import Image from 'next/image'
@@ -72,7 +72,7 @@ export function GridBackdrop({ className = '' }: { className?: string }) {
       data-decor=""
       className={`pointer-events-none absolute inset-0 opacity-[0.06] ${className}`}
       style={{
-        backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(to right, #121412 1px, transparent 1px), linear-gradient(to bottom, #121412 1px, transparent 1px)',
         backgroundSize: '64px 64px',
         maskImage: 'radial-gradient(ellipse 80% 70% at 60% 30%, black 10%, transparent 70%)',
       }}
@@ -85,7 +85,7 @@ export function HeaderGlow() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_90%_at_82%_-18%,rgb(255_255_255/0.11),rgb(255_255_255/0.035)_45%,transparent_75%)]"
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_90%_at_82%_-18%,rgb(34_163_91/0.16),rgb(34_163_91/0.05)_45%,transparent_75%)]"
     />
   )
 }
@@ -149,7 +149,7 @@ export function PageHeader({
           {/* Opaque on the left, where the type sits, so the text stays at least WCAG AA. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#050505_0%,rgba(5,5,5,0.94)_36%,rgba(5,5,5,0.62)_68%,rgba(5,5,5,0.4)_100%)] max-lg:bg-[linear-gradient(90deg,#050505_0%,rgba(5,5,5,0.9)_48%,rgba(5,5,5,0.78)_100%)]"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#fbfbf9_0%,rgba(251,251,249,0.94)_36%,rgba(251,251,249,0.62)_68%,rgba(251,251,249,0.4)_100%)] max-lg:bg-[linear-gradient(90deg,#fbfbf9_0%,rgba(251,251,249,0.9)_48%,rgba(251,251,249,0.78)_100%)]"
           />
         </>
       ) : loop ? (
@@ -205,7 +205,7 @@ export function Section({
   children,
   tone = 'white',
   align,
-  loop,
+  loop: loopProp,
   className = '',
 }: {
   id?: string
@@ -220,6 +220,7 @@ export function Section({
   loop?: LoopName
   className?: string
 }) {
+  const loop = loopsOn ? loopProp : undefined
   const toneClass = loop ? 'bg-ink-950' : tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'bg-ink-900' : 'grain bg-ink-900'
   return (
     // overflow-x-clip (not hidden) keeps decorative glows in bounds without breaking sticky children.
@@ -360,7 +361,7 @@ export function CtaBand({
         data-decor=""
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
-          backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(to right, #121412 1px, transparent 1px), linear-gradient(to bottom, #121412 1px, transparent 1px)',
           backgroundSize: '64px 64px',
           backgroundPosition: 'center top',
           maskImage: 'radial-gradient(ellipse 55% 85% at 50% 0%, black 15%, transparent 75%)',

@@ -21,7 +21,7 @@ export function Studio({ resolution = 256, rim = '#ffffff', lite = false }: { re
   return (
     <>
       <ambientLight intensity={lite ? 0.35 : 0.22} />
-      <hemisphereLight args={['#f4f5f6', '#0b0b0c', lite ? 0.6 : 0.45]} />
+      <hemisphereLight args={['#f4f5f6', '#d9d9d3', lite ? 0.6 : 0.45]} />
       <directionalLight position={[4, 7, 6]} intensity={2.3} />
       <directionalLight position={[-6, 3, -5]} intensity={1.5} color={rim} />
       {!lite && <directionalLight position={[6, 2, -6]} intensity={0.9} />}

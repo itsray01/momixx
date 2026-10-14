@@ -18,7 +18,7 @@ export function CableColourPicker({ className = '' }: { className?: string }) {
             onClick={() => cableColourStore.set(i)}
             style={{ backgroundColor: c.swatch }}
             className={`h-6 w-6 rounded-full transition-[box-shadow,scale] duration-200 hover:scale-110 lg:h-5 lg:w-5 ${
-              i === index ? 'shadow-[0_0_0_2px_#050505,0_0_0_3.5px_#ffffff]' : 'shadow-[inset_0_0_0_1px_rgb(255_255_255/0.2)]'
+              i === index ? 'shadow-[0_0_0_2px_#fbfbf9,0_0_0_3.5px_#121412]' : 'shadow-[inset_0_0_0_1px_rgb(18_20_18/0.2)]'
             }`}
           />
         ))}

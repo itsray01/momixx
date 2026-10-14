@@ -59,7 +59,7 @@ export function RenderCanvas({ name, colour: colourId }: { name: ModelName; colo
         }}
       >
         <Studio resolution={512} rim={colour ? '#ffffff' : undefined} />
-        {view.fog && <fog attach="fog" args={['#050505', ...view.fog]} />}
+        {view.fog && <fog attach="fog" args={['#fbfbf9', ...view.fog]} />}
         <CastShadows>
           <Model colour={colour} />
         </CastShadows>

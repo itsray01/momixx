@@ -9,32 +9,56 @@
 
 @theme {
 
-  /* Surfaces: true black, with no colour cast */
-  --color-ink-950: #050505;
-  --color-ink-900: #0b0b0c;
-  --color-ink-850: #101012;
-  --color-ink-800: #17171a;
-  --color-ink-700: #26262a;
+  /* ── The light theme ──
+     The site was built dark, with colours named for that: `ink` surfaces, `white` text and
+     `zinc` greys. Rather than touch eight hundred class names, the names keep their roles and
+     swap their values here: `ink` is now the paper, `white` is now the ink, and the zinc scale
+     runs the other way. A class like `text-white` still means "the strongest text", and
+     `bg-ink-950` still means "the page". Where a plain swap reads wrong, the page is fixed
+     by hand (loops, cards, the 3D studio). */
 
-  /* UI accent: a neutral platinum, light → dark, so the interface stays
-     black, white and grey. The MoMixx teal appears only in the logo mark
-     and the home hero cable. */
-  --color-brand-50: #ffffff;
-  --color-brand-100: #fafafa;
-  --color-brand-200: #f4f4f5;
-  --color-brand-300: #e4e4e7;
-  --color-brand-400: #d4d4d8;
-  --color-brand-500: #a1a1aa;
-  --color-brand-600: #71717a;
-  --color-brand-700: #52525b;
-  --color-brand-800: #3f3f46;
-  --color-brand-900: #27272a;
+  /* Surfaces: warm paper, from the page to lifted panels */
+  --color-ink-950: #fbfbf9;
+  --color-ink-900: #f5f5f2;
+  --color-ink-850: #efefeb;
+  --color-ink-800: #e8e8e3;
+  --color-ink-700: #d9d9d3;
+
+  /* The ink: near-black, the strongest text and solid buttons */
+  --color-white: #121412;
+  --color-black: #ffffff;
+
+  /* Text greys, strongest to lightest: the scale the dark site used, run backwards */
+  --color-zinc-50: #121412;
+  --color-zinc-100: #1c1f1c;
+  --color-zinc-200: #2a2d2a;
+  --color-zinc-300: #3f433f;
+  --color-zinc-400: #5a5f5a;
+  --color-zinc-500: #6f746f;
+  --color-zinc-600: #9a9e9a;
+  --color-zinc-700: #c2c5c1;
+  --color-zinc-800: #dddfdb;
+  --color-zinc-900: #ededea;
+  --color-zinc-950: #f5f5f2;
+
+  /* UI accent: the MoMixx green. Buttons, links, marks and the recycled loop; not sprayed
+     everywhere. Teal stays with the logo and the home hero cable. */
+  --color-brand-50: #f0faf3;
+  --color-brand-100: #dcf4e3;
+  --color-brand-200: #b9e8c8;
+  --color-brand-300: #86d6a3;
+  --color-brand-400: #4fbf7a;
+  --color-brand-500: #22a35b;
+  --color-brand-600: #168447;
+  --color-brand-700: #13693a;
+  --color-brand-800: #125430;
+  --color-brand-900: #0f4528;
+
+  /* The green at the strength that reads on paper (4.5:1 and up on white). */
+  --color-green: #168447;
+  --color-green-deep: #0f4528;
 
   --color-copper: #c98a55;
-
-  /* Tertiary text, lifted from Tailwind's default so small grey text still
-     meets WCAG AA (4.5:1) on every dark surface. Neutral, not blue. */
-  --color-zinc-500: #909096;
 
   --animate-spin-slow: spin 60s linear infinite;
 
@@ -57,16 +81,16 @@
   html {
     -webkit-text-size-adjust: 100%;
     background: var(--color-ink-950);
-    color-scheme: dark;
+    color-scheme: light;
     /* Links to a section land below the fixed header. */
     scroll-padding-top: 6rem;
-    /* No grey flash on tap (Android), and dark scrollbars to match the site (Windows). Both inherit. */
+    /* No grey flash on tap (Android), and quiet scrollbars to match the site (Windows). Both inherit. */
     -webkit-tap-highlight-color: transparent;
-    scrollbar-color: rgb(255 255 255 / 0.2) transparent;
+    scrollbar-color: rgb(0 0 0 / 0.2) transparent;
   }
   /* Large screens: above 1600 px everything sized in rem grows with the screen (16 px at 1600 px,
      22 px at 2560 px, 30 px at 3840 px), so a 27-inch monitor shows the laptop layout enlarged instead of a
-     narrow column in a field of black. Breakpoints are unaffected: media queries ignore this size. */
+     narrow column in a field of paper. Breakpoints are unaffected: media queries ignore this size. */
   @media (min-width: 100rem) {
     html {
       font-size: clamp(16px, 0.625vw + 6px, 30px);
@@ -89,10 +113,10 @@
     text-wrap: pretty;
   }
   ::selection {
-    @apply bg-brand-400 text-ink-950;
+    @apply bg-brand-200 text-zinc-50;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-300;
+    @apply outline-2 outline-offset-2 outline-brand-600;
   }
 }
 
@@ -114,14 +138,14 @@
   color: inherit;
 }
 
-/* The hero's serif italic accent, in a soft silver gradient. Used once, on the home page. */
+/* The hero's serif italic accent, in a gradient from ink to the MoMixx green. Used once, on the home page. */
 @utility accent-serif {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
   padding-right: 0.06em;
-  background: linear-gradient(100deg, #ffffff 0%, #d4d4d8 55%, #a1a1aa 100%);
+  background: linear-gradient(100deg, #121412 0%, #168447 60%, #22a35b 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -150,11 +174,11 @@
   @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300;
 }
 @utility btn-primary {
-  @apply btn bg-white text-ink-950 hover:bg-zinc-200;
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
+  @apply btn bg-brand-600 text-black hover:bg-brand-700;
+  box-shadow: 0 1px 2px rgb(15 69 40 / 0.2);
 }
 @utility btn-ghost-dark {
-  @apply btn border border-white/15 bg-white/[0.03] text-white backdrop-blur hover:border-white/40 hover:bg-white/[0.08];
+  @apply btn border border-zinc-50/15 bg-black/60 text-zinc-50 backdrop-blur hover:border-zinc-50/40 hover:bg-black;
 }
 @utility btn-ghost {
   @apply btn-ghost-dark;
@@ -162,22 +186,19 @@
 
 /* ── Surfaces ─────────────────────────────────────────── */
 
-/* The standard panel: glassy, with a lit top edge and a pointer spotlight. */
-/* A card is a lit stage, not a grey box: near-black with a pool of light from above, so a render at
-   the top sits in the light the way the hero cable does, and text below reads on black. */
+/* The standard panel: white paper lifted a little off the page, with a soft shadow. */
 @utility card {
-  @apply relative rounded-3xl border border-white/[0.07];
-  background:
-    radial-gradient(90% 55% at 50% 0%, rgb(255 255 255 / 0.075), rgb(255 255 255 / 0.02) 55%, transparent 80%),
-    #070708;
-  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.07);
+  @apply relative rounded-3xl border border-zinc-50/[0.08] bg-black;
+  box-shadow:
+    0 1px 2px rgb(18 20 18 / 0.04),
+    0 12px 32px -20px rgb(18 20 18 / 0.18);
 }
 
 @utility glass {
-  @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  @apply border border-zinc-50/10 bg-black/70 backdrop-blur-xl;
   box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.08),
-    0 20px 40px -24px rgb(0 0 0 / 0.6);
+    0 1px 2px rgb(18 20 18 / 0.04),
+    0 20px 40px -24px rgb(18 20 18 / 0.2);
 }
 
 @utility lift {
@@ -185,10 +206,10 @@
     border-color 0.25s ease,
     box-shadow 0.25s ease;
   &:hover {
-    border-color: rgb(255 255 255 / 0.18);
+    border-color: rgb(18 20 18 / 0.18);
     box-shadow:
-      inset 0 1px 0 0 rgb(255 255 255 / 0.08),
-      0 30px 60px -30px rgb(0 0 0 / 0.7);
+      0 1px 2px rgb(18 20 18 / 0.05),
+      0 30px 60px -30px rgb(18 20 18 / 0.3);
   }
 }
 
@@ -216,14 +237,14 @@
 }
 
 @utility dots {
-  background-image: radial-gradient(circle, rgb(255 255 255 / 0.06) 1px, transparent 1.2px);
+  background-image: radial-gradient(circle, rgb(18 20 18 / 0.1) 1px, transparent 1.2px);
   background-size: 24px 24px;
 }
 
 /* Hairline divider that fades at both ends. */
 @utility hairline {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgb(18 20 18 / 0.14), transparent);
 }
 
 /* Sticky tab bars (components/TabNav.tsx) sit under the site header and move up when it slides away.
@@ -633,7 +654,7 @@ img[data-fade='in'] {
     inset: 0 0 auto;
     z-index: 60;
     height: 2px;
-    background: rgb(255 255 255 / 0.75);
+    background: var(--color-brand-600);
     transform-origin: 0 50%;
     animation: reading-progress linear both;
     animation-timeline: scroll(root);
@@ -825,18 +846,18 @@ img[data-fade='in'] {
 
 /* Long-form article typography (Insights) */
 @utility article-prose {
-  @apply prose prose-lg prose-invert max-w-none;
+  @apply prose prose-lg max-w-none;
   --tw-prose-body: var(--color-zinc-300);
-  --tw-prose-headings: #fff;
-  --tw-prose-links: var(--color-brand-300);
-  --tw-prose-bold: #fff;
-  --tw-prose-bullets: var(--color-brand-400);
-  --tw-prose-counters: var(--color-brand-300);
+  --tw-prose-headings: var(--color-zinc-50);
+  --tw-prose-links: var(--color-brand-700);
+  --tw-prose-bold: var(--color-zinc-50);
+  --tw-prose-bullets: var(--color-brand-500);
+  --tw-prose-counters: var(--color-brand-700);
   --tw-prose-quotes: var(--color-zinc-200);
   --tw-prose-quote-borders: var(--color-brand-400);
-  --tw-prose-hr: rgb(255 255 255 / 0.08);
-  --tw-prose-th-borders: rgb(255 255 255 / 0.12);
-  --tw-prose-td-borders: rgb(255 255 255 / 0.06);
+  --tw-prose-hr: rgb(18 20 18 / 0.1);
+  --tw-prose-th-borders: rgb(18 20 18 / 0.15);
+  --tw-prose-td-borders: rgb(18 20 18 / 0.08);
   & h2 {
     @apply mt-14 scroll-mt-28 text-3xl font-semibold tracking-[-0.03em];
   }
@@ -844,7 +865,7 @@ img[data-fade='in'] {
     @apply scroll-mt-28 tracking-[-0.02em];
   }
   & a {
-    @apply underline decoration-brand-400/40 underline-offset-4 hover:decoration-brand-300;
+    @apply underline decoration-brand-500/50 underline-offset-4 hover:decoration-brand-700;
   }
   & .table-scroll {
     @apply my-8 overflow-x-auto rounded-2xl border border-white/[0.08] bg-white/[0.02];

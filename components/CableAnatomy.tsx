@@ -153,7 +153,7 @@ function StaticAnatomy({ productLink = true }: { productLink?: boolean }) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(to right, #121412 1px, transparent 1px), linear-gradient(to bottom, #121412 1px, transparent 1px)',
             backgroundSize: '48px 48px',
             backgroundPosition: 'center',
             maskImage: 'radial-gradient(ellipse 60% 70% at 55% 50%, black 15%, transparent 75%)',

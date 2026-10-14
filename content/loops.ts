@@ -54,5 +54,12 @@ export const pageLoops: Record<string, LoopName> = {
   '/insights/silicon-vs-silicone': 'v-dune',
 }
 
+/**
+ * Whether page headers play their loops. Off for the light theme: the footage was graded dark
+ * for the old black site, and dark text cannot sit on it. The loops stay in /public/loops and
+ * in the map above, so turning this back on (or swapping in light footage) is one line.
+ */
+export const loopsOn = false
+
 /** The loop for a page, by its path. */
-export const loopFor = (path: string): LoopName | undefined => pageLoops[path]
+export const loopFor = (path: string): LoopName | undefined => (loopsOn ? pageLoops[path] : undefined)

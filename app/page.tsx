@@ -96,7 +96,7 @@ export default function HomePage() {
         <section data-hero className="grain relative flex flex-col overflow-hidden lg:block lg:h-[100svh] lg:min-h-[560px]">
           <HeroSpotlight />
           <GridBackdrop />
-          <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(5_5_5)_30%,transparent)]" aria-hidden="true" />
+          <div data-decor="" className="absolute inset-0 bg-[radial-gradient(120%_80%_at_20%_110%,rgb(251_251_249)_30%,transparent)]" aria-hidden="true" />
 
           {/* The cable: its own right-hand column on desktop, so it never runs under the text. It starts below the
               site header, so the conductors stay in view at every step of the scroll. */}

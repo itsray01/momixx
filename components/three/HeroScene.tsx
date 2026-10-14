@@ -383,7 +383,7 @@ export default function HeroScene({
     >
       {/* Studio lights with a white rim, so every cable colour reads true. The low tier has them baked in instead. */}
       {!baked.texture && <Studio rim="#ffffff" lite={tier === 'low'} />}
-      {variant === 'hero' && <fog attach="fog" args={['#050505', 9, 16]} />}
+      {variant === 'hero' && <fog attach="fog" args={['#fbfbf9', 9, 16]} />}
       {!waiting && <LiveCable animate={animate} tier={tier} variant={variant} matcap={baked.texture} onReady={onReady} onQuality={onQuality} />}
     </Canvas>
   )

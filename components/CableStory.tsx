@@ -208,7 +208,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
           style={{
-            backgroundImage: 'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(to right, #121412 1px, transparent 1px), linear-gradient(to bottom, #121412 1px, transparent 1px)',
             backgroundSize: '56px 56px',
             backgroundPosition: 'center',
             maskImage: 'radial-gradient(ellipse 55% 60% at 55% 50%, black 15%, transparent 75%)',
