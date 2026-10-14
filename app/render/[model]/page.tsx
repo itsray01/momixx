@@ -7,10 +7,11 @@ import { RenderCanvas } from './RenderCanvas'
 export const dynamic = 'force-dynamic'
 export const metadata = { robots: { index: false, follow: false } }
 
-export default async function RenderPage({ params, searchParams }: { params: Promise<{ model: string }>; searchParams: Promise<{ colour?: string }> }) {
+export default async function RenderPage({ params, searchParams }: { params: Promise<{ model: string }>; searchParams: Promise<{ colour?: string; spin?: string }> }) {
   const { model } = await params
-  const { colour } = await searchParams
+  const { colour, spin } = await searchParams
   const enabled = process.env.NODE_ENV === 'development' || process.env.ENABLE_RENDER === '1'
   if (!enabled || !modelNames.includes(model as ModelName)) notFound()
-  return <RenderCanvas name={model as ModelName} colour={colour} />
+  // ?spin=1: the turntable used by scripts/render-spins.mjs for the machine clips.
+  return <RenderCanvas name={model as ModelName} colour={colour} spin={spin === '1'} />
 }

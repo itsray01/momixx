@@ -79,10 +79,11 @@ export default async function ProductPage({ params }: Props) {
                   )}
                 </div>
               )}
+              {/* A photograph in a frame: the shot is on a dark ground, so it sits in the card as a picture rather than bleeding into it. */}
               {p.photo && (
-                <figure className="card relative mb-10 overflow-hidden">
-                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 30vw, 80vw" className="relative ml-auto h-56 w-auto object-contain mix-blend-lighten [mask-image:linear-gradient(to_right,transparent,black_40%)] sm:h-64" />
-                  <figcaption className="absolute bottom-4 left-5 text-xs text-zinc-400">{p.photo.caption}</figcaption>
+                <figure className="card relative mb-10 max-w-xl overflow-hidden">
+                  <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 36rem, 100vw" className="h-56 w-full object-cover sm:h-72" />
+                  <figcaption className="absolute bottom-4 left-5 text-xs text-ink-900/80">{p.photo.caption}</figcaption>
                 </figure>
               )}
               <p className="eyebrow">Overview</p>

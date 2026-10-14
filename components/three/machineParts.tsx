@@ -11,6 +11,8 @@ export type PartState = 'idle' | 'hover' | 'selected' | 'dim'
 
 const SILICONE = '#e6e7e9'
 const HIGHLIGHT = '#f4f5f6'
+/** The selection tint: the brand green, which reads on the light metal where a white glow would not. */
+const SELECT = '#22a35b'
 
 const finishes = {
   steel: { color: '#d3dae2', metalness: 0.92, roughness: 0.24 },
@@ -31,10 +33,10 @@ export type Finish = keyof typeof finishes
 
 /** A material that lights up when its part is hovered or selected, and fades when another part is. */
 export function Mat({ f, s }: { f: Finish; s: PartState }) {
-  const glow = s === 'selected' ? 0.12 : s === 'hover' ? 0.1 : 0
+  const glow = s === 'selected' ? 0.42 : s === 'hover' ? 0.22 : 0
   const dim = s === 'dim'
   // Keyed, because switching a material to transparent needs a new material.
-  return <meshStandardMaterial key={dim ? 'dim' : 'solid'} {...finishes[f]} emissive={HIGHLIGHT} emissiveIntensity={glow} transparent={dim} opacity={dim ? 0.14 : 1} depthWrite={!dim} />
+  return <meshStandardMaterial key={dim ? 'dim' : 'solid'} {...finishes[f]} emissive={SELECT} emissiveIntensity={glow} transparent={dim} opacity={dim ? 0.14 : 1} depthWrite={!dim} />
 }
 export function Glass({ s }: { s: PartState }) {
   return <meshPhysicalMaterial color="#e8eaed" roughness={0.06} metalness={0} clearcoat={1} transparent opacity={s === 'dim' ? 0.04 : 0.2} depthWrite={false} />

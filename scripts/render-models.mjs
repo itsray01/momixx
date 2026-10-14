@@ -1,4 +1,4 @@
-// Renders every 3D model to a transparent WebP in public/renders/.
+// Renders every 3D model to a transparent WebP in public/renders/ (shadow haze lifted off the edges).
 //
 //   ENABLE_RENDER=1 npm run build && ENABLE_RENDER=1 npm start   (or: npm run dev)
 //   node scripts/render-models.mjs [baseUrl] [model ...]
@@ -9,7 +9,8 @@
 // Needs Playwright + Chromium with WebGL (software rendering is fine).
 import { chromium } from 'playwright'
 import sharp from 'sharp'
-import { mkdir } from 'node:fs/promises'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { dehaze } from './dehaze-renders.mjs'
 
 const base = process.argv[2] ?? 'http://localhost:3000'
 // The home hero cable's colours: keep in step with components/three/cableColours.ts.
@@ -39,7 +40,8 @@ for (const job of names) {
     return { dataUrl: stage.querySelector('canvas').toDataURL('image/png'), width: stage.clientWidth, height: stage.clientHeight }
   })
   const png = Buffer.from(dataUrl.split(',')[1], 'base64')
-  await sharp(png).resize(width, height).webp({ quality: 86, alphaQuality: 90 }).toFile(`public/renders/${out}.webp`)
+  // Lift the shadow haze off the edges (see scripts/dehaze-renders.mjs), then save.
+  await writeFile(`public/renders/${out}.webp`, await dehaze(await sharp(png).resize(width, height).png().toBuffer()))
   console.log('rendered', out)
 }
 await browser.close()

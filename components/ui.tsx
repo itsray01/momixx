@@ -129,7 +129,8 @@ export function PageHeader({
   loop?: LoopName
   children?: ReactNode
 }) {
-  const loop = loopProp ?? (crumbs?.length ? loopFor(crumbs[crumbs.length - 1].href) : undefined)
+  // The loops switch (content/loops.ts) covers a loop named here as well as the page's own.
+  const loop = loopsOn ? (loopProp ?? (crumbs?.length ? loopFor(crumbs[crumbs.length - 1].href) : undefined)) : undefined
   // The sustainability photo is 1440 px wide. Cap the header on large screens so it is cropped rather than blown up.
   const photoCap = background ? 'lg:max-h-[44rem]' : ''
   // Over a loop the header is words only: a picture on top of moving footage fights it.
