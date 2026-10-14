@@ -33,7 +33,7 @@ export type Finish = keyof typeof finishes
 
 /** A material that lights up when its part is hovered or selected, and fades when another part is. */
 export function Mat({ f, s }: { f: Finish; s: PartState }) {
-  const glow = s === 'selected' ? 0.42 : s === 'hover' ? 0.22 : 0
+  const glow = s === 'selected' ? 0.16 : s === 'hover' ? 0.08 : 0
   const dim = s === 'dim'
   // Keyed, because switching a material to transparent needs a new material.
   return <meshStandardMaterial key={dim ? 'dim' : 'solid'} {...finishes[f]} emissive={SELECT} emissiveIntensity={glow} transparent={dim} opacity={dim ? 0.14 : 1} depthWrite={!dim} />
