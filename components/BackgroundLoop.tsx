@@ -37,7 +37,7 @@ const focusFor: Partial<Record<LoopName, string>> = {
  * the section scrolls away. Phones, visitors who prefer reduced motion and connections asking to save
  * data keep the still, so the loops never cost them anything.
  *
- * `shade` darkens the side where the words sit, so text over the loop stays readable. On phones the
+ * `shade` washes the side where the words sit with paper, so text over the loop stays readable. On phones the
  * words span the whole width, so the shade is even, and `className` can cap how far down a long
  * section the loop reaches.
  */
@@ -113,15 +113,15 @@ export function BackgroundLoop({
           <source src={`/loops/${name}.mp4`} type="video/mp4" />
         </video>
       )}
-      {/* Readability: darker where the words sit, and soft top and bottom edges into the page. */}
+      {/* Readability: a paper wash where the words sit, and soft top and bottom edges into the page. */}
       <div
         className={`absolute inset-0 ${
           shade === 'left'
-            ? 'bg-[linear-gradient(90deg,rgb(5_5_5/0.92)_0%,rgb(5_5_5/0.72)_34%,rgb(5_5_5/0.2)_62%,rgb(5_5_5/0)_100%)] max-lg:bg-[rgb(5_5_5/0.55)]'
-            : 'bg-[rgb(5_5_5/0.55)]'
+            ? 'bg-[linear-gradient(90deg,rgb(251_251_249/0.92)_0%,rgb(251_251_249/0.72)_34%,rgb(251_251_249/0.2)_62%,rgb(251_251_249/0)_100%)] max-lg:bg-[rgb(251_251_249/0.55)]'
+            : 'bg-[rgb(251_251_249/0.55)]'
         }`}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_5_5/0.85)_0%,rgb(5_5_5/0)_18%,rgb(5_5_5/0)_80%,rgb(5_5_5/0.95)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(251_251_249/0.85)_0%,rgb(251_251_249/0)_18%,rgb(251_251_249/0)_80%,rgb(251_251_249/0.95)_100%)]" />
     </div>
   )
 }

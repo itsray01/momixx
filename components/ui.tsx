@@ -270,11 +270,12 @@ export function BigStats({ stats }: { stats: Array<{ value: string; label: React
   return (
     <ul data-reveal="stagger" className="grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-4">
       {stats.map((s) => (
-        <li key={s.value} className="border-t border-white/15 pt-8">
-          <p data-countup className="font-display text-[clamp(3.5rem,6.5vw,7.5rem)] leading-[0.85] font-semibold tracking-[-0.06em] text-white tabular-nums">
+        <li key={s.value} className="border-t border-zinc-50/15 pt-8">
+          {/* Every number sits in a box of one height, so the labels start on one line whatever the figure's width. */}
+          <p data-countup className="flex h-[clamp(3.5rem,6.5vw,7.5rem)] items-end font-display text-[clamp(3.5rem,6.5vw,7.5rem)] leading-[0.85] font-semibold tracking-[-0.06em] text-white tabular-nums">
             {s.value}
           </p>
-          <p className="mt-5 max-w-[16rem] text-base leading-snug text-zinc-400">{s.label}</p>
+          <p className="mt-5 min-h-[2.75rem] max-w-[16rem] text-base leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>

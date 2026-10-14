@@ -138,17 +138,31 @@
   color: inherit;
 }
 
-/* The hero's serif italic accent, in a gradient from ink to the MoMixx green. Used once, on the home page. */
+/* The hero's serif italic accent: green, with a soft light that moves across it from left to right.
+   Used once, on the home page. The gradient is three times the width of the words and slides
+   along them; it holds still for visitors who prefer reduced motion. */
 @utility accent-serif {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
   padding-right: 0.06em;
-  background: linear-gradient(100deg, #121412 0%, #168447 60%, #22a35b 100%);
+  background: linear-gradient(100deg, #0f4528 0%, #168447 30%, #4fbf7a 45%, #9be0b4 50%, #4fbf7a 55%, #168447 70%, #0f4528 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: accent-sweep 5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+@keyframes accent-sweep {
+  0% {
+    background-position: 100% 0;
+  }
+  70%,
+  100% {
+    background-position: 0% 0;
+  }
 }
 
 @utility display-xl {
@@ -186,12 +200,18 @@
 
 /* ── Surfaces ─────────────────────────────────────────── */
 
-/* The standard panel: white paper lifted a little off the page, with a soft shadow. */
+/* The standard panel: frosted glass on paper. A translucent white with the page showing faintly
+   through, a bright top edge where the light catches it, and a soft shadow beneath. */
 @utility card {
-  @apply relative rounded-3xl border border-zinc-50/[0.08] bg-black;
+  @apply relative rounded-3xl border border-white/[0.12] backdrop-blur-xl;
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.92), rgb(255 255 255 / 0.72) 60%, rgb(255 255 255 / 0.62)),
+    linear-gradient(160deg, rgb(34 163 91 / 0.06), transparent 45%);
   box-shadow:
-    0 1px 2px rgb(18 20 18 / 0.04),
-    0 12px 32px -20px rgb(18 20 18 / 0.18);
+    inset 0 1px 0 0 rgb(255 255 255 / 0.95),
+    inset 0 0 0 1px rgb(255 255 255 / 0.5),
+    0 1px 2px rgb(18 20 18 / 0.05),
+    0 18px 44px -24px rgb(18 20 18 / 0.25);
 }
 
 @utility glass {

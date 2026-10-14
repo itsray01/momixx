@@ -5,7 +5,7 @@ import { heroReady } from './three/heroReady'
 
 // Soft beams of light falling on the hero cable from the top right, like a studio spotlight.
 //
-// One small WebGL shader, neutral grey only. Everyone gets a still CSS glow; on desktops with a
+// One small WebGL shader, paper and soft light only. Everyone gets a still CSS glow; on desktops with a
 // graphics card the moving beams fade in over it once the hero cable is showing. The beams draw at
 // reduced resolution and 30 fps, stop while the hero is off screen, and hold still for visitors
 // who prefer reduced motion. Marked data-decor, so it steps aside in hero-lite (no graphics card).
@@ -39,7 +39,13 @@ void main() {
   float haze = 0.55 + 0.45 * fbm(p * 2.5 + vec2(uT * 0.03, -uT * 0.05));
   float beams = rays * cone * exp(-r * 1.05) * haze;
   float glow = exp(-r * 2.0) * 0.4 * cone;
-  gl_FragColor = vec4(vec3(0.02) + vec3(0.85) * beams + vec3(0.6) * glow, 1.0);
+  // On paper the beams are the bright part: the page is a soft warm grey where the light is not,
+  // and lifts to white (with a breath of green) where it falls.
+  vec3 paper = vec3(0.886, 0.886, 0.875);
+  vec3 lit = vec3(0.992, 0.996, 0.98);
+  vec3 tint = vec3(0.92, 0.985, 0.94);
+  float light = clamp(beams * 1.1 + glow * 0.9, 0.0, 1.0);
+  gl_FragColor = vec4(mix(paper, lit * tint, light), 1.0);
 }`
 
 const VERT = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}'
