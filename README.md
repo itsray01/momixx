@@ -119,7 +119,7 @@ You need Node.js 20.9 or newer.
 
 ## Design, 3D and motion
 
-The site uses a dark, premium design aimed at an investor audience. It is built on four pieces:
+The site uses a bright paper design with green accents (the colour tokens in `app/globals.css`; the class names keep their roles, so `text-white` is the strongest text and `bg-ink-950` the page), aimed at an investor audience. Renders are dehazed for paper by `scripts/dehaze-renders.mjs`, and the page-header loops are off (`loopsOn` in `content/loops.ts`). It is built on four pieces:
 
 - **Type.** Geist for text, with *Instrument Serif* italics as an accent. In any heading, wrap words in `*asterisks*` to accent them, for example `title="Silicone that *comes back*"`.
 - **3D, used sparingly.** Live 3D appears in four places only: the home hero cable, the extrusion line explorer, the cable anatomy and, just after it, the cable charging a phone. The "sand to silicone" cards use pre-rendered stills. Page headers and cards are text-led, and there are no coloured glows.

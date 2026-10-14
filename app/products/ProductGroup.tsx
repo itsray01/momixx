@@ -73,8 +73,8 @@ function ProductSection({ p, tone }: { p: Product; tone: 'white' | 'muted' }) {
             </div>
           )}
           {p.photo && (
-            <figure className="card relative mb-10 max-w-xl overflow-hidden">
-              <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 1024px) 36rem, 100vw" className="h-56 w-full object-cover sm:h-72" />
+            <figure className="card relative mb-10 aspect-[41/32] max-w-sm overflow-hidden">
+              <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 640px) 24rem, 100vw" className="h-full w-full object-cover" />
               <figcaption className="absolute bottom-4 left-5 text-xs text-ink-900/80">{p.photo.caption}</figcaption>
             </figure>
           )}
