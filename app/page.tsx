@@ -137,7 +137,7 @@ export default function HomePage() {
       </div>
 
       {/* ── Statement and key figures ── */}
-      <section className="bg-ink-950 py-28 sm:py-40">
+      <section className="glass-field bg-ink-950 py-28 sm:py-40">
         <div className="container-page">
           <p data-reveal className="display-md max-w-5xl text-white">
             {statement.lead} <span className="text-brand-500">{statement.rest}</span>

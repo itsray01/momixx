@@ -221,7 +221,7 @@ export function Section({
   className?: string
 }) {
   const loop = loopsOn ? loopProp : undefined
-  const toneClass = loop ? 'bg-ink-950' : tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'bg-ink-900' : 'grain bg-ink-900'
+  const toneClass = loop ? 'bg-ink-950' : tone === 'white' ? 'bg-ink-950' : tone === 'muted' ? 'glass-field bg-ink-900' : 'grain bg-ink-900'
   return (
     // overflow-x-clip (not hidden) keeps decorative glows in bounds without breaking sticky children.
     <section id={id} className={`relative overflow-x-clip ${toneClass} py-18 sm:py-24 ${loop ? 'sm:py-32' : ''} ${className}`}>
@@ -265,17 +265,24 @@ export function StatTiles({
   )
 }
 
-/** Key figures set large, as a band of their own: the number is the picture. */
+/**
+ * Key figures set large, as a band of their own: the number is the picture. Each is a
+ * frosted-glass tile; the figure is deep green, with the same light sweeping across it
+ * as the hero's accent, so the row reads as one piece.
+ */
 export function BigStats({ stats }: { stats: Array<{ value: string; label: ReactNode }> }) {
   return (
-    <ul data-reveal="stagger" className="grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-4">
-      {stats.map((s) => (
-        <li key={s.value} className="border-t border-zinc-50/15 pt-8">
-          {/* Every number sits in a box of one height, so the labels start on one line whatever the figure's width. */}
-          <p data-countup className="flex h-[clamp(3.5rem,6.5vw,7.5rem)] items-end font-display text-[clamp(3.5rem,6.5vw,7.5rem)] leading-[0.85] font-semibold tracking-[-0.06em] text-white tabular-nums">
+    <ul data-reveal="stagger" className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+      {stats.map((s, i) => (
+        <li key={s.value} className="card flex flex-col justify-between p-7 sm:p-8">
+          <p
+            data-countup
+            className="accent-figure font-display text-[clamp(3.25rem,5.5vw,6rem)] leading-[0.9] font-semibold tracking-[-0.05em] tabular-nums"
+            style={{ animationDelay: `${i * 0.35}s` }}
+          >
             {s.value}
           </p>
-          <p className="mt-5 min-h-[2.75rem] max-w-[16rem] text-base leading-snug text-zinc-400">{s.label}</p>
+          <p className="mt-6 text-[0.9375rem] leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>
