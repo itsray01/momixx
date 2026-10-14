@@ -69,6 +69,12 @@ const organization = {
       url: absoluteUrl('/about#perai'),
       address: plantAddress(site.plants.perai),
     },
+    {
+      '@type': 'Place',
+      name: `${site.plants.dongguan.company}, Dongguan, Guangdong`,
+      url: absoluteUrl('/about#dongguan'),
+      address: plantAddress(site.plants.dongguan),
+    },
   ],
   address: {
     '@type': 'PostalAddress',

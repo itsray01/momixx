@@ -15,7 +15,7 @@ export const metadata = pageMetadata({
 
 const mapsUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
 
-const { batuKawan, perai } = site.plants
+const { batuKawan, perai, dongguan } = site.plants
 
 // One entry per site. Add a photo and headcount once confirmed.
 const sites = [
@@ -42,6 +42,7 @@ const sites = [
     summary:
       'Our research centre and factory in Batu Kawan, in one of Asia’s leading regions for chips and electronics. It makes liquid silicone in large volumes for the region, and high-precision parts for medical and chip-making customers.',
     facts: [
+      { label: 'Company', value: batuKawan.company },
       { label: 'Certified', value: 'ISO 13485 quality system (medical devices), 2026' },
       { label: 'Production', value: 'Liquid silicone made in volume for South-East Asia' },
       { label: 'Medical', value: 'Making silicone parts for medical-device makers since 2025' },
@@ -57,6 +58,18 @@ const sites = [
     summary: `${perai.company} runs our manufacturing plant in Perai, Penang.`,
     facts: [
       { label: 'Company', value: perai.company },
+      { label: 'Role', value: 'Manufacturing' },
+    ],
+  },
+  {
+    id: 'dongguan',
+    role: 'Manufacturing',
+    name: 'Dongguan, Guangdong, China',
+    address: plantLines(dongguan),
+    map: plantLines(dongguan).join(', '),
+    summary: `${dongguan.company} runs our manufacturing plant in Houjie, Dongguan.`,
+    facts: [
+      { label: 'Company', value: dongguan.company },
       { label: 'Role', value: 'Manufacturing' },
     ],
   },
@@ -85,8 +98,8 @@ export default function AboutPage() {
               independent third party has checked our product carbon footprint calculation.
             </p>
             <p>
-              Our headquarters is in Singapore. We make our products at our factories in Batu Kawan and Perai, Penang, Malaysia, and at a second large
-              factory in Asia. In 2026 the Batu Kawan factory’s quality system was certified to ISO 13485 for medical-device manufacturing, and it began making
+              Our headquarters is in Singapore. We make our products at our factories in Batu Kawan and Perai, Penang, Malaysia, and in Dongguan,
+              Guangdong, China. In 2026 the Batu Kawan factory’s quality system was certified to ISO 13485 for medical-device manufacturing, and it began making
               high-precision parts for the medical and semiconductor industries.
             </p>
           </div>
@@ -108,17 +121,17 @@ export default function AboutPage() {
         <Timeline years={milestones} />
       </Section>
 
-      {/* Locations (formerly their own page). The site ids (#singapore, #batu-kawan, #perai) are linked from Contact and the structured data. */}
+      {/* Locations (formerly their own page). The site ids (#singapore, #batu-kawan, #perai, #dongguan) are linked from Contact and the structured data. */}
       <Section
         tone="muted"
         id="locations"
         eyebrow="Locations"
         title="Built in Asia, *for the world*"
-        intro="Our headquarters is in Singapore. We research and make our products at our Batu Kawan and Perai plants in Penang, Malaysia, and at a second large factory in Asia. Customers around the world use our materials, machines and parts."
+        intro="Our headquarters is in Singapore. We research and make our products at our Batu Kawan and Perai plants in Penang, Malaysia, and at our factory in Dongguan, Guangdong, China. Customers around the world use our materials, machines and parts."
         className="scroll-mt-24"
       >
         <div className="card overflow-hidden p-3 sm:p-8">
-          <RegionMap links={{ singapore: '#singapore', penang: '#batu-kawan' }} />
+          <RegionMap links={{ singapore: '#singapore', penang: '#batu-kawan', dongguan: '#dongguan' }} />
         </div>
         <ul className="mt-5 grid gap-5 lg:grid-cols-2">
           {sites.map((s) => (
