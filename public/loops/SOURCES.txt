@@ -1,7 +1,8 @@
 Background loops in this folder
 
-All loops share one colour grade (near-black shadows, warm amber light, cream highlights).
-Each v- loop is trimmed to a 5 to 12 second seamless loop, colour-graded and encoded at 1920 x 1080.
+All loops share one light colour grade for the site's paper background: clips shot on black are keyed
+onto near-white (the subject floats on paper); daylight clips are lifted and softened. Each v- loop is
+trimmed to a 5 to 12 second seamless loop, graded and encoded at 1920 x 1080.
 
 heat.*  Made by us (a WebGL shader rendered to video), then graded. No third-party rights.
 
