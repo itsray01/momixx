@@ -320,7 +320,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                         {/* A small dot under the section you are in. */}
                         <span
                           aria-hidden="true"
-                          className={`absolute bottom-3.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-white transition-opacity duration-300 ${current ? 'opacity-100' : 'opacity-0'}`}
+                          className={`absolute bottom-3.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-gold-400 transition-opacity duration-300 ${current ? 'opacity-100' : 'opacity-0'}`}
                         />
                       </Link>
                       {menu.columns && (

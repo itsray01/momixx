@@ -9,13 +9,13 @@
 export function Fn({ n, plain = false }: { n: number; plain?: boolean }) {
   if (plain)
     return (
-      <sup aria-label={`Footnote ${n}`} className="ml-0.5 text-[0.55em] font-medium text-zinc-400">
+      <sup aria-label={`Footnote ${n}`} className="ml-0.5 text-[0.55em] font-medium text-gold-600">
         {n}
       </sup>
     )
   return (
     <sup className="ml-0.5 text-[0.55em] font-medium">
-      <a href={`#fn-${n}`} aria-label={`Footnote ${n}`} className="text-zinc-400 no-underline hover:text-white">
+      <a href={`#fn-${n}`} aria-label={`Footnote ${n}`} className="text-gold-600 no-underline hover:text-white">
         {n}
       </a>
     </sup>

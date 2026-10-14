@@ -15,7 +15,7 @@ export function CertCard({ cert, featured = false, wide = false }: { cert: Certi
           <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="h-14 w-auto object-contain" />
         ) : (
           <span
-            className={`rounded-xl border border-brand-400/30 bg-brand-400/10 px-3.5 py-2 font-semibold whitespace-nowrap tracking-[-0.02em] text-brand-100 ${featured ? 'text-2xl' : 'text-lg'}`}
+            className={`rounded-xl border border-gold-400/45 bg-gold-100 px-3.5 py-2 font-semibold whitespace-nowrap tracking-[-0.02em] text-gold-700 ${featured ? 'text-2xl' : 'text-lg'}`}
           >
             {cert.short}
           </span>

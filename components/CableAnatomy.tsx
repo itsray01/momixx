@@ -243,7 +243,7 @@ function StaticAnatomy({ productLink = true }: { productLink?: boolean }) {
               <span className="min-w-0">
                 <span className={`flex flex-wrap items-center gap-2 font-semibold text-white ${l.momixx ? 'lg:text-lg' : ''}`}>
                   {l.name}
-                  {l.momixx && <span className="rounded-full bg-white px-2 py-0.5 text-[0.625rem] font-semibold tracking-wide text-ink-950">MoMixx</span>}
+                  {l.momixx && <span className="rounded-full bg-gold-400 px-2 py-0.5 text-[0.625rem] font-semibold tracking-wide text-ink-950">MoMixx</span>}
                 </span>
                 <span className={`mt-1 block text-sm leading-relaxed ${l.momixx ? 'text-zinc-300' : 'text-zinc-400'}`}>{l.body}</span>
               </span>

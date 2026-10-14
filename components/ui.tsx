@@ -294,7 +294,7 @@ export type FeatureItem = { title: string; body: string; icon?: LucideIcon }
 
 /** The "01" index, with an optional line icon in a fixed tile so the row does not shift after paint. */
 export function FeatureMark({ icon: Icon, index }: { icon?: LucideIcon; index: number }) {
-  const number = <span className="font-mono text-xs text-zinc-500">{String(index + 1).padStart(2, '0')}</span>
+  const number = <span className="font-mono text-xs text-gold-600">{String(index + 1).padStart(2, '0')}</span>
   if (!Icon) return number
   return (
     <div className="flex items-center gap-3">
