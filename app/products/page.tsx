@@ -23,7 +23,7 @@ export default function ProductsPage() {
         crumbs={[{ href: '/products', label: 'Products' }]}
         eyebrow="Products & services"
         title="Materials, machines and *services*"
-        intro="Silicone materials tuned for a job, the machines that process them, and the manufacturing services that turn them into finished parts. Choose a tab to see each product in detail."
+        intro="Silicone materials engineered for specific applications, the machines that process them, and the manufacturing services that turn them into finished components. Select a tab to view each product in detail."
         facts={order.map((cat) => ({ value: String(productsByCategory(cat).length), label: categoryLabels[cat].toLowerCase() }))}
         visual={<Render name="samples" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
@@ -54,7 +54,7 @@ export default function ProductsPage() {
           </Section>
         ))}
       </TabNav>
-      <CtaBand title="Looking for something *not listed?*" body="Most of our work is made to order. Tell us what you need and our research team will create it." />
+      <CtaBand title="Custom *development*" body="Most of our work is developed to order. Describe your requirements and our research team will formulate a material to meet them." />
       <JsonLd data={collectionPage('MoMixx products', '/products', products.map((p) => ({ name: p.name, path: productHref(p.slug) })))} />
     </>
   )

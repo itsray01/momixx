@@ -14,9 +14,9 @@ export default function ManufacturingPage() {
     <ProductGroup
       category="services"
       eyebrow="Manufacturing"
-      title="Finished parts, *made to order*"
+      title="Finished components, *made to order*"
       intro={categoryIntros.services}
-      cta={{ title: 'Need parts *made?*', body: 'Tell us what you need made, and our team will get back to you.' }}
+      cta={{ title: 'Manufacturing *enquiries*', body: 'Describe the components you require and our team will respond with a proposal.' }}
     />
   )
 }

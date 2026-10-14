@@ -69,7 +69,7 @@ export default function AboutPage() {
         crumbs={[{ href: '/about', label: 'About Us' }]}
         eyebrow="About us"
         title={`Precision silicone, *since ${site.foundingYear}*`}
-        intro={`MoMixx was founded in Singapore and Malaysia in ${site.foundingYear} to solve hard problems in silicone, from making cables safer to giving silicone waste a second life.`}
+        intro={`MoMixx was founded in Singapore and Malaysia in ${site.foundingYear} to address demanding problems in silicone, from safer cables to the recycling of silicone waste.`}
       />
 
       <Section>
@@ -97,9 +97,9 @@ export default function AboutPage() {
       <Section tone="muted" eyebrow="What we do" title="Three capabilities, *one company*">
         <FeatureGrid
           items={[
-            { icon: FlaskConical, title: 'Create and make silicone', body: 'Flame-retardant, waterproof, high-density and colour-matched silicone, and self-bonding silicone, in liquid and solid form.' },
-            { icon: Recycle, title: 'Recycle silicone waste', body: 'Our own chemical process turns scrap silicone back into new silicone.' },
-            { icon: Cog, title: 'Design and build machines', body: 'We make the hardware and software ourselves, from our patented vertical extrusion line to energy-saving ovens and camera-guided winders.' },
+            { icon: FlaskConical, title: 'Develop and manufacture silicone', body: 'Flame-retardant, waterproof, high-density and colour-matched silicone, and self-bonding silicone, in liquid and solid form.' },
+            { icon: Recycle, title: 'Recycle silicone waste', body: 'Our proprietary chemical process converts scrap silicone back into new silicone.' },
+            { icon: Cog, title: 'Design and build machines', body: 'We engineer the hardware and software in-house, from our patented vertical extrusion line to energy-saving ovens and camera-guided winders.' },
           ]}
         />
       </Section>
@@ -166,7 +166,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable line or a manufacturing partner, our team can help." secondary={{ href: '/innovation', label: 'Research & innovation' }} />
+      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable extrusion line or a manufacturing partner, our team will be pleased to assist." secondary={{ href: '/innovation', label: 'Research & innovation' }} />
     </>
   )
 }

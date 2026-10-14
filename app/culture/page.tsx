@@ -14,8 +14,8 @@ export const metadata = pageMetadata({
 // icon (the inner paths of a 24 × 24 line drawing).
 const values: Array<{ title: string; body: string; icon: ReactNode }> = [
   {
-    title: 'Engineers at heart',
-    body: 'We are a technology company that happens to make silicone. We solve problems through research, and we build our own machines when the right one doesn’t exist.',
+    title: 'Engineering-led',
+    body: 'We are a technology company whose product is silicone. We solve problems through research, and we build our own machines when the right one does not exist.',
     icon: <path d="M9 3h6M10 3v6.2l-5.3 9A1.9 1.9 0 0 0 6.3 21h11.4a1.9 1.9 0 0 0 1.6-2.8l-5.3-9V3M7.4 15h9.2" />,
   },
   {
@@ -29,8 +29,8 @@ const values: Array<{ title: string; body: string; icon: ReactNode }> = [
     ),
   },
   {
-    title: 'Sweat the details',
-    body: 'Great products come from caring about small things: a colour matched so closely you can’t tell the difference, a cable coating thinner than a credit card.',
+    title: 'Precision in the details',
+    body: 'Great products depend on small things: a colour matched so closely that the difference cannot be seen, a cable coating thinner than a credit card.',
     icon: (
       <>
         <circle cx="10.5" cy="10.5" r="6.5" />
@@ -53,7 +53,7 @@ const values: Array<{ title: string; body: string; icon: ReactNode }> = [
     ),
   },
   {
-    title: 'Think global',
+    title: 'Think globally',
     body: 'We build for international markets and international standards from day one, and we hold ourselves to them.',
     icon: (
       <>
@@ -90,7 +90,7 @@ export default function CulturePage() {
         intro="MoMixx is a technology-led company building an international business. Our culture is curious, fast, precise and collaborative, and designed to develop the next generation of engineers and leaders."
       />
 
-      <Section eyebrow="Our values" title="Six things we *believe*">
+      <Section eyebrow="Our values" title="Six principles that *guide us*">
         <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {values.map((v, i) => (
             <li key={v.title} className="bg-ink-950 p-8 sm:p-10">
@@ -127,7 +127,7 @@ export default function CulturePage() {
         </div>
       </Section>
 
-      <Section eyebrow="Careers" title="Build the future of *silicone* with us" intro="We hire engineers, scientists and business people who want to work on hard problems and see their work reach real products.">
+      <Section eyebrow="Careers" title="Build the future of *silicone* with us" intro="We hire engineers, scientists and commercial professionals who want to work on demanding problems and see their work reach real products.">
         <ul data-reveal="stagger" className="flex flex-wrap gap-3">
           {teams.map((t) => (
             <li key={t} className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-zinc-200">
@@ -145,7 +145,7 @@ export default function CulturePage() {
         </div>
       </Section>
 
-      <CtaBand title="Want to *work with us?*" body="Whether you’re a customer, a partner or a future colleague, we’d like to hear from you." />
+      <CtaBand title="Join *MoMixx*" body="Whether you are a customer, a partner or a prospective colleague, we would like to hear from you." />
     </>
   )
 }

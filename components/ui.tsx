@@ -350,8 +350,8 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
 }
 
 export function CtaBand({
-  title = 'Talk to *our team*',
-  body = 'Whether you need a material, a machine or a manufacturing partner, we’ll help you find the right silicone for the job.',
+  title = 'Contact *our team*',
+  body = 'Whether you are sourcing a material, a machine or a manufacturing partner, our team will help you specify the right silicone for your application.',
   secondary = { href: '/products', label: 'Explore products' },
 }: {
   title?: string

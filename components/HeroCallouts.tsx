@@ -233,9 +233,9 @@ export function HeroCallouts() {
       <svg className="absolute inset-0 h-full w-full overflow-visible">
         {ORDER.map((id) => (
           <g key={id}>
-            <line data-line={id} stroke="white" strokeWidth={1} />
-            <circle data-ring={id} r={8} fill="white" fillOpacity={0.16} />
-            <circle data-dot={id} r={3} fill="white" />
+            <line data-line={id} stroke="#121412" strokeWidth={1} />
+            <circle data-ring={id} r={8} fill="#121412" fillOpacity={0.12} />
+            <circle data-dot={id} r={3} fill="#121412" />
           </g>
         ))}
       </svg>

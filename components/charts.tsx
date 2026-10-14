@@ -1,12 +1,13 @@
 import type { Comparison } from '@/content/products'
 import { formatUsd, type Market } from '@/content/markets'
 
-// Emphasis palette for the dark surface (#101012): MoMixx in near-white
-// #e4e4e7 against comparison grey #71717a. Both clear 3:1 against the
-// surface and differ by lightness alone, so they stay distinct in greyscale
-// and for colour-blind readers. Every bar also carries a direct value label.
-const ACCENT = '#e4e4e7'
-const MUTED = '#71717a'
+// Emphasis palette for the paper surface: MoMixx in the brand green (#168447)
+// against comparison grey #9a9e9a. Both clear 3:1 against the surface and
+// differ in lightness as well as hue, so they stay distinct in greyscale and
+// for colour-blind readers. Every bar also carries a direct value label.
+const ACCENT = '#168447'
+const ACCENT_LIGHT = '#4fbf7a'
+const MUTED = '#9a9e9a'
 
 function advantage(row: Comparison['rows'][number], label: string) {
   // Lower-case a leading ordinary word ("Standard TPE" → "standard TPE"), but keep acronyms like XLPO.
@@ -91,12 +92,12 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
         <div className="flex h-28 items-end gap-3" aria-hidden="true">
           {market.current && (
             <div className="flex flex-col items-center gap-2">
-              <div data-grow-y className="w-9 rounded-t-[4px] bg-white/25" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px` }} />
+              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px`, background: MUTED }} />
               <span className="text-xs text-zinc-500 tabular-nums">{market.current.year}</span>
             </div>
           )}
           <div className="flex flex-col items-center gap-2">
-            <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, #ffffff, ${ACCENT})` }} />
+            <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, ${ACCENT_LIGHT}, ${ACCENT})` }} />
             <span className="text-xs text-zinc-500 tabular-nums">{market.forecast.year}</span>
           </div>
         </div>
@@ -150,7 +151,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
                 <div
                   data-grow
                   className="h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
-                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, #ffffff)` }}
+                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_LIGHT})` }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}
                 />
               </div>

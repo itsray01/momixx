@@ -91,7 +91,7 @@ export default function RecycledSiliconePage() {
                   <span className="text-zinc-400">Chemically recycled</span>
                   <span className="font-semibold text-white">{recyclingFacts.recycledTonnes}</span>
                 </div>
-                <div data-grow className="mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] bg-[#e4e4e7]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
+                <div data-grow className="mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] bg-[#168447]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
               </div>
             </div>
             <p className="mt-6 text-xs text-zinc-400">
@@ -105,7 +105,7 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
-      <Section tone="muted" eyebrow="Our process" title="How we recycle silicone, *step by step*" intro="Grinding silicone turns it into a filler that weakens new material. We take it right back to its basic building blocks, so the new silicone performs like new.">
+      <Section tone="muted" eyebrow="Our process" title="How we recycle silicone, *step by step*" intro="Ground silicone is only a filler, and it weakens new material. We take it back to its basic building blocks, so the new silicone performs like new.">
         <RecycleFlow />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           <div className="card p-7">
@@ -164,8 +164,8 @@ export default function RecycledSiliconePage() {
           <FeatureGrid
             items={[
               { icon: Sun, title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
-              { icon: Package, title: 'Silicone scrap collection', body: 'We collect silicone scrap and used products for recycling. Contact us about the type and amount you have.' },
-              { icon: Leaf, title: 'PFAS-free alternatives', body: 'Our dense silicone replaces rubbers that contain “forever chemicals”.' },
+              { icon: Package, title: 'Silicone scrap collection', body: 'We collect silicone scrap and used products for recycling. Contact us with the type and volume of material available.' },
+              { icon: Leaf, title: 'PFAS-free alternatives', body: 'Our high-density silicone replaces rubbers that contain “forever chemicals”.' },
             ]}
           />
         </div>
@@ -180,7 +180,7 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
-      <CtaBand title="Have silicone waste, or a *recycled-content target?*" body="We work with manufacturers on both sides: collecting silicone scrap and supplying certified recycled silicone." />
+      <CtaBand title="Silicone waste and *recycled content*" body="We work with manufacturers at both ends of the cycle: collecting silicone scrap and supplying certified recycled silicone." />
     </>
   )
 }

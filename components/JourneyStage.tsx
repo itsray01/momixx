@@ -203,7 +203,7 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
                 viewBox="0 0 100 40"
                 preserveAspectRatio="none"
               >
-                <path d="M100 0 C100 40, 0 40, 0 2" fill="none" stroke="white" strokeOpacity="0.7" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                <path d="M100 0 C100 40, 0 40, 0 2" fill="none" stroke="#168447" strokeOpacity="0.8" strokeWidth="1" vectorEffect="non-scaling-stroke" />
               </svg>
               {/* Its arrowhead, pointing up into "Silicone". */}
               <svg
@@ -212,7 +212,7 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
                 style={{ left: `${at(back, n)}%` }}
                 viewBox="0 0 10 10"
               >
-                <path d="M1 7 L5 2 L9 7" fill="none" stroke="white" strokeOpacity="0.7" strokeWidth="1.2" />
+                <path d="M1 7 L5 2 L9 7" fill="none" stroke="#168447" strokeOpacity="0.8" strokeWidth="1.2" />
               </svg>
               <span
                 className="journey-loop-head pointer-events-none absolute top-[6.9rem] -translate-x-1/2 text-xs whitespace-nowrap text-zinc-400"

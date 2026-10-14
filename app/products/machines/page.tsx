@@ -16,7 +16,7 @@ export default function MachinesPage() {
       eyebrow="Machines"
       title="Machines we *design and build*"
       intro={categoryIntros.equipment}
-      cta={{ title: 'Interested in *our machines?*', body: 'Request a datasheet or a technical consultation with our team.' }}
+      cta={{ title: 'Machinery *enquiries*', body: 'Request a datasheet or a technical consultation with our team.' }}
     />
   )
 }

@@ -37,7 +37,7 @@ export default function InsightsPage() {
           items={all.map((a) => ({ slug: a.slug, topic: a.topic, card: <ArticleCard article={a} showRender />, large: <ArticleCard article={a} large showRender /> }))}
         />
       </Section>
-      <CtaBand title="Have a question about *silicone?*" body="Our engineers are happy to help with materials, recycling and manufacturing questions." />
+      <CtaBand title="Technical *enquiries*" body="Our engineers can advise on materials, recycling and manufacturing." />
       <JsonLd data={collectionPage('MoMixx Insights', '/insights', all.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))} />
     </>
   )

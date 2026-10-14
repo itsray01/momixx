@@ -29,7 +29,7 @@ export default function SustainabilityPage() {
         crumbs={[{ href: '/sustainability', label: 'Sustainability' }]}
         eyebrow="Sustainability"
         title="Silicone with a *smaller footprint*"
-        intro="Sustainability is built into how we make silicone: certified recycled material, a carbon footprint calculation checked by an independent third party, and machines designed to waste less."
+        intro="Sustainability is built into how we make silicone: certified recycled material, a carbon footprint calculation checked by an independent third party, and machines designed to reduce waste."
         facts={[
           { value: String(recyclingCertifications.length), label: 'recycled-content certifications' },
           { value: '~30%', label: 'less electricity in our curing ovens' },
@@ -43,7 +43,7 @@ export default function SustainabilityPage() {
       </PageHeader>
 
       {/* Certifications */}
-      <Section eyebrow="Certified" title="Independently *checked*" intro="A recycling claim is only as good as the checks behind it. Two international schemes, GRS and ISCC PLUS, audit the chain of custody of our recycled content, from collected waste to finished silicone.">
+      <Section eyebrow="Certified" title="Independently *checked*" intro="A recycling claim is only as credible as the audits behind it. Two international schemes, GRS and ISCC PLUS, audit the chain of custody of our recycled content, from collected waste to finished silicone.">
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-2">
           {featured.map((c) => (
             <CertCard key={c.id} cert={c} featured />
@@ -94,8 +94,8 @@ export default function SustainabilityPage() {
                 <figcaption className="text-sm font-medium text-white">Recycled vs new silicone ({cmp.unit})</figcaption>
                 <div className="mt-5 space-y-3">
                   {[
-                    { label: 'MoMixx recycled', v: cmp.recycled, c: '#e4e4e7' },
-                    { label: 'New silicone', v: cmp.virgin, c: '#71717a' },
+                    { label: 'MoMixx recycled', v: cmp.recycled, c: '#168447' },
+                    { label: 'New silicone', v: cmp.virgin, c: '#9a9e9a' },
                   ].map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
                       <span className="w-36 shrink-0 text-sm text-zinc-300">{b.label}</span>
@@ -162,7 +162,7 @@ export default function SustainabilityPage() {
         />
       </Section>
 
-      <CtaBand title="Questions about our *certificates?*" body="Ask for certificate copies, our carbon validation statement or details of our recycled content." />
+      <CtaBand title="Certificates and *documentation*" body="Request certificate copies, our carbon validation statement or details of our recycled content." />
     </>
   )
 }

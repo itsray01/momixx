@@ -32,7 +32,7 @@ export default function ApplicationsPage() {
         crumbs={[{ href: '/applications', label: 'Applications' }]}
         eyebrow="Applications"
         title="One material, *many futures*"
-        intro="Silicone’s mix of heat resistance, flexibility and safety puts it at the heart of several of the world’s fastest-growing industries. Here is where MoMixx supplies today, and which markets are still new for us."
+        intro="Silicone’s combination of heat resistance, flexibility and safety places it at the heart of several of the world’s fastest-growing industries. The markets MoMixx supplies today, and those it is entering."
       />
       <TabNav tabs={applicationTabs} label="Applications">
         <Section>
@@ -66,7 +66,7 @@ export default function ApplicationsPage() {
           tone="muted"
           eyebrow="Markets"
           title="The growth behind *silicone*"
-          intro="Electrification, AI, healthcare and robotics all need materials that handle heat, movement and the human body. Here is how large those markets are expected to become, according to independent research firms."
+          intro="Electrification, AI, healthcare and robotics all require materials that withstand heat, movement and contact with the human body. Independent research firms’ projections of how large those markets are expected to become."
           className="scroll-mt-32"
         >
           <GrowthChart markets={addressable} />
@@ -153,7 +153,7 @@ export default function ApplicationsPage() {
           <p className="mt-6 max-w-4xl text-xs leading-relaxed text-zinc-500">{marketDisclaimer}</p>
         </Section>
       </TabNav>
-      <CtaBand title="Working in a *new industry?*" body="Tell us what your product has to withstand, and we’ll recommend a material or develop one." secondary={{ href: '/silicone', label: 'What is silicone?' }} />
+      <CtaBand title="Materials for *new industries*" body="Describe the conditions your product must withstand, and our team will recommend a material or develop one." secondary={{ href: '/silicone', label: 'What is silicone?' }} />
       <JsonLd data={collectionPage('Silicone applications', '/applications', applications.map((a) => ({ name: a.name, path: `/applications/${a.slug}` })))} />
     </>
   )

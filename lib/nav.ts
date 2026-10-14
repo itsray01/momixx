@@ -31,7 +31,7 @@ export function buildMenus(): Menu[] {
           links: [
             { href: '/products#materials', label: 'Materials', desc: 'Silicone for cables, seals, bonding and PFAS-free parts', model: 'samples' },
             { href: '/products/machines', label: 'Machines', desc: 'Extrusion lines and the machines around them', model: 'extruder-vertical' },
-            { href: '/products/manufacturing', label: 'Manufacturing', desc: 'Parts made to order, including medical', model: 'oem' },
+            { href: '/products/manufacturing', label: 'Manufacturing', desc: 'Components made to order, including medical', model: 'oem' },
           ],
         },
       ],
@@ -48,7 +48,7 @@ export function buildMenus(): Menu[] {
       href: '/applications',
       columns: [
         {
-          title: 'Where silicone goes',
+          title: 'Where silicone is used',
           href: '/applications',
           links: applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.tabLabel, desc: a.tagline, model: a.illustration })),
         },
@@ -92,7 +92,7 @@ export function buildMenus(): Menu[] {
             // Listed once real names and photos are in content/team.ts.
             ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
             { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
-            { href: '/culture', label: 'Culture & careers', desc: 'How we work, and joining us' },
+            { href: '/culture', label: 'Culture & careers', desc: 'How we work, and careers' },
             { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },
             // Listed once the first press release is in content/news.ts.
             ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom', desc: 'Announcements and media enquiries' }] : []),

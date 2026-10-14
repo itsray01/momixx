@@ -172,7 +172,7 @@ export default async function ArticlePage({ params }: Props) {
         </Section>
       )}
 
-      <CtaBand title="Questions about *this topic?*" body="Our engineers can help with materials, testing and recycled content." secondary={{ href: '/insights', label: 'More insights' }} />
+      <CtaBand title="Further *information*" body="Our engineers can advise on materials, testing and recycled content." secondary={{ href: '/insights', label: 'More insights' }} />
 
       <JsonLd
         data={{

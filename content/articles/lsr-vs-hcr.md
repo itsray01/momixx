@@ -65,4 +65,4 @@ Start with the part and how you will make it:
 - **Long lengths such as tubes or cable jackets?** HCR is the traditional route. Extruding LSR, as we do, adds automation and speed.
 - **Special features such as fire resistance or colour?** Both can deliver. The grade matters more than the type.
 
-Not sure which suits you? [Talk to our team](/contact) and we will test both.
+[Contact our team](/contact) to discuss which form suits your product; we can test both.

@@ -71,4 +71,4 @@ So silicone can replace FKM where it does the job. The catch has been feel. Ordi
 
 **[MoMixx High Density (MHD)](/products/momixx-high-density)** is a dense, silky silicone with a similar look, feel and toughness to FKM, made without fluorine. It comes in liquid and solid forms ([LSR and HCR](/insights/lsr-vs-hcr)). Uses include watch straps, and seals and cable parts in electric cars. FKM still resists fuels and oils better, so it remains the right choice for parts exposed to them.
 
-As with any new material, test MHD for your product's needs, such as wear and ageing. [Ask us for samples](/contact).
+As with any new material, test MHD for your product's needs, such as wear and ageing. [Contact our team](/contact) to discuss MHD for your product.

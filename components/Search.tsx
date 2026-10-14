@@ -265,7 +265,7 @@ export function Search({ onOpen }: { onOpen?: () => void }) {
           {!index && !failed && <p className="px-3 text-sm text-zinc-500">Loading…</p>}
           {failed && (
             <p className="px-3 text-sm text-zinc-400">
-              Search isn’t available right now.{' '}
+              Search is not available at the moment.{' '}
               <button type="button" onClick={prefetch} className="text-brand-300 underline underline-offset-2">
                 Try again
               </button>

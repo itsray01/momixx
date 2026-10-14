@@ -60,30 +60,30 @@ const businesses: Array<{ href: string; model: string; kicker: string; title: st
     href: '/products#materials',
     model: 'samples',
     kicker: 'Silicone materials',
-    title: 'Silicone, made for the job',
-    body: `${gradeCount} grades for cables, electric vehicles, medical devices and more, including flame-retardant, PFAS-free and recycled options.`,
+    title: 'Silicone engineered for each application',
+    body: `${gradeCount} grades for cables, electric vehicles, medical devices and other applications, including flame-retardant, PFAS-free and recycled options.`,
     cta: 'Explore materials',
   },
   {
     href: '/products/machines#vertical-extruder',
     model: 'extruder-vertical',
     kicker: 'Machines',
-    title: 'The machines that shape it',
+    title: 'Production machinery of our own design',
     body: (
       <>
         Our patented vertical extrusion line coats wire with silicone at up to 100 metres a minute, the first of its kind.
         <Fn n={1} plain />
       </>
     ),
-    cta: 'See the line',
+    cta: 'View the extrusion line',
   },
   {
     href: '/products/manufacturing',
     model: 'medical',
     kicker: 'Manufacturing',
-    title: 'Finished parts, in volume',
-    body: 'From the recipe to the finished part, including medical and precision parts made under an ISO 13485 quality system.',
-    cta: 'Our services',
+    title: 'Finished components at scale',
+    body: 'From formulation to finished component, including medical and precision parts manufactured under an ISO 13485 quality management system.',
+    cta: 'Manufacturing services',
   },
 ]
 
@@ -110,11 +110,11 @@ export default function HomePage() {
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
           <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24 [@media(max-height:46rem)]:lg:pt-20 [@media(max-height:46rem)]:lg:pb-12">
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,42rem)]">
-              <p className="eyebrow">A tech-driven silicone company</p>
+              <p className="eyebrow">A technology-driven silicone company</p>
               <h1 className="display-xl mt-7 [@media(max-height:46rem)]:mt-5">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl [@media(max-height:46rem)]:mt-5 [@media(max-height:46rem)]:sm:text-lg">
-                We develop, recycle and process high-performance silicone for the things the world now runs on: phone cables, electric vehicles, medical
-                devices, AI data centres and robots.
+                We develop, process and recycle high-performance silicone for the technologies the world now depends on: phone cables, electric
+                vehicles, medical devices, AI data centres and robots.
               </p>
               <div className="mt-10 flex flex-wrap gap-3 [@media(max-height:46rem)]:mt-7">
                 <Link href="/products" className="group btn-primary px-6 py-3 text-base">
@@ -149,7 +149,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Three businesses ── */}
-      <Section tone="muted" title="Materials, machines and *manufacturing.*" intro="Three businesses that strengthen each other: we create the silicone, build the machines that shape it, and make finished parts.">
+      <Section tone="muted" title="Materials, machines and *manufacturing.*" intro="Three complementary businesses: we develop the silicone, build the machinery that processes it, and manufacture finished components.">
         <ul data-reveal="stagger" className="grid gap-5 lg:grid-cols-3">
           {businesses.map((b) => (
             <li key={b.href}>
@@ -177,8 +177,8 @@ export default function HomePage() {
           ))}
         </ul>
         <p className="mt-12 max-w-3xl text-lg leading-relaxed text-zinc-300">
-          Our silicone goes into phones, electric vehicles, medical devices, AI data centres, robots and chip-making machines.{' '}
-          <ArrowLink href="/applications">Where it goes</ArrowLink>
+          Our silicone is used in phones, electric vehicles, medical devices, AI data centres, robots and semiconductor manufacturing equipment.{' '}
+          <ArrowLink href="/applications">View applications</ArrowLink>
         </p>
       </Section>
 
@@ -186,11 +186,11 @@ export default function HomePage() {
       <JourneyScroll
         eyebrow="From sand to silicone"
         title="From sand, and back again"
-        intro="Silicone starts as ordinary sand. MoMixx works at three points along the way: we make silicone for specific jobs, build the machines that shape it, and recycle it at the end of its life."
+        intro="Silicone begins as sand. MoMixx operates at three points in that journey: we develop silicone for specific applications, build the machinery that processes it, and recycle it at the end of its service life."
       />
 
       {/* ── Sustainability ── */}
-      <Section title="Silicone that *comes back.*">
+      <Section title="Silicone that *comes full circle.*">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <p className="text-2xl leading-snug font-semibold tracking-[-0.02em] text-white sm:text-3xl">
@@ -198,12 +198,12 @@ export default function HomePage() {
               <Fn n={2} />
             </p>
             <p className="mt-6 text-lg leading-relaxed text-zinc-300">
-              Most silicone waste ends up in landfill. We break it down into its basic building blocks and rebuild it into new silicone that performs like
+              Most silicone waste is sent to landfill. We break it down to its basic building blocks and rebuild it into new silicone that performs like
               new. Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.
             </p>
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-              <ArrowLink href="/sustainability">Our sustainability</ArrowLink>
-              <ArrowLink href="/recycled-silicone">The recycling process</ArrowLink>
+              <ArrowLink href="/sustainability">Sustainability</ArrowLink>
+              <ArrowLink href="/recycled-silicone">Our recycling process</ArrowLink>
             </div>
             <div className="mt-6 -ml-4 hidden max-w-[22rem] lg:block">
               <Render name="recycle" alt="" sizes="22rem" />

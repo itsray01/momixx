@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 })
 
 const help: Array<{ title: string; body: string; href: string; render: ModelName }> = [
-  { title: 'Silicone materials', body: 'Compounds for cables, EVs, seals and cases.', href: '/products#materials', render: 'samples' },
+  { title: 'Silicone materials', body: 'Compounds for cables, electric vehicles, seals and cases.', href: '/products#materials', render: 'samples' },
   { title: 'Machines', body: 'Extrusion lines, mixers, winders, ovens and coaters.', href: '/products/machines', render: 'extruder-vertical' },
   { title: 'Contract manufacturing', body: 'Finished silicone parts, including medical parts.', href: '/products/manufacturing', render: 'oem' },
   { title: 'Recycled silicone', body: 'Certified recycled silicone, on request in any of our grades.', href: '/recycled-silicone', render: 'recycle' },
@@ -21,7 +21,7 @@ const help: Array<{ title: string; body: string; href: string; render: ModelName
 export default function ContactPage() {
   return (
     <>
-      <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Contact *MoMixx*" intro="Tell us about your product or project and the right person on our team will get back to you." />
+      <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Contact *MoMixx*" intro="Describe your product or project and the appropriate member of our team will respond." />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
           <ContactForm formId={site.formspreeId} email={site.email} />
@@ -61,7 +61,7 @@ export default function ContactPage() {
           </div>
         </div>
       </Section>
-      <Section tone="muted" eyebrow="How we can help" title="What can we *help with?*">
+      <Section tone="muted" eyebrow="Enquiries" title="Areas of *enquiry*">
         <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {help.map((h) => (
             <li key={h.href}>

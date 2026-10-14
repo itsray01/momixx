@@ -23,7 +23,7 @@ export default function GlossaryPage() {
         ]}
         eyebrow="Insights"
         title="Silicone *glossary*"
-        intro="The words you’ll meet when working with silicone, its recycling and its certifications, defined in plain English."
+        intro="The terms used when working with silicone, its recycling and its certifications, defined in plain English."
       >
         <div className="mt-8">
           <TopicNav glossary />
@@ -68,7 +68,7 @@ export default function GlossaryPage() {
           })}
         </dl>
       </Section>
-      <CtaBand title="Can’t find a *term?*" body="Ask our technical team and we’ll explain it in plain English." secondary={{ href: '/insights', label: 'Read our insights' }} />
+      <CtaBand title="Additional *terms*" body="Our technical team can explain any term in plain English." secondary={{ href: '/insights', label: 'Read our insights' }} />
       <JsonLd
         data={{
           '@context': 'https://schema.org',

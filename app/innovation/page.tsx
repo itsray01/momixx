@@ -21,7 +21,7 @@ const areas: Area[] = [
     items: [
       {
         title: 'Exact colour matching',
-        body: 'Any colour, including bright shades and see-through silicone, matched to within ΔE94 0.50, a difference most people cannot see. It stays just as flame-retardant and strong.',
+        body: 'Any colour, including bright shades and see-through silicone, matched to within ΔE94 0.50, a difference most people cannot see. Flame retardancy and strength are unchanged.',
         render: 'samples',
       },
       {
@@ -31,7 +31,7 @@ const areas: Area[] = [
       },
       {
         title: 'Free of “forever chemicals”',
-        body: 'A dense, silky silicone that feels as good as premium fluorinated-rubber watch straps, and is as strong, without the PFAS.',
+        body: 'A dense, smooth silicone that matches the feel and strength of premium fluorinated-rubber watch straps, without the PFAS.',
         render: 'watchband',
       },
       {
@@ -47,11 +47,11 @@ const areas: Area[] = [
     items: [
       {
         title: 'Dust-free cables',
-        body: 'Silicone is slightly sticky, so it picks up dust. Dipping cables in our coating leaves them soft to the touch, stain-resistant and long-lasting.',
+        body: 'Silicone’s surface is slightly tacky and attracts dust. Our dip coating leaves cables soft to the touch, stain-resistant and durable.',
         render: 'coated-cable',
       },
       {
-        title: 'Tough phone-case finish',
+        title: 'Durable phone-case finish',
         body: 'A dipped finish that resists scratches and wear, with fewer rejects in our production than UV-cured coatings.',
         render: 'case-finish',
       },
@@ -63,8 +63,8 @@ const areas: Area[] = [
     items: [
       { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/machines#vertical-extruder', render: 'extruder-vertical' },
       { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/machines#energy-saving-oven', render: 'oven' },
-      { title: 'Low-waste mixer', body: 'Empties each bucket, saving the roughly 4% that standard mixers leave behind.', href: '/products/machines#lsr-mixer', render: 'mixer' },
-      { title: 'Camera-guided winder', body: 'A camera keeps the cable in place, so every spool is wound neatly.', href: '/products/machines#autowinder', render: 'winder' },
+      { title: 'Low-waste mixer', body: 'Empties each bucket completely, recovering the roughly 4% that standard mixers leave behind.', href: '/products/machines#lsr-mixer', render: 'mixer' },
+      { title: 'Camera-guided winder', body: 'Camera guidance keeps the cable in position, so every spool is wound evenly.', href: '/products/machines#autowinder', render: 'winder' },
       { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/machines#dip-coating-machine', render: 'coating' },
     ],
   },
@@ -80,7 +80,7 @@ export default function InnovationPage() {
         ]}
         eyebrow="Research & innovation"
         title="Setting new standards *in silicone*"
-        intro="Our research covers everything from what goes into the silicone, to how its surface looks and feels, to the machines that shape it."
+        intro="Our research spans the formulation of the silicone, the look and feel of its surface, and the machines that process it."
         visual={<Render name="extruder-vertical" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
@@ -132,7 +132,7 @@ export default function InnovationPage() {
         </Section>
       ))}
 
-      <CtaBand title="Work with our *research team*" body="We develop new materials and methods with customers who need something that doesn’t exist yet." />
+      <CtaBand title="Work with our *research team*" body="We develop new materials and processes with customers whose requirements are not met by existing products." />
     </>
   )
 }

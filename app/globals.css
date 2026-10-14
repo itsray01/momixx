@@ -44,9 +44,12 @@
   /* UI accent: the MoMixx green. Buttons, links, marks and the recycled loop; not sprayed
      everywhere. Teal stays with the logo and the home hero cable. */
   --color-brand-50: #f0faf3;
-  --color-brand-100: #dcf4e3;
-  --color-brand-200: #b9e8c8;
-  --color-brand-300: #86d6a3;
+  /* 100 to 300 are the "accent text" shades (links, marks, pills), which were pale on the old black
+     site. On paper they are the dark greens, like the inverted zinc scale, so every text-brand-300
+     link clears 4.5:1 without touching its call site. 400 up stays the real scale for tints. */
+  --color-brand-100: #0f4528;
+  --color-brand-200: #125430;
+  --color-brand-300: #13693a;
   --color-brand-400: #4fbf7a;
   --color-brand-500: #22a35b;
   --color-brand-600: #168447;
@@ -113,7 +116,8 @@
     text-wrap: pretty;
   }
   ::selection {
-    @apply bg-brand-200 text-zinc-50;
+    background: #b9e8c8;
+    color: #121412;
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-600;

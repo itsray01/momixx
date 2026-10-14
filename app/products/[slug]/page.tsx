@@ -175,11 +175,11 @@ export default async function ProductPage({ params }: Props) {
               {p.models && (
                 <div className="card overflow-x-auto">
                   <table className="w-full text-left text-sm">
-                    <thead className="border-b border-white/10 text-xs tracking-[0.14em] text-zinc-500 uppercase">
+                    <thead className="border-b border-white/10 text-xs tracking-[0.14em] text-zinc-400 uppercase">
                       <tr>
                         <th scope="col" className="px-6 py-4 font-medium">Version</th>
                         <th scope="col" className="px-6 py-4 font-medium">Form</th>
-                        <th scope="col" className="px-6 py-4 font-medium">What it’s good at</th>
+                        <th scope="col" className="px-6 py-4 font-medium">Strengths</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/[0.06]">
@@ -202,7 +202,7 @@ export default async function ProductPage({ params }: Props) {
                 <dl className="card grid gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
                   {p.specs.map((s) => (
                     <div key={s.label} className="bg-ink-900 p-6">
-                      <dt className="text-xs tracking-[0.14em] text-zinc-500 uppercase">{s.label}</dt>
+                      <dt className="text-xs tracking-[0.14em] text-zinc-400 uppercase">{s.label}</dt>
                       <dd className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{s.value}</dd>
                     </div>
                   ))}
@@ -212,7 +212,7 @@ export default async function ProductPage({ params }: Props) {
                 <div className="space-y-4 text-sm text-zinc-400">
                   {p.processing && (
                     <p>
-                      <span className="font-semibold text-white">How it’s used:</span> {p.processing}
+                      <span className="font-semibold text-white">How it is used:</span> {p.processing}
                     </p>
                   )}
                   {modelTypes.map((t) =>
@@ -230,7 +230,7 @@ export default async function ProductPage({ params }: Props) {
         )}
 
         {apps.length > 0 && (
-          <Section eyebrow="Applications" title="Where it’s *used*">
+          <Section eyebrow="Applications" title="Where it is *used*">
             <div className={`grid gap-6 ${market ? 'lg:grid-cols-2' : ''}`}>
               <ul data-reveal="stagger" className={`grid content-start gap-4 ${market ? '' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
                 {apps.map((a) => (
@@ -267,7 +267,7 @@ export default async function ProductPage({ params }: Props) {
         </nav>
 
       </TabNav>
-      <CtaBand title={`Interested in *${p.name}?*`} body="Request a datasheet, samples or a technical consultation with our team." />
+      <CtaBand title={`Enquire about *${p.name}*`} body="Request a datasheet or a technical consultation with our team." />
 
       <JsonLd
         data={{

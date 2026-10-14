@@ -86,7 +86,7 @@ function ProductSection({ p, tone }: { p: Product; tone: 'white' | 'muted' }) {
             <dl className="card grid gap-px overflow-hidden bg-white/[0.06] sm:grid-cols-2">
               {specs.map((s) => (
                 <div key={s.label} className="bg-ink-900 p-6">
-                  <dt className="text-xs tracking-[0.14em] text-zinc-500 uppercase">{s.label}</dt>
+                  <dt className="text-xs tracking-[0.14em] text-zinc-400 uppercase">{s.label}</dt>
                   <dd className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{s.value}</dd>
                 </div>
               ))}

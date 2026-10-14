@@ -105,7 +105,7 @@ export default async function ApplicationPage({ params }: Props) {
           </ArrowLink>
         </Section>
 
-        <Section tone="muted" eyebrow="How MoMixx helps" title="What MoMixx *supplies*">
+        <Section tone="muted" eyebrow="Our offering" title="What MoMixx *supplies*">
           <FeatureGrid items={a.ourRole} />
           {relatedProducts.length > 0 && (
             <div className="mt-12">
@@ -128,7 +128,7 @@ export default async function ApplicationPage({ params }: Props) {
         </Section>
 
       </TabNav>
-      <CtaBand title={`Working in *${a.name}?*`} body="Talk to our engineers about materials, testing and supply." />
+      <CtaBand title={`Silicone for *${a.name}*`} body="Speak with our engineers about materials, testing and supply." />
     </>
   )
 }

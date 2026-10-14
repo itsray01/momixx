@@ -17,11 +17,11 @@ export const metadata = pageMetadata({
 
 const properties = [
   { title: 'Handles heat and cold', body: 'Stays flexible from about −40 °C to 150–200 °C, and further in special types.' },
-  { title: 'Bends without breaking', body: 'It is soft and stretchy, so it survives being twisted and bent again and again.' },
-  { title: 'Keeps water out', body: 'Water runs off it, so it makes excellent seals.' },
-  { title: 'Medical-grade', body: 'Medical-grade silicone is well tolerated by the body and can be sterilised again and again.' },
-  { title: 'Lasts for years', body: 'Sunlight, weather and heat wear it down far more slowly than most plastics and rubbers.' },
-  { title: 'Can be made flame-retardant', body: 'With the right additives, it stops burning once the flame is taken away.' },
+  { title: 'Bends without breaking', body: 'Soft and elastic, it withstands repeated twisting and bending.' },
+  { title: 'Keeps water out', body: 'Water runs off its surface, making it an excellent sealing material.' },
+  { title: 'Medical-grade', body: 'Medical-grade silicone is well tolerated by the body and can be sterilised repeatedly.' },
+  { title: 'Long service life', body: 'Sunlight, weather and heat wear it down far more slowly than most plastics and rubbers.' },
+  { title: 'Can be made flame-retardant', body: 'With the right additives, it self-extinguishes once the flame is removed.' },
 ]
 
 export default function SiliconePage() {
@@ -29,13 +29,13 @@ export default function SiliconePage() {
     <>
       <PageHeader
         crumbs={[{ href: '/silicone', label: 'Silicone' }]}
-        eyebrow="Silicone 101"
+        eyebrow="Silicone explained"
         title="What is silicone, and why does it *matter?*"
-        intro="Silicone is a flexible, heat-proof material made mostly from silicon and oxygen. You rarely notice it, but it is inside your phone cable, your car, hospital equipment and the data centres that run AI."
+        intro="Silicone is a flexible, heat-resistant material made mostly from silicon and oxygen. Rarely noticed, it is found in phone cables, cars, hospital equipment and the data centres that run AI."
         visual={<Render name="molecule" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
-      <Section eyebrow="Not the same thing" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
+      <Section eyebrow="A common confusion" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
         <SiliconVsSilicone />
       </Section>
 
@@ -43,10 +43,10 @@ export default function SiliconePage() {
         tone="muted"
         eyebrow="From sand to product"
         title="How silicone is *made*"
-        intro="Silicone starts as quartz sand. MoMixx compounds it for specific jobs (step four), builds the machines that shape it (step five) and rebuilds scrap into recycled silicone (step seven)."
+        intro="Silicone begins as quartz sand. MoMixx compounds it for specific applications (step four), builds the machines that process it (step five) and rebuilds scrap into recycled silicone (step seven)."
       />
 
-      <Section eyebrow="Why people choose it" title="Six reasons silicone is *everywhere*">
+      <Section eyebrow="Why it is chosen" title="Six reasons silicone is *everywhere*">
         <div data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((p, i) => (
             <div key={p.title} className="bg-ink-950 p-8">
@@ -58,7 +58,7 @@ export default function SiliconePage() {
         </div>
       </Section>
 
-      <Section loop="heat" eyebrow="Heat and cold" title="Works where plastics *give up*" intro="Silicone stays flexible in deep cold and keeps its shape in heat that softens common cable plastics.">
+      <Section loop="heat" eyebrow="Heat and cold" title="Performs where plastics *fail*" intro="Silicone stays flexible in deep cold and keeps its shape in heat that softens common cable plastics.">
         <TemperatureRange />
       </Section>
 
@@ -66,7 +66,7 @@ export default function SiliconePage() {
         <CableAnatomy />
       </Section>
 
-      <Section tone="muted" eyebrow="Where you’ll find it" title="Where silicone is *used*">
+      <Section tone="muted" eyebrow="Where it is found" title="Where silicone is *used*">
         <div data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {applications.map((a) => (
             <Link key={a.slug} href={`/applications/${a.slug}`} className="group card lift flex items-center gap-5 overflow-hidden p-6">
@@ -84,7 +84,7 @@ export default function SiliconePage() {
         <FaqList faqs={siliconeFaqs} />
       </Section>
 
-      <CtaBand title="Need silicone for a *specific job?*" body="Tell us what your product has to survive: heat, flexing, fire, water or the human body. We’ll recommend a grade or develop one." />
+      <CtaBand title="Silicone for your *application*" body="Describe the conditions your product must withstand: heat, flexing, fire, water or the human body. Our team will recommend a grade or develop one." />
     </>
   )
 }

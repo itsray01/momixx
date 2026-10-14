@@ -23,11 +23,11 @@ export const categoryLabels: Record<ProductCategory, string> = {
 
 export const categoryIntros: Record<ProductCategory, string> = {
   materials:
-    'Silicone compounds, each made for a specific job: stopping a cable from burning, sealing out water, bonding to plastic without a primer, or replacing fluorinated rubbers that contain PFAS (“forever chemicals”). We also make certified recycled silicone and a clear PCTG plastic that complies with US FDA food-contact rules.',
+    'Silicone compounds, each engineered for a specific purpose: stopping a cable from burning, sealing out water, bonding to plastic without a primer, or replacing fluorinated rubbers that contain PFAS (“forever chemicals”). We also make certified recycled silicone and a clear PCTG plastic that complies with US FDA food-contact rules.',
   equipment:
-    'Machines we design and build ourselves to make silicone products faster, with less energy and less waste. We use them in our own factories and sell them to customers.',
+    'Machines of our own design and build, for making silicone products faster, with less energy and less waste. We run them in our own factories and supply them to customers.',
   services:
-    'We develop and make finished parts for other brands, from colour-matched consumer products to parts for medical devices and semiconductor equipment.',
+    'We develop and manufacture finished components for other brands, from colour-matched consumer products to parts for medical devices and semiconductor equipment.',
 }
 
 export type Stat = { value: string; label: string }
@@ -414,7 +414,7 @@ export const products: Product[] = [
     steps: [
       { title: 'Watch', body: 'A camera follows the cable as it winds onto the spool.' },
       { title: 'Correct', body: 'Closed-loop control adjusts the cable’s position continuously.' },
-      { title: 'Even spools', body: 'Spools wound evenly, so the cable isn’t stretched or damaged later in production.' },
+      { title: 'Even spools', body: 'Spools wound evenly, so the cable is not stretched or damaged later in production.' },
     ],
     applications: ['consumer-electronics'],
     illustration: 'winder',

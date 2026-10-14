@@ -84,4 +84,4 @@ One USB-C cable may now serve everything from earbuds to laptops, so brands want
 - **Materials:** [MM series](/products/momixx-mm) flame-retardant silicone, in solid and liquid forms ([LSR vs HCR](/insights/lsr-vs-hcr)). Grades include high-strength, lower-temperature-curing and bitter-additive options (the bitter taste discourages chewing).
 - **Machines:** our patented [vertical extrusion line](/products/machines#vertical-extruder) coats cable at up to 100 metres a minute. See [how silicone cable is made](/insights/how-silicone-cable-is-made).
 
-[Request a sample or specification](/contact).
+[Contact our team](/contact) about materials and machines for USB-C cables.
