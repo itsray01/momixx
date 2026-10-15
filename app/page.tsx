@@ -110,9 +110,11 @@ export default function HomePage() {
 
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
           <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24 [@media(max-height:46rem)]:lg:pt-20 [@media(max-height:46rem)]:lg:pb-12">
-            <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,42rem)]">
+            <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(46vw,44rem)]">
               <p className="eyebrow">A technology-driven silicone company</p>
-              <h1 className="display-xl mt-7 [@media(max-height:46rem)]:mt-5">{rich('Silicone, engineered for *a cleaner future.*', { serif: true })}</h1>
+              <h1 className="display-hero mt-7 [@media(max-height:46rem)]:mt-5">
+                Silicone, engineered for <em className="accent-serif sm:whitespace-nowrap">a cleaner future.</em>
+              </h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl [@media(max-height:46rem)]:mt-5 [@media(max-height:46rem)]:sm:text-lg">
                 We develop, process and recycle high-performance silicone for the technologies the world depends on: phone cables, electric
                 vehicles, medical devices, AI data centres and robots. Our niche is green silicone: certified recycled silicone that performs like new.
