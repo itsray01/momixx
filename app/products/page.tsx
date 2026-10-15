@@ -1,5 +1,4 @@
 import { collectionPage, JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
 import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
@@ -25,7 +24,6 @@ export default function ProductsPage() {
         title="Materials, components and *automation*"
         intro="Silicone materials engineered for specific applications, coatings and textiles, finished components, and the machines that make them."
         facts={productGroups.map((g) => ({ value: String(g.links.length), label: g.title.toLowerCase() }))}
-        visual={<Render name="samples" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
       <TabNav
         tabs={[{ href: '/products', label: 'Overview' }, ...productGroups.map((g) => ({ href: `/products#${g.id}`, label: g.title })), { href: '/products#grades', label: 'All grades' }]}
@@ -36,7 +34,7 @@ export default function ProductsPage() {
             <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${g.links.length > 4 || g.links.length === 3 ? 'lg:grid-cols-3' : ''}`}>
               {g.links.map((l, j, all) => (
                 <li key={l.href} className={all.length % 2 && j === all.length - 1 ? 'sm:max-lg:col-span-2' : ''}>
-                  <LinkCard href={l.href} render={l.model} title={l.label} body={l.desc} />
+                  <LinkCard href={l.href} title={l.label} body={l.desc} />
                 </li>
               ))}
             </ul>

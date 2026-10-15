@@ -66,7 +66,7 @@ export default function ContactPage() {
         <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {help.map((h) => (
             <li key={h.href}>
-              <LinkCard href={h.href} title={h.title} body={h.body} render={h.render} />
+              <LinkCard href={h.href} title={h.title} body={h.body} />
             </li>
           ))}
         </ul>

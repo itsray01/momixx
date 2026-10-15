@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
-import { Render } from '@/components/Render'
 import { BackgroundLoop } from '@/components/BackgroundLoop'
 import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, HeaderGlow, Section } from '@/components/ui'
 import { loopFor } from '@/content/loops'
@@ -65,7 +64,7 @@ export default async function ArticlePage({ params }: Props) {
               <GridBackdrop />
             </>
           )}
-          <div className="container-page relative lg:grid lg:grid-cols-[minmax(0,1fr)_34%] lg:items-center lg:gap-12">
+          <div className="container-page relative">
             <div className="max-w-4xl">
               <Breadcrumbs
                 items={[
@@ -81,12 +80,6 @@ export default async function ArticlePage({ params }: Props) {
                 Updated <time dateTime={a.updated ?? a.date}>{formatDate(a.updated ?? a.date)}</time> · {a.author ? a.author.name : `${site.name} technical team`}
               </p>
             </div>
-            {/* The article's picture, beside the title on wide screens; phones go straight to the reading. */}
-            {!loop && (
-              <div className="hidden lg:block">
-                <Render name={a.model} sizes="34vw" />
-              </div>
-            )}
           </div>
         </header>
 
@@ -165,7 +158,7 @@ export default async function ArticlePage({ params }: Props) {
           <ul data-reveal="stagger" className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <li key={r.slug} className="flex">
-                <ArticleCard article={r} showRender />
+                <ArticleCard article={r}/>
               </li>
             ))}
           </ul>

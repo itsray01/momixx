@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Render } from '@/components/Render'
 import { ArrowLink, CtaBand, PageHeader, Section } from '@/components/ui'
 import { getProduct, productHref, products } from '@/content/products'
 import { getTopic, type TopicSection } from '@/content/topics'
@@ -122,7 +121,6 @@ export function TopicPage({ path }: { path: string }) {
         eyebrow={t.eyebrow}
         title={t.title}
         intro={t.intro}
-        visual={<Render name={t.render} alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-20">

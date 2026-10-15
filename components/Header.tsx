@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Menu, MenuLink } from '@/lib/nav'
 import { site } from '@/lib/site'
 import { Logo } from './Logo'
-import { Render } from './Render'
 import { scriptedScroll } from './motion/scriptedScroll'
 import { Search } from './Search'
 
@@ -35,10 +34,10 @@ function Roll({ children }: { children: string }) {
 }
 
 /**
- * One menu as a full-width sheet: the links in columns on the left and a large picture on the right,
+ * One menu as a full-width sheet: the links in columns on the left and a feature card on the right,
  * which follows the link under the pointer (or keyboard focus) and otherwise shows the menu's feature.
  */
-function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; media: boolean; open: boolean }) {
+function Sheet({ menu, pathname, open }: { menu: Menu; pathname: string; open: boolean }) {
   const columns = menu.columns ?? []
   const [hover, setHover] = useState<MenuLink | null>(null)
   const [wasOpen, setWasOpen] = useState(open)
@@ -54,7 +53,7 @@ function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; 
       : null
   let n = 0
   return (
-    // On smaller laptops a three-column menu needs the room, so its picture appears from 1280 px up.
+    // On smaller laptops a three-column menu needs the room, so its feature card appears from 1280 px up.
     <div
       className={`container-page grid gap-10 py-10 ${shown ? (columns.length >= 3 ? 'xl:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]' : 'grid-cols-[minmax(0,1fr)_minmax(14rem,22rem)]') : ''} xl:gap-20`}
     >
@@ -97,16 +96,13 @@ function Sheet({ menu, pathname, media, open }: { menu: Menu; pathname: string; 
         ))}
       </div>
       {shown && (
-        <Link href={shown.href} className={`group/feature flex-col self-start ${columns.length >= 3 ? 'hidden xl:flex' : 'flex'}`} tabIndex={-1}>
-          <span
-            aria-hidden="true"
-            className="relative block aspect-[4/3] overflow-hidden rounded-2xl border border-white/[0.06] bg-[radial-gradient(80%_70%_at_50%_0%,rgb(255_255_255/0.09),transparent_75%)]"
-          >
-            {media && <Render key={shown.model} name={shown.model} sizes="22rem" className="menu-preview" />}
+        <Link href={shown.href} className={`card group/feature flex-col self-start p-7 ${columns.length >= 3 ? 'hidden xl:flex' : 'flex'}`} tabIndex={-1}>
+          {shown.eyebrow && <span className="text-sm font-medium text-gold-600">{shown.eyebrow}</span>}
+          <span className="mt-2 text-lg font-semibold tracking-[-0.02em] text-white">{shown.title}</span>
+          {shown.body && <span className="mt-2 line-clamp-3 text-sm leading-relaxed text-zinc-400">{shown.body}</span>}
+          <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-brand-300 group-hover/feature:text-brand-200">
+            Learn more <span aria-hidden="true">→</span>
           </span>
-          {shown.eyebrow && <span className="mt-5 text-sm text-zinc-500">{shown.eyebrow}</span>}
-          <span className="mt-1 text-lg font-semibold tracking-[-0.02em] text-white">{shown.title}</span>
-          {shown.body && <span className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-zinc-400">{shown.body}</span>}
         </Link>
       )}
     </div>
@@ -125,8 +121,6 @@ export function Header({ menus }: { menus: Menu[] }) {
   const [active, setActive] = useState<number | null>(null)
   // Moving straight from one menu to another swaps the sheets without replaying the opening.
   const [switching, setSwitching] = useState(false)
-  // Menu pictures load the first time their menu opens, not with every page.
-  const [seen, setSeen] = useState<ReadonlySet<number>>(() => new Set())
   const hiddenRef = useRef(false)
   const closeTimer = useRef(0)
   const skipFocusOpen = useRef(false)
@@ -149,7 +143,6 @@ export function Header({ menus }: { menus: Menu[] }) {
       setOpenedAt(pathname)
       setSwitching(activeRef.current !== null && activeRef.current !== i)
       setActive(i)
-      setSeen((prev) => (prev.has(i) ? prev : new Set(prev).add(i)))
     },
     [pathname],
   )
@@ -329,7 +322,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                           data-open={active === i || undefined}
                           className="menu-sheet absolute inset-x-0 top-full border-b border-white/[0.07] bg-ink-950 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]"
                         >
-                          <Sheet menu={menu} pathname={pathname} media={seen.has(i)} open={active === i} />
+                          <Sheet menu={menu} pathname={pathname} open={active === i} />
                         </div>
                       )}
                     </li>

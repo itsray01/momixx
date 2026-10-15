@@ -22,22 +22,18 @@ const areas: Area[] = [
       {
         title: 'Exact colour matching',
         body: 'Any colour, including bright shades and see-through silicone, matched to within ΔE94 0.50, a difference most people cannot see. Flame retardancy and strength are unchanged.',
-        render: 'samples',
       },
       {
         title: 'Flame-retardant without losing strength',
         body: 'The additives that make silicone flame-retardant usually reduce its strength. Our grades are designed for the UL 94 material flammability test and for cables that pass UL VW-1, while keeping their strength.',
-        render: 'data-cable',
       },
       {
         title: 'Free of “forever chemicals”',
         body: 'A dense, smooth silicone that matches the feel and strength of premium fluorinated-rubber watch straps, without the PFAS.',
-        render: 'watchband',
       },
       {
         title: 'Chemical recycling',
         body: 'Breaking silicone scrap down into a liquid building block, then rebuilding it into new silicone, with certified chain-of-custody records for the recycled content.',
-        render: 'recycle',
       },
     ],
   },
@@ -48,12 +44,10 @@ const areas: Area[] = [
       {
         title: 'Dust-free cables',
         body: 'Silicone’s surface is slightly tacky and attracts dust. Our dip coating leaves cables soft to the touch, stain-resistant and durable.',
-        render: 'coated-cable',
       },
       {
         title: 'Durable phone-case finish',
         body: 'A dipped finish that resists scratches and wear, with fewer rejects in our production than UV-cured coatings.',
-        render: 'case-finish',
       },
     ],
   },
@@ -61,11 +55,11 @@ const areas: Area[] = [
     id: 'equipment',
     title: 'Machines',
     items: [
-      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/machines#vertical-extruder', render: 'extruder-vertical' },
-      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/machines#energy-saving-oven', render: 'oven' },
-      { title: 'Low-waste mixer', body: 'Empties each bucket completely, recovering the roughly 4% that standard mixers leave behind.', href: '/products/machines#lsr-mixer', render: 'mixer' },
-      { title: 'Camera-guided winder', body: 'Camera guidance keeps the cable in position, so every spool is wound evenly.', href: '/products/machines#autowinder', render: 'winder' },
-      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/machines#dip-coating-machine', render: 'coating' },
+      { title: 'Vertical extrusion line', body: 'To our knowledge, the world’s first vertical line for silicone data cable: up to 100 metres a minute.', href: '/products/machines#vertical-extruder' },
+      { title: 'Energy-saving oven', body: 'Uses about 30% less electricity than a standard curing oven and holds its temperature within ±5 °C.', href: '/products/machines#energy-saving-oven' },
+      { title: 'Low-waste mixer', body: 'Empties each bucket completely, recovering the roughly 4% that standard mixers leave behind.', href: '/products/machines#lsr-mixer' },
+      { title: 'Camera-guided winder', body: 'Camera guidance keeps the cable in position, so every spool is wound evenly.', href: '/products/machines#autowinder' },
+      { title: 'Dip-coating machine', body: 'Up to 20 times lower VOC (solvent fume) emissions than spray coating.', href: '/products/machines#dip-coating-machine' },
     ],
   },
 ]
@@ -81,7 +75,6 @@ export default function InnovationPage() {
         eyebrow="Research & innovation"
         title="Setting new standards *in silicone*"
         intro="Our research spans the formulation of the silicone, the look and feel of its surface, and the machines that process it."
-        visual={<Render name="extruder-vertical" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section>

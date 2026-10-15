@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { CableColourPicker } from '@/components/CableColourPicker'
@@ -7,7 +6,7 @@ import { HeroSpotlight } from '@/components/HeroSpotlight'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
-import { JourneyScroll, RecycleSteps } from '@/components/infographics'
+import { RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, ArrowLink, BigStats, CtaBand, GridBackdrop, Section, rich } from '@/components/ui'
 import { CertMarks } from '@/components/CertMarks'
@@ -181,18 +180,8 @@ export default function HomePage() {
         <ul data-reveal="stagger" className="grid gap-5 lg:grid-cols-3">
           {businesses.map((b) => (
             <li key={b.href}>
-              {/* Tablets: picture beside the words, one card per row; phones and desktops: picture on top. */}
-              <Link href={b.href} className="group card flex h-full flex-col overflow-hidden md:max-lg:flex-row md:max-lg:items-center">
-                <div className="relative aspect-[4/3] md:max-lg:w-2/5 md:max-lg:shrink-0">
-                  <Image
-                    src={`/renders/${b.model}.webp`}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 30vw, 90vw"
-                    className="motion-media object-contain p-4"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col px-7 pb-8 sm:px-8 md:max-lg:py-8 md:max-lg:pl-2">
+              <Link href={b.href} className="group card lift flex h-full flex-col">
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
                   <p className="text-sm font-medium text-zinc-400">{b.kicker}</p>
                   <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{b.title}</h3>
                   <p className="mt-3 flex-1 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{b.body}</p>
@@ -209,13 +198,6 @@ export default function HomePage() {
           <ArrowLink href="/applications">View applications</ArrowLink>
         </p>
       </Section>
-
-      {/* ── Sand to silicone ── */}
-      <JourneyScroll
-        eyebrow="From sand to silicone"
-        title="From sand, and back again"
-        intro="Silicone begins as sand. MoMixx operates at three points in that journey: we develop silicone for specific applications, build the machinery that processes it, and recycle it at the end of its service life."
-      />
 
       {/* ── MoMixx Extruder: interactive 3D ── */}
       <ExtruderSection links />

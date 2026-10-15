@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { Render } from '@/components/Render'
-import { CableAnatomy } from '@/components/CableAnatomy'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
 import { TemperatureRange } from '@/components/TemperatureRange'
 import { Arrow, CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
@@ -32,7 +30,6 @@ export default function SiliconePage() {
         eyebrow="Silicone explained"
         title="What is silicone, and why does it *matter?*"
         intro="Silicone is a flexible, heat-resistant material made mostly from silicon and oxygen. Rarely noticed, it is found in phone cables, cars, hospital equipment and the data centres that run AI."
-        visual={<Render name="molecule" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
       <Section eyebrow="A common confusion" title="Silicon vs *silicone*" intro="The names are one letter apart, but the materials are very different. Silicon is the raw element; silicone is the versatile material made from it.">
@@ -60,10 +57,6 @@ export default function SiliconePage() {
 
       <Section loop="heat" eyebrow="Heat and cold" title="Performs where plastics *fail*" intro="Silicone stays flexible in deep cold and keeps its shape in heat that softens common cable plastics.">
         <TemperatureRange />
-      </Section>
-
-      <Section eyebrow="Inside the cable" title="Anatomy of a *silicone cable*" intro="A typical charging cable has five layers. The silicone jacket is the outermost: the protective layer that insulates and shields the conductors within.">
-        <CableAnatomy />
       </Section>
 
       <Section tone="muted" eyebrow="Where it is found" title="Where silicone is *used*">

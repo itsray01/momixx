@@ -34,7 +34,7 @@ export default function InsightsPage() {
         <h2 className="sr-only">Latest articles</h2>
         {/* Topics filter this list in place (?topic=…), instead of each having a page. */}
         <FilteredArticles
-          items={all.map((a) => ({ slug: a.slug, topic: a.topic, card: <ArticleCard article={a} showRender />, large: <ArticleCard article={a} large showRender /> }))}
+          items={all.map((a) => ({ slug: a.slug, topic: a.topic, card: <ArticleCard article={a}/>, large: <ArticleCard article={a} large/> }))}
         />
       </Section>
       <CtaBand title="Technical *enquiries*" body="Our engineers can advise on materials, recycling and manufacturing." />

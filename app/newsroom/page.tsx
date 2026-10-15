@@ -68,7 +68,7 @@ export default function NewsroomPage() {
           <ul data-reveal="stagger" className="grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
             {latestArticles.map((a) => (
               <li key={a.slug} className="flex">
-                <ArticleCard article={a} showRender />
+                <ArticleCard article={a}/>
               </li>
             ))}
           </ul>

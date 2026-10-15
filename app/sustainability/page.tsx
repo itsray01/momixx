@@ -46,13 +46,13 @@ export default function SustainabilityPage() {
       <Section>
         <ul data-reveal="stagger" className="grid gap-5 md:grid-cols-3">
           <li>
-            <LinkCard href="/recycled-silicone" render="recycle" kicker="Recycle" title="Recycled silicone" body="How we started, how we turn silicone waste into new silicone, and how it is audited." />
+            <LinkCard href="/recycled-silicone" kicker="Recycle" title="Recycled silicone" body="How we started, how we turn silicone waste into new silicone, and how it is audited." />
           </li>
           <li>
-            <LinkCard href="/carbon-footprint" render="sand" kicker="Carbon footprint" title="Our carbon footprint" body="An independently checked calculation, and how we bring the figure down." />
+            <LinkCard href="/carbon-footprint" kicker="Carbon footprint" title="Our carbon footprint" body="An independently checked calculation, and how we bring the figure down." />
           </li>
           <li>
-            <LinkCard href="#certificates" render="globe" kicker="Sustainability" title="Certifications and factories" body="GRS, RCS, ISCC PLUS, SCS and ISO 13485, and the factories they cover." />
+            <LinkCard href="#certificates" kicker="Sustainability" title="Certifications and factories" body="GRS, RCS, ISCC PLUS, SCS and ISO 13485, and the factories they cover." />
           </li>
         </ul>
       </Section>
