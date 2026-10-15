@@ -380,7 +380,6 @@ export const applications: Application[] = [
     ],
     illustration: 'chip',
     focus: [],
-    inMenu: false,
   },
 ]
 
