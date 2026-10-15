@@ -26,16 +26,16 @@ export function CertRegister({ certs }: { certs: Certification[] }) {
             </h3>
             <ul className="mt-2">
               {rows.map((c) => (
-                <li key={c.id} className="grid gap-5 border-t border-white/10 py-7 first:border-t-0 md:grid-cols-[8.5rem_minmax(0,1fr)_16rem] md:gap-8 lg:grid-cols-[8.5rem_minmax(0,1fr)_17rem_11rem]">
+                <li key={c.id} className="group grid gap-5 border-t border-white/10 py-7 first:border-t-0 md:grid-cols-[8.5rem_minmax(0,1fr)_16rem] md:gap-8 lg:grid-cols-[8.5rem_minmax(0,1fr)_17rem_11rem]">
                   <div className="flex min-h-12 flex-col justify-center gap-1.5">
                     {c.logo ? (
                       <>
                         {c.logoHref ? (
                           <a href={c.logoHref} target="_blank" rel="noopener noreferrer" className="inline-block w-fit">
-                            <Image src={c.logo} alt={`${c.name} logo`} width={120} height={48} className="max-h-16 w-auto max-w-[8rem] object-contain" />
+                            <Image src={c.logo} alt={`${c.name} logo`} width={120} height={48} className="logo-mark max-h-16 w-auto max-w-[8rem] object-contain" />
                           </a>
                         ) : (
-                          <Image src={c.logo} alt={`${c.name} logo`} width={120} height={48} className="max-h-16 w-auto max-w-[8rem] object-contain" />
+                          <Image src={c.logo} alt={`${c.name} logo`} width={120} height={48} className="logo-mark max-h-16 w-auto max-w-[8rem] object-contain" />
                         )}
                         {c.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{c.logoCredit}</span>}
                       </>

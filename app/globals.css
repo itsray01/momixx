@@ -303,6 +303,26 @@
   background: linear-gradient(90deg, transparent, rgb(201 162 74 / 0.55), transparent);
 }
 
+/* Certification marks rest in grey and take their colour when their row or card is hovered or focused. */
+@utility logo-mark {
+  filter: grayscale(1);
+  opacity: 0.72;
+  transition:
+    filter 0.4s var(--ease-soft),
+    opacity 0.4s var(--ease-soft);
+}
+.group:hover .logo-mark,
+.group:focus-within .logo-mark,
+.logo-mark:hover {
+  filter: none;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark {
+    transition: none;
+  }
+}
+
 /* Sticky tab bars (components/TabNav.tsx) sit under the site header and move up when it slides away.
    In rem, so they keep their place when large screens scale the layout up. */
 .tabnav {

@@ -12,7 +12,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.momixx.com',
   tagline: 'High-performance and recycled silicone, engineered in Asia for the world.',
   description:
-    'MoMixx develops, recycles and processes high-performance silicone for cables, electric vehicles, medical devices, AI data centres and robotics. Headquartered in Singapore, with manufacturing in Asia including Penang, Malaysia.',
+    'MoMixx makes green silicone: GRS and ISCC PLUS certified recycled silicone, plus high-performance flame-retardant and PFAS-free grades, cable machines and finished parts. Headquartered in Singapore, with factories in Penang, Malaysia and Dongguan, China.',
   foundingYear: 2019,
   email: 'enquiries@orionmomixx.com',
   // Contact form: the code after /f/ in the Formspree form's endpoint. Enquiries go to

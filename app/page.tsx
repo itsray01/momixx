@@ -9,8 +9,8 @@ import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
 import { JourneyScroll, RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
-import { Render } from '@/components/Render'
 import { Arrow, ArrowLink, BigStats, CtaBand, GridBackdrop, Section, rich } from '@/components/ui'
+import { CertMarks } from '@/components/CertMarks'
 import { companyStats, firstLineFootnote } from '@/content/company'
 import { products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
@@ -18,11 +18,12 @@ import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = {
   ...pageMetadata({
-    title: 'MoMixx | High-performance & recycled silicone',
-    description: site.description,
+    title: 'MoMixx | Green silicone: certified recycled silicone',
+    description:
+      'MoMixx makes green silicone: GRS and ISCC PLUS certified recycled silicone that performs like new, plus flame-retardant and PFAS-free grades and cable machines.',
     path: '/',
   }),
-  title: { absolute: 'MoMixx | High-performance & recycled silicone' },
+  title: { absolute: 'MoMixx | Green silicone: certified recycled silicone' },
 }
 
 // Number of material grades across the range, e.g. M3, M4… (derived, so it stays right as grades change).
@@ -111,10 +112,10 @@ export default function HomePage() {
           <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24 [@media(max-height:46rem)]:lg:pt-20 [@media(max-height:46rem)]:lg:pb-12">
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(44vw,42rem)]">
               <p className="eyebrow">A technology-driven silicone company</p>
-              <h1 className="display-xl mt-7 [@media(max-height:46rem)]:mt-5">{rich('Silicone, engineered for *what’s next.*', { serif: true })}</h1>
+              <h1 className="display-xl mt-7 [@media(max-height:46rem)]:mt-5">{rich('Silicone, engineered for *a cleaner future.*', { serif: true })}</h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl [@media(max-height:46rem)]:mt-5 [@media(max-height:46rem)]:sm:text-lg">
-                We develop, process and recycle high-performance silicone for the technologies the world now depends on: phone cables, electric
-                vehicles, medical devices, AI data centres and robots.
+                We develop, process and recycle high-performance silicone for the technologies the world depends on: phone cables, electric
+                vehicles, medical devices, AI data centres and robots. Our niche is green silicone: certified recycled silicone that performs like new.
               </p>
               <div className="mt-10 flex flex-wrap gap-3 [@media(max-height:46rem)]:mt-7">
                 <Link href="/products" className="group btn-primary px-6 py-3 text-base">
@@ -147,6 +148,31 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Green silicone: the niche, straight after the figures ── */}
+      <Section id="green-silicone" eyebrow="Green silicone" title="Green silicone, *certified.*" className="scroll-mt-28">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <p className="text-2xl leading-snug font-semibold tracking-[-0.02em] text-white sm:text-3xl">
+              {certificationClaim.statement}
+              <Fn n={2} />
+            </p>
+            <p className="mt-6 text-lg leading-relaxed text-zinc-300">
+              Green silicone is silicone made without making more waste: certified recycled silicone that performs like new, so a cable, a seal or a
+              case can carry recycled content without giving anything up. Most silicone waste is sent to landfill. We break it down to its basic
+              building blocks and rebuild it into new silicone. Certified chain-of-custody records cover our recycled content from collected waste to
+              finished silicone, and any MoMixx silicone can be supplied with recycled content on request.
+            </p>
+            <CertMarks className="mt-10" />
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+              <ArrowLink href="/sustainability">Our certificates</ArrowLink>
+              <ArrowLink href="/recycled-silicone">Our recycling process</ArrowLink>
+              <ArrowLink href="/insights/what-is-green-silicone">What green silicone means</ArrowLink>
+            </div>
+          </div>
+          <RecycleSteps />
+        </div>
+      </Section>
 
       {/* ── Three businesses ── */}
       <Section tone="muted" title="Materials, machines and *manufacturing.*" intro="Three complementary businesses: we develop the silicone, build the machinery that processes it, and manufacture finished components.">
@@ -188,30 +214,6 @@ export default function HomePage() {
         title="From sand, and back again"
         intro="Silicone begins as sand. MoMixx operates at three points in that journey: we develop silicone for specific applications, build the machinery that processes it, and recycle it at the end of its service life."
       />
-
-      {/* ── Sustainability ── */}
-      <Section title="Silicone that *comes full circle.*">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-          <div>
-            <p className="text-2xl leading-snug font-semibold tracking-[-0.02em] text-white sm:text-3xl">
-              {certificationClaim.statement}
-              <Fn n={2} />
-            </p>
-            <p className="mt-6 text-lg leading-relaxed text-zinc-300">
-              Most silicone waste is sent to landfill. We break it down to its basic building blocks and rebuild it into new silicone that performs like
-              new. Certified chain-of-custody records cover our recycled content from collected waste to finished silicone.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-              <ArrowLink href="/sustainability">Sustainability</ArrowLink>
-              <ArrowLink href="/recycled-silicone">Our recycling process</ArrowLink>
-            </div>
-            <div className="mt-6 -ml-4 hidden max-w-[22rem] lg:block">
-              <Render name="recycle" alt="" sizes="22rem" />
-            </div>
-          </div>
-          <RecycleSteps />
-        </div>
-      </Section>
 
       {/* ── MoMixx Extruder: interactive 3D ── */}
       <ExtruderSection links />

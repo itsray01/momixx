@@ -84,11 +84,12 @@ const organization = {
     addressCountry: site.address.country,
   },
   knowsAbout: [
+    'Green silicone',
+    'Recycled silicone',
     'Silicone',
     'Liquid silicone rubber (LSR)',
     'High consistency rubber (HCR)',
     'Fire-retardant silicone',
-    'Recycled silicone',
     'Silicone cable extrusion',
     'PFAS-free materials',
     'Medical-grade silicone',

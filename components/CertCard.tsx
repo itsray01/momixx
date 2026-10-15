@@ -6,7 +6,7 @@ export function CertCard({ cert, featured = false, wide = false }: { cert: Certi
   // `wide`: the only card in its row, laid out across it (badge, words, links) so it never sits alone.
   return (
     <li
-      className={`card lift flex flex-col ${featured ? 'p-8 sm:p-10' : 'p-7'} ${
+      className={`group card lift flex flex-col ${featured ? 'p-8 sm:p-10' : 'p-7'} ${
         wide ? 'col-span-full lg:grid lg:grid-cols-[11rem_minmax(0,1fr)_auto] lg:items-center lg:gap-x-10' : ''
       }`}
     >
@@ -15,10 +15,10 @@ export function CertCard({ cert, featured = false, wide = false }: { cert: Certi
           <>
             {cert.logoHref ? (
               <a href={cert.logoHref} target="_blank" rel="noopener noreferrer" className="inline-block w-fit">
-                <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="max-h-16 w-auto max-w-[9rem] object-contain" />
+                <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="logo-mark max-h-16 w-auto max-w-[9rem] object-contain" />
               </a>
             ) : (
-              <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="max-h-16 w-auto max-w-[9rem] object-contain" />
+              <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="logo-mark max-h-16 w-auto max-w-[9rem] object-contain" />
             )}
             {cert.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{cert.logoCredit}</span>}
           </>
