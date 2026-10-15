@@ -40,10 +40,10 @@ export default async function ApplicationPage({ params }: Props) {
     <>
       <PageHeader
         crumbs={[
-          { href: '/applications', label: 'Applications' },
+          { href: '/applications', label: 'Markets' },
           { href: `/applications/${a.slug}`, label: a.name },
         ]}
-        eyebrow="Application"
+        eyebrow="Market"
         title={a.name}
         intro={a.tagline}
         visual={<Render name={a.illustration} alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
@@ -53,7 +53,7 @@ export default async function ApplicationPage({ params }: Props) {
           {a.maturity}
         </p>
       </PageHeader>
-      <TabNav tabs={applicationTabs} label="Applications">
+      <TabNav tabs={applicationTabs} label="Markets">
 
         <Section>
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
@@ -78,7 +78,41 @@ export default async function ApplicationPage({ params }: Props) {
           </div>
         </Section>
 
-        <Section tone="muted" eyebrow="Why silicone" title="Why this industry needs *silicone*">
+        {a.focus.length > 0 && (
+          <Section id="focus" tone="muted" eyebrow="Focus areas" title="What we *focus on*" className="scroll-mt-32">
+            <ul data-reveal="stagger" className={`grid gap-x-10 gap-y-12 ${a.focus.length === 1 ? 'max-w-2xl' : a.focus.length % 3 === 0 || a.focus.length === 5 ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-2'}`}>
+              {a.focus.map((f, i) => {
+                const items = (f.products ?? []).map(getProduct).filter((p) => p !== undefined)
+                return (
+                  <li key={f.id} id={f.id} className="scroll-mt-32 border-t border-white/15 pt-6">
+                    <p aria-hidden="true" className="font-display text-sm font-medium text-gold-600 tabular-nums">{String(i + 1).padStart(2, '0')}</p>
+                    <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{f.title}</h3>
+                    {f.holding && (
+                      <span className="mt-3 inline-flex rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">Details to follow</span>
+                    )}
+                    <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{f.body}</p>
+                    {(items.length > 0 || f.links) && (
+                      <div className="mt-4 flex flex-col items-start gap-2 text-sm">
+                        {items.map((p) => (
+                          <ArrowLink key={p.slug} href={productHref(p.slug)}>
+                            {p.name}
+                          </ArrowLink>
+                        ))}
+                        {f.links?.map((l) => (
+                          <ArrowLink key={l.href} href={l.href}>
+                            {l.label}
+                          </ArrowLink>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </Section>
+        )}
+
+        <Section tone={a.focus.length > 0 ? 'white' : 'muted'} eyebrow="Why silicone" title="Why this industry needs *silicone*">
           <FeatureGrid items={a.whySilicone} />
         </Section>
 
@@ -93,6 +127,7 @@ export default async function ApplicationPage({ params }: Props) {
           </Section>
         )}
 
+        {relatedMarkets.length > 0 && (
         <Section eyebrow="Market size" title="Industry *context*" intro="Independent estimates for this industry. They are not MoMixx’s addressable market or a forecast of its business.">
           <div data-reveal="stagger" className={`grid gap-6 ${relatedMarkets.length > 1 ? 'md:grid-cols-2' : 'max-w-xl'}`}>
             {relatedMarkets.map((m) => (
@@ -104,6 +139,7 @@ export default async function ApplicationPage({ params }: Props) {
             Compare all markets
           </ArrowLink>
         </Section>
+        )}
 
         <Section tone="muted" eyebrow="Our offering" title="What MoMixx *supplies*">
           <FeatureGrid items={a.ourRole} />

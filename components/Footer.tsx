@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { site } from '@/lib/site'
 import { applications } from '@/content/applications'
 import { newsroomReady } from '@/content/news'
-import { getProduct } from '@/content/products'
 import { teamReady } from '@/content/team'
 import { BackToTop } from './BackToTop'
 import { Logo } from './Logo'
@@ -12,28 +11,30 @@ const columns = [
     title: 'Products',
     links: [
       { href: '/products', label: 'All products' },
-      ...['momixx-mm', 'momixx-high-density', 'momixx-move'].map((slug) => ({ href: `/products/${slug}`, label: getProduct(slug)?.name ?? slug })),
+      { href: '/products/momixx', label: 'MoMixx premium grades' },
       { href: '/recycled-silicone', label: 'Recycled silicone' },
-      { href: '/products/machines', label: 'Machines' },
-      { href: '/products/manufacturing', label: 'Manufacturing' },
+      { href: '/products/coatings', label: 'Silicone-based coatings' },
+      { href: '/products/yarn-leather', label: 'Yarn and leather' },
+      { href: '/products/precision-components', label: 'Precision components' },
+      { href: '/products/machines', label: 'Automation' },
     ],
   },
   {
-    title: 'Applications',
-    links: [...applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.name })), { href: '/applications#markets', label: 'Markets' }],
+    title: 'Markets',
+    links: [...applications.filter((a) => a.inMenu !== false).map((a) => ({ href: `/applications/${a.slug}`, label: a.name })), { href: '/applications#markets', label: 'Market size' }],
   },
   {
-    title: 'Company',
+    title: 'Who we are',
     links: [
-      { href: '/silicone', label: 'What is silicone?' },
-      { href: '/sustainability', label: 'Sustainability' },
-      { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About us' },
-      ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom' }] : []),
-      { href: '/governance', label: 'Governance' },
-      ...(teamReady ? [{ href: '/team', label: 'Our team' }] : []),
-      { href: '/culture', label: 'Culture & careers' },
+      ...(teamReady ? [{ href: '/leadership', label: 'Leadership' }] : []),
       { href: '/innovation', label: 'Research & innovation' },
+      { href: '/culture', label: 'Culture & careers' },
+      { href: '/governance', label: 'Governance' },
+      ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom' }] : []),
+      { href: '/sustainability', label: 'Green' },
+      { href: '/insights', label: 'Insights' },
+      { href: '/silicone', label: 'What is silicone?' },
       { href: '/contact', label: 'Contact' },
     ],
   },

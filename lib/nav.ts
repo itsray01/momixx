@@ -6,6 +6,7 @@ import { applications } from '@/content/applications'
 import { newsroomReady } from '@/content/news'
 import { certificationClaim } from '@/content/sustainability'
 import { teamReady } from '@/content/team'
+import { productGroups } from '@/content/topics'
 import { getArticles } from '@/lib/articles'
 import { site } from '@/lib/site'
 
@@ -14,88 +15,27 @@ export type MenuColumn = { title: string; href?: string; links: MenuLink[] }
 export type MenuFeature = { href: string; eyebrow: string; title: string; body: string; model: ModelName; cta?: string }
 export type Menu = { label: string; href: string; columns?: MenuColumn[]; feature?: MenuFeature; wide?: boolean }
 
-// Five short menus, about 18 links in all: each points at a page that gathers its
-// own detail (the products overview lists every material, the machines page every
-// machine, and so on), so the menus stay quick to scan.
+// Menus follow the site map (Who we are / Green / Markets / Products), plus Insights.
+// Each link opens a page that lists its own sub-items as anchored sections.
 export function buildMenus(): Menu[] {
   const latest = getArticles()[0]
 
   return [
     {
-      label: 'Products',
-      href: '/products',
-      columns: [
-        {
-          title: 'Products',
-          href: '/products',
-          links: [
-            { href: '/products#materials', label: 'Materials', desc: 'Silicone for cables, seals, bonding and PFAS-free parts', model: 'samples' },
-            { href: '/products/machines', label: 'Machines', desc: 'Extrusion lines and the machines around them', model: 'extruder-vertical' },
-            { href: '/products/manufacturing', label: 'Manufacturing', desc: 'Components made to order, including medical', model: 'oem' },
-          ],
-        },
-      ],
-      feature: {
-        href: '/products/machines#vertical-extruder',
-        eyebrow: 'Patented',
-        title: 'Our vertical extrusion line',
-        body: 'To our knowledge the first of its kind: up to 100 metres of silicone cable a minute. Explore it part by part.',
-        model: 'extruder-vertical',
-      },
-    },
-    {
-      label: 'Applications',
-      href: '/applications',
-      columns: [
-        {
-          title: 'Where silicone is used',
-          href: '/applications',
-          links: applications.map((a) => ({ href: `/applications/${a.slug}`, label: a.tabLabel, desc: a.tagline, model: a.illustration })),
-        },
-      ],
-      feature: {
-        href: '/applications',
-        eyebrow: 'Applications',
-        title: 'One material, many industries',
-        body: 'Where MoMixx silicone is used today, which markets are still new for us, and how large they are expected to grow.',
-        model: 'datacentre',
-      },
-    },
-    {
-      label: 'Sustainability',
-      href: '/sustainability',
-      columns: [
-        {
-          title: 'Sustainability',
-          links: [
-            { href: '/sustainability', label: 'Overview', desc: 'Certificates, carbon and green initiatives', model: 'recycle' },
-            { href: '/recycled-silicone', label: 'Recycled silicone', desc: 'How we turn scrap into new silicone', model: 'bottle' },
-          ],
-        },
-      ],
-      feature: {
-        href: '/sustainability',
-        eyebrow: certificationClaim.short,
-        title: 'Certified recycled silicone',
-        body: certificationClaim.headline,
-        model: 'recycle',
-      },
-    },
-    {
-      label: 'Company',
+      label: 'Who we are',
       href: '/about',
       columns: [
         {
-          title: 'Company',
+          title: 'Who we are',
           links: [
-            { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}, and our sites` },
-            // Listed once real names and photos are in content/team.ts.
-            ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
-            { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
-            { href: '/culture', label: 'Culture & careers', desc: 'How we work, and careers' },
-            { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },
+            { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}, and our sites`, model: 'globe' },
+            // Listed while content/team.ts has at least one person.
+            ...(teamReady ? [{ href: '/leadership', label: 'Leadership', desc: 'Our management team', model: 'globe' as const }] : []),
+            { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending', model: 'molecule' },
+            { href: '/culture', label: 'Culture & careers', desc: 'How we work, and careers', model: 'samples' },
+            { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies', model: 'compound' },
             // Listed once the first press release is in content/news.ts.
-            ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom', desc: 'Announcements and media enquiries' }] : []),
+            ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom', desc: 'Announcements and media enquiries', model: 'globe' as const }] : []),
           ],
         },
       ],
@@ -105,6 +45,58 @@ export function buildMenus(): Menu[] {
         title: 'Built in Asia, for the world',
         body: 'Headquartered in Singapore, with research and manufacturing in Penang, Malaysia.',
         model: 'globe',
+      },
+    },
+    {
+      label: 'Green',
+      href: '/sustainability',
+      columns: [
+        {
+          title: 'Green',
+          href: '/sustainability',
+          links: [
+            { href: '/recycled-silicone', label: 'Recycle', desc: 'How we turn silicone waste into new silicone', model: 'recycle' },
+            { href: '/carbon-footprint', label: 'Carbon footprint', desc: 'An independently checked calculation', model: 'sand' },
+            { href: '/sustainability', label: 'Sustainability', desc: 'Certifications and factories', model: 'globe' },
+          ],
+        },
+      ],
+      feature: {
+        href: '/sustainability#certificates',
+        eyebrow: certificationClaim.short,
+        title: 'Certified recycled silicone',
+        body: certificationClaim.headline,
+        model: 'recycle',
+      },
+    },
+    {
+      label: 'Markets',
+      href: '/applications',
+      columns: [
+        {
+          title: 'Markets',
+          href: '/applications',
+          links: applications.filter((a) => a.inMenu !== false).map((a) => ({ href: `/applications/${a.slug}`, label: a.tabLabel, desc: a.tagline, model: a.illustration })),
+        },
+      ],
+      feature: {
+        href: '/applications#markets',
+        eyebrow: 'Market size',
+        title: 'One material, many industries',
+        body: 'Where MoMixx silicone is used today, which markets are still new for us, and how large they are expected to grow.',
+        model: 'datacentre',
+      },
+    },
+    {
+      label: 'Products',
+      href: '/products',
+      columns: productGroups.map((g) => ({ title: g.title, href: `/products#${g.id}`, links: g.links })),
+      feature: {
+        href: '/products/machines#vertical-extruder',
+        eyebrow: 'Patented',
+        title: 'Our vertical extrusion line',
+        body: 'To our knowledge the first of its kind: up to 100 metres of silicone cable a minute. Explore it part by part.',
+        model: 'extruder-vertical',
       },
     },
     {

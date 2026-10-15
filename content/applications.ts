@@ -22,6 +22,7 @@ import {
   HeartPulse,
   Leaf,
   MapPin,
+  Palette,
   Recycle,
   RefreshCcw,
   Repeat,
@@ -51,13 +52,27 @@ export type Application = {
   faqs: Array<{ q: string; a: string }>
   /** Which 3D model represents this application. */
   illustration: ModelName
+  /** The areas listed under this market in the site map, each an anchored block on the page. */
+  focus: FocusArea[]
+  /** Listed in the Markets menu and footer. Off for pages kept live but not in the site map. */
+  inMenu?: boolean
+}
+
+export type FocusArea = {
+  id: string
+  title: string
+  body: string
+  products?: string[]
+  links?: Array<{ href: string; label: string }>
+  /** General holding copy until MoMixx supplies the detail. */
+  holding?: boolean
 }
 
 export const applications: Application[] = [
   {
     slug: 'consumer-electronics',
-    name: 'Phones, Cables & Wearables',
-    tabLabel: 'Phones & Cables',
+    name: 'Digital Communication',
+    tabLabel: 'Digital Communication',
     tagline: 'The flame-retardant silicone that protects everyday charging cables.',
     intro:
       'Every phone, laptop and pair of earbuds needs a cable, and the EU now requires USB-C on most new devices. Many premium brands use silicone cable jackets because silicone feels softer, tangles less, lasts longer and handles heat better than common plastics. Since 2019, MoMixx flame-retardant silicone has been qualified by a leading smartphone brand for its cables.',
@@ -91,44 +106,94 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'data-cable',
+    focus: [
+      { id: 'high-speed-data', title: 'High-speed data', body: 'Flame-retardant MM silicone forms the soft outer jacket of USB-C data and charging cables.', products: ['momixx-mm'] },
+      { id: 'smartphone-accessories', title: 'Smartphone accessories', body: 'Self-bonding silicone for phone and tablet cases, and high-density silicone for watch straps.', products: ['momixx-procase', 'momixx-high-density'] },
+      { id: 'pfas-free', title: 'PFAS-free solutions', body: 'MHD high-density silicone is made without fluorine, as an alternative to fluorinated rubber (FKM) in straps and seals.', products: ['momixx-high-density'] },
+      { id: 'thermal-management', title: 'Thermal management', body: 'Soft silicone thermal pads carry heat away from chips and batteries in compact devices.', links: [{ href: '/products/precision-components#thermal-pads', label: 'Thermal pads' }], holding: true },
+      { id: 'seals', title: 'Seals (water, EMI)', body: 'MMS silicone for the gaskets and seals of devices rated IP68. Seals that also block electromagnetic interference (EMI) use conductive silicone.', products: ['momixx-seal'], links: [{ href: '/products/conductive', label: 'Conductive silicone' }] },
+    ],
   },
   {
-    slug: 'electric-vehicles',
-    name: 'Electric Vehicles',
-    tabLabel: 'Electric Vehicles',
-    tagline: 'Heat-resistant, flexible silicone for high-voltage EV cables.',
+    slug: 'ai-data-centres',
+    name: 'AI Data Centres',
+    tabLabel: 'AI Data Centres',
+    tagline: 'Heat-resistant materials for the buildings that power AI.',
     intro:
-      'Electric cars move a lot of power through hot, tightly packed spaces. Their high-voltage cables must stay flexible in freezing winters, cope with the heat near batteries, motors and inverters, and resist fire. Flame-retardant silicone meets all three needs. Our PFAS-free silicones also help carmakers prepare for possible EU restrictions on “forever chemicals”.',
-    maturity: 'Certified & scaling',
-    maturityNote: 'MV silicone has been tested by MoMixx under conditions harsher than normal electric-car operation.',
+      'AI computing packs far more power into each server rack than traditional computing. That means more heat, more power cabling and more cooling, so materials that keep working when hot are becoming essential. Silicone is used in high-temperature cables, seals and thermal interface materials: the soft pads and gels that carry heat away from chips.',
+    maturity: 'Emerging opportunity',
+    maturityNote: 'A new market for MoMixx: we are offering our existing high-temperature cable and sealing materials.',
     whySilicone: [
       {
         icon: Thermometer,
-        title: 'Wide temperature range',
-        body: 'In MoMixx testing, MV silicone worked from −60 °C to 250 °C. In the same tests, XLPO, the plastic usually used, withstood about 150 °C.',
+        title: 'Runs hot, stays safe',
+        body: 'Silicone cable is typically rated to about 180–200 °C, well above common plastic cable, and can be made flame-retardant.',
       },
-      { icon: Route, title: 'Easier to route', body: 'Softer cables bend more tightly, which simplifies wiring in compact cars.' },
-      { icon: Leaf, title: 'PFAS-free', body: 'High-density silicone can replace fluorinated rubber (FKM) in many seals and parts where fuel and oil resistance is not critical.' },
+      { icon: Clock, title: 'Ages slowly', body: 'Holds up to constant heat in equipment that runs 24 hours a day.' },
+      { icon: Droplets, title: 'Keeps liquid out', body: 'Waterproof silicone seals suit servers cooled with liquid.' },
     ],
     ourRole: [
-      { icon: Cable, title: 'EV cable silicone', body: 'Our MV range for high-voltage power and charging cables.' },
-      { icon: Leaf, title: 'FKM alternative', body: 'MHD high-density silicone as a PFAS-free option for seals and parts.' },
-      { icon: Recycle, title: 'Recycled option', body: 'Certified recycled silicone for carmakers with recycled-content targets.' },
+      { icon: Cable, title: 'Cable silicone', body: 'High-temperature, flame-retardant MM silicone for network and power cables.' },
+      { icon: CircleDot, title: 'Seals', body: 'MMS silicone for seals in waterproof enclosures and connectors.' },
+      { icon: Factory, title: 'Scale', body: 'High-speed extrusion lines and two factories for volume orders.' },
     ],
-    examples: ['High-voltage battery cables', 'Charging cables', 'Motor and inverter wiring', 'Seals and gaskets'],
-    products: ['momixx-move', 'momixx-high-density', 'recycled-silicone', 'crimson'],
-    markets: ['ev-cables', 'silicone'],
+    examples: ['High-temperature network cables', 'Power cables', 'Seals for liquid cooling', 'Connector seals'],
+    products: ['momixx-mm', 'momixx-seal', 'vertical-extruder'],
+    markets: ['data-centre-cabling'],
     faqs: [
       {
-        q: 'Why is silicone used in electric vehicle cables?',
-        a: 'Electric-car cables carry high power in freezing cold and fierce heat. Silicone stays flexible across a wide temperature range (standard silicone cable is typically rated to about 180–200 °C), lasts a long time and can be made flame-retardant, so it suits high-voltage and charging cables.',
-      },
-      {
-        q: 'What does PFAS-free mean for car parts?',
-        a: 'PFAS are “forever chemicals” that build up in nature. They include fluorinated rubbers such as FKM, used in some car seals, and the EU is working on a broad restriction. MoMixx high-density silicone offers a similar feel and toughness without fluorine, although FKM remains the better choice for parts exposed to fuel and oil.',
+        q: 'How is silicone used in data centres?',
+        a: 'Silicone is used in high-temperature and flame-retardant cables, in seals (including for liquid cooling), and in thermal interface materials: soft pads and gels that carry heat away from chips.',
       },
     ],
-    illustration: 'ev-cable',
+    illustration: 'datacentre',
+    focus: [
+      { id: 'ac-dc-cables', title: 'AC/DC cables', body: 'High-temperature, flame-retardant silicone for AC and DC power cables in server racks.', products: ['momixx-mm'], holding: true },
+      { id: 'multicore-cables', title: 'Multicore cables', body: 'Silicone jackets for cables that bundle many conductors, carrying power and data through dense racks.', holding: true },
+    ],
+  },
+  {
+    slug: 'robotics',
+    name: 'Robotics',
+    tabLabel: 'Robotics',
+    tagline: 'Soft, durable silicone for robots that move like us.',
+    intro:
+      'Robots, and especially humanoid robots, bend and flex all the time. The cables inside them twist and bend constantly, their joints need seals, and their hands and outer shells increasingly use soft, skin-like materials so they are safe to touch. Silicone suits all three.',
+    maturity: 'Emerging opportunity',
+    maturityNote: 'A new market for MoMixx: we are offering our flexible cable, sealing and soft-touch materials.',
+    whySilicone: [
+      { icon: Repeat, title: 'Flexes repeatedly', body: 'Silicone cable jackets tolerate repeated twisting and bending better than many plastics.' },
+      { icon: Hand, title: 'Skin-like touch', body: 'Soft, high-density silicone gives robot hands and “skin” a natural feel and is easy to clean.' },
+      { icon: Shield, title: 'Protects joints', body: 'Seals keep dust and water out of motors and sensors.' },
+    ],
+    ourRole: [
+      {
+        icon: Cable,
+        title: 'Flexible cables',
+        body: 'MM cable silicone has been tested for twisting in our lab. Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.',
+      },
+      { icon: Hand, title: 'Soft-touch materials', body: 'High-density and self-bonding grades for grippers and covers.' },
+      { icon: Crosshair, title: 'Precision parts', body: 'Moulded parts from our Batu Kawan, Penang factory.' },
+    ],
+    examples: ['Cables in joints and arms', 'Grip pads and fingertips', 'Soft outer covers', 'Seals for motors and sensors'],
+    products: ['momixx-mm', 'momixx-high-density', 'momixx-seal', 'medical-precision-components'],
+    markets: ['humanoid-robots'],
+    faqs: [
+      {
+        q: 'Why do robots use silicone?',
+        a: 'Robots need cables that survive constant movement, seals that protect their joints and electronics, and soft surfaces that are safe to touch. Silicone is flexible, durable and has a skin-like feel, so it is a common choice for all three.',
+      },
+    ],
+    illustration: 'robot',
+    focus: [
+      { id: 'power', title: 'Power', body: 'Silicone for the power cables that feed a robot’s motors and actuators.', holding: true },
+      {
+        id: 'flexible',
+        title: 'Flexible',
+        body: 'MM cable silicone has been tested for twisting in our lab. Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.',
+        products: ['momixx-mm'],
+      },
+    ],
   },
   {
     slug: 'medical',
@@ -167,74 +232,123 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'medical',
+    focus: [
+      { id: 'medical-grade', title: 'Medical grade', body: 'Silicone for medical-device parts. Each finished device still needs its own biocompatibility testing, usually under ISO 10993.', holding: true },
+      { id: 'manufacturing', title: 'Manufacturing', body: 'The quality system at our Batu Kawan, Penang factory is certified to ISO 13485. We have made silicone parts for medical-device makers since 2025.', products: ['medical-precision-components'] },
+      { id: 'surface-treatment', title: 'Surface treatment', body: 'Treatments and coatings that change how a silicone surface feels and behaves, such as reducing tack and friction.', links: [{ href: '/innovation', label: 'Research & innovation' }], holding: true },
+      { id: 'pads', title: 'Pads', body: 'Soft silicone pads for wearable monitors, cushioning and contact with the skin.', holding: true },
+    ],
   },
   {
-    slug: 'ai-data-centres',
-    name: 'AI Data Centres',
-    tabLabel: 'AI Data Centres',
-    tagline: 'Heat-resistant materials for the buildings that power AI.',
+    slug: 'electric-vehicles',
+    name: 'Automotive',
+    tabLabel: 'Automotive',
+    tagline: 'Heat-resistant, flexible silicone for high-voltage EV cables.',
     intro:
-      'AI computing packs far more power into each server rack than traditional computing. That means more heat, more power cabling and more cooling, so materials that keep working when hot are becoming essential. Silicone is used in high-temperature cables, seals and thermal interface materials: the soft pads and gels that carry heat away from chips.',
-    maturity: 'Emerging opportunity',
-    maturityNote: 'A new market for MoMixx: we are offering our existing high-temperature cable and sealing materials.',
+      'Electric cars move a lot of power through hot, tightly packed spaces. Their high-voltage cables must stay flexible in freezing winters, cope with the heat near batteries, motors and inverters, and resist fire. Flame-retardant silicone meets all three needs. Our PFAS-free silicones also help carmakers prepare for possible EU restrictions on “forever chemicals”.',
+    maturity: 'Certified & scaling',
+    maturityNote: 'MV silicone has been tested by MoMixx under conditions harsher than normal electric-car operation.',
     whySilicone: [
       {
         icon: Thermometer,
-        title: 'Runs hot, stays safe',
-        body: 'Silicone cable is typically rated to about 180–200 °C, well above common plastic cable, and can be made flame-retardant.',
+        title: 'Wide temperature range',
+        body: 'In MoMixx testing, MV silicone worked from −60 °C to 250 °C. In the same tests, XLPO, the plastic usually used, withstood about 150 °C.',
       },
-      { icon: Clock, title: 'Ages slowly', body: 'Holds up to constant heat in equipment that runs 24 hours a day.' },
-      { icon: Droplets, title: 'Keeps liquid out', body: 'Waterproof silicone seals suit servers cooled with liquid.' },
+      { icon: Route, title: 'Easier to route', body: 'Softer cables bend more tightly, which simplifies wiring in compact cars.' },
+      { icon: Leaf, title: 'PFAS-free', body: 'High-density silicone can replace fluorinated rubber (FKM) in many seals and parts where fuel and oil resistance is not critical.' },
     ],
     ourRole: [
-      { icon: Cable, title: 'Cable silicone', body: 'High-temperature, flame-retardant MM silicone for network and power cables.' },
-      { icon: CircleDot, title: 'Seals', body: 'MMS silicone for seals in waterproof enclosures and connectors.' },
-      { icon: Factory, title: 'Scale', body: 'High-speed extrusion lines and two factories for volume orders.' },
+      { icon: Cable, title: 'EV cable silicone', body: 'Our MV range for high-voltage power and charging cables.' },
+      { icon: Leaf, title: 'FKM alternative', body: 'MHD high-density silicone as a PFAS-free option for seals and parts.' },
+      { icon: Recycle, title: 'Recycled option', body: 'Certified recycled silicone for carmakers with recycled-content targets.' },
     ],
-    examples: ['High-temperature network cables', 'Power cables', 'Seals for liquid cooling', 'Connector seals'],
-    products: ['momixx-mm', 'momixx-seal', 'vertical-extruder'],
-    markets: ['data-centre-cabling'],
+    examples: ['High-voltage battery cables', 'Charging cables', 'Motor and inverter wiring', 'Seals and gaskets'],
+    products: ['momixx-move', 'momixx-high-density', 'recycled-silicone', 'crimson'],
+    markets: ['ev-cables', 'silicone'],
     faqs: [
       {
-        q: 'How is silicone used in data centres?',
-        a: 'Silicone is used in high-temperature and flame-retardant cables, in seals (including for liquid cooling), and in thermal interface materials: soft pads and gels that carry heat away from chips.',
+        q: 'Why is silicone used in electric vehicle cables?',
+        a: 'Electric-car cables carry high power in freezing cold and fierce heat. Silicone stays flexible across a wide temperature range (standard silicone cable is typically rated to about 180–200 °C), lasts a long time and can be made flame-retardant, so it suits high-voltage and charging cables.',
+      },
+      {
+        q: 'What does PFAS-free mean for car parts?',
+        a: 'PFAS are “forever chemicals” that build up in nature. They include fluorinated rubbers such as FKM, used in some car seals, and the EU is working on a broad restriction. MoMixx high-density silicone offers a similar feel and toughness without fluorine, although FKM remains the better choice for parts exposed to fuel and oil.',
       },
     ],
-    illustration: 'datacentre',
+    illustration: 'ev-cable',
+    focus: [
+      { id: 'high-voltage-cables', title: 'High-voltage cables', body: 'MV silicone for high-voltage power and charging cables, tested by MoMixx from −60 °C to 250 °C.', products: ['momixx-move'] },
+      { id: 'ev-busbars', title: 'EV busbars', body: 'Busbars carry high current between battery modules. Silicone insulation stays flexible and resists heat.', holding: true },
+      { id: 'charging-ports', title: 'Charging ports', body: 'Seals and conductive silicone parts for vehicle charging ports.', links: [{ href: '/products/conductive#charging-ports', label: 'Conductive silicone for charging ports' }], holding: true },
+      { id: 'interiors', title: 'Interiors', body: 'Soft-touch and conductive silicone for controls and surfaces inside the car.', links: [{ href: '/products/conductive#interiors', label: 'Conductive silicone for interiors' }], holding: true },
+    ],
   },
   {
-    slug: 'robotics',
-    name: 'Robotics & Humanoids',
-    tabLabel: 'Robots & Humanoids',
-    tagline: 'Soft, durable silicone for robots that move like us.',
+    slug: 'food-grade',
+    name: 'Food Grade',
+    tabLabel: 'Food Grade',
+    tagline: 'Silicone and clear plastic for products that touch food and drink.',
     intro:
-      'Robots, and especially humanoid robots, bend and flex all the time. The cables inside them twist and bend constantly, their joints need seals, and their hands and outer shells increasingly use soft, skin-like materials so they are safe to touch. Silicone suits all three.',
+      'Silicone is widely used in kitchenware, bottle seals and food-handling equipment because it is stable, flexible and copes with heat. Materials that touch food must comply with food-contact regulations, and each finished product is tested for its use. As well as silicone, we supply a clear PCTG co-polyester that complies with US FDA food-contact regulations.',
     maturity: 'Emerging opportunity',
-    maturityNote: 'A new market for MoMixx: we are offering our flexible cable, sealing and soft-touch materials.',
+    maturityNote: 'A new market for MoMixx. Details of our food-grade silicone will follow.',
     whySilicone: [
-      { icon: Repeat, title: 'Flexes repeatedly', body: 'Silicone cable jackets tolerate repeated twisting and bending better than many plastics.' },
-      { icon: Hand, title: 'Skin-like touch', body: 'Soft, high-density silicone gives robot hands and “skin” a natural feel and is easy to clean.' },
-      { icon: Shield, title: 'Protects joints', body: 'Seals keep dust and water out of motors and sensors.' },
+      { icon: Thermometer, title: 'Copes with heat', body: 'Silicone keeps its shape and properties across the temperatures of the freezer, the dishwasher and the oven.' },
+      { icon: Shield, title: 'Stable', body: 'Silicone does not react with most foods and drinks.' },
+      { icon: Droplets, title: 'Easy to clean', body: 'A smooth, non-porous surface that washes clean.' },
     ],
     ourRole: [
-      {
-        icon: Cable,
-        title: 'Flexible cables',
-        body: 'MM cable silicone has been tested for twisting in our lab. Robot cables have their own flex-life requirements, so each cable design should be tested for the robot it goes into.',
-      },
-      { icon: Hand, title: 'Soft-touch materials', body: 'High-density and self-bonding grades for grippers and covers.' },
-      { icon: Crosshair, title: 'Precision parts', body: 'Moulded parts from our Batu Kawan, Penang factory.' },
+      { icon: Droplets, title: 'Clear PCTG plastic', body: 'A glass-clear, tough co-polyester that complies with US FDA food-contact regulations.' },
+      { icon: ClipboardCheck, title: 'Food-grade silicone', body: 'Details of our food-grade silicone grades will be listed here.' },
+      { icon: Factory, title: 'Made to order', body: 'Finished parts developed and made for other brands at our factories in Asia.' },
     ],
-    examples: ['Cables in joints and arms', 'Grip pads and fingertips', 'Soft outer covers', 'Seals for motors and sensors'],
-    products: ['momixx-mm', 'momixx-high-density', 'momixx-seal', 'medical-precision-components'],
-    markets: ['humanoid-robots'],
+    examples: ['Water and sports bottles', 'Bottle and container seals', 'Kitchen tools', 'Parts for food-handling equipment'],
+    products: ['pctg', 'odm-oem'],
+    markets: [],
     faqs: [
       {
-        q: 'Why do robots use silicone?',
-        a: 'Robots need cables that survive constant movement, seals that protect their joints and electronics, and soft surfaces that are safe to touch. Silicone is flexible, durable and has a skin-like feel, so it is a common choice for all three.',
+        q: 'Is silicone safe for food contact?',
+        a: 'Silicone made for food contact is widely used in kitchenware and seals. In the US, rubber articles for repeated food contact are covered by FDA regulation 21 CFR 177.2600, and each finished product is tested for its intended use.',
       },
     ],
-    illustration: 'robot',
+    illustration: 'bottle',
+    focus: [
+      { id: 'food-safe-products', title: 'Food-safe products', body: 'Silicone and clear PCTG plastic for products that touch food and drink.', products: ['pctg'], holding: true },
+    ],
+  },
+  {
+    slug: 'fashion',
+    name: 'Fashion',
+    tabLabel: 'Fashion',
+    tagline: 'Silicone yarn and silicone leather for textiles.',
+    intro:
+      'Silicone can coat yarn and fabric, or be combined with other materials to make alternatives to leather. In 2024 we developed materials that combine silicone and bio-leather.',
+    maturity: 'Emerging opportunity',
+    maturityNote: 'A new market for MoMixx. Details of our textile materials will follow.',
+    whySilicone: [
+      { icon: Hand, title: 'Soft to the touch', body: 'Silicone is soft and smooth against the skin.' },
+      { icon: Droplets, title: 'Easy to clean', body: 'Silicone surfaces resist stains and wipe clean.' },
+      { icon: Clock, title: 'Durable', body: 'Silicone keeps its feel and colour through wear.' },
+    ],
+    ourRole: [
+      { icon: Repeat, title: 'Silicone yarn', body: 'Yarn coated with silicone, for soft, durable fabrics.' },
+      { icon: Leaf, title: 'Silicone and bio-leather', body: 'Materials that combine silicone and bio-leather, developed in 2024.' },
+      { icon: Palette, title: 'Exact colour', body: 'Colours matched to within ΔE94 0.50 of the target, a difference most people cannot see.' },
+    ],
+    examples: ['Coated fabrics', 'Straps and bands', 'Leather-alternative goods', 'Trims and labels'],
+    products: ['odm-oem'],
+    markets: [],
+    faqs: [
+      {
+        q: 'What is silicone leather?',
+        a: 'Silicone leather is a leather-like material with a silicone surface. It is soft, resists stains and is easy to clean.',
+      },
+    ],
+    illustration: 'watchband',
+    focus: [
+      { id: 'fabric', title: 'Fabric', body: 'Silicone-coated fabrics, and materials that combine silicone with bio-leather.', links: [{ href: '/products/yarn-leather#silio', label: 'Silio' }], holding: true },
+      { id: 'yarn', title: 'Yarn', body: 'Yarn coated with silicone, for fabrics that are soft, durable and easy to clean.', links: [{ href: '/products/yarn-leather#silicone-yarn', label: 'Silicone yarn' }], holding: true },
+    ],
   },
   {
     slug: 'semiconductor',
@@ -265,6 +379,7 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'chip',
+    focus: [],
   },
 ]
 

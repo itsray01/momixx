@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { CompareBars } from '@/components/charts'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { StepFlow } from '@/components/infographics'
@@ -18,7 +18,22 @@ import { productNav } from './tabs'
  * One page for a whole product category (machines, or manufacturing services):
  * a section per product, with the tab bar jumping between them.
  */
-export function ProductGroup({ category, eyebrow, title, intro, cta }: { category: ProductCategory; eyebrow: string; title: string; intro: string; cta: { title: string; body: string } }) {
+export function ProductGroup({
+  category,
+  eyebrow,
+  title,
+  intro,
+  cta,
+  extra,
+}: {
+  category: ProductCategory
+  eyebrow: string
+  title: string
+  intro: string
+  cta: { title: string; body: string }
+  /** Sections after the products, e.g. items still to be detailed. */
+  extra?: ReactNode
+}) {
   const group = groupPages[category]
   if (!group) throw new Error(`No shared page for ${category}`)
   const items = productsByCategory(category)
@@ -44,6 +59,7 @@ export function ProductGroup({ category, eyebrow, title, intro, cta }: { categor
             {p.slug === 'vertical-extruder' && <ExtruderSection tone={tone()} />}
           </Fragment>
         ))}
+        {extra}
       </TabNav>
       <CtaBand title={cta.title} body={cta.body} />
       <JsonLd data={[collectionPage(`MoMixx ${group.label.toLowerCase()}`, group.path, items.map((p) => ({ name: p.name, path: productHref(p.slug) }))), ...items.map(productJsonLd)]} />

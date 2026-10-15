@@ -534,7 +534,7 @@ export function productsByCategory(category: ProductCategory) {
  * product has a page of its own at /products/<slug>.
  */
 export const groupPages: Partial<Record<ProductCategory, { path: string; label: string }>> = {
-  equipment: { path: '/products/machines', label: 'Machines' },
+  equipment: { path: '/products/machines', label: 'Automation' },
   services: { path: '/products/manufacturing', label: 'Manufacturing' },
 }
 

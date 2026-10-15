@@ -48,6 +48,7 @@ const mergedRedirects: Array<[string, string]> = [
   ['/markets', '/applications#markets'],
   ['/locations', '/about#locations'],
   ['/insights/topic/:topic', '/insights?topic=:topic'],
+  ['/team', '/leadership'],
 ]
 
 // Security headers for every response. Scripts and styles allow 'unsafe-inline'
