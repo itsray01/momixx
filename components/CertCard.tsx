@@ -10,9 +10,18 @@ export function CertCard({ cert, featured = false, wide = false }: { cert: Certi
         wide ? 'col-span-full lg:grid lg:grid-cols-[11rem_minmax(0,1fr)_auto] lg:items-center lg:gap-x-10' : ''
       }`}
     >
-      <div className="flex h-16 items-center">
+      <div className="flex min-h-16 flex-col justify-center gap-1.5">
         {cert.logo ? (
-          <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="h-14 w-auto object-contain" />
+          <>
+            {cert.logoHref ? (
+              <a href={cert.logoHref} target="_blank" rel="noopener noreferrer" className="inline-block w-fit">
+                <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="max-h-16 w-auto max-w-[9rem] object-contain" />
+              </a>
+            ) : (
+              <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="max-h-16 w-auto max-w-[9rem] object-contain" />
+            )}
+            {cert.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{cert.logoCredit}</span>}
+          </>
         ) : (
           <span
             className={`rounded-xl border border-gold-400/45 bg-gold-100 px-3.5 py-2 font-semibold whitespace-nowrap tracking-[-0.02em] text-gold-700 ${featured ? 'text-2xl' : 'text-lg'}`}

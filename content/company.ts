@@ -69,6 +69,10 @@ export type Certification = {
   file?: string
   /** Drop the logo into /public/images/certs and set e.g. '/images/certs/grs.png' */
   logo?: string
+  /** Where the logo links: the scheme's rules (Textile Exchange's, for one) require a link to the standard. */
+  logoHref?: string
+  /** A credit the scheme's logo rules require next to the logo, e.g. "© Textile Exchange". */
+  logoCredit?: string
   /** Certificate or licence number, shown on the card. */
   number?: string
   /** Link to the scheme's public certificate database entry, so anyone can verify it. */
@@ -86,6 +90,10 @@ export const certifications: Certification[] = [
     // Scope certificate to GRS 4.0 (and RCS 2.0), holder Orion Technology Sdn. Bhd., TE-ID TE-00347986, issued 2026-08-24, valid to 2027-08-23.
     number: 'CU1512008MUL-2026-00087898',
     verifyUrl: 'https://www.textileexchange.org/Certificates',
+    // Logo as supplied (14 Oct 2026); Textile Exchange's TE-302 asks for the link and the copyright mark.
+    logo: '/images/certs/grs.png',
+    logoHref: 'https://textileexchange.org/standards/',
+    logoCredit: '© Textile Exchange',
     plain: 'Independent audits check our recycled-content claims and the chain of custody from collected waste to finished silicone, along with social, environmental and chemical rules.',
     year: 2024,
     group: 'recycling',
@@ -99,6 +107,10 @@ export const certifications: Certification[] = [
     covers: 'Recycled content (100% post-consumer recycled silicone) and chain of custody. Batu Kawan, Penang; on the same scope certificate as GRS.',
     number: 'CU1512008MUL-2026-00087898',
     verifyUrl: 'https://www.textileexchange.org/Certificates',
+    // The RCS 100 mark (100% recycled content), as on the certificate's product appendix.
+    logo: '/images/certs/rcs.png',
+    logoHref: 'https://textileexchange.org/standards/',
+    logoCredit: '© Textile Exchange',
     plain: 'Textile Exchange’s standard for verifying recycled content and tracking it through the chain of custody. It is GRS without the social, environmental and chemical requirements, for customers whose programmes ask for RCS.',
     group: 'recycling',
   },
