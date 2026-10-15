@@ -74,6 +74,11 @@ export type Product = {
   video?: string
   /** Path under /public, e.g. /images/products/vertical-extruder.jpg */
   image?: string
+  /**
+   * A picture shown in place of the 3D render: an AI-generated product illustration, always
+   * captioned as one. It shows the kind of finished product the material goes into.
+   */
+  picture?: { src: string; alt: string; width: number; height: number; caption: string }
   /** A real product photo shown in the overview, e.g. from the original site. */
   photo?: { src: string; alt: string; width: number; height: number; caption: string }
   recycledOption?: boolean
@@ -138,6 +143,13 @@ export const products: Product[] = [
     applications: ['consumer-electronics', 'ai-data-centres'],
     illustration: 'data-cable',
     illustrationVariant: 'white',
+    picture: {
+      src: '/images/products/illustrations/usb-c-cables.webp',
+      alt: 'Three coiled USB-C cables with soft silicone jackets, in red, white and navy',
+      width: 1536,
+      height: 1024,
+      caption: 'Illustration: USB-C cables with silicone jackets',
+    },
     photo: { src: '/images/products/momixx-mm-cable.webp', alt: 'USB-C data cable with a white silicone jacket', width: 410, height: 318, caption: 'Silicone data cable' },
     recycledOption: true,
   },
@@ -174,6 +186,13 @@ export const products: Product[] = [
     processing: 'Injection or compression moulding',
     applications: ['consumer-electronics', 'electric-vehicles', 'medical'],
     illustration: 'watchband',
+    picture: {
+      src: '/images/products/illustrations/watch-straps.webp',
+      alt: 'Silicone smartwatch straps in red, white and navy',
+      width: 1536,
+      height: 1024,
+      caption: 'Illustration: smartwatch straps in silicone',
+    },
   },
   {
     slug: 'momixx-move',

@@ -68,7 +68,12 @@ export default async function ProductPage({ params }: Props) {
           <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
             <div>
               {/* The 3D picture sits here, under the words-only header; a real photo, where there is one, follows it. */}
-              {p.illustration && (
+              {p.picture ? (
+                <figure className="card relative mb-10 max-w-xl overflow-hidden">
+                  <Image src={p.picture.src} alt={p.picture.alt} width={p.picture.width} height={p.picture.height} sizes="(min-width: 1024px) 36rem, 100vw" className="h-auto w-full" priority />
+                  <figcaption className="absolute bottom-3 left-4 rounded-full bg-[#f7f7f4]/85 px-2.5 py-1 text-[0.6875rem] text-[#3d413d] backdrop-blur">{p.picture.caption}</figcaption>
+                </figure>
+              ) : p.illustration && (
                 <div className="mb-10 max-w-xl">
                   {p.video ? (
                     <div className="card aspect-[4/3] overflow-hidden">
@@ -80,7 +85,7 @@ export default async function ProductPage({ params }: Props) {
                 </div>
               )}
               {/* A photograph in a frame: the shot is on a dark ground, so it sits in the card as a picture rather than bleeding into it. */}
-              {p.photo && (
+              {!p.picture && p.photo && (
                 <figure className="card relative mb-10 aspect-[41/32] max-w-sm overflow-hidden">
                   <Image src={p.photo.src} alt={p.photo.alt} width={p.photo.width} height={p.photo.height} sizes="(min-width: 640px) 24rem, 100vw" className="h-full w-full object-cover" />
                   <figcaption className="absolute bottom-4 left-5 text-xs text-ink-900/80">{p.photo.caption}</figcaption>
