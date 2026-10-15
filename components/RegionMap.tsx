@@ -1,15 +1,15 @@
 import { regionDots } from './regionDots'
 
 // Equirectangular projection of the grid in scripts/generate-region-dots.mjs
-// (92° to 122° E, 8° S to 22° N, 0.3° steps): one viewBox unit per grid step.
+// (92° to 122° E, 8° S to 25° N, 0.3° steps): one viewBox unit per grid step.
 const west = 92
-const north = 22
+const north = 25
 const step = 0.3
 const x = (lon: number) => (lon - west) / step
 const y = (lat: number) => (north - lat) / step
 
-// The map shows a 16:10 window of that grid, from about 14° N to 4.5° S.
-const view = { top: 26, width: 100, height: 62.5 }
+// The map shows a window of that grid from about 24.5° N (Dongguan) down to just past Singapore.
+const view = { top: 2, width: 100, height: 82 }
 
 const dots = (() => {
   let d = ''
@@ -24,21 +24,22 @@ const dots = (() => {
 const pins = [
   { key: 'singapore', lat: 1.33, lon: 103.89, short: 'Singapore', long: 'Singapore · Headquarters' },
   { key: 'penang', lat: 5.3, lon: 100.41, short: 'Penang', long: 'Penang · Batu Kawan and Perai plants' },
+  { key: 'dongguan', lat: 23.02, lon: 113.75, short: 'Dongguan', long: 'Dongguan · Factory' },
 ] as const
 
 type PinKey = (typeof pins)[number]['key']
 
 /**
- * A static dot map of South-East Asia with our two locations. Pass `links` to make
+ * A static dot map of South-East Asia with our three locations. Pass `links` to make
  * the pins jump to each site's details; without it the pins are labels only.
  */
 export function RegionMap({ links, className = '' }: { links?: Record<PinKey, string>; className?: string }) {
   return (
-    <div className={`@container relative aspect-[16/10] w-full ${className}`}>
+    <div className={`@container relative aspect-[100/82] w-full ${className}`}>
       <svg
         viewBox={`0 ${view.top} ${view.width} ${view.height}`}
         role="img"
-        aria-label="Map of South-East Asia showing the MoMixx headquarters in Singapore and our plants at Batu Kawan and Perai in Penang, Malaysia."
+        aria-label="Map of South-East Asia showing the MoMixx headquarters in Singapore, our plants at Batu Kawan and Perai in Penang, Malaysia, and our factory in Dongguan, Guangdong, China."
         className="absolute inset-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_100%)]"
       >
         {/* Narrow maps get slightly larger, brighter dots so the land still reads. */}

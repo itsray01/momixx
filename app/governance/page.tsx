@@ -17,7 +17,7 @@ const companyInfo = [
   { label: 'Brand', value: [site.name] },
   ...(site.registrationNumber ? [{ label: 'Registration number', value: [`Singapore UEN ${site.registrationNumber}`] }] : []),
   { label: 'Headquarters', value: [site.address.street, `${site.address.locality} ${site.address.postalCode}`] },
-  { label: 'Malaysian company', value: [site.plants.perai.company] },
+  { label: 'Group companies', value: [site.plants.batuKawan.company, site.plants.perai.company, site.plants.dongguan.company] },
   { label: 'Operations', value: site.locations.map((l) => `${l.name}: ${l.role}`) },
 ]
 

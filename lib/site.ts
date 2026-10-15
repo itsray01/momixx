@@ -30,19 +30,24 @@ export const site = {
     postalCode: '536208',
     country: 'SG',
   },
+  // Sites in the order they are listed everywhere: headquarters first, then Malaysia, then the factory in Dongguan last.
   locations: [
     { name: 'Singapore', role: 'Headquarters', detail: '22 New Industrial Road, Primax' },
     { name: 'Batu Kawan, Penang, Malaysia', role: 'Research and manufacturing', detail: 'Liquid silicone, certified medical parts and precision parts' },
     { name: 'Perai, Penang, Malaysia', role: 'Manufacturing', detail: 'MoMixx Malaysia Sdn. Bhd.' },
+    { name: 'Dongguan, Guangdong, China', role: 'Manufacturing', detail: 'Orion Automation (Dongguan) Co., Ltd.' },
   ],
-  // Plant addresses, written as the company writes them. They feed /locations
-  // and the structured data. All are in Malaysia.
+  // Plant addresses, written as the company writes them. They feed the About page's
+  // locations and the structured data.
   plants: {
     batuKawan: {
+      company: 'Orion Technology Sdn. Bhd.',
       lines: ['PT5889, Jalan Cassia Selatan 3/8', 'Taman Perindustrian Batu Kawan'],
       postalCode: '14110',
       locality: 'Simpang Ampat',
-      region: 'Pulau Pinang',
+      region: 'Penang',
+      country: 'Malaysia',
+      countryCode: 'MY',
     },
     perai: {
       company: 'MoMixx Malaysia Sdn. Bhd.',
@@ -50,6 +55,17 @@ export const site = {
       postalCode: '13600',
       locality: 'Perai',
       region: 'Penang',
+      country: 'Malaysia',
+      countryCode: 'MY',
+    },
+    dongguan: {
+      company: 'Orion Automation (Dongguan) Co., Ltd.',
+      lines: ['No. 18 Xitou East Road', 'Houjie Town'],
+      postalCode: '',
+      locality: 'Dongguan',
+      region: 'Guangdong',
+      country: 'China',
+      countryCode: 'CN',
     },
   },
   // Add LinkedIn etc. here once confirmed; they feed Organization.sameAs.
@@ -60,12 +76,12 @@ type Plant = (typeof site.plants)[keyof typeof site.plants]
 
 /** A plant's address as printed lines, for the page. */
 export function plantLines(p: Plant) {
-  return [...p.lines, `${p.postalCode} ${p.locality}`, `${p.region}, Malaysia`]
+  return [...p.lines, [p.postalCode, p.locality].filter(Boolean).join(' '), `${p.region}, ${p.country}`]
 }
 
 /** A plant's address for structured data. */
 export function plantAddress(p: Plant) {
-  return { '@type': 'PostalAddress', streetAddress: p.lines.join(', '), postalCode: p.postalCode, addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MY' }
+  return { '@type': 'PostalAddress', streetAddress: p.lines.join(', '), ...(p.postalCode ? { postalCode: p.postalCode } : {}), addressLocality: p.locality, addressRegion: p.region, addressCountry: p.countryCode }
 }
 
 export function absoluteUrl(path = '/') {

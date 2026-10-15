@@ -57,6 +57,7 @@ export default function ContactPage() {
               <ArrowLink href="/about#singapore">Singapore</ArrowLink>
               <ArrowLink href="/about#batu-kawan">Batu Kawan</ArrowLink>
               <ArrowLink href="/about#perai">Perai</ArrowLink>
+              <ArrowLink href="/about#dongguan">Dongguan</ArrowLink>
             </div>
           </div>
         </div>
