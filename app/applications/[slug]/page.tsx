@@ -78,12 +78,11 @@ export default async function ApplicationPage({ params }: Props) {
         {a.focus.length > 0 && (
           <Section id="focus" tone="muted" eyebrow="Focus areas" title="What we *focus on*" className="scroll-mt-32">
             <ul data-reveal="stagger" className={`grid gap-x-10 gap-y-12 ${a.focus.length === 1 ? 'max-w-2xl' : a.focus.length % 3 === 0 || a.focus.length === 5 ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-2'}`}>
-              {a.focus.map((f, i) => {
+              {a.focus.map((f) => {
                 const items = (f.products ?? []).map(getProduct).filter((p) => p !== undefined)
                 return (
                   <li key={f.id} id={f.id} className="scroll-mt-32 border-t border-white/15 pt-6">
-                    <p aria-hidden="true" className="font-display text-sm font-medium text-gold-600 tabular-nums">{String(i + 1).padStart(2, '0')}</p>
-                    <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{f.title}</h3>
+                    <h3 className="text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{f.title}</h3>
                     {f.holding && (
                       <span className="mt-3 inline-flex rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">Details to follow</span>
                     )}
@@ -126,7 +125,7 @@ export default async function ApplicationPage({ params }: Props) {
               <MarketCard key={m.id} market={m} />
             ))}
           </div>
-          <p className="mt-6 max-w-3xl text-xs leading-relaxed text-zinc-400">{marketDisclaimer}</p>
+          <p className="mt-6 max-w-xl text-xs leading-relaxed text-zinc-400">{marketDisclaimer}</p>
           <ArrowLink href="/applications#markets" className="mt-4 text-sm">
             Compare all markets
           </ArrowLink>

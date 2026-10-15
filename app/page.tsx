@@ -131,7 +131,7 @@ export default function HomePage() {
 
           <HeroCallouts />
 
-          <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.6875rem] tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
+          <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
             Scroll
             <span className="h-10 w-px bg-gradient-to-b from-gold-400 to-transparent" />
           </div>

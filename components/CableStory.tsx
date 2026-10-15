@@ -265,7 +265,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
               <div className="flex gap-4">
                 <span
                   ref={(el) => void (badges.current[i] = el)}
-                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[0.6875rem] font-semibold transition-colors duration-300 ${
+                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-xs font-semibold transition-colors duration-300 ${
                     lit(i) ? 'border-white bg-white text-ink-950' : 'border-white/30 text-zinc-100'
                   }`}
                 >
@@ -274,7 +274,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
                 <div className="min-w-0">
                   <p className={`flex flex-wrap items-center gap-2 font-semibold text-white ${l.momixx ? 'text-lg' : ''}`}>
                     {l.name}
-                    {l.momixx && <span className="rounded-full bg-white px-2 py-0.5 text-[0.625rem] font-semibold tracking-wide text-ink-950">MoMixx</span>}
+                    {l.momixx && <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold tracking-wide text-ink-950">MoMixx</span>}
                   </p>
                   <p className={`mt-1 text-sm leading-relaxed ${lit(i) ? 'text-zinc-200' : 'text-zinc-400'}`}>{l.body}</p>
                   {l.momixx && productLink && (
@@ -296,7 +296,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
                 <span key={l.id} className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ${lit(i) ? 'w-6 bg-white' : 'w-1.5 bg-white/25'}`} />
               ))}
             </div>
-            <p className="mt-4 text-[0.6875rem] text-zinc-500">A typical USB-C cable. Designs vary by maker.</p>
+            <p className="mt-4 text-xs text-zinc-500">A typical USB-C cable. Designs vary by maker.</p>
           </div>
         </div>
 
@@ -307,7 +307,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
             <p className="mt-3 text-lg leading-relaxed text-zinc-300">Power flows through the copper conductors at the core. The silicone jacket is the protective outer layer that insulates and shields them.</p>
           </div>
         </div>
-        <p className={`container-page pointer-events-none absolute inset-x-0 bottom-[6vh] text-[0.6875rem] text-zinc-500 transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>
+        <p className={`container-page pointer-events-none absolute inset-x-0 bottom-[6vh] text-xs text-zinc-500 transition-opacity duration-700 ${told ? 'opacity-100' : 'opacity-0'}`}>
           Illustration of a USB-C cable charging a phone.
         </p>
       </div>

@@ -31,9 +31,9 @@ export function setupPins(): () => void {
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
-          // One screen per step: Page Down or Space (seven-eighths of a screen)
-          // lands just short of the next step, and the snap settles it there.
-          end: `+=${HERO_LAST_STEP * 100}%`,
+          // Two-thirds of a screen per step, so the specs do not hold the page for
+          // long (about two screens in all); the snap settles each scroll on a step.
+          end: `+=${HERO_LAST_STEP * 65}%`,
           pin: true,
           scrub: 0.5,
           // Once scrolling stops, settle on the next step in the direction of

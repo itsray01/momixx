@@ -259,7 +259,7 @@ export function StatTiles({
           >
             {s.value}
           </p>
-          <p className="mt-3 text-[0.9375rem] leading-snug text-zinc-400">{s.label}</p>
+          <p className="mt-3 text-sm leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -283,7 +283,7 @@ export function BigStats({ stats }: { stats: Array<{ value: string; label: React
           >
             {s.value}
           </p>
-          <p className="mt-6 text-[0.9375rem] leading-snug text-zinc-400">{s.label}</p>
+          <p className="mt-6 text-sm leading-snug text-zinc-400">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -293,8 +293,9 @@ export function BigStats({ stats }: { stats: Array<{ value: string; label: React
 export type FeatureItem = { title: string; body: string; icon?: LucideIcon }
 
 /** The "01" index, with an optional line icon in a fixed tile so the row does not shift after paint. */
-export function FeatureMark({ icon: Icon, index }: { icon?: LucideIcon; index: number }) {
-  const number = <span className="font-mono text-xs text-gold-600">{String(index + 1).padStart(2, '0')}</span>
+/** A feature's icon. Steps that really are a sequence also show their number (`numbered`). */
+export function FeatureMark({ icon: Icon, index, numbered = false }: { icon?: LucideIcon; index: number; numbered?: boolean }) {
+  const number = numbered ? <span className="text-xs font-medium text-gold-600 tabular-nums">{String(index + 1).padStart(2, '0')}</span> : null
   if (!Icon) return number
   return (
     <div className="flex items-center gap-3">
@@ -335,7 +336,7 @@ export function FaqList({ faqs }: { faqs: Array<{ q: string; a: string }> }) {
                 +
               </span>
             </summary>
-            <p className="mt-4 max-w-3xl leading-relaxed text-zinc-400">{f.a}</p>
+            <p className="mt-4 max-w-2xl leading-relaxed text-zinc-400">{f.a}</p>
           </details>
         ))}
       </div>

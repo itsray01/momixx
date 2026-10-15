@@ -71,7 +71,7 @@ export default async function ProductPage({ params }: Props) {
               {p.picture ? (
                 <figure className="card relative mb-10 max-w-xl overflow-hidden">
                   <Image src={p.picture.src} alt={p.picture.alt} width={p.picture.width} height={p.picture.height} sizes="(min-width: 1024px) 36rem, 100vw" className="h-auto w-full" priority />
-                  <figcaption className="absolute bottom-3 left-4 rounded-full bg-[#f7f7f4]/85 px-2.5 py-1 text-[0.6875rem] text-[#3d413d] backdrop-blur">{p.picture.caption}</figcaption>
+                  <figcaption className="absolute bottom-3 left-4 rounded-full bg-[#f7f7f4]/85 px-2.5 py-1 text-xs text-[#3d413d] backdrop-blur">{p.picture.caption}</figcaption>
                 </figure>
               ) : p.illustration && (
                 <div className="mb-10 max-w-xl">
@@ -111,7 +111,7 @@ export default async function ProductPage({ params }: Props) {
                           href={`/applications/${a.slug}`}
                           className="group flex h-full items-center justify-between gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 transition-colors hover:border-white/20 focus-visible:border-white/20"
                         >
-                          <span className="text-[0.8125rem] font-medium text-zinc-200 group-hover:text-white sm:text-sm">{a.tabLabel}</span>
+                          <span className="text-sm font-medium text-zinc-200 group-hover:text-white">{a.tabLabel}</span>
                           <span aria-hidden="true" className="text-zinc-400 group-hover:text-white">→</span>
                         </Link>
                       </li>

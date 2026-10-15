@@ -305,7 +305,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                           else if (menu.columns) open(i)
                           else setActive(null)
                         }}
-                        className={`group/nav relative flex h-16 items-center px-4 text-[0.9375rem] whitespace-nowrap transition-colors duration-200 lg:h-[4.5rem] ${
+                        className={`group/nav relative flex h-16 items-center px-4 text-sm whitespace-nowrap transition-colors duration-200 lg:h-[4.5rem] ${
                           current || active === i ? 'text-white' : 'text-zinc-300 hover:text-white'
                         }`}
                       >

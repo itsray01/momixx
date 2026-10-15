@@ -16,7 +16,7 @@ export function CertMarks({ className = '' }: { className?: string }) {
             {c.logo ? (
               <>
                 <Image src={c.logo} alt={`${c.name} logo`} width={160} height={64} className="logo-mark max-h-14 w-auto max-w-[9rem] object-contain" />
-                {c.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{c.logoCredit}</span>}
+                {c.logoCredit && <span className="text-xs leading-none text-zinc-500">{c.logoCredit}</span>}
               </>
             ) : (
               <span className="rounded-xl border border-gold-400/45 bg-gold-100 px-3.5 py-2 text-base font-semibold whitespace-nowrap tracking-[-0.02em] text-gold-700 transition-colors group-hover:border-gold-400">

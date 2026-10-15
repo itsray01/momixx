@@ -24,12 +24,11 @@ function HoldingTag() {
   return <span className="ml-3 inline-flex translate-y-[-0.2em] items-center rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 align-middle text-xs font-medium tracking-normal text-gold-700">Details to follow</span>
 }
 
-function TopicBlock({ s, index }: { s: TopicSection; index: number }) {
+function TopicBlock({ s }: { s: TopicSection }) {
   const rows = s.grades ? gradeRows(s.grades) : []
   const linked = (s.products ?? []).map(getProduct).filter((p) => p !== undefined)
   return (
-    <section id={s.id} aria-labelledby={`${s.id}-title`} className="grid scroll-mt-32 gap-6 border-t border-white/10 py-12 first:border-t-0 first:pt-0 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-8">
-      <p aria-hidden="true" className="font-display text-sm font-medium text-gold-600 tabular-nums md:pt-2">{String(index + 1).padStart(2, '0')}</p>
+    <section id={s.id} aria-labelledby={`${s.id}-title`} className="scroll-mt-32 border-t border-white/10 py-12 first:border-t-0 first:pt-0">
       <div className="min-w-0">
         <h2 id={`${s.id}-title`} className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
           {s.title}
@@ -109,7 +108,7 @@ function TopicBlock({ s, index }: { s: TopicSection; index: number }) {
 }
 
 /**
- * A site-map page: a header, an "On this page" index and one numbered block per
+ * A site-map page: a header, an "On this page" index and one block per
  * item in the site map. Content lives in content/topics.ts.
  */
 export function TopicPage({ path }: { path: string }) {
@@ -139,8 +138,8 @@ export function TopicPage({ path }: { path: string }) {
             </div>
           </nav>
           <div data-reveal>
-            {t.sections.map((s, i) => (
-              <TopicBlock key={s.id} s={s} index={i} />
+            {t.sections.map((s) => (
+              <TopicBlock key={s.id} s={s} />
             ))}
             {t.related && (
               <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pt-10">

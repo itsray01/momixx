@@ -20,7 +20,7 @@ export function CertCard({ cert, featured = false, wide = false }: { cert: Certi
             ) : (
               <Image src={cert.logo} alt={`${cert.name} logo`} width={120} height={64} className="logo-mark max-h-16 w-auto max-w-[9rem] object-contain" />
             )}
-            {cert.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{cert.logoCredit}</span>}
+            {cert.logoCredit && <span className="text-xs leading-none text-zinc-500">{cert.logoCredit}</span>}
           </>
         ) : (
           <span

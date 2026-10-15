@@ -8,6 +8,12 @@
 }
 
 @theme {
+  /* Small text floors: nothing meant to be read sits under 13px, and secondary running
+     text (text-sm) is 15px, so investors and older readers are not squinting. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.15rem;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.4rem;
 
   /* ── The light theme ──
      The site was built dark, with colours named for that: `ink` surfaces, `white` text and

@@ -150,7 +150,7 @@ export default function ApplicationsPage() {
               </table>
             </div>
           </details>
-          <p className="mt-6 max-w-4xl text-xs leading-relaxed text-zinc-500">{marketDisclaimer}</p>
+          <p className="mt-6 max-w-xl text-xs leading-relaxed text-zinc-500">{marketDisclaimer}</p>
         </Section>
       </TabNav>
       <CtaBand title="Materials for *new industries*" body="Describe the conditions your product must withstand, and our team will recommend a material or develop one." secondary={{ href: '/silicone', label: 'What is silicone?' }} />

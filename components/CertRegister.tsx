@@ -37,7 +37,7 @@ export function CertRegister({ certs }: { certs: Certification[] }) {
                         ) : (
                           <Image src={c.logo} alt={`${c.name} logo`} width={120} height={48} className="logo-mark max-h-16 w-auto max-w-[8rem] object-contain" />
                         )}
-                        {c.logoCredit && <span className="text-[0.625rem] leading-none text-zinc-500">{c.logoCredit}</span>}
+                        {c.logoCredit && <span className="text-xs leading-none text-zinc-500">{c.logoCredit}</span>}
                       </>
                     ) : (
                       <span className="rounded-xl border border-gold-400/45 bg-gold-100 px-3 py-1.5 text-base font-semibold whitespace-nowrap tracking-[-0.02em] text-gold-700">{c.short}</span>

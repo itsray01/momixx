@@ -59,7 +59,7 @@ export function RecycleFlow() {
       <ol data-reveal="stagger" className="grid gap-px overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-5">
         {recycleSteps.map((s, i) => (
           <li key={s.title} className="group bg-ink-950 p-7 transition-colors duration-300 hover:bg-ink-900">
-            <FeatureMark icon={s.icon} index={i} />
+            <FeatureMark icon={s.icon} index={i} numbered />
             <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-white">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-zinc-400">{s.body}</p>
           </li>
@@ -200,7 +200,7 @@ export function Timeline({ years, columns = 4 }: { years: Array<{ year: number; 
                   <span className="min-w-0">
                     {line}
                     {isCertifiedLine(line) && (
-                      <span className="ml-2 inline-block align-middle rounded-full border border-white/15 bg-white/10 px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-zinc-100">
+                      <span className="ml-2 inline-block align-middle rounded-full border border-white/15 bg-white/10 px-2 py-0.5 text-xs font-medium tracking-wide text-zinc-100">
                         Certified
                       </span>
                     )}

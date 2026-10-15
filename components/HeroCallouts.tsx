@@ -21,21 +21,21 @@ const HEADER_CLEAR = 96
 
 const copy = {
   heat: {
-    index: '01 · Heat',
+    index: 'Heat',
     prefix: 'Up to',
     figure: '250\u00A0°C',
     caption: 'MoMixx MM grades, in\u00A0our\u00A0testing',
     count: 250,
   },
   fire: {
-    index: '02 · Fire safety',
+    index: 'Fire safety',
     prefix: null,
     figure: 'UL VW-1',
     caption: 'Flame-retardant MoMixx silicone jacket, for UL VW-1 cables',
     count: null,
   },
   flex: {
-    index: '03 · Durability',
+    index: 'Durability',
     prefix: null,
     figure: '10,000',
     caption: 'Twisting cycles, in MoMixx testing',
@@ -273,7 +273,7 @@ export function HeroCallouts() {
                     </span>
                   )}
                 </p>
-                <p style={rise(2)} className="mt-3 max-w-[17rem] text-[0.9375rem] leading-snug text-balance text-zinc-300 min-[1800px]:max-w-[20rem] min-[1800px]:text-[1.0625rem]">
+                <p style={rise(2)} className="mt-3 max-w-[17rem] text-sm leading-snug text-balance text-zinc-300 min-[1800px]:max-w-[20rem] min-[1800px]:text-[1.0625rem]">
                   {item.caption}
                 </p>
               </div>

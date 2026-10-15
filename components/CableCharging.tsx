@@ -81,7 +81,7 @@ export function CableCharging() {
             </div>
           )}
         </div>
-        <p className="pointer-events-none absolute right-4 bottom-2 left-4 text-center text-[0.6875rem] text-zinc-500 lg:right-auto lg:bottom-3 lg:left-0 lg:text-left">
+        <p className="pointer-events-none absolute right-4 bottom-2 left-4 text-center text-xs text-zinc-500 lg:right-auto lg:bottom-3 lg:left-0 lg:text-left">
           Illustration of a USB-C cable charging a phone.
         </p>
       </div>

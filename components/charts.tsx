@@ -68,7 +68,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
           )
         })}
       </div>
-      {comparison.note && <p className="mt-10 border-t border-white/[0.06] pt-5 text-xs text-zinc-500">{comparison.note}</p>}
+      {comparison.note && <p className="mt-10 max-w-2xl border-t border-white/[0.06] pt-5 text-xs leading-relaxed text-zinc-500">{comparison.note}</p>}
       <p className="mt-2 text-xs text-zinc-500">Source: MoMixx internal testing.</p>
     </figure>
   )
@@ -82,7 +82,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold tracking-[-0.02em]">{market.name}</h3>
         {market.kind === 'context' && (
-          <span className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-[0.6875rem] font-medium text-zinc-400">Industry context</span>
+          <span className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-xs font-medium text-zinc-400">Industry context</span>
         )}
       </div>
       {!compact && <p className="mt-1.5 text-sm text-zinc-500">{market.scope}</p>}
