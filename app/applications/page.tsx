@@ -10,9 +10,9 @@ import { pageMetadata } from '@/lib/site'
 import { applicationTabs } from './tabs'
 
 export const metadata = pageMetadata({
-  title: 'Applications and markets for MoMixx silicone',
+  title: 'Markets for MoMixx silicone',
   description:
-    'How MoMixx silicone serves phone and laptop cables, electric vehicles, medical devices, AI data centres, robotics and humanoids, and semiconductor equipment, with independent market-size estimates and sources.',
+    'How MoMixx silicone serves digital communication, AI data centres, robotics, medical devices, automotive, food-grade products, fashion and semiconductor equipment, with independent market-size estimates and sources.',
   path: '/applications',
 })
 
@@ -29,12 +29,12 @@ export default function ApplicationsPage() {
   return (
     <>
       <PageHeader
-        crumbs={[{ href: '/applications', label: 'Applications' }]}
-        eyebrow="Applications"
+        crumbs={[{ href: '/applications', label: 'Markets' }]}
+        eyebrow="Markets"
         title="One material, *many futures*"
         intro="Silicone’s combination of heat resistance, flexibility and safety places it at the heart of several of the world’s fastest-growing industries. The markets MoMixx supplies today, and those it is entering."
       />
-      <TabNav tabs={applicationTabs} label="Applications">
+      <TabNav tabs={applicationTabs} label="Markets">
         <Section>
           <div className="space-y-14">
             {maturityOrder.map((m) => {
@@ -64,7 +64,7 @@ export default function ApplicationsPage() {
         <Section
           id="markets"
           tone="muted"
-          eyebrow="Markets"
+          eyebrow="Market size"
           title="The growth behind *silicone*"
           intro="Electrification, AI, healthcare and robotics all require materials that withstand heat, movement and contact with the human body. Independent research firms’ projections of how large those markets are expected to become."
           className="scroll-mt-32"

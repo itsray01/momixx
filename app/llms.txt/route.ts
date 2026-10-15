@@ -1,4 +1,3 @@
-import { displayName, team, teamReady } from '@/content/team'
 import { applications } from '@/content/applications'
 import { certifications, milestones } from '@/content/company'
 import { siliconeFaqs } from '@/content/faqs'
@@ -6,6 +5,8 @@ import { formatUsd, markets } from '@/content/markets'
 import { newsroomReady } from '@/content/news'
 import { categoryLabels, productHref, products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
+import { displayName, team, teamReady } from '@/content/team'
+import { topics } from '@/content/topics'
 import { getArticles } from '@/lib/articles'
 import { absoluteUrl, site } from '@/lib/site'
 
@@ -26,10 +27,11 @@ export function GET() {
     '',
     '## Key pages',
     `- [What is silicone?](${absoluteUrl('/silicone')}): plain-English guide, silicon vs silicone, FAQs`,
-    `- [Products](${absoluteUrl('/products')}): silicone materials, machines and manufacturing services`,
-    `- [Applications](${absoluteUrl('/applications')}): where MoMixx silicone is used, with third-party market-size estimates and sources`,
-    `- [Sustainability](${absoluteUrl('/sustainability')}): certifications, carbon footprint, green initiatives`,
-    `- [Recycled silicone](${absoluteUrl('/recycled-silicone')}): recycling process and certifications`,
+    `- [Products](${absoluteUrl('/products')}): silicone materials, coatings, yarn and leather, precision components, automation and carbon footprint reports`,
+    `- [Markets](${absoluteUrl('/applications')}): where MoMixx silicone is used, with third-party market-size estimates and sources`,
+    `- [Green](${absoluteUrl('/sustainability')}): certifications, factories, and links to recycling and carbon footprint`,
+    `- [Recycled silicone](${absoluteUrl('/recycled-silicone')}): how we started, recycling process, audits and certifications`,
+    ...topics.map((t) => `- [${t.label}](${absoluteUrl(t.path)}): ${t.description}`),
     `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
     `- [About](${absoluteUrl('/about')}): history, milestones and locations: Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company}); manufacturing at Dongguan, Guangdong, China (${site.plants.dongguan.company})`,
     ...(teamReady ? [`- [Leadership](${absoluteUrl('/leadership')}): ${team.map((m) => `${displayName(m)}, ${m.role}`).join('; ')}`] : []),
@@ -43,7 +45,7 @@ export function GET() {
     '## Products',
     ...products.map((p) => `- [${p.name}](${absoluteUrl(productHref(p.slug))}) (${categoryLabels[p.category]}): ${p.tagline}`),
     '',
-    '## Applications',
+    '## Markets',
     ...applications.map((a) => `- [${a.name}](${absoluteUrl(`/applications/${a.slug}`)}): ${a.tagline} Status: ${a.maturity}.`),
     '',
     '## Insights articles',

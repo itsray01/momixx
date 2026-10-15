@@ -64,4 +64,4 @@ Often, yes, in uses such as insulation, solar panels and lighter vehicles. The i
 
 ## What does MoMixx do?
 
-MoMixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and an independent third party has checked how we calculate our product carbon footprint. The validation statement is available on request. We publish product carbon figures only together with what they cover and who checked them, on our [Sustainability page](/sustainability#carbon-footprint).
+MoMixx makes **certified recycled silicone** by chemical recycling (see [silicone recycling explained](/insights/silicone-recycling-explained)), and an independent third party has checked how we calculate our product carbon footprint. The validation statement is available on request. We publish product carbon figures only together with what they cover and who checked them, on our [carbon footprint page](/carbon-footprint).

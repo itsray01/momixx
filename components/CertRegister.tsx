@@ -26,7 +26,7 @@ export function CertRegister({ certs }: { certs: Certification[] }) {
             </h3>
             <ul className="mt-2">
               {rows.map((c) => (
-                <li key={c.id} className="group grid gap-5 border-t border-white/10 py-7 first:border-t-0 md:grid-cols-[8.5rem_minmax(0,1fr)_16rem] md:gap-8 lg:grid-cols-[8.5rem_minmax(0,1fr)_17rem_11rem]">
+                <li key={c.id} id={c.id} className="group grid scroll-mt-32 gap-5 border-t border-white/10 py-7 first:border-t-0 md:grid-cols-[8.5rem_minmax(0,1fr)_16rem] md:gap-8 lg:grid-cols-[8.5rem_minmax(0,1fr)_17rem_11rem]">
                   <div className="flex min-h-12 flex-col justify-center gap-1.5">
                     {c.logo ? (
                       <>

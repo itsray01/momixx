@@ -1,9 +1,8 @@
-import { Leaf, Package, Sun } from 'lucide-react'
 import Link from 'next/link'
 import { CertCard } from '@/components/CertCard'
 import { Render } from '@/components/Render'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
-import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
+import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { getApplication } from '@/content/applications'
 import { certifications, recyclingCertifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
@@ -41,12 +40,6 @@ const recycledFaqs = [
   },
 ]
 
-const efficiency = [
-  { value: '30%', label: 'less electricity in our ovens' },
-  { value: '20×', label: 'fewer polluting fumes by dipping instead of spraying' },
-  { value: '~4%', label: 'of each bucket of silicone saved by our mixer' },
-]
-
 export default function RecycledSiliconePage() {
   const recyclingCerts = certifications.filter((c) => c.group === 'recycling')
   // The material as sold (formerly its own product page): its benefits and where it goes.
@@ -56,8 +49,11 @@ export default function RecycledSiliconePage() {
   return (
     <>
       <PageHeader
-        crumbs={[{ href: '/recycled-silicone', label: 'Recycled Silicone' }]}
-        eyebrow="Sustainability"
+        crumbs={[
+          { href: '/sustainability', label: 'Green' },
+          { href: '/recycled-silicone', label: 'Recycle' },
+        ]}
+        eyebrow="Recycle"
         title="Recycled silicone, *certified and traceable*"
         intro="Recycled silicone is new silicone made from silicone waste, such as factory scraps and used products. We break the waste back down into its basic building blocks, then rebuild it into silicone that performs like new."
         facts={[
@@ -67,7 +63,7 @@ export default function RecycledSiliconePage() {
         visual={<Render name="recycle" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
 
-      <Section eyebrow="The problem" title="Very little silicone is *recycled today*">
+      <Section id="how-we-started" eyebrow="How we started" title="Very little silicone is *recycled today*" className="scroll-mt-32">
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-4 text-lg leading-relaxed text-zinc-200">
             <p>{recyclingFacts.summary}</p>
@@ -75,6 +71,7 @@ export default function RecycledSiliconePage() {
             <p>
               Most silicone makers still use only fresh raw materials, while more and more brands want recycled materials they can trust.
             </p>
+            <p>We expanded our recycled silicone production in 2023, and in 2024 it was certified to the Global Recycled Standard (GRS).</p>
           </div>
           <figure className="card p-7 sm:p-10">
             <figcaption className="text-sm font-semibold text-white">Silicone made vs chemically recycled, 2024 (estimated)</figcaption>
@@ -105,7 +102,7 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
-      <Section tone="muted" eyebrow="Our process" title="How we recycle silicone, *step by step*" intro="Ground silicone is only a filler, and it weakens new material. We take it back to its basic building blocks, so the new silicone performs like new.">
+      <Section id="what-we-do" tone="muted" eyebrow="What we do" title="How we recycle silicone, *step by step*" className="scroll-mt-32" intro="Ground silicone is only a filler, and it weakens new material. We take it back to its basic building blocks, so the new silicone performs like new.">
         <RecycleFlow />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           <div className="card p-7">
@@ -119,8 +116,22 @@ export default function RecycledSiliconePage() {
         </div>
       </Section>
 
+      <Section id="certificates" eyebrow="How we control and monitor" title="Audited, from waste to *new silicone*" className="scroll-mt-32" intro="Independent bodies audit our recycling and supply chain, so customers, and their customers, can rely on our recycled-content claims.">
+        <ul data-reveal="stagger" className={`grid gap-5 md:grid-cols-2 ${recyclingCerts.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
+          {recyclingCerts.map((c) => (
+            <CertCard key={c.id} cert={c} />
+          ))}
+        </ul>
+        {qualityCerts.length > 0 && (
+          <p className="mt-8 text-sm text-zinc-400">
+            Our Batu Kawan factory’s quality system is also certified to ISO 13485, the standard for medical-device manufacturing.{' '}
+            <ArrowLink href="/sustainability">All certifications</ArrowLink>
+          </p>
+        )}
+      </Section>
+
       {material?.benefits && (
-        <Section id="material" eyebrow="The material" title="Recycled silicone that *performs like new*">
+        <Section id="what-we-deliver" tone="muted" eyebrow="What we deliver" title="Recycled silicone that *performs like new*" className="scroll-mt-32">
           <FeatureGrid items={material.benefits} />
           {(material.uses || apps.length > 0) && (
             <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
@@ -144,30 +155,14 @@ export default function RecycledSiliconePage() {
         </Section>
       )}
 
-      <Section id="certificates" tone="muted" eyebrow="Proof" title="*Certifications*" intro="Independent bodies audit our recycling and supply chain, so customers, and their customers, can rely on our recycled-content claims.">
-        <ul data-reveal="stagger" className={`grid gap-5 md:grid-cols-2 ${recyclingCerts.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
-          {recyclingCerts.map((c) => (
-            <CertCard key={c.id} cert={c} />
-          ))}
-        </ul>
-        {qualityCerts.length > 0 && (
-          <p className="mt-8 text-sm text-zinc-400">
-            Our Batu Kawan factory’s quality system is also certified to ISO 13485, the standard for medical-device manufacturing.{' '}
-            <ArrowLink href="/sustainability">All certifications</ArrowLink>
-          </p>
-        )}
-      </Section>
 
-      <Section eyebrow="Beyond recycling" title="Cleaner manufacturing, *by design*" intro="Our machines are designed to use less energy and create less pollution and waste.">
-        <StatTiles stats={efficiency} />
-        <div className="mt-10">
-          <FeatureGrid
-            items={[
-              { icon: Sun, title: 'Solar power', body: 'Solar panels at our factories supply part of our electricity.' },
-              { icon: Package, title: 'Silicone scrap collection', body: 'We collect silicone scrap and used products for recycling. Contact us with the type and volume of material available.' },
-              { icon: Leaf, title: 'PFAS-free alternatives', body: 'Our high-density silicone replaces rubbers that contain “forever chemicals”.' },
-            ]}
-          />
+      <Section id="next" eyebrow="Next big thing" title="What comes *next*" className="scroll-mt-32">
+        <div className="max-w-2xl">
+          <span className="inline-flex rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">Details to follow</span>
+          <p className="mt-5 text-lg leading-relaxed text-zinc-300">What comes next for our recycling work will be shared here.</p>
+          <ArrowLink href="/carbon-footprint" className="mt-6">
+            Our carbon footprint
+          </ArrowLink>
         </div>
       </Section>
 

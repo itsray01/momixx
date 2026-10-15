@@ -3,56 +3,65 @@ import { Render } from '@/components/Render'
 import { LinkCard } from '@/components/LinkCard'
 import { TabNav } from '@/components/TabNav'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
-import { categoryIntros, categoryLabels, productHref, products, productsByCategory, type ProductCategory } from '@/content/products'
+import { productHref, products, productsByCategory } from '@/content/products'
+import { productGroups } from '@/content/topics'
 import { pageMetadata } from '@/lib/site'
-import { productNav } from './tabs'
 
 export const metadata = pageMetadata({
-  title: 'Silicone materials, machines and services',
+  title: 'Silicone materials, coatings, components and automation',
   description:
-    'Fire-retardant, PFAS-free, waterproof, self-bonding and recycled silicone compounds; patented silicone cable extrusion machines; and ODM, OEM and medical component manufacturing.',
+    'Recycled, flame-retardant, high-strength, magnetic, conductive and PFAS-free silicone; silicone coatings, yarn and leather; precision components; patented extrusion machines; and carbon footprint reports.',
   path: '/products',
 })
 
-const order: ProductCategory[] = ['materials', 'equipment', 'services']
-
 export default function ProductsPage() {
+  // Every material grade family, listed under the site-map groups so nothing is lost.
+  const grades = productsByCategory('materials').filter((p) => p.slug !== 'recycled-silicone')
   return (
     <>
       <PageHeader
         crumbs={[{ href: '/products', label: 'Products' }]}
-        eyebrow="Products & services"
-        title="Materials, machines and *services*"
-        intro="Silicone materials engineered for specific applications, the machines that process them, and the manufacturing services that turn them into finished components. Select a tab to view each product in detail."
-        facts={order.map((cat) => ({ value: String(productsByCategory(cat).length), label: categoryLabels[cat].toLowerCase() }))}
+        eyebrow="Products"
+        title="Materials, components and *automation*"
+        intro="Silicone materials engineered for specific applications, coatings and textiles, finished components, and the machines that make them."
+        facts={productGroups.map((g) => ({ value: String(g.links.length), label: g.title.toLowerCase() }))}
         visual={<Render name="samples" alt="" priority sizes="(min-width: 1024px) 45vw, 100vw" />}
       />
-      <TabNav {...productNav()} label="Products">
-        {order.map((cat, i) => (
-          <Section key={cat} id={cat} tone={i % 2 ? 'muted' : 'white'} loop={cat === 'equipment' ? 'v-light-tunnel' : undefined} eyebrow={categoryLabels[cat]} title={categoryLabels[cat]} intro={categoryIntros[cat]} className="scroll-mt-32">
-            {/* Two or four cards sit in two columns, so a row is never left half empty. */}
-            <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${productsByCategory(cat).length % 3 === 0 || productsByCategory(cat).length > 4 ? 'lg:grid-cols-3' : ''}`}>
-              {productsByCategory(cat).map((p, j, all) => (
-                // In two columns (tablets), an odd last card takes the whole row instead of sitting alone.
-                <li key={p.slug} className={all.length % 2 && j === all.length - 1 ? 'sm:max-lg:col-span-2' : ''}>
-                  <LinkCard
-                    href={productHref(p.slug)}
-                    render={p.illustration}
-                    title={p.name}
-                    body={p.tagline}
-                    footer={
-                      p.stats?.[0] && (
-                        <>
-                          <span className="font-medium text-white">{p.stats[0].value}</span> {p.stats[0].label}
-                        </>
-                      )
-                    }
-                  />
+      <TabNav
+        tabs={[{ href: '/products', label: 'Overview' }, ...productGroups.map((g) => ({ href: `/products#${g.id}`, label: g.title })), { href: '/products#grades', label: 'All grades' }]}
+        label="Products"
+      >
+        {productGroups.map((g, i) => (
+          <Section key={g.id} id={g.id} tone={i % 2 ? 'muted' : 'white'} eyebrow={g.title} title={g.title} intro={g.intro} className="scroll-mt-32">
+            <ul data-reveal="stagger" className={`grid gap-5 sm:grid-cols-2 ${g.links.length > 4 || g.links.length === 3 ? 'lg:grid-cols-3' : ''}`}>
+              {g.links.map((l, j, all) => (
+                <li key={l.href} className={all.length % 2 && j === all.length - 1 ? 'sm:max-lg:col-span-2' : ''}>
+                  <LinkCard href={l.href} render={l.model} title={l.label} body={l.desc} />
                 </li>
               ))}
             </ul>
           </Section>
         ))}
+        <Section id="grades" tone={productGroups.length % 2 ? 'muted' : 'white'} eyebrow="All grades" title="Every material *family*" intro="Each family of silicone grades in our range, and our clear PCTG plastic." className="scroll-mt-32">
+          <ul data-reveal="stagger" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {grades.map((p) => (
+              <li key={p.slug}>
+                <LinkCard
+                  href={productHref(p.slug)}
+                  title={p.name}
+                  body={p.tagline}
+                  footer={
+                    p.stats?.[0] && (
+                      <>
+                        <span className="font-medium text-white">{p.stats[0].value}</span> {p.stats[0].label}
+                      </>
+                    )
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        </Section>
       </TabNav>
       <CtaBand title="Custom *development*" body="Most of our work is developed to order. Describe your requirements and our research team will formulate a material to meet them." />
       <JsonLd data={collectionPage('MoMixx products', '/products', products.map((p) => ({ name: p.name, path: productHref(p.slug) })))} />

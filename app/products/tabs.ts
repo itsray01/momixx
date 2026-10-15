@@ -4,7 +4,7 @@ import { getProduct, groupPages, productHref, productsByCategory, type ProductCa
 // Labels match the Products menu (lib/nav.ts); the ids are the sections on /products.
 const categories: Array<{ id: ProductCategory; label: string }> = [
   { id: 'materials', label: 'Materials' },
-  { id: 'equipment', label: 'Machines' },
+  { id: 'equipment', label: 'Automation' },
   { id: 'services', label: 'Manufacturing' },
 ]
 
