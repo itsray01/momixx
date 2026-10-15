@@ -1,3 +1,4 @@
+import { displayName, team, teamReady } from '@/content/team'
 import { applications } from '@/content/applications'
 import { certifications, milestones } from '@/content/company'
 import { siliconeFaqs } from '@/content/faqs'
@@ -31,6 +32,7 @@ export function GET() {
     `- [Recycled silicone](${absoluteUrl('/recycled-silicone')}): recycling process and certifications`,
     `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
     `- [About](${absoluteUrl('/about')}): history, milestones and locations: Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company}); manufacturing at Dongguan, Guangdong, China (${site.plants.dongguan.company})`,
+    ...(teamReady ? [`- [Leadership](${absoluteUrl('/leadership')}): ${team.map((m) => `${displayName(m)}, ${m.role}`).join('; ')}`] : []),
     ...(newsroomReady ? [`- [Newsroom](${absoluteUrl('/newsroom')}): announcements, recent milestones, latest articles and media contact (${site.mediaEmail || site.email})`] : []),
     `- [Governance](${absoluteUrl('/governance')}): company information (${site.legalName}, Singapore UEN ${site.registrationNumber}), certifications and website policies`,
     `- [Research & innovation](${absoluteUrl('/innovation')}): patents and research areas, including the vertical extrusion line`,

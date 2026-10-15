@@ -172,7 +172,7 @@ export default function AboutPage() {
           We build for international markets and international standards. Our recycled silicone is certified under GRS, RCS, ISCC PLUS and SCS Global Services, and our Batu Kawan factory’s quality system is certified to ISO 13485.
         </p>
         <div className="mt-8 flex flex-wrap gap-6">
-          {teamReady && <ArrowLink href="/team">Meet our management team</ArrowLink>}
+          {teamReady && <ArrowLink href="/leadership">Our leadership</ArrowLink>}
           <ArrowLink href="/innovation">Research & innovation</ArrowLink>
           <ArrowLink href="/culture">Culture & careers</ArrowLink>
           <ArrowLink href="/sustainability">Certifications</ArrowLink>

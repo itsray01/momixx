@@ -89,8 +89,8 @@ export function buildMenus(): Menu[] {
           title: 'Company',
           links: [
             { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}, and our sites` },
-            // Listed once real names and photos are in content/team.ts.
-            ...(teamReady ? [{ href: '/team', label: 'Our team', desc: 'Management' }] : []),
+            // Listed while content/team.ts has at least one person.
+            ...(teamReady ? [{ href: '/leadership', label: 'Leadership', desc: 'Our management team' }] : []),
             { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending' },
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and careers' },
             { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies' },

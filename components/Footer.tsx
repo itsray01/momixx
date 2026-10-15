@@ -31,7 +31,7 @@ const columns = [
       { href: '/about', label: 'About us' },
       ...(newsroomReady ? [{ href: '/newsroom', label: 'Newsroom' }] : []),
       { href: '/governance', label: 'Governance' },
-      ...(teamReady ? [{ href: '/team', label: 'Our team' }] : []),
+      ...(teamReady ? [{ href: '/leadership', label: 'Leadership' }] : []),
       { href: '/culture', label: 'Culture & careers' },
       { href: '/innovation', label: 'Research & innovation' },
       { href: '/contact', label: 'Contact' },
