@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CertCard } from '@/components/CertCard'
+import { COMPARE_STYLE } from '@/components/charts'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { getApplication } from '@/content/applications'
@@ -79,7 +80,7 @@ export default function RecycledSiliconePage() {
                   <span className="text-zinc-400">Produced worldwide</span>
                   <span className="font-semibold text-white">{recyclingFacts.producedTonnes}</span>
                 </div>
-                <div data-grow className="mt-3 h-7 w-full rounded-r-[4px] bg-[#5a6474]" role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
+                <div data-grow className="mt-3 h-7 w-full rounded-r-[4px]" style={COMPARE_STYLE} role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
               </div>
               <div>
                 <div className="flex justify-between text-sm">

@@ -4,6 +4,7 @@ import { CableColourPicker } from '@/components/CableColourPicker'
 import { HeroCallouts } from '@/components/HeroCallouts'
 import { HeroSpotlight } from '@/components/HeroSpotlight'
 import { ExtruderSection } from '@/components/ExtruderSection'
+import { COMPARE_STYLE } from '@/components/charts'
 import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
 import { Scene3D } from '@/components/three/Scene3D'
@@ -172,7 +173,7 @@ export default function HomePage() {
                     <div
                       data-grow
                       className="mt-3 h-7 rounded-r-[4px]"
-                      style={{ width: `${(r.bar / 5.4) * 100}%`, background: r.ours ? '#168447' : '#9a9e9a' }}
+                      style={{ width: `${(r.bar / 5.4) * 100}%`, ...(r.ours ? { background: '#168447' } : COMPARE_STYLE) }}
                       role="img"
                       aria-label={`${r.label}: ${r.text} ${carbonHeadline.unit}`}
                     />

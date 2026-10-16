@@ -1,13 +1,13 @@
 import type { Comparison } from '@/content/products'
 import { formatUsd, type Market } from '@/content/markets'
 
-// Emphasis palette for the paper surface: MoMixx in the brand green (#168447)
-// against comparison grey #9a9e9a. Both clear 3:1 against the surface and
-// differ in lightness as well as hue, so they stay distinct in greyscale and
-// for colour-blind readers. Every bar also carries a direct value label.
+// Emphasis palette for the paper surface: MoMixx in solid brand green (#168447)
+// against the comparison in pale gold with a gold edge (#b08a34, 3:1 on the
+// paper). Dark against light, so the two stay distinct in greyscale and for
+// colour-blind readers, not by hue alone. Every bar also carries a value label.
 const ACCENT = '#168447'
 const ACCENT_LIGHT = '#4fbf7a'
-const MUTED = '#9a9e9a'
+export const COMPARE_STYLE = { background: '#efe3c2', boxShadow: 'inset 0 0 0 1px #b08a34' }
 
 function advantage(row: Comparison['rows'][number], label: string) {
   // Lower-case a leading ordinary word ("Standard TPE" → "standard TPE"), but keep acronyms like XLPO.
@@ -29,7 +29,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
             <span className="h-2.5 w-2.5 rounded-sm" style={{ background: ACCENT }} /> MoMixx
           </li>
           <li className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-sm" style={{ background: MUTED }} /> {comparison.otherLabel}
+            <span className="h-2.5 w-2.5 rounded-sm" style={COMPARE_STYLE} /> {comparison.otherLabel}
           </li>
         </ul>
       </figcaption>
@@ -45,8 +45,8 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
               <p className="mt-0.5 text-xs text-zinc-500">{row.better === 'higher' ? 'Higher is better' : 'Lower is better'}</p>
               <div className="mt-4 space-y-2.5">
                 {[
-                  { label: 'MoMixx', v: row.momixx, t: row.momixxText, c: ACCENT },
-                  { label: comparison.otherLabel, v: row.other, t: row.otherText, c: MUTED },
+                  { label: 'MoMixx', v: row.momixx, t: row.momixxText, fill: { background: ACCENT } },
+                  { label: comparison.otherLabel, v: row.other, t: row.otherText, fill: COMPARE_STYLE },
                 ].map((b) => {
                   const text = b.t ?? b.v.toLocaleString('en')
                   return (
@@ -54,7 +54,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
                       <div
                         data-grow
                         className="h-7 shrink-0 rounded-r-[4px]"
-                        style={{ width: `${(b.v / max) * 75}%`, background: b.c }}
+                        style={{ width: `${(b.v / max) * 75}%`, ...b.fill }}
                         role="img"
                         aria-label={`${b.label}: ${text} ${row.unit}`}
                       />
@@ -92,7 +92,7 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
         <div className="flex h-28 items-end gap-3" aria-hidden="true">
           {market.current && (
             <div className="flex flex-col items-center gap-2">
-              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px`, background: MUTED }} />
+              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px`, ...COMPARE_STYLE }} />
               <span className="text-xs text-zinc-500 tabular-nums">{market.current.year}</span>
             </div>
           )}
