@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { CableColourPicker } from '@/components/CableColourPicker'
 import { HeroCallouts } from '@/components/HeroCallouts'
 import { HeroSpotlight } from '@/components/HeroSpotlight'
@@ -172,8 +172,8 @@ export default function HomePage() {
                     </div>
                     <div
                       data-grow
-                      className="mt-3 h-7 rounded-r-[4px]"
-                      style={{ width: `${(r.bar / 5.4) * 100}%`, ...(r.ours ? { background: '#168447' } : COMPARE_STYLE) }}
+                      className="bar-3d mt-3 h-7 rounded-r-[4px]"
+                      style={{ width: `${(r.bar / 5.4) * 100}%`, ...(r.ours ? ({ '--bar': '#168447' } as CSSProperties) : COMPARE_STYLE) }}
                       role="img"
                       aria-label={`${r.label}: ${r.text} ${carbonHeadline.unit}`}
                     />
