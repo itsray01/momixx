@@ -1,13 +1,14 @@
 import type { Comparison } from '@/content/products'
 import { formatUsd, type Market } from '@/content/markets'
 
-// Emphasis palette for the paper surface: MoMixx in solid brand green (#168447)
-// against the comparison in pale gold with a gold edge (#b08a34, 3:1 on the
-// paper). Dark against light, so the two stay distinct in greyscale and for
-// colour-blind readers, not by hue alone. Every bar also carries a value label.
+// One green family for every chart: MoMixx (or the later year) in the deep brand
+// green, the comparison (or the earlier year) in a lighter green. Checked with the
+// palette validator: both inside the lightness band, and well apart for every
+// type of colour blindness (ΔE 21). The light green is under 3:1 on the paper, so
+// every bar carries its value as a label.
 const ACCENT = '#168447'
-const ACCENT_LIGHT = '#4fbf7a'
-export const COMPARE_STYLE = { background: '#efe3c2', boxShadow: 'inset 0 0 0 1px #b08a34' }
+export const COMPARE = '#6cc58e'
+export const COMPARE_STYLE = { background: COMPARE }
 
 function advantage(row: Comparison['rows'][number], label: string) {
   // Lower-case a leading ordinary word ("Standard TPE" → "standard TPE"), but keep acronyms like XLPO.
@@ -89,16 +90,16 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
 
       <div className="mt-8 flex items-end gap-6">
         {/* Every card keeps its bars, so the grid lines up; a forecast-only market shows the one bar. */}
-        <div className="flex h-28 items-end gap-3" aria-hidden="true">
-          {market.current && (
-            <div className="flex flex-col items-center gap-2">
-              <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}px`, ...COMPARE_STYLE }} />
-              <span className="text-xs text-zinc-500 tabular-nums">{market.current.year}</span>
-            </div>
-          )}
-          <div className="flex flex-col items-center gap-2">
-            <div data-grow-y className="w-9 rounded-t-[4px]" style={{ height: '100px', background: `linear-gradient(180deg, ${ACCENT_LIGHT}, ${ACCENT})` }} />
-            <span className="text-xs text-zinc-500 tabular-nums">{market.forecast.year}</span>
+        <div className="shrink-0" aria-hidden="true">
+          <div className="flex h-24 items-end gap-2.5 border-b border-white/20">
+            {market.current && (
+              <div data-grow-y className="w-11 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}%`, background: COMPARE }} />
+            )}
+            <div data-grow-y className="h-full w-11 rounded-t-[4px]" style={{ background: ACCENT }} />
+          </div>
+          <div className="mt-2 flex gap-2.5 text-xs text-zinc-500 tabular-nums">
+            {market.current && <span className="w-11 text-center">{market.current.year}</span>}
+            <span className="w-11 text-center font-medium text-zinc-300">{market.forecast.year}</span>
           </div>
         </div>
         <dl className="min-w-0 space-y-2">
@@ -151,7 +152,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
                 <div
                   data-grow
                   className="h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
-                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_LIGHT})` }}
+                  style={{ width: `${(m.cagr!.pct / max) * 100}%`, background: ACCENT }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}
                 />
               </div>
