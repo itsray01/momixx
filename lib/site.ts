@@ -119,6 +119,14 @@ export function metaDescription(text: string, max = 158) {
  * Per-page metadata with a self-referencing canonical URL. Every page must set
  * its own canonical, otherwise search engines may treat pages as duplicates.
  */
+/**
+ * Claims still waiting for HQ's evidence (see content/home.ts) appear only on Vercel preview
+ * deployments, in development, or with SHOW_PENDING=1, marked "Awaiting confirmation". The
+ * live site, and any build that cannot tell, leaves them out.
+ */
+export const showPending =
+  process.env.VERCEL_ENV === 'preview' || process.env.NODE_ENV === 'development' || process.env.SHOW_PENDING === '1'
+
 export function pageMetadata({
   title,
   description: text,

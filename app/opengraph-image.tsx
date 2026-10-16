@@ -12,7 +12,7 @@ export default function OpengraphImage() {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: 640 }}>
           <div style={{ display: 'flex', fontSize: 28, letterSpacing: 6, color: '#168447' }}>ORION MOMIXX</div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 76, fontWeight: 800, lineHeight: 1.05 }}>Silicone, engineered for a cleaner future.</div>
+            <div style={{ fontSize: 76, fontWeight: 800, lineHeight: 1.05 }}>Advanced silicone. Lower carbon. Greater possibilities.</div>
             <div style={{ fontSize: 28, marginTop: 24, color: '#5a5f5a' }}>Materials · Recycling · Machines</div>
           </div>
         </div>

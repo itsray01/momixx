@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Enquiries are delivered by Formspree (formspree.io) to the company inbox.
 // The form's ID is set in lib/site.ts → formspreeId.
@@ -16,10 +16,18 @@ const messages: Record<Field, { missing: string; invalid?: string }> = {
   message: { missing: 'Please tell us a little about your enquiry.' },
 }
 
-export function ContactForm({ formId, email }: { formId: string; email: string }) {
+export function ContactForm({ formId, email, showVisits = false }: { formId: string; email: string; showVisits?: boolean }) {
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({})
   const formRef = useRef<HTMLFormElement>(null)
+  const topicRef = useRef<HTMLSelectElement>(null)
+
+  // Links such as /contact?topic=Recycling%20partnership arrive with that topic chosen.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get('topic')
+    const select = topicRef.current
+    if (wanted && select && [...select.options].some((o) => o.value === wanted)) select.value = wanted
+  }, [])
 
   function check(form: HTMLFormElement) {
     const found: Partial<Record<Field, string>> = {}
@@ -127,9 +135,11 @@ export function ContactForm({ formId, email }: { formId: string; email: string }
       <label className={label}>
         I’m interested in
         <span className="relative mt-2 block">
-          <select name="topic" className={`${input()} mt-0 cursor-pointer appearance-none pr-11`} defaultValue="Silicone materials">
+          <select ref={topicRef} name="topic" className={`${input()} mt-0 cursor-pointer appearance-none pr-11`} defaultValue="Silicone materials">
             <option>Silicone materials</option>
             <option>Recycled silicone</option>
+            <option>Recycling partnership</option>
+            {showVisits && <option>Factory visit</option>}
             <option>Cable machines</option>
             <option>Contract manufacturing</option>
             <option>Medical or precision parts</option>

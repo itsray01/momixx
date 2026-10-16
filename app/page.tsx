@@ -6,14 +6,15 @@ import { HeroSpotlight } from '@/components/HeroSpotlight'
 import { ExtruderSection } from '@/components/ExtruderSection'
 import { Fn, Footnotes } from '@/components/Footnotes'
 import { Intro } from '@/components/Intro'
-import { RecycleSteps } from '@/components/infographics'
 import { Scene3D } from '@/components/three/Scene3D'
 import { Arrow, ArrowLink, BigStats, CtaBand, GridBackdrop, Section, rich } from '@/components/ui'
 import { CertMarks } from '@/components/CertMarks'
+import { applications } from '@/content/applications'
+import { carbonHeadline, circular, hero, loop, pillars, platform, social } from '@/content/home'
 import { companyStats, firstLineFootnote } from '@/content/company'
 import { products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
-import { pageMetadata, site } from '@/lib/site'
+import { pageMetadata, showPending, site } from '@/lib/site'
 
 export const metadata = {
   ...pageMetadata({
@@ -87,6 +88,14 @@ const businesses: Array<{ href: string; model: string; kicker: string; title: st
   },
 ]
 
+// Pillars still awaiting HQ's evidence appear only on previews.
+const shownPillars = pillars.filter((p) => showPending || !p.pending)
+
+/** Marks content still waiting for HQ's evidence. Previews only. */
+function PendingTag({ label = 'Awaiting confirmation' }: { label?: string }) {
+  return <span className="inline-flex w-fit rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">{label}</span>
+}
+
 export default function HomePage() {
   return (
     <>
@@ -110,20 +119,25 @@ export default function HomePage() {
           {/* The text column spans the hero but lets the pointer through to the cable; only its content takes clicks. */}
           <div data-hero-copy className="pointer-events-none container-page relative z-10 order-1 flex flex-col justify-center pt-32 pb-8 lg:h-full lg:pt-24 lg:pb-24 [@media(max-height:46rem)]:lg:pt-20 [@media(max-height:46rem)]:lg:pb-12">
             <div data-hero-fade className="pointer-events-auto max-w-3xl lg:max-w-[min(46vw,44rem)]">
-              <p className="eyebrow">A technology-driven silicone company</p>
-              <h1 className="display-hero mt-7 [@media(max-height:46rem)]:mt-5">
-                Silicone, engineered for <em className="accent-serif sm:whitespace-nowrap">a cleaner future.</em>
+              <p className="eyebrow">Green silicone</p>
+              {/* One sentence per line from tablets up, a notch smaller than the old two-part headline so each fits. */}
+              <h1 className="display-hero mt-7 lg:text-[clamp(3rem,min(5.3vw,9.6svh),5.4rem)] [@media(max-height:46rem)]:mt-5">
+                {hero.headline.lines.map((l) => (
+                  <span key={l} className="sm:block sm:whitespace-nowrap">
+                    {l}{' '}
+                  </span>
+                ))}
+                <em className="accent-serif sm:block sm:whitespace-nowrap">{hero.headline.accent}</em>
               </h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl [@media(max-height:46rem)]:mt-5 [@media(max-height:46rem)]:sm:text-lg">
-                We develop, process and recycle high-performance silicone for the technologies the world depends on: phone cables, electric
-                vehicles, medical devices, AI data centres and robots. Our niche is green silicone: certified recycled silicone that performs like new.
+                {hero.intro}
               </p>
               <div className="mt-10 flex flex-wrap gap-3 [@media(max-height:46rem)]:mt-7">
                 <Link href="/products" className="group btn-primary px-6 py-3 text-base">
-                  Explore products <Arrow />
+                  Explore our solutions <Arrow />
                 </Link>
-                <Link href="/silicone" className="btn-ghost-dark px-6 py-3 text-base">
-                  What is silicone?
+                <Link href="/recycled-silicone" className="btn-ghost-dark px-6 py-3 text-base">
+                  Our circular platform
                 </Link>
               </div>
             </div>
@@ -138,45 +152,147 @@ export default function HomePage() {
         </section>
       </div>
 
-      {/* ── Statement and key figures ── */}
-      <section className="glass-field bg-ink-950 py-28 sm:py-40">
+      {/* ── Lower carbon: the comparison, straight under the hero (awaiting HQ's assessment details) ── */}
+      {showPending && carbonHeadline.pending && (
+        <Section id="lower-carbon" eyebrow="Measurable carbon reduction" title={'A smaller footprint. *A\u00a0measurable difference.*'} className="scroll-mt-28">
+          <PendingTag />
+          <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-20">
+            <p className="max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+              Our recycled silicone is a lower-carbon alternative to new silicone, helping customers reduce the material footprint of their products.
+            </p>
+            <figure className="card p-7 sm:p-10">
+              <figcaption className="text-sm font-medium text-white">Carbon footprint ({carbonHeadline.unit})</figcaption>
+              <div className="mt-8 space-y-6">
+                {carbonHeadline.rows.map((r) => (
+                  <div key={r.label}>
+                    <div className="flex items-baseline justify-between gap-4 text-sm">
+                      <span className={r.ours ? 'font-medium text-white' : 'text-zinc-400'}>{r.label}</span>
+                      <span className={`tabular-nums ${r.ours ? 'font-semibold text-white' : 'text-zinc-300'}`}>{r.text}</span>
+                    </div>
+                    <div
+                      data-grow
+                      className="mt-3 h-7 rounded-r-[4px]"
+                      style={{ width: `${(r.bar / 5.4) * 100}%`, background: r.ours ? '#168447' : '#9a9e9a' }}
+                      role="img"
+                      aria-label={`${r.label}: ${r.text} ${carbonHeadline.unit}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 text-xs leading-relaxed text-zinc-500">{carbonHeadline.note}</p>
+            </figure>
+          </div>
+        </Section>
+      )}
+
+      {/* ── Key figures ── */}
+      <section className="glass-field bg-ink-950 py-24 sm:py-32">
         <div className="container-page">
           <p data-reveal className="display-md max-w-5xl text-white">
             {statement.lead} <span className="text-brand-500">{statement.rest}</span>
           </p>
-          <div className="mt-24 sm:mt-32">
+          <div className="mt-20 sm:mt-28">
             <BigStats stats={stats} />
           </div>
         </div>
       </section>
 
-      {/* ── Green silicone: the niche, straight after the figures ── */}
-      <Section id="green-silicone" eyebrow="Green silicone" title="Green silicone, *certified.*" className="scroll-mt-28">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      {/* ── The four strengths, each with its evidence ── */}
+      <Section
+        id="why-momixx"
+        tone="muted"
+        eyebrow="Why MoMixx"
+        title="Four strengths, *working together*"
+        intro="Recycling, performance, process-level visibility and customer access. Each is backed by evidence you can check; together they make our green silicone platform."
+        className="scroll-mt-28"
+      >
+        <ul data-reveal="stagger" className={`grid gap-5 md:grid-cols-2 ${shownPillars.length === 3 ? 'lg:grid-cols-3' : ''}`}>
+          {shownPillars.map((p) => (
+            <li key={p.id} id={p.id} className="card flex flex-col p-7 sm:p-9">
+              {p.pending && <PendingTag />}
+              <h3 className={`text-2xl font-semibold tracking-[-0.03em] ${p.pending ? 'mt-5' : ''}`}>{p.title}</h3>
+              {p.id === 'recycling' && (
+                <p className="mt-4 text-lg leading-snug font-medium tracking-[-0.01em] text-white">
+                  {certificationClaim.statement}
+                  <Fn n={2} />
+                </p>
+              )}
+              {p.body && <p className="mt-4 leading-relaxed text-zinc-400">{p.body}</p>}
+              {showPending && p.pendingBody && (
+                <div className="mt-5 rounded-2xl border border-gold-400/35 bg-gold-100/50 p-4">
+                  <PendingTag />
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-300">{p.pendingBody}</p>
+                </div>
+              )}
+              {p.id === 'recycling' && <CertMarks className="mt-8" />}
+              <div className="mt-auto flex flex-wrap gap-x-6 gap-y-2 pt-8">
+                {p.links.map((l) => (
+                  <ArrowLink key={l.href} href={l.href}>
+                    {l.label}
+                  </ArrowLink>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* ── Circular manufacturing: waste back into production ── */}
+      <Section id="circular" eyebrow="Circular manufacturing" title="From silicone waste to *new possibilities*" className="scroll-mt-28">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center lg:gap-20">
           <div>
-            <p className="text-2xl leading-snug font-semibold tracking-[-0.02em] text-white sm:text-3xl">
-              {certificationClaim.statement}
-              <Fn n={2} />
+            <p className="max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+              {circular.body} {showPending && circular.pendingVision}
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-zinc-300">
-              Green silicone is silicone made without making more waste: certified recycled silicone that performs like new, so a cable, a seal or a
-              case can carry recycled content without giving anything up. Most silicone waste is sent to landfill. We break it down to its basic
-              building blocks and rebuild it into new silicone. Certified chain-of-custody records cover our recycled content from collected waste to
-              finished silicone, and any MoMixx silicone can be supplied with recycled content on request.
-            </p>
-            <CertMarks className="mt-10" />
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-              <ArrowLink href="/sustainability">Our certificates</ArrowLink>
-              <ArrowLink href="/recycled-silicone">Our recycling process</ArrowLink>
-              <ArrowLink href="/insights/what-is-green-silicone">What green silicone means</ArrowLink>
+            {showPending && (
+              <div className="mt-4">
+                <PendingTag label="Net zero wording awaiting approval" />
+              </div>
+            )}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/contact?topic=Recycling%20partnership" className="group btn-primary px-6 py-3 text-base">
+                Discuss a recycling partnership <Arrow />
+              </Link>
+              <Link href="/recycled-silicone" className="btn-ghost-dark px-6 py-3 text-base">
+                How we recycle
+              </Link>
             </div>
           </div>
-          <RecycleSteps />
+          <ol data-reveal="stagger" aria-label="The circular loop" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {loop.map((step, i) => {
+              const Icon = step.icon
+              return (
+                <li key={step.title} className="card flex items-center gap-4 p-5">
+                  <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-gold-400/35 bg-gold-100/60 text-gold-700">
+                    <Icon className="size-5" strokeWidth={1.5} />
+                  </span>
+                  <span>
+                    <span className="block text-xs font-medium text-gold-600 tabular-nums">Step {i + 1}</span>
+                    <span className="block font-semibold tracking-[-0.02em] text-white">{step.title}</span>
+                  </span>
+                </li>
+              )
+            })}
+          </ol>
         </div>
       </Section>
 
+      {/* ── The platform: green silicone across the markets ── */}
+      <Section tone="muted" eyebrow="A platform for customer solutions" title="Lower-carbon materials. *Wider applications.*" intro={platform.intro}>
+        <ul data-reveal="stagger" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {applications.map((a) => (
+            <li key={a.slug}>
+              <Link href={`/applications/${a.slug}`} className="group card lift flex h-full items-center justify-between gap-4 p-5">
+                <span className="font-semibold tracking-[-0.02em] text-white">{a.name}</span>
+                <Arrow />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
       {/* ── Three businesses ── */}
-      <Section tone="muted" title="Materials, machines and *manufacturing.*" intro="Three complementary businesses: we develop the silicone, build the machinery that processes it, and manufacture finished components.">
+      <Section title="Materials, machines and *manufacturing.*" intro="Three complementary businesses: we develop the silicone, build the machinery that processes it, and manufacture finished components.">
         <ul data-reveal="stagger" className="grid gap-5 lg:grid-cols-3">
           {businesses.map((b) => (
             <li key={b.href}>
@@ -202,7 +318,21 @@ export default function HomePage() {
       {/* ── MoMixx Extruder: interactive 3D ── */}
       <ExtruderSection links />
 
-      <CtaBand />
+      {/* ── Social responsibility (awaiting real examples from HQ) ── */}
+      {showPending && social.pending && (
+        <Section eyebrow="Social responsibility" title="Responsibility begins with *our people*">
+          <PendingTag />
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 sm:text-xl">{social.body}</p>
+          <ArrowLink href="/culture" className="mt-8">
+            Culture and careers
+          </ArrowLink>
+        </Section>
+      )}
+
+      <CtaBand
+        title="Build your next solution on a *greener foundation*"
+        body="Whether you need an advanced silicone material, an application-specific solution or a recycling partnership, let’s explore what we can achieve together."
+      />
       <Footnotes notes={notes} />
     </>
   )

@@ -2,7 +2,7 @@ import { LinkCard } from '@/components/LinkCard'
 import { RegionMap } from '@/components/RegionMap'
 import type { ModelName } from '@/components/three/modelNames'
 import { ArrowLink, PageHeader, Section } from '@/components/ui'
-import { pageMetadata, site } from '@/lib/site'
+import { pageMetadata, site, showPending } from '@/lib/site'
 import { ContactForm } from './ContactForm'
 
 export const metadata = pageMetadata({
@@ -24,7 +24,7 @@ export default function ContactPage() {
       <PageHeader crumbs={[{ href: '/contact', label: 'Contact' }]} eyebrow="Contact" title="Contact *MoMixx*" intro="Describe your product or project and the appropriate member of our team will respond." />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr]">
-          <ContactForm formId={site.formspreeId} email={site.email} />
+          <ContactForm formId={site.formspreeId} email={site.email} showVisits={showPending} />
           <div className="space-y-8">
             <div className="card overflow-hidden p-3">
               <RegionMap />
