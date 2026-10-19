@@ -278,8 +278,7 @@ export function BigStats({ stats }: { stats: Array<{ value: string; label: React
         <li key={s.value} className="card flex flex-col justify-between p-7 sm:p-8">
           <p
             data-countup
-            className="accent-figure font-display text-[clamp(3.25rem,5.5vw,6rem)] leading-[0.9] font-semibold tracking-[-0.05em] tabular-nums"
-            style={{ animationDelay: `${i * 0.35}s` }}
+            className="font-display text-[clamp(3.25rem,5.5vw,6rem)] text-white leading-[0.9] font-semibold tracking-[-0.05em] tabular-nums"
           >
             {s.value}
           </p>
@@ -295,7 +294,7 @@ export type FeatureItem = { title: string; body: string; icon?: LucideIcon }
 /** The "01" index, with an optional line icon in a fixed tile so the row does not shift after paint. */
 /** A feature's icon. Steps that really are a sequence also show their number (`numbered`). */
 export function FeatureMark({ icon: Icon, index, numbered = false }: { icon?: LucideIcon; index: number; numbered?: boolean }) {
-  const number = numbered ? <span className="text-xs font-medium text-gold-600 tabular-nums">{String(index + 1).padStart(2, '0')}</span> : null
+  const number = numbered ? <span className="text-xs font-medium text-zinc-500 tabular-nums">{String(index + 1).padStart(2, '0')}</span> : null
   if (!Icon) return number
   return (
     <div className="flex items-center gap-3">

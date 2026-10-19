@@ -22,7 +22,7 @@ function gradeRows(codes: string[]) {
 }
 
 function HoldingTag() {
-  return <span className="ml-3 inline-flex translate-y-[-0.2em] items-center rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 align-middle text-xs font-medium tracking-normal text-gold-700">Details to follow</span>
+  return <span className="ml-3 inline-flex translate-y-[-0.2em] items-center rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 align-middle text-xs font-medium tracking-normal text-zinc-400">Details to follow</span>
 }
 
 function TopicBlock({ s }: { s: TopicSection }) {
@@ -44,7 +44,7 @@ function TopicBlock({ s }: { s: TopicSection }) {
           <ul className="mt-6 max-w-2xl space-y-3 text-zinc-300">
             {s.points.map((pt) => (
               <li key={pt} className="flex gap-3">
-                <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+                <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
                 {pt}
               </li>
             ))}
@@ -126,11 +126,11 @@ export function TopicPage({ path }: { path: string }) {
         <div className="grid gap-12 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-20">
           <nav aria-label="On this page" className="hidden lg:block">
             <div className="sticky top-28">
-              <p className="text-sm font-medium text-gold-600">On this page</p>
+              <p className="text-sm font-medium text-zinc-500">On this page</p>
               <ol className="mt-4 space-y-2.5 border-l border-white/10 text-sm">
                 {t.sections.map((s) => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="-ml-px block border-l border-transparent pl-4 text-zinc-400 transition-colors hover:border-gold-500 hover:text-white">
+                    <a href={`#${s.id}`} className="-ml-px block border-l border-transparent pl-4 text-zinc-400 transition-colors hover:border-brand-500 hover:text-white">
                       {s.title}
                     </a>
                   </li>

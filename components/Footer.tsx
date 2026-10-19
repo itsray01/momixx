@@ -62,7 +62,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="text-xs font-medium tracking-[0.18em] text-gold-600 uppercase">{col.title}</h2>
+              <h2 className="text-xs font-medium tracking-[0.18em] text-zinc-500 uppercase">{col.title}</h2>
               <ul className="mt-4 space-y-1 text-sm">
                 {col.links.map((l) => (
                   <li key={l.href}>

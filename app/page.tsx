@@ -148,7 +148,7 @@ export default function HomePage() {
 
           <div data-scroll-hint aria-hidden="true" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.3em] text-zinc-500 uppercase transition-opacity duration-300 lg:flex">
             Scroll
-            <span className="h-10 w-px bg-gradient-to-b from-gold-400 to-transparent" />
+            <span className="h-10 w-px bg-gradient-to-b from-zinc-700 to-transparent" />
           </div>
         </section>
       </div>
@@ -264,11 +264,11 @@ export default function HomePage() {
               const Icon = step.icon
               return (
                 <li key={step.title} className="card flex items-center gap-4 p-5">
-                  <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-gold-400/35 bg-gold-100/60 text-gold-700">
+                  <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-brand-400/35 bg-brand-50 text-brand-300">
                     <Icon className="size-5" strokeWidth={1.5} />
                   </span>
                   <span>
-                    <span className="block text-xs font-medium text-gold-600 tabular-nums">Step {i + 1}</span>
+                    <span className="block text-xs font-medium text-zinc-500 tabular-nums">Step {i + 1}</span>
                     <span className="block font-semibold tracking-[-0.02em] text-white">{step.title}</span>
                   </span>
                 </li>

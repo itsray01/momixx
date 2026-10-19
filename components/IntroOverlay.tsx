@@ -77,7 +77,7 @@ export function IntroOverlay() {
         </div>
         <p className="intro-tagline mt-7 max-w-md text-base leading-relaxed text-zinc-400 sm:text-lg">{site.tagline}</p>
         <div className="mt-10 h-px w-56 overflow-hidden rounded-full bg-white/10">
-          <div className="intro-bar h-full w-full origin-left bg-gold-400" />
+          <div className="intro-bar h-full w-full origin-left bg-brand-500" />
         </div>
       </div>
     </div>

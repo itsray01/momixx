@@ -162,7 +162,7 @@ export default function RecycledSiliconePage() {
 
       <Section id="next" eyebrow="Next big thing" title="What comes *next*" className="scroll-mt-32">
         <div className="max-w-2xl">
-          <span className="inline-flex rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">Details to follow</span>
+          <span className="inline-flex rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-xs font-medium text-zinc-400">Details to follow</span>
           <p className="mt-5 text-lg leading-relaxed text-zinc-300">What comes next for our recycling work will be shared here.</p>
           <ArrowLink href="/carbon-footprint" className="mt-6">
             Our carbon footprint

@@ -86,7 +86,7 @@ export default async function ApplicationPage({ params }: Props) {
                   <li key={f.id} id={f.id} className="scroll-mt-32 border-t border-white/15 pt-6">
                     <h3 className="text-xl font-semibold tracking-[-0.02em] sm:text-2xl">{f.title}</h3>
                     {f.holding && (
-                      <span className="mt-3 inline-flex rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">Details to follow</span>
+                      <span className="mt-3 inline-flex rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-xs font-medium text-zinc-400">Details to follow</span>
                     )}
                     <p className="mt-3 text-base leading-relaxed text-zinc-400 sm:text-[1.0625rem]">{f.body}</p>
                     {(items.length > 0 || f.links) && (

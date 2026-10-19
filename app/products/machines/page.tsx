@@ -32,7 +32,7 @@ export default function MachinesPage() {
               <li key={t.id} id={t.id} className="scroll-mt-32 border-t border-white/15 pt-6">
                 <h3 className="flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-[-0.03em]">
                   {t.title}
-                  <span className="rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium tracking-normal text-gold-700">Details to follow</span>
+                  <span className="rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-xs font-medium tracking-normal text-zinc-400">Details to follow</span>
                 </h3>
                 <p className="mt-3 text-lg leading-relaxed text-zinc-400">{t.body}</p>
               </li>

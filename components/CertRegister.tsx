@@ -20,9 +20,9 @@ export function CertRegister({ certs }: { certs: Certification[] }) {
         if (rows.length === 0) return null
         return (
           <section key={g.id} aria-labelledby={`register-${g.id}`} className="mt-12 first:mt-0">
-            <h3 id={`register-${g.id}`} className="flex items-center gap-4 text-sm font-medium text-gold-600">
+            <h3 id={`register-${g.id}`} className="flex items-center gap-4 text-sm font-medium text-zinc-500">
               {g.label}
-              <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-gold-400/60 to-transparent" />
+              <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-700 to-transparent" />
             </h3>
             <ul className="mt-2">
               {rows.map((c) => (

@@ -246,8 +246,8 @@ export function HeroCallouts() {
             const item = copy[id]
             return (
               <div key={id} data-spec={id} data-state="hidden" className="w-max max-w-full">
-                <p style={rise(0)} className="flex items-center gap-3 text-sm font-medium text-gold-600 min-[1800px]:text-base">
-                  <span className="h-px w-6 bg-gold-400" />
+                <p style={rise(0)} className="flex items-center gap-3 text-sm font-medium text-zinc-500 min-[1800px]:text-base">
+                  <span className="h-px w-6 bg-zinc-600" />
                   {item.index}
                 </p>
                 {item.prefix && (

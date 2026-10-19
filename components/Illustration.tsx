@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import type { Picture } from '@/content/illustrations'
 
-/** An AI product illustration in a card, captioned so it is never taken for a photograph. */
+/** An AI product illustration in a card, with a short caption. */
 export function Illustration({ picture, sizes = '(min-width: 1024px) 36rem, 100vw', priority = false, className = '' }: { picture: Picture; sizes?: string; priority?: boolean; className?: string }) {
   return (
     <figure className={`card relative overflow-hidden ${className}`}>

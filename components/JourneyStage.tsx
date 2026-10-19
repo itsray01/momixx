@@ -99,7 +99,7 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
               <div>
                 <p className="text-sm text-zinc-500">
                   Step {i + 1} of {n}
-                  {s.momixx && <span className="text-gold-600">, by MoMixx</span>}
+                  {s.momixx && <span className="text-brand-300">, by MoMixx</span>}
                 </p>
                 <h3 className="mt-1 text-2xl font-semibold tracking-[-0.03em]">{s.title}</h3>
                 <p className="mt-2 max-w-xl leading-relaxed text-zinc-400">{s.body}</p>
@@ -127,7 +127,7 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
               <p className="mt-3 max-w-lg text-base leading-relaxed text-zinc-500 [@media(max-height:50rem)]:hidden">{intro}</p>
             </div>
             <p className="shrink-0 font-display text-base text-zinc-500 tabular-nums">
-              <span className="text-gold-600">{String(step + 1).padStart(2, '0')}</span> / {String(n).padStart(2, '0')}
+              <span className="text-white">{String(step + 1).padStart(2, '0')}</span> / {String(n).padStart(2, '0')}
             </p>
           </div>
 
@@ -138,7 +138,7 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
                 <div key={s.title} data-on={i === step || undefined} className="journey-text [grid-area:1/1]">
                   <p className="text-sm text-zinc-500">
                     Step {i + 1} of {n}
-                    {s.momixx && <span className="text-gold-600">, by MoMixx</span>}
+                    {s.momixx && <span className="text-brand-300">, by MoMixx</span>}
                   </p>
                   <p className="display-lg mt-3 text-white">{s.title}</p>
                   <p className="mt-5 max-w-md text-lg leading-relaxed text-zinc-300">{s.body}</p>
@@ -166,10 +166,10 @@ export function JourneyStage({ steps, label, title, intro, tone = 'dark' }: { st
                 {runs.map(([a, b]) => (
                   <div
                     key={a}
-                    className="absolute bottom-1 h-2.5 border-x border-t border-gold-400/70"
+                    className="absolute bottom-1 h-2.5 border-x border-t border-brand-400/70"
                     style={{ left: `calc(${at(a, n)}% - 1.25rem)`, width: `calc(${at(b, n) - at(a, n)}% + 2.5rem)` }}
                   >
-                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 -translate-y-full bg-transparent px-2 text-xs whitespace-nowrap text-gold-600">MoMixx</span>
+                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 -translate-y-full bg-transparent px-2 text-xs whitespace-nowrap text-brand-300">MoMixx</span>
                   </div>
                 ))}
               </div>

@@ -63,7 +63,7 @@ export default function LeadershipPage() {
           <div className="max-w-xl">
             <p className="eyebrow">{lead.role}</p>
             <h2 className="display-md mt-5 text-white">{displayName(lead)}</h2>
-            <span aria-hidden="true" className="mt-8 block h-px w-24 bg-gradient-to-r from-gold-400/70 to-transparent" />
+            <span aria-hidden="true" className="mt-8 block h-px w-24 bg-gradient-to-r from-zinc-700 to-transparent" />
             <p className="mt-8 text-lg leading-relaxed text-zinc-300 sm:text-xl">
               {lead.bio ?? `${displayName(lead)} leads MoMixx as ${lead.role}.`}
             </p>
@@ -82,7 +82,7 @@ export default function LeadershipPage() {
               <li key={m.name} className="flex flex-col">
                 <Portrait m={m} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw" />
                 <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em]">{displayName(m)}</h3>
-                <p className="mt-1 text-sm font-medium text-gold-600">{m.role}</p>
+                <p className="mt-1 text-sm font-medium text-zinc-500">{m.role}</p>
                 {m.bio && <p className="mt-3 text-sm leading-relaxed text-zinc-400">{m.bio}</p>}
                 {m.linkedin && (
                   <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm font-medium text-brand-300 hover:text-brand-200">

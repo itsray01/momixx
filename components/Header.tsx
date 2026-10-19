@@ -97,7 +97,7 @@ function Sheet({ menu, pathname, open }: { menu: Menu; pathname: string; open: b
       </div>
       {shown && (
         <Link href={shown.href} className={`card group/feature flex-col self-start p-7 ${columns.length >= 3 ? 'hidden xl:flex' : 'flex'}`} tabIndex={-1}>
-          {shown.eyebrow && <span className="text-sm font-medium text-gold-600">{shown.eyebrow}</span>}
+          {shown.eyebrow && <span className="text-sm font-medium text-zinc-500">{shown.eyebrow}</span>}
           <span className="mt-2 text-lg font-semibold tracking-[-0.02em] text-white">{shown.title}</span>
           {shown.body && <span className="mt-2 line-clamp-3 text-sm leading-relaxed text-zinc-400">{shown.body}</span>}
           <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-brand-300 group-hover/feature:text-brand-200">
@@ -313,7 +313,7 @@ export function Header({ menus }: { menus: Menu[] }) {
                         {/* A small dot under the section you are in. */}
                         <span
                           aria-hidden="true"
-                          className={`absolute bottom-3.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-gold-400 transition-opacity duration-300 ${current ? 'opacity-100' : 'opacity-0'}`}
+                          className={`absolute bottom-3.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-brand-500 transition-opacity duration-300 ${current ? 'opacity-100' : 'opacity-0'}`}
                         />
                       </Link>
                       {menu.columns && (

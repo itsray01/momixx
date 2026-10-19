@@ -82,13 +82,13 @@ export default function SustainabilityPage() {
         <ul data-reveal="stagger" className="grid gap-x-10 md:grid-cols-3">
           {factories.map((f) => (
             <li key={f.id} className="border-t border-white/15 py-7">
-              <p className="text-sm font-medium text-gold-600">{f.role}</p>
+              <p className="text-sm font-medium text-zinc-500">{f.role}</p>
               <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em]">{f.name}</h3>
               <p className="mt-1.5 text-sm text-zinc-400">{f.company}</p>
               {f.certified.length > 0 ? (
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {f.certified.map((c) => (
-                    <li key={c} className="rounded-full border border-gold-400/45 bg-gold-100 px-2.5 py-0.5 text-xs font-medium text-gold-700">
+                    <li key={c} className="rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
                       {c}
                     </li>
                   ))}
