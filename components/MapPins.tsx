@@ -30,10 +30,10 @@ export function MapPins({ pins }: { pins: MapPin[] }) {
               style={{ left: `${p.left}%`, top: `${p.top}%`, translate: p.labelLeft ? 'calc(-100% + 9px) -50%' : '-9px -50%' }}
             >
               <span aria-hidden="true" className="relative flex size-[18px] shrink-0 items-center justify-center">
-                <span className="absolute inset-0 rounded-full bg-[#168447]/25 motion-safe:animate-ping" />
-                <span className="size-3.5 rounded-full border-[2.5px] border-[#fdfdfb] bg-[#168447] shadow-[0_2px_8px_rgb(15_69_40/0.45)] transition-transform duration-200 group-hover:scale-110" />
+                <span className="absolute inset-0 rounded-full bg-[#121412]/15 motion-safe:animate-ping" />
+                <span className="size-3.5 rounded-full border-[2.5px] border-[#fdfdfb] bg-[#121412] shadow-[0_2px_8px_rgb(18_20_18/0.4)] transition-transform duration-200 group-hover:scale-110" />
               </span>
-              <span className="rounded-full border border-[#dfe6e0] bg-[#fdfdfb]/95 px-3 py-1 text-xs font-semibold whitespace-nowrap text-[#121412] shadow-[0_4px_14px_-6px_rgb(15_69_40/0.35)] backdrop-blur transition-colors group-hover:border-[#168447]/40 group-focus-visible:ring-2 group-focus-visible:ring-[#22a35b] sm:text-sm">
+              <span className="rounded-full border border-[#dfe6e0] bg-[#fdfdfb]/95 px-3 py-1 text-xs font-semibold whitespace-nowrap text-[#121412] shadow-[0_4px_14px_-6px_rgb(15_69_40/0.35)] backdrop-blur transition-colors group-hover:border-[#121412]/30 group-focus-visible:ring-2 group-focus-visible:ring-[#22a35b] sm:text-sm">
                 {p.name.split(',')[0]}
               </span>
             </button>
