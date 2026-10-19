@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArticleCard } from '@/components/ArticleCard'
 import { JsonLd } from '@/components/JsonLd'
 import { BackgroundLoop } from '@/components/BackgroundLoop'
-import { Breadcrumbs, CtaBand, FaqList, GridBackdrop, HeaderGlow, Section } from '@/components/ui'
+import { Breadcrumbs, FaqList, GridBackdrop, HeaderGlow, Section } from '@/components/ui'
 import { loopFor } from '@/content/loops'
 import { formatDate, getArticle, getArticles, relatedArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata, site } from '@/lib/site'
@@ -165,7 +165,6 @@ export default async function ArticlePage({ params }: Props) {
         </Section>
       )}
 
-      <CtaBand title="Further *information*" body="Our engineers can advise on materials, testing and recycled content." secondary={{ href: '/insights', label: 'More insights' }} />
 
       <JsonLd
         data={{

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { CtaBand, PageHeader, Section } from '@/components/ui'
+import { PageHeader, Section } from '@/components/ui'
 import { JsonLd } from '@/components/JsonLd'
 import { displayName, team, teamReady, type TeamMember } from '@/content/team'
 import { absoluteUrl, pageMetadata } from '@/lib/site'
@@ -105,7 +105,6 @@ export default function LeadershipPage() {
         )}
       </Section>
 
-      <CtaBand />
       <JsonLd
         data={team.map((m) => ({
           '@context': 'https://schema.org',

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { Arrow, CtaBand, PageHeader, Section } from '@/components/ui'
+import { Arrow, PageHeader, Section } from '@/components/ui'
 import { pageMetadata, site } from '@/lib/site'
 
 export const metadata = pageMetadata({
@@ -145,7 +145,6 @@ export default function CulturePage() {
         </div>
       </Section>
 
-      <CtaBand title="Join *MoMixx*" body="Whether you are a customer, a partner or a prospective colleague, we would like to hear from you." />
     </>
   )
 }

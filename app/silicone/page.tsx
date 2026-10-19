@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { JourneyScroll, SiliconVsSilicone } from '@/components/infographics'
 import { TemperatureRange } from '@/components/TemperatureRange'
-import { Arrow, CtaBand, FaqList, PageHeader, Section } from '@/components/ui'
+import { Arrow, FaqList, PageHeader, Section } from '@/components/ui'
 import { applications } from '@/content/applications'
 import { siliconeFaqs } from '@/content/faqs'
 import { pageMetadata } from '@/lib/site'
@@ -77,7 +77,6 @@ export default function SiliconePage() {
         <FaqList faqs={siliconeFaqs} />
       </Section>
 
-      <CtaBand title="Silicone for your *application*" body="Describe the conditions your product must withstand: heat, flexing, fire, water or the human body. Our team will recommend a grade or develop one." />
     </>
   )
 }

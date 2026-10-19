@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/JsonLd'
-import { CtaBand, PageHeader, Section } from '@/components/ui'
+import { PageHeader, Section } from '@/components/ui'
 import { glossary, glossaryId } from '@/content/glossary'
 import { absoluteUrl, pageMetadata } from '@/lib/site'
 import { TopicNav } from '../TopicNav'
@@ -68,7 +68,6 @@ export default function GlossaryPage() {
           })}
         </dl>
       </Section>
-      <CtaBand title="Additional *terms*" body="Our technical team can explain any term in plain English." secondary={{ href: '/insights', label: 'Read our insights' }} />
       <JsonLd
         data={{
           '@context': 'https://schema.org',
