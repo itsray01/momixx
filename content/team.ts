@@ -25,8 +25,9 @@ export const team: TeamMember[] = [
     honorific: 'Dr',
     name: 'Cheah Li Kang',
     role: 'Chief Executive Officer',
-    // The only photo supplied: cropped to 4:5 above the name printed on it, then enlarged
-    // (Lanczos, light sharpening; no AI, so his features are unchanged).
+    // The only photo supplied: cropped to 4:5 above the name printed on it, then enlarged 4x
+    // (1652 x 2064). Edges come from a Real-ESRGAN upscale; skin tone, colour and texture
+    // from the plain enlargement, so his features are unchanged. No face-restore model.
     photo: '/images/team/cheah-li-kang.webp',
     draftBios: [
       {
