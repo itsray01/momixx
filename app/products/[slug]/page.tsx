@@ -187,7 +187,7 @@ export default async function ProductPage({ params }: Props) {
                     <tbody className="divide-y divide-white/[0.06]">
                       {p.models.map((m) => (
                         <tr key={m.model}>
-                          <th scope="row" className="px-6 py-4 font-mono font-medium text-white">{m.model}</th>
+                          <th scope="row" className="px-6 py-4 tabular-nums font-medium text-white">{m.model}</th>
                           <td className="px-6 py-4">
                             <span title={`${m.type}: ${types[m.type]?.help ?? ''}`} className="rounded-full border border-brand-400/30 bg-brand-400/10 px-2.5 py-0.5 text-xs font-medium text-brand-200">
                               {types[m.type]?.name ?? m.type}

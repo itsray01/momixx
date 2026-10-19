@@ -265,7 +265,7 @@ export function CableStory({ productLink = true, onFail }: { productLink?: boole
               <div className="flex gap-4">
                 <span
                   ref={(el) => void (badges.current[i] = el)}
-                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-xs font-semibold transition-colors duration-300 ${
+                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border tabular-nums text-xs font-semibold transition-colors duration-300 ${
                     lit(i) ? 'border-white bg-white text-ink-950' : 'border-white/30 text-zinc-100'
                   }`}
                 >

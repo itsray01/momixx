@@ -102,7 +102,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     aria-label={`${i + 1}. ${p.name}`}
                     aria-pressed={selected === i}
                     style={{ left: `${p.photo.x}%`, top: `${p.photo.y}%`, scale: spot ? 1 / zoom : 1 }}
-                    className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
+                    className={`absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border tabular-nums text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow,scale] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
                     {selected === null && <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full border border-brand-300/40 [animation-duration:2.4s]" />}
                     {i + 1}
@@ -139,7 +139,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                     aria-label={`${i + 1}. ${p.name}`}
                     aria-pressed={selected === i}
                     style={{ visibility: 'hidden' }}
-                    className={`absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow] duration-300 ${markerClass(selected, hovered, i)}`}
+                    className={`absolute top-0 left-0 flex h-8 w-8 items-center justify-center rounded-full border tabular-nums text-xs font-semibold backdrop-blur transition-[background-color,border-color,color,opacity,box-shadow] duration-300 ${markerClass(selected, hovered, i)}`}
                   >
                     {selected === null && <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full border border-brand-300/40 [animation-duration:2.4s]" />}
                     {i + 1}
@@ -178,7 +178,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
         <aside className="card flex flex-col p-6 sm:p-7" aria-label="Machine parts">
           {part && selected !== null ? (
             <div key={part.id} className="flex flex-1 flex-col motion-safe:animate-[fade-in_0.4s_ease-out]">
-              <p className="font-mono text-xs text-zinc-500">
+              <p className="tabular-nums text-xs text-zinc-500">
                 {pad(selected)} / {pad(n - 1)}
               </p>
               <h3 ref={cardHeading} tabIndex={-1} aria-live="polite" className="mt-3 text-2xl font-semibold tracking-[-0.03em] focus:outline-none">
@@ -227,7 +227,7 @@ export function ExtruderExplorer({ specs, photo }: { specs: Spec[]; photo: { src
                       className={`flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors ${focus === i ? 'bg-white/[0.06]' : 'hover:bg-white/[0.04]'}`}
                     >
                       <span
-                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-xs transition-colors ${
+                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border tabular-nums text-xs transition-colors ${
                           focus === i ? 'border-brand-300 bg-brand-300 text-ink-950' : 'border-white/15 text-zinc-300'
                         }`}
                       >

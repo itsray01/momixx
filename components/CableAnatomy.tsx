@@ -120,7 +120,7 @@ function StaticAnatomy({ productLink = true }: { productLink?: boolean }) {
   const dim = (id: string) => active !== null && active !== id
   // A numbered disc on phones; a small point on wide screens, where the label carries the number.
   const marker = (id: string, momixx?: boolean) =>
-    `flex h-6 w-6 items-center justify-center rounded-full border font-mono text-xs font-semibold backdrop-blur transition-[background-color,border-color,opacity,scale] duration-300 lg:h-2.5 lg:w-2.5 lg:border-2 lg:border-ink-950/70 lg:bg-white lg:text-[0px] lg:backdrop-blur-none ${
+    `flex h-6 w-6 items-center justify-center rounded-full border tabular-nums text-xs font-semibold backdrop-blur transition-[background-color,border-color,opacity,scale] duration-300 lg:h-2.5 lg:w-2.5 lg:border-2 lg:border-ink-950/70 lg:bg-white lg:text-[0px] lg:backdrop-blur-none ${
       active === id ? 'border-white bg-white text-ink-950 lg:scale-150' : momixx ? 'border-white/80 bg-white/90 text-ink-950' : 'border-white/40 bg-ink-950/70 text-zinc-100'
     } ${dim(id) ? 'opacity-40' : ''}`
   const pick = (id: string) => ({
@@ -234,7 +234,7 @@ function StaticAnatomy({ productLink = true }: { productLink?: boolean }) {
             >
               <span
                 ref={(el) => void (badges.current[i] = el)}
-                className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-xs font-semibold transition-colors ${
+                className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border tabular-nums text-xs font-semibold transition-colors ${
                   active === l.id || l.momixx ? 'border-white bg-white text-ink-950' : 'border-white/30 text-zinc-100'
                 }`}
               >

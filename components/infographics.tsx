@@ -21,7 +21,7 @@ export function RecycleSteps({ compact = false }: { compact?: boolean }) {
     <ol data-reveal="stagger" className="relative space-y-0">
       {recycleSteps.map((s, i) => (
         <li key={s.title} className="group relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0">
-          <span className="font-mono text-sm text-zinc-500">0{i + 1}</span>
+          <span className="tabular-nums text-sm text-zinc-500">0{i + 1}</span>
           <div>
             <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
             {!compact && <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{s.body}</p>}
@@ -41,7 +41,7 @@ export function StepFlow({ steps }: { steps: Array<{ title: string; body: string
       {steps.map((s, i) => (
         <li key={s.title} className="relative grid grid-cols-[3rem_1fr] gap-4 border-t border-white/[0.08] py-5 first:border-t-0 lg:block lg:border-white/15 lg:py-0 lg:pt-6 lg:first:border-t">
           <span aria-hidden="true" className="absolute -top-[3px] left-0 hidden h-1.5 w-1.5 rounded-full bg-brand-300 lg:block" />
-          <span className="font-mono text-sm text-zinc-500">0{i + 1}</span>
+          <span className="tabular-nums text-sm text-zinc-500">0{i + 1}</span>
           <div className="lg:mt-4">
             <h3 className="text-lg font-medium tracking-[-0.02em] text-white">{s.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">{s.body}</p>

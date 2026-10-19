@@ -107,7 +107,7 @@ export default function CulturePage() {
                 >
                   {v.icon}
                 </svg>
-                <span className="font-mono text-xs text-zinc-500">0{i + 1}</span>
+                <span className="tabular-nums text-xs text-zinc-500">0{i + 1}</span>
               </div>
               <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em]">{v.title}</h3>
               <p className="mt-3 leading-relaxed text-zinc-400">{v.body}</p>
