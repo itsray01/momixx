@@ -1,7 +1,9 @@
 'use client'
 
+import { Button, Field, Input, NativeSelect, SimpleGrid, Stack, Text, Textarea } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { ChakraScope } from '@/components/chakra/ChakraScope'
 
 // Enquiries are delivered by Formspree (formspree.io) to the company inbox.
 // The form's ID is set in lib/site.ts → formspreeId.
@@ -64,31 +66,26 @@ export function ContactForm({ formId, email, showVisits = false }: { formId: str
     }
   }
 
-  // Clear a field's message as soon as it is fixed.
+  // Once a field has a message, keep it current as the visitor types, and clear it when the field is fixed.
   function onInput(e: React.FormEvent<HTMLFormElement>) {
     const el = e.target as HTMLInputElement
     const name = el.name as Field
-    if (errors[name] && el.validity.valid) setErrors((prev) => ({ ...prev, [name]: undefined }))
+    if (!errors[name]) return
+    const now = el.validity.valid ? undefined : el.validity.valueMissing ? messages[name].missing : (messages[name].invalid ?? messages[name].missing)
+    if (now !== errors[name]) setErrors((prev) => ({ ...prev, [name]: now }))
   }
 
-  const input = (bad?: string) =>
-    `mt-2 block w-full rounded-xl border bg-white/[0.03] px-4 py-3 text-base text-white placeholder:text-zinc-500 transition-[border-color,box-shadow,background-color] duration-200 hover:border-white/25 focus:bg-white/[0.05] focus:outline-none focus:ring-4 ${
-      bad ? 'border-red-400/70 focus:border-red-300 focus:ring-red-400/15' : 'border-white/12 focus:border-white/50 focus:ring-white/[0.07]'
-    }`
-  const label = 'block text-sm font-medium text-zinc-200'
-  const required = (
-    <span className="text-brand-300" aria-hidden="true">
-      {' '}
-      *
-    </span>
-  )
-  const error = (name: Field) =>
-    errors[name] ? (
-      <span id={`${name}-error`} className="mt-2 block text-sm font-normal text-red-300 motion-safe:animate-[fade-in_0.25s_ease]">
-        {errors[name]}
-      </span>
-    ) : null
-  const described = (name: Field) => (errors[name] ? { 'aria-invalid': true, 'aria-describedby': `${name}-error` } : {})
+  // Fields with a message show it under the field; Chakra links the message to the input for screen readers.
+  const field = (name: Field) => ({ invalid: Boolean(errors[name]) })
+  const inputStyle = {
+    size: 'lg',
+    rounded: 'xl',
+    bg: 'white',
+    borderColor: 'gray.300',
+    _hover: { borderColor: 'gray.400' },
+    _invalid: { borderColor: 'border.error', focusRingColor: 'border.error' },
+  } as const
+  const errorText = (name: Field) => <Field.ErrorText>{errors[name]}</Field.ErrorText>
 
   if (status === 'sent') {
     return (
@@ -108,83 +105,101 @@ export function ContactForm({ formId, email, showVisits = false }: { formId: str
   }
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} onInput={onInput} noValidate className="card space-y-6 self-start p-6 sm:p-9">
-      <p className="text-sm text-zinc-400">
-        Fields marked <span className="text-brand-300">*</span> are required.
-      </p>
-      <div className="grid gap-6 sm:grid-cols-2">
-        <label className={label}>
-          Name{required}
-          <input name="name" required autoComplete="name" className={input(errors.name)} {...described('name')} />
-          {error('name')}
-        </label>
-        <label className={label}>
-          Company
-          <input name="company" autoComplete="organization" className={input()} />
-        </label>
-        <label className={label}>
-          Email{required}
-          <input name="email" type="email" required autoComplete="email" className={input(errors.email)} {...described('email')} />
-          {error('email')}
-        </label>
-        <label className={label}>
-          Contact number
-          <input name="phone" type="tel" autoComplete="tel" className={input()} />
-        </label>
-      </div>
-      <label className={label}>
-        I’m interested in
-        <span className="relative mt-2 block">
-          <select ref={topicRef} name="topic" className={`${input()} mt-0 cursor-pointer appearance-none pr-11`} defaultValue="Silicone materials">
-            <option>Silicone materials</option>
-            <option>Recycled silicone</option>
-            <option>Recycling partnership</option>
-            {showVisits && <option>Factory visit</option>}
-            <option>Cable machines</option>
-            <option>Contract manufacturing</option>
-            <option>Medical or precision parts</option>
-            <option>Investor relations</option>
-            <option>Something else</option>
-          </select>
-          <svg viewBox="0 0 12 12" aria-hidden="true" className="pointer-events-none absolute top-1/2 right-4 size-3 -translate-y-1/2 text-zinc-400">
-            <path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-      </label>
-      <label className={label}>
-        Message{required}
-        <textarea name="message" required rows={5} className={`${input(errors.message)} resize-y`} {...described('message')} />
-        {error('message')}
-      </label>
-      {/* Spam trap: hidden from people, filled in by bots, and rejected by Formspree. */}
-      <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-      <button type="submit" disabled={status === 'sending'} className="btn-primary w-full py-3 text-base disabled:opacity-70 sm:w-auto sm:px-8">
-        {status === 'sending' && (
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4 animate-spin">
-            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
-            <path d="M21 12a9 9 0 0 0-9-9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-        )}
-        {status === 'sending' ? 'Sending…' : 'Send enquiry'}
-      </button>
-      <div aria-live="polite" className="space-y-2 text-xs text-zinc-400">
-        {status === 'error' && (
-          <p className="text-sm text-red-300">
-            Sorry, your enquiry could not be sent. Please try again, or email us at{' '}
-            <a href={`mailto:${email}`} className="underline">
-              {email}
-            </a>
-            .
-          </p>
-        )}
-        <p>
-          We use your details only to reply to your enquiry. See our{' '}
-          <Link href="/privacy" className="underline decoration-white/20 underline-offset-2 hover:text-white">
-            privacy notice
-          </Link>
-          .
-        </p>
-      </div>
-    </form>
+    <ChakraScope>
+      <form ref={formRef} onSubmit={onSubmit} onInput={onInput} noValidate className="card self-start p-6 sm:p-9">
+        <Stack gap="6" colorPalette="brand">
+          <Text fontSize="sm" color="fg.muted">
+            Fields marked{' '}
+            <Text as="span" color="brand.fg">
+              *
+            </Text>{' '}
+            are required.
+          </Text>
+          <SimpleGrid columns={{ base: 1, sm: 2 }} gap="6">
+            <Field.Root required {...field('name')}>
+              <Field.Label>
+                Name <Field.RequiredIndicator color="brand.fg" />
+              </Field.Label>
+              <Input name="name" autoComplete="name" {...inputStyle} />
+              {errorText('name')}
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Company</Field.Label>
+              <Input name="company" autoComplete="organization" {...inputStyle} />
+            </Field.Root>
+            <Field.Root required {...field('email')}>
+              <Field.Label>
+                Email <Field.RequiredIndicator color="brand.fg" />
+              </Field.Label>
+              <Input name="email" type="email" autoComplete="email" {...inputStyle} />
+              {errorText('email')}
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Contact number</Field.Label>
+              <Input name="phone" type="tel" autoComplete="tel" {...inputStyle} />
+            </Field.Root>
+          </SimpleGrid>
+          <Field.Root>
+            <Field.Label>I’m interested in</Field.Label>
+            <NativeSelect.Root size="lg">
+              <NativeSelect.Field ref={topicRef} name="topic" defaultValue="Silicone materials" cursor="pointer" {...inputStyle}>
+                <option>Silicone materials</option>
+                <option>Recycled silicone</option>
+                <option>Recycling partnership</option>
+                {showVisits && <option>Factory visit</option>}
+                <option>Cable machines</option>
+                <option>Contract manufacturing</option>
+                <option>Medical or precision parts</option>
+                <option>Investor relations</option>
+                <option>Something else</option>
+              </NativeSelect.Field>
+              <NativeSelect.Indicator />
+            </NativeSelect.Root>
+          </Field.Root>
+          <Field.Root required {...field('message')}>
+            <Field.Label>
+              Message <Field.RequiredIndicator color="brand.fg" />
+            </Field.Label>
+            <Textarea name="message" rows={5} resize="vertical" {...inputStyle} />
+            {errorText('message')}
+          </Field.Root>
+          {/* Spam trap: hidden from people, filled in by bots, and rejected by Formspree. */}
+          <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+          <div>
+            <Button
+              type="submit"
+              size="lg"
+              rounded="full"
+              px="8"
+              width={{ base: 'full', sm: 'auto' }}
+              loading={status === 'sending'}
+              loadingText="Sending…"
+              boxShadow="inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 2px rgb(15 69 40 / 0.25), 0 8px 18px -8px rgb(22 132 71 / 0.7)"
+              _hover={{ bg: 'brand.700', transform: 'translateY(-1px)' }}
+            >
+              Send enquiry
+            </Button>
+          </div>
+          <Stack aria-live="polite" gap="2" fontSize="xs" color="fg.muted">
+            {status === 'error' && (
+              <Text fontSize="sm" color="fg.error">
+                Sorry, your enquiry could not be sent. Please try again, or email us at{' '}
+                <a href={`mailto:${email}`} className="underline">
+                  {email}
+                </a>
+                .
+              </Text>
+            )}
+            <Text>
+              We use your details only to reply to your enquiry. See our{' '}
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-white">
+                privacy notice
+              </Link>
+              .
+            </Text>
+          </Stack>
+        </Stack>
+      </form>
+    </ChakraScope>
   )
 }
