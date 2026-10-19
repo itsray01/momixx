@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { CertCard } from '@/components/CertCard'
 import { COMPARE_STYLE } from '@/components/charts'
+import { Illustration } from '@/components/Illustration'
 import { RecycleFlow, recycleSteps } from '@/components/infographics'
 import { ArrowLink, CtaBand, FaqList, FeatureGrid, PageHeader, Section } from '@/components/ui'
 import { getApplication } from '@/content/applications'
 import { certifications, recyclingCertifications } from '@/content/company'
 import { recyclingFacts } from '@/content/markets'
+import { illustrations } from '@/content/illustrations'
 import { getProduct } from '@/content/products'
 import { pageMetadata } from '@/lib/site'
 
@@ -103,15 +105,18 @@ export default function RecycledSiliconePage() {
 
       <Section id="what-we-do" tone="muted" eyebrow="What we do" title="How we recycle silicone, *step by step*" className="scroll-mt-32" intro="Ground silicone is only a filler, and it weakens new material. We take it back to its basic building blocks, so the new silicone performs like new.">
         <RecycleFlow />
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
-          <div className="card p-7">
-            <h3 className="font-semibold">Factory scrap</h3>
-            <p className="mt-2 text-zinc-400">Offcuts and rejected parts collected from factories before the silicone ever reaches a shop.</p>
+        <div className="mt-12 grid gap-5 md:grid-cols-[1fr_minmax(0,22rem)] md:items-start">
+          <div className="grid gap-5">
+            <div className="card p-7">
+              <h3 className="font-semibold">Factory scrap</h3>
+              <p className="mt-2 text-zinc-400">Offcuts and rejected parts collected from factories before the silicone ever reaches a shop.</p>
+            </div>
+            <div className="card p-7">
+              <h3 className="font-semibold">Used products</h3>
+              <p className="mt-2 text-zinc-400">Silicone products that have been used and thrown away, given a second life.</p>
+            </div>
           </div>
-          <div className="card p-7">
-            <h3 className="font-semibold">Used products</h3>
-            <p className="mt-2 text-zinc-400">Silicone products that have been used and thrown away, given a second life.</p>
-          </div>
+          <Illustration picture={illustrations.offcuts} sizes="(min-width: 768px) 22rem, 100vw" />
         </div>
       </Section>
 

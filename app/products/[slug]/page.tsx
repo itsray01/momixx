@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { Render } from '@/components/Render'
 import { SpinVideo } from '@/components/SpinVideo'
 import { TemperatureRange } from '@/components/TemperatureRange'
+import { Illustration } from '@/components/Illustration'
 import { TabNav } from '@/components/TabNav'
 import { Arrow, ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { getApplication } from '@/content/applications'
@@ -69,10 +70,7 @@ export default async function ProductPage({ params }: Props) {
             <div>
               {/* The 3D picture sits here, under the words-only header; a real photo, where there is one, follows it. */}
               {p.picture ? (
-                <figure className="card relative mb-10 max-w-xl overflow-hidden">
-                  <Image src={p.picture.src} alt={p.picture.alt} width={p.picture.width} height={p.picture.height} sizes="(min-width: 1024px) 36rem, 100vw" className="h-auto w-full" priority />
-                  <figcaption className="absolute bottom-3 left-4 rounded-full bg-[#f7f7f4]/85 px-2.5 py-1 text-xs text-[#3d413d] backdrop-blur">{p.picture.caption}</figcaption>
-                </figure>
+                <Illustration picture={p.picture} priority className="mb-10 max-w-xl" />
               ) : p.illustration && (
                 <div className="mb-10 max-w-xl">
                   {p.video ? (

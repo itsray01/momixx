@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Illustration } from '@/components/Illustration'
 import { MarketCard } from '@/components/charts'
 import { TabNav } from '@/components/TabNav'
 import { TemperatureRange } from '@/components/TemperatureRange'
@@ -53,8 +54,9 @@ export default async function ApplicationPage({ params }: Props) {
       <TabNav tabs={applicationTabs} label="Markets">
 
         <Section>
-          <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+          <div className={`grid gap-12 lg:grid-cols-[1.4fr_1fr] ${a.picture ? 'lg:items-start' : ''}`}>
             <div>
+              {a.picture && <Illustration picture={a.picture} priority className="mb-10 max-w-xl" />}
               <p className="eyebrow">The big picture</p>
               <p className="mt-6 text-2xl leading-snug tracking-[-0.02em] text-zinc-100 sm:text-[1.7rem]">{a.intro}</p>
               <p className="mt-6 text-sm text-zinc-500">

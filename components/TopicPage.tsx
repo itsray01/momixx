@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Illustration } from '@/components/Illustration'
 import { ArrowLink, CtaBand, PageHeader, Section } from '@/components/ui'
 import { getProduct, productHref, products } from '@/content/products'
 import { getTopic, type TopicSection } from '@/content/topics'
@@ -138,6 +139,7 @@ export function TopicPage({ path }: { path: string }) {
             </div>
           </nav>
           <div data-reveal>
+            {t.picture && <Illustration picture={t.picture} priority className="mb-12 max-w-xl" />}
             {t.sections.map((s) => (
               <TopicBlock key={s.id} s={s} />
             ))}

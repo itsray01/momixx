@@ -12,6 +12,7 @@ import type { LucideIcon } from 'lucide-react'
 import { Cable, ClipboardCheck, Cpu, Crosshair, Flame, FlaskConical, Gauge, Hand, Leaf, Link, Paintbrush, Palette, Recycle, Repeat, Route, Scale, Thermometer, Wind } from 'lucide-react'
 import type { ModelName } from '@/components/three/modelNames'
 import { recyclingCertificationNames, recyclingCertifications } from './company'
+import { illustrations, type Picture } from './illustrations'
 
 export type ProductCategory = 'materials' | 'equipment' | 'services'
 
@@ -78,7 +79,7 @@ export type Product = {
    * A picture shown in place of the 3D render: an AI-generated product illustration, always
    * captioned as one. It shows the kind of finished product the material goes into.
    */
-  picture?: { src: string; alt: string; width: number; height: number; caption: string }
+  picture?: Picture
   /** A real product photo shown in the overview, e.g. from the original site. */
   photo?: { src: string; alt: string; width: number; height: number; caption: string }
   recycledOption?: boolean
@@ -143,13 +144,7 @@ export const products: Product[] = [
     applications: ['consumer-electronics', 'ai-data-centres'],
     illustration: 'data-cable',
     illustrationVariant: 'white',
-    picture: {
-      src: '/images/products/illustrations/usb-c-cables.webp',
-      alt: 'Three coiled USB-C cables with soft silicone jackets, in red, white and navy',
-      width: 1536,
-      height: 1024,
-      caption: 'Illustration: USB-C cables with silicone jackets',
-    },
+    picture: illustrations.usbCables,
     photo: { src: '/images/products/momixx-mm-cable.webp', alt: 'USB-C data cable with a white silicone jacket', width: 410, height: 318, caption: 'Silicone data cable' },
     recycledOption: true,
   },
@@ -186,13 +181,7 @@ export const products: Product[] = [
     processing: 'Injection or compression moulding',
     applications: ['consumer-electronics', 'electric-vehicles', 'medical'],
     illustration: 'watchband',
-    picture: {
-      src: '/images/products/illustrations/watch-straps.webp',
-      alt: 'Silicone smartwatch straps in red, white and navy',
-      width: 1536,
-      height: 1024,
-      caption: 'Illustration: smartwatch straps in silicone',
-    },
+    picture: illustrations.watchStraps,
   },
   {
     slug: 'momixx-move',
@@ -225,6 +214,7 @@ export const products: Product[] = [
     },
     applications: ['electric-vehicles'],
     illustration: 'ev-cable',
+    picture: illustrations.evCable,
   },
   {
     slug: 'momixx-procase',
@@ -244,6 +234,7 @@ export const products: Product[] = [
     processing: 'Injection or compression moulding',
     applications: ['consumer-electronics'],
     illustration: 'phone-case',
+    picture: illustrations.phoneCases,
   },
   {
     slug: 'momixx-seal',
@@ -262,6 +253,7 @@ export const products: Product[] = [
     processing: 'Injection or compression moulding',
     applications: ['consumer-electronics', 'robotics', 'ai-data-centres'],
     illustration: 'seal',
+    picture: illustrations.seals,
   },
   {
     slug: 'selix',
@@ -294,6 +286,7 @@ export const products: Product[] = [
     processing: 'Injection moulding, compression moulding or extrusion',
     applications: ['consumer-electronics', 'electric-vehicles'],
     illustration: 'crimson',
+    picture: illustrations.compoundSheets,
   },
   {
     slug: 'recycled-silicone',
@@ -335,6 +328,7 @@ export const products: Product[] = [
     stats: [{ value: 'FDA', label: 'compliant for food contact' }],
     processing: 'Injection moulding',
     illustration: 'bottle',
+    picture: illustrations.pctg,
   },
 
   // ───────────────────────────── Equipment ─────────────────────────────

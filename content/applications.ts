@@ -32,6 +32,7 @@ import {
   Thermometer,
 } from 'lucide-react'
 import type { ModelName } from '@/components/three/modelNames'
+import { illustrations, type Picture } from './illustrations'
 
 export type Maturity = 'In mass production' | 'Certified & scaling' | 'Emerging opportunity'
 
@@ -52,6 +53,8 @@ export type Application = {
   faqs: Array<{ q: string; a: string }>
   /** Which 3D model represents this application. */
   illustration: ModelName
+  /** An AI illustration shown beside the introduction. */
+  picture?: Picture
   /** The areas listed under this market in the site map, each an anchored block on the page. */
   focus: FocusArea[]
   /** Listed in the Markets menu and footer. Off for pages kept live but not in the site map. */
@@ -232,6 +235,7 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'medical',
+    picture: illustrations.medicalTubing,
     focus: [
       { id: 'medical-grade', title: 'Medical grade', body: 'Silicone for medical-device parts. Each finished device still needs its own biocompatibility testing, usually under ISO 10993.', holding: true },
       { id: 'manufacturing', title: 'Manufacturing', body: 'The quality system at our Batu Kawan, Penang factory is certified to ISO 13485. We have made silicone parts for medical-device makers since 2025.', products: ['medical-precision-components'] },
@@ -312,6 +316,7 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'bottle',
+    picture: illustrations.foodGrade,
     focus: [
       { id: 'food-safe-products', title: 'Food-safe products', body: 'Silicone and clear PCTG plastic for products that touch food and drink.', products: ['pctg'], holding: true },
     ],
@@ -345,6 +350,7 @@ export const applications: Application[] = [
       },
     ],
     illustration: 'watchband',
+    picture: illustrations.yarnLeather,
     focus: [
       { id: 'fabric', title: 'Fabric', body: 'Silicone-coated fabrics, and materials that combine silicone with bio-leather.', links: [{ href: '/products/yarn-leather#silio', label: 'Silio' }], holding: true },
       { id: 'yarn', title: 'Yarn', body: 'Yarn coated with silicone, for fabrics that are soft, durable and easy to clean.', links: [{ href: '/products/yarn-leather#silicone-yarn', label: 'Silicone yarn' }], holding: true },

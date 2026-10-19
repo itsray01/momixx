@@ -11,6 +11,7 @@
 // terms and does not claim MoMixx performance.
 
 import type { ModelName } from '@/components/three/modelNames'
+import { illustrations, type Picture } from './illustrations'
 
 export type TopicSection = {
   /** Anchor on the page, e.g. /products/conductive#charging-ports */
@@ -39,6 +40,8 @@ export type Topic = {
   seoTitle: string
   description: string
   render: ModelName
+  /** An AI illustration shown at the top of the page. */
+  picture?: Picture
   sections: TopicSection[]
   related?: Array<{ href: string; label: string }>
   cta?: { title: string; body: string }
@@ -151,6 +154,7 @@ export const topics: Topic[] = [
     seoTitle: 'Magnetic silicone grades (HCR and LSR)',
     description: 'MoMixx magnetic silicone in solid (HCR) and liquid (LSR) form, for magnetic cables, closures and accessories.',
     render: 'data-cable',
+    picture: illustrations.magneticCoil,
     sections: [
       {
         id: 'grades',
@@ -177,6 +181,7 @@ export const topics: Topic[] = [
     seoTitle: 'Conductive silicone for charging ports and interiors',
     description: 'MoMixx conductive silicone for charging ports and vehicle interiors.',
     render: 'compound',
+    picture: illustrations.conductiveParts,
     sections: [
       {
         id: 'charging-ports',
@@ -205,6 +210,7 @@ export const topics: Topic[] = [
     seoTitle: 'Silicone-based coatings: thin-wall and flexible',
     description: 'MoMixx silicone-based coatings: thin-wall and flexible coatings for cables, cases and parts.',
     render: 'coated-cable',
+    picture: illustrations.coatedCable,
     sections: [
       {
         id: 'thin-wall',
@@ -236,6 +242,7 @@ export const topics: Topic[] = [
     seoTitle: 'Silicone yarn and silicone leather',
     description: 'MoMixx silicone yarn, and materials that combine silicone with bio-leather, for fashion and textiles.',
     render: 'watchband',
+    picture: illustrations.yarnLeather,
     sections: [
       {
         id: 'silicone-yarn',
@@ -262,6 +269,7 @@ export const topics: Topic[] = [
     seoTitle: 'Precision silicone components: watch bands, seals, thermal pads',
     description: 'MoMixx precision silicone components: double-shot watch bands, seals and thermal pads.',
     render: 'oem',
+    picture: illustrations.thermalPads,
     sections: [
       {
         id: 'watch-bands',
