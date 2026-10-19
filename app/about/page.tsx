@@ -1,7 +1,7 @@
 import { Cog, FlaskConical, Recycle } from 'lucide-react'
 import { Timeline } from '@/components/infographics'
 import { RegionMap } from '@/components/RegionMap'
-import { ArrowLink, CtaBand, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
+import { ArrowLink, FeatureGrid, PageHeader, Section, StatTiles } from '@/components/ui'
 import { companyStats, milestones } from '@/content/company'
 import { teamReady } from '@/content/team'
 import { pageMetadata, plantLines, site } from '@/lib/site'
@@ -179,7 +179,6 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <CtaBand title="Partner with *MoMixx*" body="Whether you are sourcing silicone, a cable extrusion line or a manufacturing partner, our team will be pleased to assist." secondary={{ href: '/innovation', label: 'Research & innovation' }} />
     </>
   )
 }

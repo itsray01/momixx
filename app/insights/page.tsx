@@ -1,6 +1,6 @@
 import { ArticleCard } from '@/components/ArticleCard'
 import { collectionPage, JsonLd } from '@/components/JsonLd'
-import { CtaBand, PageHeader, Section } from '@/components/ui'
+import { PageHeader, Section } from '@/components/ui'
 import { getArticles, topics } from '@/lib/articles'
 import { absoluteUrl, pageMetadata } from '@/lib/site'
 import { FilteredArticles, TopicButtons } from './TopicFilter'
@@ -37,7 +37,6 @@ export default function InsightsPage() {
           items={all.map((a) => ({ slug: a.slug, topic: a.topic, card: <ArticleCard article={a}/>, large: <ArticleCard article={a} large/> }))}
         />
       </Section>
-      <CtaBand title="Technical *enquiries*" body="Our engineers can advise on materials, recycling and manufacturing." />
       <JsonLd data={collectionPage('MoMixx Insights', '/insights', all.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))} />
     </>
   )
