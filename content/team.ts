@@ -14,8 +14,8 @@ export type TeamMember = {
   photo?: string
   linkedin?: string
   /**
-   * Bios still being agreed: shown one under the other on preview deployments only
-   * (never on the live site). `highlight` marks the version as supplied, for review.
+   * Bios still being agreed, shown one under the other in place of `bio`.
+   * `highlight` marks the version as supplied, for review.
    */
   draftBios?: Array<{ label: string; text: string; highlight?: boolean }>
 }
