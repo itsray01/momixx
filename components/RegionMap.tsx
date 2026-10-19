@@ -1,90 +1,88 @@
-import { regionDots } from './regionDots'
+import { site } from '@/lib/site'
+import { MapPins, type MapPin } from './MapPins'
+import { gridPath, landPath, mapSize, pinPoints } from './regionMap'
 
-// Equirectangular projection of the grid in scripts/generate-region-dots.mjs
-// (92° to 122° E, 8° S to 25° N, 0.3° steps): one viewBox unit per grid step.
-const west = 92
-const north = 25
-const step = 0.3
-const x = (lon: number) => (lon - west) / step
-const y = (lat: number) => (north - lat) / step
+type PinKey = keyof typeof pinPoints
 
-// The map shows a window of that grid from about 24.5° N (Dongguan) down to just past Singapore.
-const view = { top: 2, width: 100, height: 82 }
+const details: Record<PinKey, Omit<MapPin, 'key' | 'left' | 'top' | 'href'>> = {
+  singapore: { name: 'Singapore', role: 'Headquarters', body: `Our corporate headquarters, where MoMixx was founded in ${site.foundingYear}.` },
+  penang: {
+    name: 'Penang, Malaysia',
+    role: 'Research and manufacturing',
+    body: 'Our Batu Kawan and Perai plants. Batu Kawan is our research centre and our ISO 13485-certified factory.',
+  },
+  dongguan: { labelLeft: true, name: 'Dongguan, China', role: 'Manufacturing', body: 'Our manufacturing plant in Houjie, Dongguan, Guangdong.' },
+}
 
-const dots = (() => {
-  let d = ''
-  for (let i = 0; i < regionDots.length; i += 2) {
-    const py = Math.round(y(regionDots[i]))
-    if (py < view.top || py > view.top + view.height) continue
-    d += `M${Math.round(x(regionDots[i + 1]))} ${py}h0`
-  }
-  return d
-})()
-
-const pins = [
-  { key: 'singapore', lat: 1.33, lon: 103.89, short: 'Singapore', long: 'Singapore · Headquarters' },
-  { key: 'penang', lat: 5.3, lon: 100.41, short: 'Penang', long: 'Penang · Batu Kawan and Perai plants' },
-  { key: 'dongguan', lat: 23.02, lon: 113.75, short: 'Dongguan', long: 'Dongguan · Factory' },
-] as const
-
-type PinKey = (typeof pins)[number]['key']
+// Gentle arcs from headquarters out to each plant, bowing away from the straight line.
+function arc(from: { x: number; y: number }, to: { x: number; y: number }, bend: number) {
+  const mx = (from.x + to.x) / 2
+  const my = (from.y + to.y) / 2
+  const dx = to.x - from.x
+  const dy = to.y - from.y
+  return `M${from.x} ${from.y}Q${mx - dy * bend} ${my + dx * bend} ${to.x} ${to.y}`
+}
 
 /**
- * A static dot map of South-East Asia with our three locations. Pass `links` to make
- * the pins jump to each site's details; without it the pins are labels only.
+ * A map of South-East Asia with our three locations: real coastlines (Natural Earth, no
+ * country borders) drawn on the server, so it costs no JavaScript. The pins are buttons;
+ * clicking one opens a small card about that site. Pass `links` to add a "See details" link.
  */
-export function RegionMap({ links, className = '' }: { links?: Record<PinKey, string>; className?: string }) {
+export function RegionMap({ links, className = '' }: { links?: Partial<Record<PinKey, string>>; className?: string }) {
+  const { width, height } = mapSize
+  const pins: MapPin[] = (Object.keys(pinPoints) as PinKey[]).map((key) => ({
+    key,
+    left: (pinPoints[key].x / width) * 100,
+    top: (pinPoints[key].y / height) * 100,
+    href: links?.[key],
+    ...details[key],
+  }))
+  const hq = pinPoints.singapore
   return (
-    <div className={`@container relative aspect-[100/82] w-full ${className}`}>
+    <div
+      className={`relative w-full overflow-hidden rounded-2xl bg-[linear-gradient(160deg,#d9eadf_0%,#e4efe8_55%,#dbe9e0_100%)] ${className}`}
+      style={{ aspectRatio: `${width} / ${height}` }}
+    >
       <svg
-        viewBox={`0 ${view.top} ${view.width} ${view.height}`}
+        viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label="Map of South-East Asia showing the MoMixx headquarters in Singapore, our plants at Batu Kawan and Perai in Penang, Malaysia, and our factory in Dongguan, Guangdong, China."
-        className="absolute inset-0 h-full w-full [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_100%)]"
+        className="absolute inset-0 h-full w-full"
       >
-        {/* Narrow maps get slightly larger, brighter dots so the land still reads. */}
-        <path
-          d={dots}
-          fill="none"
-          stroke="#a1a1aa"
-          strokeLinecap="round"
-          className="[stroke-opacity:0.38] [stroke-width:0.42] @max-xl:[stroke-opacity:0.5] @max-xl:[stroke-width:0.6]"
-        />
+        <defs>
+          <pattern id="map-dots" width="9" height="9" patternUnits="userSpaceOnUse">
+            <circle cx="4.5" cy="4.5" r="1.05" fill="#168447" fillOpacity="0.11" />
+          </pattern>
+          <filter id="map-lift" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="6" stdDeviation="9" floodColor="#0f4528" floodOpacity="0.13" />
+          </filter>
+          <radialGradient id="map-fade" cx="50%" cy="50%" r="75%">
+            <stop offset="70%" stopColor="#dfece4" stopOpacity="0" />
+            <stop offset="100%" stopColor="#dfece4" stopOpacity="0.85" />
+          </radialGradient>
+        </defs>
+        <path d={gridPath} fill="none" stroke="#168447" strokeOpacity="0.09" strokeWidth="1" strokeDasharray="2 5" />
+        <path d={landPath} fill="#fdfdfb" stroke="#b9cbbf" strokeWidth="1" strokeLinejoin="round" filter="url(#map-lift)" />
+        <path d={landPath} fill="url(#map-dots)" />
+        <rect width={width} height={height} fill="url(#map-fade)" />
       </svg>
-      {pins.map((p) => {
-        const href = links?.[p.key]
-        const props = {
-          className: 'group absolute flex -translate-x-[7px] -translate-y-1/2 items-center gap-2.5 rounded-full outline-none',
-          style: { left: `${(x(p.lon) / view.width) * 100}%`, top: `${((y(p.lat) - view.top) / view.height) * 100}%` },
-        }
-        const content = (
-          <>
-            <span aria-hidden="true" className="relative flex h-3.5 w-3.5 shrink-0 items-center justify-center">
-              <span className="absolute -inset-2.5 rounded-full bg-white/10" />
-              <span className="absolute -inset-1 rounded-full border border-white/40" />
-              <span className="h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.55)]" />
-            </span>
-            <span
-              className={`rounded-full border border-white/10 bg-ink-950/80 px-2.5 py-1 text-xs font-medium whitespace-nowrap text-white backdrop-blur @3xl:text-sm ${
-                href ? 'transition-colors group-hover:border-white/30 group-focus-visible:ring-2 group-focus-visible:ring-brand-300' : ''
-              }`}
-            >
-              <span className="@xl:hidden">{p.short}</span>
-              <span className="hidden @xl:inline">{p.long}</span>
-            </span>
-          </>
-        )
-        // Without links the pins only repeat the map's label, so screen readers skip them.
-        return href ? (
-          <a key={p.key} href={href} {...props}>
-            {content}
-          </a>
-        ) : (
-          <div key={p.key} aria-hidden="true" {...props}>
-            {content}
-          </div>
-        )
-      })}
+      {/* The moving routes get a layer of their own, so the shaded land underneath is painted once, not every frame. */}
+      <svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full [transform:translateZ(0)]">
+        {(['penang', 'dongguan'] as const).map((key) => (
+          <path
+            key={key}
+            d={arc(hq, pinPoints[key], key === 'penang' ? 0.22 : -0.16)}
+            fill="none"
+            stroke="#168447"
+            strokeOpacity="0.55"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeDasharray="5 7"
+            className="motion-safe:animate-[map-route_2.4s_linear_infinite]"
+          />
+        ))}
+      </svg>
+      <MapPins pins={pins} />
     </div>
   )
 }

@@ -187,6 +187,12 @@
   color: transparent;
   animation: accent-sweep 5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
+/* The dashed routes on the locations map drift from headquarters out to the plants. */
+@keyframes map-route {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
 @keyframes accent-sweep {
   0% {
     background-position: 100% 0;
