@@ -5,7 +5,7 @@ import { formatUsd, markets } from '@/content/markets'
 import { newsroomReady } from '@/content/news'
 import { categoryLabels, productHref, products } from '@/content/products'
 import { certificationClaim } from '@/content/sustainability'
-import { displayName, team, teamReady } from '@/content/team'
+import { teamReady } from '@/content/team'
 import { topics } from '@/content/topics'
 import { getArticles } from '@/lib/articles'
 import { absoluteUrl, site } from '@/lib/site'
@@ -34,7 +34,7 @@ export function GET() {
     ...topics.map((t) => `- [${t.label}](${absoluteUrl(t.path)}): ${t.description}`),
     `- [Insights](${absoluteUrl('/insights')}): articles on silicone, recycling and applications (RSS: ${absoluteUrl('/insights/feed.xml')})`,
     `- [About](${absoluteUrl('/about')}): history, milestones and locations: Singapore headquarters; R&D and manufacturing at Batu Kawan, Penang, Malaysia (ISO 13485); manufacturing at Perai, Penang (${site.plants.perai.company}); manufacturing at Dongguan, Guangdong, China (${site.plants.dongguan.company})`,
-    ...(teamReady ? [`- [Leadership](${absoluteUrl('/leadership')}): ${team.map((m) => `${displayName(m)}, ${m.role}`).join('; ')}`] : []),
+    ...(teamReady ? [`- [Leadership](${absoluteUrl('/leadership')}): the founders of MoMixx`] : []),
     ...(newsroomReady ? [`- [Newsroom](${absoluteUrl('/newsroom')}): announcements, recent milestones, latest articles and media contact (${site.mediaEmail || site.email})`] : []),
     `- [Governance](${absoluteUrl('/governance')}): company information (${site.legalName}, Singapore UEN ${site.registrationNumber}), certifications and website policies`,
     `- [Research & innovation](${absoluteUrl('/innovation')}): patents and research areas, including the vertical extrusion line`,

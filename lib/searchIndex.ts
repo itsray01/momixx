@@ -31,7 +31,7 @@ const pages: Array<Omit<SearchEntry, 'group'>> = [
   { title: 'Glossary', href: '/insights/glossary', desc: 'Silicone terms in plain English', keywords: 'definitions terms dictionary' },
   { title: 'About us', href: '/about', desc: 'Our story, milestones and sites', keywords: 'company history milestones founded story' },
   { title: 'Governance', href: '/governance', desc: 'Company information, certifications and policies', keywords: 'governance board directors committees policies registration UEN company information' },
-  ...(teamReady ? [{ title: 'Leadership', href: '/leadership', desc: 'Our management team', keywords: 'leadership management CEO chief executive directors' }] : []),
+  ...(teamReady ? [{ title: 'Leadership', href: '/leadership', desc: 'Our founders', keywords: 'leadership founders management' }] : []),
   { title: 'Culture & careers', href: '/culture', desc: 'How we work, and joining us', keywords: 'careers jobs hiring vacancies work culture' },
   { title: 'Locations', href: '/about#locations', desc: 'Singapore headquarters and plants in Penang, Malaysia', keywords: 'address factory plant Singapore Penang Batu Kawan Perai Malaysia map' },
   { title: 'Research & innovation', href: '/innovation', desc: 'Patents and research', keywords: 'R&D patents research innovation technology' },

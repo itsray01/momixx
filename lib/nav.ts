@@ -30,7 +30,7 @@ export function buildMenus(): Menu[] {
           links: [
             { href: '/about', label: 'About us', desc: `Our story since ${site.foundingYear}, and our sites`, model: 'globe' },
             // Listed while content/team.ts has at least one person.
-            ...(teamReady ? [{ href: '/leadership', label: 'Leadership', desc: 'Our management team', model: 'globe' as const }] : []),
+            ...(teamReady ? [{ href: '/leadership', label: 'Leadership', desc: 'Our founders', model: 'globe' as const }] : []),
             { href: '/innovation', label: 'Research & innovation', desc: '20+ patents, granted or pending', model: 'molecule' },
             { href: '/culture', label: 'Culture & careers', desc: 'How we work, and careers', model: 'samples' },
             { href: '/governance', label: 'Governance', desc: 'Company information, certifications and policies', model: 'compound' },

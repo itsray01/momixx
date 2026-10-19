@@ -17,7 +17,7 @@ It is built with Next.js, deployed on Vercel, and every page is static. All the 
 | Insights (articles with topic filters, glossary, RSS) | `/insights`, `/insights/<slug>`, `/insights/glossary` | `content/articles/*.md`, `content/glossary.ts` |
 | About, milestones and locations | `/about`, `/about#locations` | `content/company.ts`, `app/about/page.tsx` (sites), `lib/site.ts` |
 | Culture & careers | `/culture` | `app/culture/page.tsx` |
-| Our team (management) | `/team` | `content/team.ts` |
+| Leadership (founders, by role only) | `/leadership` | `content/team.ts` |
 | Research & innovation | `/innovation` | `app/innovation/page.tsx` |
 | Contact | `/contact` | `lib/site.ts` (email, address) |
 
@@ -31,8 +31,7 @@ You can edit any file directly on GitHub: open the file, click the pencil icon, 
 Common edits:
 
 - **Add a product.** Copy an existing entry in `content/products.ts`, give it a new `slug`, and fill in the fields. Its page, tab, footer link, sitemap entry and `llms.txt` entry are all created automatically.
-- **Add a team member.** Edit `content/team.ts`. Put the headshot in `public/images/team/` (square, at least 800×800), then set `photo: '/images/team/name.jpg'` and `placeholder: false`.
-  - The Team page stays hidden from Google until no placeholders are left.
+- **Leadership.** Edit `content/team.ts`. At HQ's request the founders are shown by role and bio only: no names, photos or initials anywhere on the site.
 - **Add a certificate PDF or logo.** Put the PDF in `public/certificates/` and the logo in `public/images/certs/`. Then set `file` and `logo` on that certificate in `content/company.ts`. A "View certificate" button appears automatically.
 - **Add a product photo.** Put it in `public/images/products/` and set `image: '/images/products/xyz.jpg'` on the product. It replaces the line illustration.
 - **Update a market figure.** Edit `content/markets.ts`.

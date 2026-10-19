@@ -1,48 +1,24 @@
 // Leadership shown on /leadership.
 //
-// Add each person with their name, title and, when supplied, a 2–3 sentence bio.
-// Photos: a portrait (at least 1200 px tall, 4:5) in /public/images/team/, then set
-// `photo`. Until a photo is set the page shows the person's initials.
-// The first entry is featured; anyone after it is shown in a grid below.
+// HQ's instruction: the founders are shown by role only. No names, no photos and no
+// initials anywhere on the site (page, structured data, llms.txt, search), so nothing
+// identifies them by name. Bios are as supplied by HQ, in British English, with the
+// names taken out.
 
 export type TeamMember = {
-  /** Honorific shown before the name, e.g. 'Dr'. Kept apart so initials and structured data use the name alone. */
-  honorific?: string
-  name: string
   role: string
-  bio?: string
-  photo?: string
-  linkedin?: string
-  /**
-   * Bios still being agreed, shown one under the other in place of `bio`.
-   * `highlight` marks the version as supplied, for review.
-   */
-  draftBios?: Array<{ label: string; text: string; highlight?: boolean }>
+  bio: string
 }
 
 export const team: TeamMember[] = [
   {
-    honorific: 'Dr',
-    name: 'Cheah Li Kang',
-    role: 'Chief Executive Officer',
-    // The only photo supplied: cropped to 4:5 above the name printed on it, then enlarged 4x
-    // (1652 x 2064). Edges come from a Real-ESRGAN upscale; skin tone, colour and texture
-    // from the plain enlargement, so his features are unchanged. No face-restore model.
-    photo: '/images/team/cheah-li-kang.webp',
-    draftBios: [
-      {
-        label: 'As supplied (British English)',
-        highlight: true,
-        text: 'Dr Cheah is a technologist and business leader with deep expertise in surface engineering, coating technologies, and advanced manufacturing. As Group CEO of the Orion Group of Companies, he drives innovation and global growth across its engineering and manufacturing divisions. With over two decades of experience, he has translated materials science into commercial success, holding over 10 patents and 100 research publications. Dr Cheah earned his PhD from Nanyang Technological University and is recognised for bridging scientific innovation with large-scale industrial impact.',
-      },
-      {
-        label: 'Suggested',
-        text: 'Dr Cheah Li Kang is a technologist and business leader with deep expertise in surface engineering, coating technologies and advanced manufacturing. As Chief Executive Officer, he leads MoMixx’s innovation and growth across its engineering and manufacturing businesses. In more than 20 years, he has turned materials science into commercial products. He has been granted more than 10 patents and has authored or co-authored more than 100 research papers. He holds a PhD in Electrical and Electronic Engineering from Nanyang Technological University, Singapore.',
-      },
-    ],
+    role: 'Founder',
+    bio: 'A technologist and business leader with deep expertise in surface engineering, coating technologies and advanced manufacturing. As Group CEO of the Orion Group of Companies, he drives innovation and global growth across its engineering and manufacturing divisions. With over two decades of experience, he has translated materials science into commercial success, holding over 10 patents and 100 research publications. He earned his PhD from Nanyang Technological University and is recognised for bridging scientific innovation with large-scale industrial impact.',
+  },
+  {
+    role: 'Founder',
+    bio: 'A seasoned entrepreneur and business leader with over three decades of experience in materials manufacturing and industrial innovation. He founded and grew a manufacturing enterprise that became one of Apple’s top 200 global suppliers before leading it through a successful merger and acquisition in 2018. As Group Chairman of the Orion Group of Companies, he drives strategic growth and governance across its portfolio. He also serves as a Non-Executive Director at Ternary Fund Management and actively supports community causes such as the Sian Chay Medical Institution.',
   },
 ]
 
 export const teamReady = team.length > 0
-
-export const displayName = (m: TeamMember) => (m.honorific ? `${m.honorific} ${m.name}` : m.name)
