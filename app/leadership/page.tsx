@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { CtaBand, PageHeader, Section } from '@/components/ui'
 import { JsonLd } from '@/components/JsonLd'
 import { displayName, team, teamReady, type TeamMember } from '@/content/team'
-import { absoluteUrl, pageMetadata } from '@/lib/site'
+import { absoluteUrl, pageMetadata, showPending } from '@/lib/site'
 
 export const metadata = pageMetadata({
   title: 'Leadership',
@@ -64,9 +64,19 @@ export default function LeadershipPage() {
             <p className="eyebrow">{lead.role}</p>
             <h2 className="display-md mt-5 text-white">{displayName(lead)}</h2>
             <span aria-hidden="true" className="mt-8 block h-px w-24 bg-gradient-to-r from-zinc-700 to-transparent" />
-            <p className="mt-8 text-lg leading-relaxed text-zinc-300 sm:text-xl">
-              {lead.bio ?? `${displayName(lead)} leads MoMixx as ${lead.role}.`}
-            </p>
+            {showPending && lead.draftBios ? (
+              // Preview only: the bios under review, one under the other.
+              <div className="mt-8 space-y-6">
+                {lead.draftBios.map((b) => (
+                  <div key={b.label} className={b.highlight ? 'rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6' : 'rounded-2xl border border-zinc-800 p-5 sm:p-6'}>
+                    <p className={`text-xs font-medium tracking-[0.12em] uppercase ${b.highlight ? 'text-red-700' : 'text-zinc-500'}`}>{b.label}</p>
+                    <p className="mt-3 text-lg leading-relaxed text-zinc-300">{b.text}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-8 text-lg leading-relaxed text-zinc-300 sm:text-xl">{lead.bio ?? `${displayName(lead)} leads MoMixx as ${lead.role}.`}</p>
+            )}
             {lead.linkedin && (
               <a href={lead.linkedin} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block text-sm font-medium text-brand-300 hover:text-brand-200">
                 LinkedIn <span aria-hidden="true">↗</span>
