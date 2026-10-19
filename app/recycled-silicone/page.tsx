@@ -82,14 +82,14 @@ export default function RecycledSiliconePage() {
                   <span className="text-zinc-400">Produced worldwide</span>
                   <span className="font-semibold text-white">{recyclingFacts.producedTonnes}</span>
                 </div>
-                <div data-grow className="bar-3d mt-3 h-7 w-full rounded-r-[4px]" style={COMPARE_STYLE} role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
+                <div data-grow className="bar-3d mt-3 h-7 w-full rounded-full" style={COMPARE_STYLE} role="img" aria-label={`Produced: ${recyclingFacts.producedTonnes}`} />
               </div>
               <div>
                 <div className="flex justify-between text-sm">
                   <span className="text-zinc-400">Chemically recycled</span>
                   <span className="font-semibold text-white">{recyclingFacts.recycledTonnes}</span>
                 </div>
-                <div data-grow className="bar-3d mt-3 h-7 w-[1.4%] min-w-[5px] rounded-r-[4px] [--bar:#168447]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
+                <div data-grow className="bar-3d mt-3 h-7 w-[1.4%] min-w-[7px] rounded-full [--bar:#168447]" role="img" aria-label={`Recycled: ${recyclingFacts.recycledTonnes}`} />
               </div>
             </div>
             <p className="mt-6 text-xs text-zinc-400">

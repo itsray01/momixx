@@ -172,7 +172,7 @@ export default function HomePage() {
                     </div>
                     <div
                       data-grow
-                      className="bar-3d mt-3 h-7 rounded-r-[4px]"
+                      className="bar-3d mt-3 h-7 rounded-full"
                       style={{ width: `${(r.bar / 5.4) * 100}%`, ...(r.ours ? ({ '--bar': '#168447' } as CSSProperties) : COMPARE_STYLE) }}
                       role="img"
                       aria-label={`${r.label}: ${r.text} ${carbonHeadline.unit}`}

@@ -30,10 +30,10 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
         <h3 className="text-xl font-semibold tracking-[-0.02em]">{comparison.title}</h3>
         <ul className="flex gap-5 text-sm text-zinc-400" aria-label="Legend">
           <li className="flex items-center gap-2">
-            <span className="bar-3d h-2.5 w-2.5 rounded-sm" style={ACCENT_STYLE} /> MoMixx
+            <span className="bar-3d h-2.5 w-2.5 rounded-full" style={ACCENT_STYLE} /> MoMixx
           </li>
           <li className="flex items-center gap-2">
-            <span className="bar-3d h-2.5 w-2.5 rounded-sm" style={COMPARE_STYLE} /> {comparison.otherLabel}
+            <span className="bar-3d h-2.5 w-2.5 rounded-full" style={COMPARE_STYLE} /> {comparison.otherLabel}
           </li>
         </ul>
       </figcaption>
@@ -57,7 +57,7 @@ export function CompareBars({ comparison }: { comparison: Comparison }) {
                     <div key={b.label} className="flex items-center gap-3" title={`${b.label}: ${text} ${row.unit}`}>
                       <div
                         data-grow
-                        className="bar-3d h-7 shrink-0 rounded-r-[4px]"
+                        className="bar-3d h-7 shrink-0 rounded-full"
                         style={{ width: `${(b.v / max) * 75}%`, ...b.fill }}
                         role="img"
                         aria-label={`${b.label}: ${text} ${row.unit}`}
@@ -96,9 +96,9 @@ export function MarketCard({ market, compact = false }: { market: Market; compac
         <div className="shrink-0" aria-hidden="true">
           <div className="flex h-24 items-end gap-2.5 border-b border-white/20">
             {market.current && (
-              <div data-grow-y className="bar-3d-v w-11 rounded-t-[4px]" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}%`, ...COMPARE_STYLE }} />
+              <div data-grow-y className="bar-3d-v w-11 rounded-t-2xl" style={{ height: `${Math.max((market.current.usdBn / max) * 100, 4)}%`, ...COMPARE_STYLE }} />
             )}
-            <div data-grow-y className="bar-3d-v h-full w-11 rounded-t-[4px]" style={ACCENT_STYLE} />
+            <div data-grow-y className="bar-3d-v h-full w-11 rounded-t-2xl" style={ACCENT_STYLE} />
           </div>
           <div className="mt-2 flex gap-2.5 text-xs text-zinc-500 tabular-nums">
             {market.current && <span className="w-11 text-center">{market.current.year}</span>}
@@ -154,7 +154,7 @@ export function GrowthChart({ markets }: { markets: Market[] }) {
               <div className="h-7 flex-1">
                 <div
                   data-grow
-                  className="bar-3d h-full rounded-r-[4px] transition-opacity group-hover:opacity-80"
+                  className="bar-3d h-full rounded-full transition-opacity group-hover:opacity-80"
                   style={{ width: `${(m.cagr!.pct / max) * 100}%`, ...ACCENT_STYLE }}
                   title={`${m.name}: ${m.cagr!.pct}% a year, ${m.cagr!.period} (${m.source.publisher})`}
                 />
