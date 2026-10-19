@@ -1,0 +1,330 @@
+'use client'
+
+import { Dialog, Portal } from '@chakra-ui/react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ChakraScope } from '@/components/chakra/ChakraScope'
+import type { SearchEntry, SearchGroup } from '@/lib/searchIndex'
+
+// The search pop-up (Chakra UI dialog: focus trap, Escape, click outside, page scroll
+// locked). Loaded only when someone is about to search, so its code and Chakra stay off
+// every page's first load. Results are grouped by section; the index (/search.json) is
+// generated from the content files.
+
+let indexRequest: Promise<SearchEntry[]> | null = null
+export function loadIndex() {
+  indexRequest ??= fetch('/search.json')
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+    .catch((err) => {
+      indexRequest = null
+      throw err
+    })
+  return indexRequest
+}
+
+const fold = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/** Wraps the parts of `text` that match a typed word in <mark>, ignoring case and accents. */
+function Highlight({ text, words }: { text: string; words: string[] }) {
+  if (!words.length) return <>{text}</>
+  // Fold one character at a time, remembering where each folded character came from.
+  let folded = ''
+  const from: number[] = []
+  for (let i = 0; i < text.length; i++) {
+    const f = fold(text[i])
+    folded += f
+    for (let k = 0; k < f.length; k++) from.push(i)
+  }
+  const hit = new Array<boolean>(text.length).fill(false)
+  for (const w of words) {
+    for (let at = folded.indexOf(w); at !== -1; at = folded.indexOf(w, at + 1)) {
+      // Only matches at the start of a word, so "rec" lights up "recycled" but not "precise".
+      if (at > 0 && /[\p{L}\p{N}]/u.test(folded[at - 1])) continue
+      for (let k = at; k < at + w.length; k++) hit[from[k]] = true
+    }
+  }
+  const parts: Array<{ s: string; on: boolean }> = []
+  for (let i = 0; i < text.length; i++) {
+    const last = parts[parts.length - 1]
+    if (last && last.on === hit[i]) last.s += text[i]
+    else parts.push({ s: text[i], on: hit[i] })
+  }
+  return (
+    <>
+      {parts.map((p, i) =>
+        p.on ? (
+          <mark key={i} className="rounded-[3px] bg-white/[0.13] text-white">
+            {p.s}
+          </mark>
+        ) : (
+          p.s
+        ),
+      )}
+    </>
+  )
+}
+
+/** Every word typed must match somewhere; a match in the title counts most. */
+function score(e: SearchEntry, words: string[]) {
+  const title = fold(e.title)
+  const desc = fold(e.desc ?? '')
+  const keywords = fold(e.keywords ?? '')
+  let total = 0
+  for (const w of words) {
+    if (title.startsWith(w)) total += 8
+    else if (new RegExp(`\\b${escapeRegExp(w)}`).test(title)) total += 6
+    else if (title.includes(w)) total += 4
+    else if (desc.includes(w)) total += 2
+    else if (keywords.includes(w)) total += 1
+    else return 0
+  }
+  return total
+}
+
+const groupLabels: Record<SearchGroup, string> = {
+  Product: 'Products',
+  Application: 'Applications',
+  Article: 'Insights',
+  Page: 'Company',
+  Glossary: 'Glossary',
+}
+const groupOrder: SearchGroup[] = ['Product', 'Application', 'Article', 'Page', 'Glossary']
+const perGroup = 4
+
+type Section = { title: string; items: SearchEntry[] }
+
+/** Results grouped by section, the most relevant section first. */
+function search(entries: SearchEntry[], query: string): Section[] {
+  const words = fold(query).split(/\s+/).filter(Boolean)
+  const groups = new Map<SearchGroup, Array<{ e: SearchEntry; s: number }>>()
+  for (const e of entries) {
+    const s = score(e, words)
+    if (s) groups.set(e.group, [...(groups.get(e.group) ?? []), { e, s }])
+  }
+  return [...groups]
+    .map(([group, hits]) => ({ group, hits: hits.sort((a, b) => b.s - a.s) }))
+    .sort((a, b) => b.hits[0].s - a.hits[0].s || groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group))
+    .map(({ group, hits }) => ({ title: groupLabels[group], items: hits.slice(0, perGroup).map((h) => h.e) }))
+}
+
+// Shown before anything is typed.
+const popular = ['/recycled-silicone', '/products/machines#vertical-extruder', '/products/momixx-mm', '/products/momixx-high-density', '/insights/lsr-vs-hcr', '/sustainability']
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" className={className} aria-hidden="true">
+      <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M12.6 12.6L17 17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export default function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const [index, setIndex] = useState<SearchEntry[] | null>(null)
+  const [failed, setFailed] = useState(false)
+  const [query, setQuery] = useState('')
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  const typed = query.trim()
+  const sections = useMemo<Section[]>(() => {
+    if (!index) return []
+    if (!typed) return [{ title: 'Popular', items: popular.map((href) => index.find((e) => e.href === href)).filter((e): e is SearchEntry => !!e) }]
+    return search(index, typed)
+  }, [index, typed])
+  const flat = useMemo(() => sections.flatMap((s) => s.items), [sections])
+  const words = useMemo(() => fold(typed).split(/\s+/).filter(Boolean), [typed])
+  const offsets = sections.map((_, i) => sections.slice(0, i).reduce((n, s) => n + s.items.length, 0))
+
+  const prefetch = () => {
+    if (index) return
+    loadIndex().then(
+      (data) => {
+        setIndex(data)
+        setFailed(false)
+      },
+      () => setFailed(true),
+    )
+  }
+
+  // Load the index as soon as the dialog first mounts (it mounts when search is about to open).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(prefetch, [])
+
+  // Keep the highlighted result in view while moving with the arrow keys.
+  useEffect(() => {
+    resultsRef.current?.querySelector<HTMLElement>(`[data-idx="${activeIdx}"]`)?.scrollIntoView({ block: 'nearest' })
+  }, [activeIdx])
+
+  const closeSearch = () => onOpenChange(false)
+
+  const go = (href: string) => {
+    closeSearch()
+    router.push(href)
+  }
+
+  const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!flat.length) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIdx((i) => (i + 1) % flat.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIdx((i) => (i - 1 + flat.length) % flat.length)
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      go(flat[Math.min(activeIdx, flat.length - 1)].href)
+    }
+  }
+
+  return (
+    <ChakraScope>
+      <Dialog.Root
+        open={open}
+        onOpenChange={(e) => onOpenChange(e.open)}
+        onExitComplete={() => {
+          setQuery('')
+          setActiveIdx(0)
+        }}
+        initialFocusEl={() => inputRef.current}
+        placement="top"
+        motionPreset="slide-in-top"
+      >
+        <Portal>
+          <Dialog.Backdrop bg="rgb(251 251 249 / 0.6)" backdropFilter="blur(2px)" />
+          <Dialog.Positioner pt={{ base: '3', sm: '4' }} px={{ base: '3', sm: '4' }}>
+            <Dialog.Content
+              aria-label="Search"
+              maxW="6xl"
+              w="full"
+              my="0"
+              p="0"
+              overflow="hidden"
+              rounded="3xl"
+              bg="rgb(251 251 249 / 0.95)"
+              color="#121412"
+              borderWidth="1px"
+              borderColor="rgb(18 20 18 / 0.1)"
+              backdropFilter="blur(40px)"
+              boxShadow="0 30px 80px -20px rgb(18 20 18 / 0.35)"
+            >
+              <Dialog.Title srOnly>Search</Dialog.Title>
+              <div className="flex items-center gap-3 border-b border-white/[0.08] py-2 pr-2 pl-5 sm:pl-6">
+                <SearchIcon className="h-5 w-5 shrink-0 text-zinc-400" />
+              <input
+                ref={inputRef}
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value)
+                  setActiveIdx(0)
+                }}
+                onKeyDown={onInputKey}
+                placeholder="Search products, applications and insights"
+                aria-label="Search"
+                role="combobox"
+                aria-expanded={flat.length > 0}
+                aria-controls="search-results"
+                aria-activedescendant={flat.length ? `search-option-${activeIdx}` : undefined}
+                aria-autocomplete="list"
+                autoComplete="off"
+                spellCheck={false}
+                className="h-12 min-w-0 flex-1 bg-transparent text-lg font-medium tracking-[-0.01em] text-white placeholder:font-normal placeholder:text-zinc-500 focus:outline-none sm:text-xl [&::-webkit-search-cancel-button]:hidden"
+              />
+                <Dialog.CloseTrigger asChild position="static">
+                  <button
+                    type="button"
+                    aria-label="Close search"
+                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-zinc-300 transition-colors hover:text-white"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </Dialog.CloseTrigger>
+              </div>
+
+              <div ref={resultsRef} className="max-h-[min(62vh,34rem)] overflow-y-auto px-3 py-5 sm:px-4">
+                {!index && !failed && <p className="px-3 text-sm text-zinc-500">Loading…</p>}
+                {failed && (
+                  <p className="px-3 text-sm text-zinc-400">
+                    Search is not available at the moment.{' '}
+                    <button type="button" onClick={prefetch} className="text-brand-300 underline underline-offset-2">
+                      Try again
+                    </button>
+                  </p>
+                )}
+                {index && typed && !flat.length && (
+                  <div className="px-3">
+                    <p className="text-sm text-zinc-200">No results for “{typed}”.</p>
+                    <p className="mt-1 text-xs text-zinc-500">Try a product name, a material such as LSR, or a topic such as recycling.</p>
+                  </div>
+                )}
+                {flat.length > 0 && (
+                  <div id="search-results" role="listbox" aria-label="Search results" className={`grid gap-x-6 gap-y-6 ${typed ? 'lg:grid-cols-2' : ''}`}>
+                    {sections.map((s, si) => (
+                      <div key={s.title} role="group" aria-labelledby={`search-group-${si}`} className="min-w-0">
+                        <p id={`search-group-${si}`} className="px-3 text-xs font-medium tracking-[0.16em] text-zinc-500 uppercase">
+                          {s.title}
+                        </p>
+                        <div className={`mt-2 grid grid-cols-1 gap-0.5 ${typed ? '' : 'sm:grid-cols-2'}`}>
+                          {s.items.map((r, j) => {
+                            const i = offsets[si] + j
+                            const on = i === activeIdx
+                            return (
+                              <Link
+                                key={r.href}
+                                id={`search-option-${i}`}
+                                data-idx={i}
+                                href={r.href}
+                                role="option"
+                                aria-selected={on}
+                                tabIndex={-1}
+                                onClick={closeSearch}
+                                onMouseMove={() => !on && setActiveIdx(i)}
+                                className={`flex min-w-0 items-center justify-between gap-4 rounded-xl px-3 py-2.5 transition-colors ${on ? 'bg-white/[0.06]' : ''}`}
+                              >
+                                <span className="min-w-0">
+                                  <span className="block truncate text-sm font-medium text-zinc-100">
+                                    <Highlight text={r.title} words={words} />
+                                  </span>
+                                  {r.desc && (
+                                    <span className="mt-0.5 line-clamp-1 text-xs text-zinc-500">
+                                      <Highlight text={r.desc} words={words} />
+                                    </span>
+                                  )}
+                                </span>
+                                <span aria-hidden="true" className={`shrink-0 text-brand-300 transition-opacity ${on ? 'opacity-100' : 'opacity-0'}`}>
+                                  →
+                                </span>
+                              </Link>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <p className="border-t border-white/[0.08] px-6 py-4 text-xs text-zinc-400">
+                Can’t find what you need?{' '}
+                <Link href="/contact" onClick={closeSearch} className="font-medium text-brand-300 hover:text-brand-200">
+                  Contact our team <span aria-hidden="true">→</span>
+                </Link>
+              </p>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
+    </ChakraScope>
+  )
+}
